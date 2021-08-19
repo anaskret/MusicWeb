@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MusicWeb.Infrastructure\MusicWeb.DataAccess.csproj" />
+    <ProjectReference Include="..\MusicWeb.Models\MusicWeb.Models.csproj" />
+  </ItemGroup>
+
+</Project>
