@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MusicWeb.Repositories.Repositories.Interfaces.Base
+namespace MusicWeb.Repositories.Interfaces.Base
 {
     public interface IRepository<TEntity> where TEntity : class, new()
     {

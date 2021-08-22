@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MusicWeb.DataAccess.Data;
 using MusicWeb.Models.Entities.Base;
-using MusicWeb.Repositories.Repositories.Interfaces.Base;
+using MusicWeb.Repositories.Interfaces.Base;
 using System;
 using System.Collections.Generic;
 using System.Linq;
