@@ -1,5 +1,5 @@
 ﻿using MusicWeb.DataAccess.Data;
-using MusicWeb.Models.Entities;
+using MusicWeb.Models.Entities.Origins;
 using MusicWeb.Repositories.Interfaces.Origins;
 using MusicWeb.Repositories.Repositories.Base;
 using System;
@@ -10,9 +10,9 @@ using System.Threading.Tasks;
 
 namespace MusicWeb.Repositories.Repositories.Origins
 {
-    public class OriginRepository : Repository<Origin>, IOriginRepository
+    public class CountryRepository : Repository<Country>, ICountryRepository
     {
-        public OriginRepository(AppDbContext dbContext) : base(dbContext)
+        public CountryRepository(AppDbContext dbContext) : base(dbContext)
         {
         }
     }

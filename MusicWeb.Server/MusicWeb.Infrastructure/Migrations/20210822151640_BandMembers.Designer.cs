@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MusicWeb.DataAccess.Data;
 
 namespace MusicWeb.DataAccess.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210822151640_BandMembers")]
+    partial class BandMembers
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -218,23 +220,11 @@ namespace MusicWeb.DataAccess.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("BandId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Bio")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("CityId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("CountryId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("EstablishmentDate")
                         .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsBand")
-                        .HasColumnType("bit");
 
                     b.Property<bool>("IsIndividual")
                         .HasColumnType("bit");
@@ -244,16 +234,12 @@ namespace MusicWeb.DataAccess.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<int>("StateId")
+                    b.Property<int>("OriginId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CityId");
-
-                    b.HasIndex("CountryId");
-
-                    b.HasIndex("StateId");
+                    b.HasIndex("OriginId");
 
                     b.ToTable("Artists");
                 });
@@ -326,8 +312,7 @@ namespace MusicWeb.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ArtistId")
-                        .IsUnique();
+                    b.HasIndex("ArtistId");
 
                     b.HasIndex("BandId");
 
@@ -428,59 +413,25 @@ namespace MusicWeb.DataAccess.Migrations
                     b.ToTable("Messages");
                 });
 
-            modelBuilder.Entity("MusicWeb.Models.Entities.Origins.City", b =>
+            modelBuilder.Entity("MusicWeb.Models.Entities.Origin", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Name")
+                    b.Property<string>("City")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("StateId")
-                        .HasColumnType("int");
+                    b.Property<string>("Country")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
-
-                    b.HasIndex("StateId");
-
-                    b.ToTable("Cities");
-                });
-
-            modelBuilder.Entity("MusicWeb.Models.Entities.Origins.Country", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Name")
+                    b.Property<string>("State")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Countries");
-                });
-
-            modelBuilder.Entity("MusicWeb.Models.Entities.Origins.State", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("CountryId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CountryId");
-
-                    b.ToTable("States");
+                    b.ToTable("Origins");
                 });
 
             modelBuilder.Entity("MusicWeb.Models.Entities.Song", b =>
@@ -859,29 +810,13 @@ namespace MusicWeb.DataAccess.Migrations
 
             modelBuilder.Entity("MusicWeb.Models.Entities.Artist", b =>
                 {
-                    b.HasOne("MusicWeb.Models.Entities.Origins.City", "City")
+                    b.HasOne("MusicWeb.Models.Entities.Origin", "Origin")
                         .WithMany("Artists")
-                        .HasForeignKey("CityId")
+                        .HasForeignKey("OriginId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("MusicWeb.Models.Entities.Origins.Country", "Country")
-                        .WithMany("Artists")
-                        .HasForeignKey("CountryId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("MusicWeb.Models.Entities.Origins.State", "State")
-                        .WithMany("Artists")
-                        .HasForeignKey("StateId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("City");
-
-                    b.Navigation("Country");
-
-                    b.Navigation("State");
+                    b.Navigation("Origin");
                 });
 
             modelBuilder.Entity("MusicWeb.Models.Entities.ArtistComment", b =>
@@ -925,8 +860,8 @@ namespace MusicWeb.DataAccess.Migrations
             modelBuilder.Entity("MusicWeb.Models.Entities.Artists.BandMember", b =>
                 {
                     b.HasOne("MusicWeb.Models.Entities.Artist", "Member")
-                        .WithOne("BandMember")
-                        .HasForeignKey("MusicWeb.Models.Entities.Artists.BandMember", "ArtistId")
+                        .WithMany("BandMembers")
+                        .HasForeignKey("ArtistId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
@@ -996,28 +931,6 @@ namespace MusicWeb.DataAccess.Migrations
                     b.Navigation("Chat");
 
                     b.Navigation("Sender");
-                });
-
-            modelBuilder.Entity("MusicWeb.Models.Entities.Origins.City", b =>
-                {
-                    b.HasOne("MusicWeb.Models.Entities.Origins.State", "State")
-                        .WithMany("Cities")
-                        .HasForeignKey("StateId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("State");
-                });
-
-            modelBuilder.Entity("MusicWeb.Models.Entities.Origins.State", b =>
-                {
-                    b.HasOne("MusicWeb.Models.Entities.Origins.Country", "Country")
-                        .WithMany("States")
-                        .HasForeignKey("CountryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Country");
                 });
 
             modelBuilder.Entity("MusicWeb.Models.Entities.Song", b =>
@@ -1195,7 +1108,7 @@ namespace MusicWeb.DataAccess.Migrations
 
                     b.Navigation("Band");
 
-                    b.Navigation("BandMember");
+                    b.Navigation("BandMembers");
 
                     b.Navigation("SongGuestArtists");
 
@@ -1216,23 +1129,9 @@ namespace MusicWeb.DataAccess.Migrations
                     b.Navigation("ArtistGenres");
                 });
 
-            modelBuilder.Entity("MusicWeb.Models.Entities.Origins.City", b =>
+            modelBuilder.Entity("MusicWeb.Models.Entities.Origin", b =>
                 {
                     b.Navigation("Artists");
-                });
-
-            modelBuilder.Entity("MusicWeb.Models.Entities.Origins.Country", b =>
-                {
-                    b.Navigation("Artists");
-
-                    b.Navigation("States");
-                });
-
-            modelBuilder.Entity("MusicWeb.Models.Entities.Origins.State", b =>
-                {
-                    b.Navigation("Artists");
-
-                    b.Navigation("Cities");
                 });
 
             modelBuilder.Entity("MusicWeb.Models.Entities.Song", b =>

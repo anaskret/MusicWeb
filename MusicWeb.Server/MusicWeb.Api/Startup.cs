@@ -32,6 +32,14 @@ using MusicWeb.Repositories.Repositories.Genres;
 using MusicWeb.Repositories.Repositories.Origins;
 using MusicWeb.Repositories.Repositories.Songs;
 using MusicWeb.Repositories.Repositories.Users;
+using MusicWeb.Services.Interfaces;
+using MusicWeb.Services.Interfaces.Artists;
+using MusicWeb.Services.Interfaces.Genres;
+using MusicWeb.Services.Interfaces.Origins;
+using MusicWeb.Services.Services.Albums;
+using MusicWeb.Services.Services.Artists;
+using MusicWeb.Services.Services.Genres;
+using MusicWeb.Services.Services.Origins;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -78,7 +86,11 @@ namespace MusicWeb.Api
                 };
             });
 
-            services.AddControllers();
+            services.AddControllers()
+                    .AddNewtonsoftJson(options =>
+                        options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+                    );
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "MusicWeb.Api", Version = "v1" });
@@ -122,7 +134,9 @@ namespace MusicWeb.Api
 
             services.AddTransient<IGenreRepository, GenreRepository>();
 
-            services.AddTransient<IOriginRepository, OriginRepository>();
+            services.AddTransient<ICountryRepository, CountryRepository>();
+            services.AddTransient<IStateRepository, StateRepository>();
+            services.AddTransient<ICityRepository, CityRepository>();
 
             services.AddTransient<ISongRepository, SongRepository>();
             services.AddTransient<ISongGuestArtistRepository, SongGuestArtistRepository>();
@@ -133,6 +147,17 @@ namespace MusicWeb.Api
             services.AddTransient<IUserFavoriteSongRepository, UserFavoriteSongRepository>();
             services.AddTransient<IUserFriendRepository, UserFriendRepository>();
             services.AddTransient<IUserObservedArtistRepository, UserObservedArtistRepository>();
+
+            services.AddTransient<IArtistCommentService, ArtistCommentService>();
+            services.AddTransient<IArtistGenreService, ArtistGenreService>();
+            services.AddTransient<IArtistService, ArtistService>();
+            services.AddTransient<IBandService, BandService>();
+
+            services.AddTransient<IGenreService, GenreService>();
+
+            services.AddTransient<IOriginService, OriginService>();
+
+            services.AddTransient<IAlbumService, AlbumService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

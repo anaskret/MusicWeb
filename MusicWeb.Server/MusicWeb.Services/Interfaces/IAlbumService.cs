@@ -1,14 +1,14 @@
 ﻿using MusicWeb.Models.Entities;
-using MusicWeb.Repositories.Interfaces.Base;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MusicWeb.Repositories.Interfaces.Origins
+namespace MusicWeb.Services.Interfaces
 {
-    public interface IOriginRepository : IRepository<Origin>
+    public interface IAlbumService
     {
+        Task AddAsync(Album entity);
     }
 }
