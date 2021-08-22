@@ -16,8 +16,22 @@ using Microsoft.OpenApi.Models;
 using MusicWeb.Api.Middleware;
 using MusicWeb.DataAccess.Data;
 using MusicWeb.Models.Identity;
+using MusicWeb.Repositories.Interfaces.Albums;
+using MusicWeb.Repositories.Interfaces.Artists;
+using MusicWeb.Repositories.Interfaces.Base;
+using MusicWeb.Repositories.Interfaces.Chats;
+using MusicWeb.Repositories.Interfaces.Genres;
+using MusicWeb.Repositories.Interfaces.Origins;
+using MusicWeb.Repositories.Interfaces.Songs;
+using MusicWeb.Repositories.Interfaces.Users;
+using MusicWeb.Repositories.Repositories.Albums;
+using MusicWeb.Repositories.Repositories.Artists;
 using MusicWeb.Repositories.Repositories.Base;
-using MusicWeb.Repositories.Repositories.Interfaces.Base;
+using MusicWeb.Repositories.Repositories.Chats;
+using MusicWeb.Repositories.Repositories.Genres;
+using MusicWeb.Repositories.Repositories.Origins;
+using MusicWeb.Repositories.Repositories.Songs;
+using MusicWeb.Repositories.Repositories.Users;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -93,6 +107,32 @@ namespace MusicWeb.Api
             services.AddSingleton(typeof(ILogger), logger);
 
             services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
+
+            services.AddTransient<IAlbumRepository, AlbumRepository>();
+            services.AddTransient<IAlbumReviewRepository, AlbumReviewRepository>();
+            services.AddTransient<IArtistsOnTheAlbumRepository, ArtistsOnTheAlbumRepository>();
+
+            services.AddTransient<IArtistRepository, ArtistRepository>();
+            services.AddTransient<IArtistCommentRepository, ArtistCommentRepository>();
+            services.AddTransient<IArtistGenreRepository, ArtistGenreRepository>();
+            services.AddTransient<IBandRepository, BandRepository>();
+
+            services.AddTransient<IChatRepository, ChatRepository>();
+            services.AddTransient<IMessageRepository, MessageRepository>();
+
+            services.AddTransient<IGenreRepository, GenreRepository>();
+
+            services.AddTransient<IOriginRepository, OriginRepository>();
+
+            services.AddTransient<ISongRepository, SongRepository>();
+            services.AddTransient<ISongGuestArtistRepository, SongGuestArtistRepository>();
+            services.AddTransient<ISongReviewRepository, SongReviewRepository>();
+
+            services.AddTransient<IUserFavoriteAlbumRepository, UserFavoriteAlbumRepository>();
+            services.AddTransient<IUserFavoriteArtistRepository, UserFavoriteArtistRepository>();
+            services.AddTransient<IUserFavoriteSongRepository, UserFavoriteSongRepository>();
+            services.AddTransient<IUserFriendRepository, UserFriendRepository>();
+            services.AddTransient<IUserObservedArtistRepository, UserObservedArtistRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
