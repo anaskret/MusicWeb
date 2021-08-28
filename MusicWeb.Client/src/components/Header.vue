@@ -1,10 +1,10 @@
 <template>
   <v-container>
     <v-row justify="center">
-      <v-col class="my-6" lg="3" sm="6">
+      <v-col class="mt-6" lg="3" sm="6">
         <v-card>
           <v-img
-            :src="require('../assets/BandPhoto.svg')"
+            :src="require('@/assets/BandPhoto.svg')"
             class="mx-1"
             contain
             width="402"
@@ -29,7 +29,7 @@
         </v-card>
       </v-col>
 
-      <v-col class="my-9" lg="6" sm="12">
+      <v-col class="mt-9" lg="6" sm="12">
         <v-row>
           <v-col class="my-9" lg="6" sm="6">
             <v-card>
@@ -57,7 +57,7 @@
             </v-card>
           </v-col>
           <v-col class="mt-14" lg="4" sm="12">
-            <v-card class="watchAndReview">
+            <v-card align="flex-start">
               <v-btn
                 outlined
                 color="grey"
@@ -124,10 +124,6 @@ export default {
 </script>
 
 <style scoped>
-v-btn {
-  border: 1px solid gray;
-  color: red;
-}
 .artist-title {
   letter-spacing: 5px !important;
 }
@@ -144,10 +140,5 @@ v-card {
 .icon {
   position: relative;
   top: 5px;
-}
-.watchAndReview {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
 }
 </style>
