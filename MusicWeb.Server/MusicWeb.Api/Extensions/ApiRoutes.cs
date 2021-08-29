@@ -12,6 +12,7 @@ namespace MusicWeb.Api.Extensions
         public static class Artists
         {
             public const string GetFullData = Root + "/artistdata/{id}";
+            public const string GetAll = Root + "/artistdata";
             public const string Create = Root + "/artists";
         }
 

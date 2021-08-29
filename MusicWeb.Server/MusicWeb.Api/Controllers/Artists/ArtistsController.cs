@@ -41,6 +41,21 @@ namespace MusicWeb.Api.Controllers.Artists
             }
         }
 
+        [HttpGet(ApiRoutes.Artists.GetAll)]
+        public async Task<IActionResult> GetFullArtistData()
+        {
+            try
+            {
+                var response = await _artistService.GetAllAsync();
+                return Ok(response);
+            }
+            catch(Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return StatusCode(500, ex.Message);
+            }
+        }
+
         [HttpPost(ApiRoutes.Artists.Create)]
         public async Task<IActionResult> CreateArtist([FromBody] ArtistDto dto)
         {

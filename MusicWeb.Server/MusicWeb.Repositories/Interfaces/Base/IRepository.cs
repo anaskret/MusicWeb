@@ -10,6 +10,7 @@ namespace MusicWeb.Repositories.Interfaces.Base
     {
         IQueryable<TEntity> GetAll();
         IList<TEntity> GetAll(Func<IQueryable<TEntity>, IQueryable<TEntity>> func = null);
+        Task<IList<TEntity>> GetAllAsync();
 
         Task<TEntity> AddAsync(TEntity entity);
 

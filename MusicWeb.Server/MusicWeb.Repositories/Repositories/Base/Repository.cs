@@ -31,6 +31,18 @@ namespace MusicWeb.Repositories.Repositories.Base
             }
         }
 
+        public async Task<IList<TEntity>> GetAllAsync()
+        {
+            try
+            {
+                return await _dbContext.Set<TEntity>().ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Couldn't retrieve entities: {ex.Message}");
+            }
+        }
+
         public IList<TEntity> GetAll(Func<IQueryable<TEntity>, IQueryable<TEntity>> func = null)
         {
             var query = GetAll();

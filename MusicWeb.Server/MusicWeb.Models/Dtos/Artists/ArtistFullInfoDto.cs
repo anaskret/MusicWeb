@@ -11,6 +11,7 @@ namespace MusicWeb.Models.Models.Artists
 {
     public class ArtistFullInfoDto
     {
+        public int Id { get; set; }
         public string Name { get; set; }
         public DateTime EstablishmentDate { get; set; }
         public string Bio { get; set; }
@@ -18,8 +19,9 @@ namespace MusicWeb.Models.Models.Artists
         public bool IsBand { get; set; }
 
         public int? BandId { get; set; }
-        public int OriginId { get; set; }
         public string Country { get; set; }
+        public string State { get; set; }
+        public string City { get; set; }
 
         public List<AlbumDto> Albums { get; set; }
         public List<ArtistCommentDto> ArtistComments { get; set; }

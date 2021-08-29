@@ -21,18 +21,11 @@ namespace MusicWeb.Services.Services.Artists
     public class ArtistService : IArtistService
     {
         private readonly IArtistRepository _artistRepository;
-        private readonly IArtistCommentService _artistCommentService;
-        private readonly IArtistGenreService _artistGenreService;
-        private readonly IGenreService _genreService;
-        private readonly IAlbumService _albumService;
         private readonly IBandService _bandService;
-        private readonly IOriginService _originService;
         private readonly IMapper _mapper;
-        private readonly UserManager<ApplicationUser> _userManager;
 
         public ArtistService(IArtistRepository artistRepository, IMapper mapper,
-                             IArtistCommentService artistCommentService, IArtistGenreService artistGenreService,
-                             IBandService bandService, IOriginService originService, IGenreService genreService, UserManager<ApplicationUser> userManager, IAlbumService albumService)
+                             IBandService bandService)
         {
             _artistRepository = artistRepository;
             _mapper = mapper;
@@ -42,6 +35,14 @@ namespace MusicWeb.Services.Services.Artists
         public async Task AddAsync(Artist entity)
         {
             await _artistRepository.AddAsync(entity);
+
+            if (!entity.IsIndividual)
+                await _bandService.AddAsync(new BandMember { ArtistId = entity.Id, BandId = entity.BandId.GetValueOrDefault() });
+        }
+
+        public async Task<List<ArtistDto>> GetAllAsync()
+        {
+            return _mapper.Map<List<ArtistDto>>(await _artistRepository.GetAllAsync());
         }
 
         public async Task<ArtistFullInfoDto> GetFullArtistInfoByIdAsync(int id)
@@ -55,7 +56,7 @@ namespace MusicWeb.Services.Services.Artists
 
             if (artist.IsBand)
             {
-                var band = await _bandService.GetBandMembersAsync(mappedEntity.BandId.GetValueOrDefault());
+                var band = await _bandService.GetBandMembersAsync(mappedEntity.Id);
                 mappedEntity.Members = _mapper.Map<List<BandMemberDto>>(band);
             }
 

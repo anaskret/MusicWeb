@@ -17,6 +17,11 @@ namespace MusicWeb.Repositories.Repositories.Artists
         {
         }
 
+        public async Task<List<Artist>> GetAllAsync()
+        {
+            return await _dbContext.Artists.ToListAsync();
+        }
+
         public async Task<Artist> GetFullArtistDataByIdAsync(int id)
         {
             var entity = await _dbContext.Artists

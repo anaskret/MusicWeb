@@ -11,5 +11,6 @@ namespace MusicWeb.Repositories.Interfaces.Artists
     public interface IArtistRepository : IRepository<Artist>
     {
         Task<Artist> GetFullArtistDataByIdAsync(int id);
+        Task<List<Artist>> GetAllAsync();
     }
 }
