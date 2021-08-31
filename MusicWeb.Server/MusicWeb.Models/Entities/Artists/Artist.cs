@@ -1,4 +1,6 @@
-﻿using MusicWeb.Models.Entities.Base;
+﻿using MusicWeb.Models.Entities.Artists;
+using MusicWeb.Models.Entities.Base;
+using MusicWeb.Models.Entities.Origins;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -14,11 +16,16 @@ namespace MusicWeb.Models.Entities
         public DateTime EstablishmentDate { get; set; }
         public string Bio { get; set; }
         public bool IsIndividual { get; set; }
+        public bool IsBand { get; set; }
 
-        public int? BandId{ get; set; }
-        public int OriginId{ get; set; }
-        public virtual Band Band { get; set; }
-        public virtual Origin Origin { get; set; }
+        public int? BandId { get; set; }
+        public int CountryId{ get; set; }
+        public int StateId{ get; set; }
+        public int CityId{ get; set; }
+        public virtual BandMember BandMember { get; set; }
+        public virtual Country Country{ get; set; }
+        public virtual State State{ get; set; }
+        public virtual City City{ get; set; }
 
         public virtual ICollection<Album> Albums{ get; set; }
         public virtual ICollection<Song> Songs{ get; set; }
@@ -28,6 +35,7 @@ namespace MusicWeb.Models.Entities
         public virtual ICollection<UserFavoriteArtist> UserFavoriteArtists{ get; set; }
         public virtual ICollection<UserObservedArtist> UserObservedArtists{ get; set; }
         public virtual ICollection<ArtistsOnTheAlbum> ArtistsOnTheAlbums{ get; set; }
+        public virtual ICollection<BandMember> Band { get; set; }
 
     }
 }

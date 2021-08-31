@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MusicWeb.DataAccess.Data;
 using MusicWeb.Models.Entities.Base;
-using MusicWeb.Repositories.Repositories.Interfaces.Base;
+using MusicWeb.Repositories.Interfaces.Base;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,6 +24,18 @@ namespace MusicWeb.Repositories.Repositories.Base
             try
             {
                 return _dbContext.Set<TEntity>();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Couldn't retrieve entities: {ex.Message}");
+            }
+        }
+
+        public async Task<IList<TEntity>> GetAllAsync()
+        {
+            try
+            {
+                return await _dbContext.Set<TEntity>().ToListAsync();
             }
             catch (Exception ex)
             {

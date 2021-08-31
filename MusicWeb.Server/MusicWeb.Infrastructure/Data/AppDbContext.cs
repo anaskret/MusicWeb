@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using MusicWeb.Models.Entities;
+using MusicWeb.Models.Entities.Artists;
+using MusicWeb.Models.Entities.Origins;
 using MusicWeb.Models.Identity;
 using System;
 using System.Collections.Generic;
@@ -23,11 +25,13 @@ namespace MusicWeb.DataAccess.Data
         public DbSet<Artist> Artists{ get; set; }
         public DbSet<ArtistComment> ArtistComments{ get; set; }
         public DbSet<ArtistGenre> ArtistGenres{ get; set; }
-        public DbSet<Band> Bands{ get; set; }
+        public DbSet<BandMember> BandMembers{ get; set; }
 
         public DbSet<Genre> Genres { get; set; }
 
-        public DbSet<Origin> Origins{ get; set; }
+        public DbSet<Country> Countries{ get; set; }
+        public DbSet<State> States{ get; set; }
+        public DbSet<City> Cities{ get; set; }
 
         public DbSet<Song> Songs{ get; set; }
         public DbSet<SongGuestArtist> SongGuestArtist{ get; set; }
@@ -110,14 +114,25 @@ namespace MusicWeb.DataAccess.Data
                 entity.Property(e => e.EstablishmentDate)
                     .IsRequired();
 
-                entity.HasOne(e => e.Band)
-                    .WithMany(a => a.Artists)
-                    .HasForeignKey(e => e.BandId)
-                    .OnDelete(DeleteBehavior.Restrict);
+                entity.HasOne(e => e.BandMember)
+                    .WithOne(a => a.Member)
+                    .HasForeignKey<Artist>(e => e.BandId);
 
-                entity.HasOne(e => e.Origin)
+                entity.HasOne(e => e.Country)
                     .WithMany(a => a.Artists)
-                    .HasForeignKey(e => e.OriginId)
+                    .HasForeignKey(e => e.CountryId)
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .IsRequired();
+
+                entity.HasOne(e => e.State)
+                    .WithMany(a => a.Artists)
+                    .HasForeignKey(e => e.StateId)
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .IsRequired();
+
+                entity.HasOne(e => e.City)
+                    .WithMany(a => a.Artists)
+                    .HasForeignKey(e => e.CityId)
                     .OnDelete(DeleteBehavior.Restrict)
                     .IsRequired();
             });
@@ -203,11 +218,17 @@ namespace MusicWeb.DataAccess.Data
                     .IsRequired();
             });
 
-            modelBuilder.Entity<Band>(entity =>
+            modelBuilder.Entity<BandMember>(entity =>
             {
-                entity.Property(e => e.Name)
-                    .HasMaxLength(100)
-                    .IsRequired();
+                entity.HasOne(b => b.Band)
+                .WithMany(a => a.Band)
+                .HasForeignKey(b => b.BandId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+                entity.HasOne(b => b.Member)
+                .WithOne(a => a.BandMember)
+                .HasForeignKey<BandMember>(b => b.ArtistId)
+                .OnDelete(DeleteBehavior.Restrict);
             });
 
             modelBuilder.Entity<Song>(entity =>

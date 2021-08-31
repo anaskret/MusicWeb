@@ -16,8 +16,30 @@ using Microsoft.OpenApi.Models;
 using MusicWeb.Api.Middleware;
 using MusicWeb.DataAccess.Data;
 using MusicWeb.Models.Identity;
+using MusicWeb.Repositories.Interfaces.Albums;
+using MusicWeb.Repositories.Interfaces.Artists;
+using MusicWeb.Repositories.Interfaces.Base;
+using MusicWeb.Repositories.Interfaces.Chats;
+using MusicWeb.Repositories.Interfaces.Genres;
+using MusicWeb.Repositories.Interfaces.Origins;
+using MusicWeb.Repositories.Interfaces.Songs;
+using MusicWeb.Repositories.Interfaces.Users;
+using MusicWeb.Repositories.Repositories.Albums;
+using MusicWeb.Repositories.Repositories.Artists;
 using MusicWeb.Repositories.Repositories.Base;
-using MusicWeb.Repositories.Repositories.Interfaces.Base;
+using MusicWeb.Repositories.Repositories.Chats;
+using MusicWeb.Repositories.Repositories.Genres;
+using MusicWeb.Repositories.Repositories.Origins;
+using MusicWeb.Repositories.Repositories.Songs;
+using MusicWeb.Repositories.Repositories.Users;
+using MusicWeb.Services.Interfaces;
+using MusicWeb.Services.Interfaces.Artists;
+using MusicWeb.Services.Interfaces.Genres;
+using MusicWeb.Services.Interfaces.Origins;
+using MusicWeb.Services.Services.Albums;
+using MusicWeb.Services.Services.Artists;
+using MusicWeb.Services.Services.Genres;
+using MusicWeb.Services.Services.Origins;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -64,7 +86,11 @@ namespace MusicWeb.Api
                 };
             });
 
-            services.AddControllers();
+            services.AddControllers()
+                    .AddNewtonsoftJson(options =>
+                        options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+                    );
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "MusicWeb.Api", Version = "v1" });
@@ -93,6 +119,45 @@ namespace MusicWeb.Api
             services.AddSingleton(typeof(ILogger), logger);
 
             services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
+
+            services.AddTransient<IAlbumRepository, AlbumRepository>();
+            services.AddTransient<IAlbumReviewRepository, AlbumReviewRepository>();
+            services.AddTransient<IArtistsOnTheAlbumRepository, ArtistsOnTheAlbumRepository>();
+
+            services.AddTransient<IArtistRepository, ArtistRepository>();
+            services.AddTransient<IArtistCommentRepository, ArtistCommentRepository>();
+            services.AddTransient<IArtistGenreRepository, ArtistGenreRepository>();
+            services.AddTransient<IBandRepository, BandRepository>();
+
+            services.AddTransient<IChatRepository, ChatRepository>();
+            services.AddTransient<IMessageRepository, MessageRepository>();
+
+            services.AddTransient<IGenreRepository, GenreRepository>();
+
+            services.AddTransient<ICountryRepository, CountryRepository>();
+            services.AddTransient<IStateRepository, StateRepository>();
+            services.AddTransient<ICityRepository, CityRepository>();
+
+            services.AddTransient<ISongRepository, SongRepository>();
+            services.AddTransient<ISongGuestArtistRepository, SongGuestArtistRepository>();
+            services.AddTransient<ISongReviewRepository, SongReviewRepository>();
+
+            services.AddTransient<IUserFavoriteAlbumRepository, UserFavoriteAlbumRepository>();
+            services.AddTransient<IUserFavoriteArtistRepository, UserFavoriteArtistRepository>();
+            services.AddTransient<IUserFavoriteSongRepository, UserFavoriteSongRepository>();
+            services.AddTransient<IUserFriendRepository, UserFriendRepository>();
+            services.AddTransient<IUserObservedArtistRepository, UserObservedArtistRepository>();
+
+            services.AddTransient<IArtistCommentService, ArtistCommentService>();
+            services.AddTransient<IArtistGenreService, ArtistGenreService>();
+            services.AddTransient<IArtistService, ArtistService>();
+            services.AddTransient<IBandService, BandService>();
+
+            services.AddTransient<IGenreService, GenreService>();
+
+            services.AddTransient<IOriginService, OriginService>();
+
+            services.AddTransient<IAlbumService, AlbumService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
