@@ -47,5 +47,11 @@ namespace MusicWeb.Api.Extensions
             public const string CreateState = Root + "/origins/state";
             public const string CreateCity = Root + "/origins/city";
         }
+
+        public static class Identity
+        {
+            public const string Register = Root + "/register";
+            public const string Login = Root + "/login";
+        }
     }
 }

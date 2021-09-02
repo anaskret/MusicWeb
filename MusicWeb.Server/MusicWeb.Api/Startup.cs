@@ -21,6 +21,7 @@ using MusicWeb.Repositories.Interfaces.Artists;
 using MusicWeb.Repositories.Interfaces.Base;
 using MusicWeb.Repositories.Interfaces.Chats;
 using MusicWeb.Repositories.Interfaces.Genres;
+using MusicWeb.Repositories.Interfaces.Identity;
 using MusicWeb.Repositories.Interfaces.Origins;
 using MusicWeb.Repositories.Interfaces.Songs;
 using MusicWeb.Repositories.Interfaces.Users;
@@ -29,16 +30,19 @@ using MusicWeb.Repositories.Repositories.Artists;
 using MusicWeb.Repositories.Repositories.Base;
 using MusicWeb.Repositories.Repositories.Chats;
 using MusicWeb.Repositories.Repositories.Genres;
+using MusicWeb.Repositories.Repositories.Identity;
 using MusicWeb.Repositories.Repositories.Origins;
 using MusicWeb.Repositories.Repositories.Songs;
 using MusicWeb.Repositories.Repositories.Users;
 using MusicWeb.Services.Interfaces;
 using MusicWeb.Services.Interfaces.Artists;
 using MusicWeb.Services.Interfaces.Genres;
+using MusicWeb.Services.Interfaces.Identity;
 using MusicWeb.Services.Interfaces.Origins;
 using MusicWeb.Services.Services.Albums;
 using MusicWeb.Services.Services.Artists;
 using MusicWeb.Services.Services.Genres;
+using MusicWeb.Services.Services.Identity;
 using MusicWeb.Services.Services.Origins;
 using System;
 using System.Collections.Generic;
@@ -66,6 +70,14 @@ namespace MusicWeb.Api
             services.AddIdentity<ApplicationUser, IdentityRole>()
                             .AddEntityFrameworkStores<AppDbContext>()
                             .AddDefaultTokenProviders();
+
+            services.Configure<IdentityOptions>(options =>
+            {
+                options.Password.RequireDigit = true;
+                options.Password.RequireLowercase = true;
+                options.Password.RequireUppercase = true;
+                options.Password.RequireNonAlphanumeric = false;
+            });
 
             services.AddAuthentication(options =>
             {
@@ -158,6 +170,9 @@ namespace MusicWeb.Api
             services.AddTransient<IOriginService, OriginService>();
 
             services.AddTransient<IAlbumService, AlbumService>();
+
+            services.AddTransient<IIdentityRepository, IdentityRepository>();
+            services.AddTransient<IIdentityService, IdentityService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -171,6 +186,11 @@ namespace MusicWeb.Api
             }
 
             app.UseMiddleware<ExceptionMiddleware>();
+
+            app.UseCors(config => config
+            .AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader());
 
             app.UseHttpsRedirection();
 
