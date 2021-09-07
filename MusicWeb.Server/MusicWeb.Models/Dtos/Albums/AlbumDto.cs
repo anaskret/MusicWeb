@@ -13,5 +13,6 @@ namespace MusicWeb.Models.Dtos.Albums
         public DateTime ReleaseDate { get; set; }
 
         public int ArtistId { get; set; }
+        public int AlbumGenreId { get; set; }
     }
 }

@@ -138,7 +138,6 @@ namespace MusicWeb.Api
 
             services.AddTransient<IArtistRepository, ArtistRepository>();
             services.AddTransient<IArtistCommentRepository, ArtistCommentRepository>();
-            services.AddTransient<IArtistGenreRepository, ArtistGenreRepository>();
             services.AddTransient<IBandRepository, BandRepository>();
 
             services.AddTransient<IChatRepository, ChatRepository>();
@@ -161,7 +160,6 @@ namespace MusicWeb.Api
             services.AddTransient<IUserObservedArtistRepository, UserObservedArtistRepository>();
 
             services.AddTransient<IArtistCommentService, ArtistCommentService>();
-            services.AddTransient<IArtistGenreService, ArtistGenreService>();
             services.AddTransient<IArtistService, ArtistService>();
             services.AddTransient<IBandService, BandService>();
 

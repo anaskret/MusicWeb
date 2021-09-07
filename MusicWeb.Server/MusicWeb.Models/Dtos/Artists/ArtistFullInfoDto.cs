@@ -1,5 +1,6 @@
 ﻿using MusicWeb.Models.Dtos.Albums;
 using MusicWeb.Models.Dtos.Artists;
+using MusicWeb.Models.Dtos.Genres;
 using MusicWeb.Models.Entities;
 using System;
 using System.Collections.Generic;
@@ -25,7 +26,15 @@ namespace MusicWeb.Models.Models.Artists
 
         public List<AlbumDto> Albums { get; set; }
         public List<ArtistCommentDto> ArtistComments { get; set; }
-        public List<ArtistGenreDto> ArtistGenres{ get; set; }
+        public List<GenreDto> Genres{ get; set; }
         public List<BandMemberDto> Members{ get; set; }
+
+        public ArtistFullInfoDto()
+        {
+            Albums = new List<AlbumDto>();
+            ArtistComments = new List<ArtistCommentDto>();
+            Genres = new List<GenreDto>();
+            Members = new List<BandMemberDto>();
+        }
     }
 }
