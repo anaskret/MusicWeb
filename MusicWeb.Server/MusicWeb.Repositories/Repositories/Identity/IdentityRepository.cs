@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using MusicWeb.DataAccess.Data;
 using MusicWeb.Models.Identity;
 using MusicWeb.Models.Models.Identity;
 using MusicWeb.Repositories.Interfaces.Identity;
@@ -16,26 +18,26 @@ namespace MusicWeb.Repositories.Repositories.Identity
 {
     public class IdentityRepository : IIdentityRepository
     {
-        private readonly UserManager<ApplicationUser> userManager;
+        private readonly UserManager<ApplicationUser> _userManager;
         private readonly IConfiguration _configuration;
 
         public IdentityRepository(UserManager<ApplicationUser> userManager, IConfiguration configuration)
         {
-            this.userManager = userManager;
+            _userManager = userManager;
             _configuration = configuration;
         }
 
         public async Task<LoginResponse> Login(LoginModel model)
         {
-            var user = await userManager.FindByNameAsync(model.Username);
-            var isPasswordCorrect = await userManager.CheckPasswordAsync(user, model.Password);
+            var user = await _userManager.FindByNameAsync(model.Username);
+            var isPasswordCorrect = await _userManager.CheckPasswordAsync(user, model.Password);
 
             if (user == null || !isPasswordCorrect)
             {
                 throw new ArgumentException("Wrong username/password");
             }
 
-            var userRoles = await userManager.GetRolesAsync(user);
+            var userRoles = await _userManager.GetRolesAsync(user);
 
             var authClaims = new List<Claim>
             {
@@ -69,7 +71,7 @@ namespace MusicWeb.Repositories.Repositories.Identity
 
         public async Task<RegisterResponse> Register(RegisterModel model) //
         {
-            var userExists = await userManager.FindByNameAsync(model.Username);
+            var userExists = await _userManager.FindByNameAsync(model.Username);
 
             if (userExists != null)
             {
@@ -82,7 +84,7 @@ namespace MusicWeb.Repositories.Repositories.Identity
                 UserName = model.Username
             };
 
-            var result = await userManager.CreateAsync(user, model.Password);
+            var result = await _userManager.CreateAsync(user, model.Password);
 
             if (!result.Succeeded)
             {
@@ -97,5 +99,5 @@ namespace MusicWeb.Repositories.Repositories.Identity
 
             return response;
         }
-}
+    }
 }

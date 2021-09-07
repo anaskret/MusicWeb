@@ -53,5 +53,29 @@ namespace MusicWeb.Api.Extensions
             public const string Register = Root + "/register";
             public const string Login = Root + "/login";
         }
+
+        public static class Users
+        {
+            public const string GetUserProfile = Root + "/users/{id}";
+            public const string GetAll = Root + "/users";
+        }
+
+        public static class UserFavoriteArtists
+        {
+            public const string Create = Root + "/userfavoriteartists";
+            public const string GetAll = Root + "/userfavoriteartists";
+        }
+
+        public static class UserFavoriteAlbums
+        {
+            public const string Create = Root + "/userfavoritealbums";
+            public const string GetAll = Root + "/userfavoritealbums";
+        }
+
+        public static class UserFavoriteSongs
+        {
+            public const string Create = Root + "/userfavoritesongs";
+            public const string GetAll = Root + "/userfavoritesongs";
+        }
     }
 }

@@ -1,4 +1,4 @@
-﻿using MusicWeb.Models.Entities;
+﻿using MusicWeb.Models.Identity;
 using MusicWeb.Repositories.Interfaces.Base;
 using System;
 using System.Collections.Generic;
@@ -8,8 +8,9 @@ using System.Threading.Tasks;
 
 namespace MusicWeb.Repositories.Interfaces.Users
 {
-    public interface IUserFavoriteAlbumRepository : IRepository<UserFavoriteAlbum>
+    public interface IUserRepository
     {
-        Task<List<UserFavoriteAlbum>> GetAllWithAlbumAsync();
+        Task<ApplicationUser> GetUserByIdAsync(string id);
+        Task<List<ApplicationUser>> GetAllAsync();
     }
 }
