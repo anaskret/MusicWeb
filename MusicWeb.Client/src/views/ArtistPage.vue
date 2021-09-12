@@ -12,6 +12,7 @@ import Header from "@/components/Header.vue";
 import ItemCarousel from "@/components/ItemCarousel.vue";
 import ItemList from "@/components/ItemList.vue";
 import CommentsList from "../components/CommentsList.vue";
+import useArtists from "@/modules/artists";
 
 export default {
   name: "ArtistPage",
@@ -23,6 +24,7 @@ export default {
   },
   data() {
     return {
+      artists: [],
       albums: [],
       songs: [],
       comments: [],
@@ -32,9 +34,16 @@ export default {
     this.getArtist();
     this.getSongs();
     this.getComments();
+    this.getArtists();
   },
   methods: {
-    // const { getArtistById, getSongById, getCommentById } = useArtists();
+    getArtists() {
+      const { getAll } = useArtists();
+      getAll().then((response) => {
+        this.artists = response.data.data;
+        console.log(response.data.data);
+      });
+    },
 
     getArtist() {
       this.albums = [
