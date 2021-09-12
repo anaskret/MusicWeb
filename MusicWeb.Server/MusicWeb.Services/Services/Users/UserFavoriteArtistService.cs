@@ -32,5 +32,11 @@ namespace MusicWeb.Services.Services.Users
             var entites = await _userFavoriteArtistRepository.GetAllWithArtistAsync();
             return _mapper.Map<List<UserFavoriteDto>>(entites);
         }
+
+        public async Task DeleteAsync(int id)
+        {
+            var entity = await _userFavoriteArtistRepository.GetByIdAsync(id);
+            await _userFavoriteArtistRepository.DeleteAsync(entity);
+        }
     }
 }

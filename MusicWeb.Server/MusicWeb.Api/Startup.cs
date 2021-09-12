@@ -165,6 +165,8 @@ namespace MusicWeb.Api
             services.AddTransient<IUserFavoriteSongService, UserFavoriteSongService>();
 
             services.AddTransient<IUserFriendRepository, UserFriendRepository>();
+            services.AddTransient<IUserFriendService, UserFriendService>();
+
             services.AddTransient<IUserObservedArtistRepository, UserObservedArtistRepository>();
 
             services.AddTransient<IArtistCommentService, ArtistCommentService>();
@@ -182,7 +184,6 @@ namespace MusicWeb.Api
 
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<IUserService, UserService>();
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

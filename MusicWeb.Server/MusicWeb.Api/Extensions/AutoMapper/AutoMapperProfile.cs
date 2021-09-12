@@ -60,6 +60,7 @@ namespace MusicWeb.Api.Extensions.AutoMapper
                 .ForMember(prp => prp.FavoriteId, prop => prop.MapFrom(src => src.SongId));
             CreateMap<UserFriend, UserFriendDto>()
                 .ForMember(prp => prp.FriendName, prop => prop.MapFrom(src => src.Friend.UserName));
+            CreateMap<UserFriendDto, UserFriend>();
 
             CreateMap<UserFavoriteDto, UserFavoriteArtist>()
                 .ForMember(prp => prp.ArtistId, prop => prop.MapFrom(src => src.FavoriteId));

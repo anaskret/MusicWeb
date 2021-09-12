@@ -50,5 +50,20 @@ namespace MusicWeb.Api.Controllers.Users
                 return StatusCode(500, ex.Message);
             }
         }
+
+        [HttpDelete(ApiRoutes.UserFavoriteAlbums.Delete)]
+        public async Task<IActionResult> Delete([FromRoute] int id)
+        {
+            try
+            {
+                await _userFavoriteAlbumService.DeleteAsync(id);
+                return Ok();
+            }
+            catch(Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return StatusCode(500, ex.Message);
+            }
+        }
     }
 }

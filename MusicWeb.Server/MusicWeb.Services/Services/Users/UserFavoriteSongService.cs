@@ -27,6 +27,12 @@ namespace MusicWeb.Services.Services.Users
             await _userFavoriteSongRepository.AddAsync(entity);
         }
 
+        public async Task DeleteAsync(int id)
+        {
+            var entity = await _userFavoriteSongRepository.GetByIdAsync(id);
+            await _userFavoriteSongRepository.DeleteAsync(entity);
+        }
+
         public async Task<List<UserFavoriteDto>> GetAllAsync()
         {
             var entites = await _userFavoriteSongRepository.GetAllWithSongAsync();

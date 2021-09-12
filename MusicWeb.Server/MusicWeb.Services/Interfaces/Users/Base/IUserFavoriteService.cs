@@ -11,5 +11,6 @@ namespace MusicWeb.Services.Interfaces.Users.Base
     {
         Task<List<UserFavoriteDto>> GetAllAsync();
         Task CreateAsync(UserFavoriteDto model);
+        Task DeleteAsync(int id);
     }
 }

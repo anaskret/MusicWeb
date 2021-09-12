@@ -64,18 +64,29 @@ namespace MusicWeb.Api.Extensions
         {
             public const string Create = Root + "/userfavoriteartists";
             public const string GetAll = Root + "/userfavoriteartists";
+            public const string Delete = Root + "/userfavoriteartists/{id}";
         }
 
         public static class UserFavoriteAlbums
         {
             public const string Create = Root + "/userfavoritealbums";
             public const string GetAll = Root + "/userfavoritealbums";
+            public const string Delete = Root + "/userfavoritealbums/{id}";
         }
 
         public static class UserFavoriteSongs
         {
             public const string Create = Root + "/userfavoritesongs";
             public const string GetAll = Root + "/userfavoritesongs";
+            public const string Delete = Root + "/userfavoritesongs/{id}";
+        }
+
+        public static class UserFriends
+        {
+            public const string Create = Root + "/userfriends";
+            public const string Delete = Root + "/userfriends/{id}";
+            public const string GetById = Root + "/userfriends/{id}";
+            public const string GetAll = Root + "/userfriends";
         }
     }
 }
