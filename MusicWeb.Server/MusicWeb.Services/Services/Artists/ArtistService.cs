@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using MusicWeb.Models.Dtos.Artists;
+using MusicWeb.Models.Dtos.Genres;
 using MusicWeb.Models.Entities;
 using MusicWeb.Models.Entities.Artists;
 using MusicWeb.Models.Identity;
@@ -53,6 +54,13 @@ namespace MusicWeb.Services.Services.Artists
             if (artist == null)
                 throw new ArgumentException("Artist not found");
             var mappedEntity = _mapper.Map<ArtistFullInfoDto>(artist);
+
+            var groupedGenres = artist.Albums.GroupBy(prp => prp.AlbumGenre);
+
+            foreach(var genre in groupedGenres)
+            {
+                mappedEntity.Genres.Add(_mapper.Map<GenreDto>(genre.Key));
+            }
 
             if (artist.IsBand)
             {

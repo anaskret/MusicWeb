@@ -24,7 +24,6 @@ namespace MusicWeb.DataAccess.Data
 
         public DbSet<Artist> Artists{ get; set; }
         public DbSet<ArtistComment> ArtistComments{ get; set; }
-        public DbSet<ArtistGenre> ArtistGenres{ get; set; }
         public DbSet<BandMember> BandMembers{ get; set; }
 
         public DbSet<Genre> Genres { get; set; }
@@ -60,6 +59,12 @@ namespace MusicWeb.DataAccess.Data
                 entity.HasOne(e => e.Artist)
                     .WithMany(a => a.Albums)
                     .HasForeignKey(e => e.ArtistId)
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .IsRequired();
+
+                entity.HasOne(e => e.AlbumGenre)
+                    .WithMany(a => a.Albums)
+                    .HasForeignKey(e => e.AlbumGenreId)
                     .OnDelete(DeleteBehavior.Restrict)
                     .IsRequired();
             });
@@ -155,21 +160,6 @@ namespace MusicWeb.DataAccess.Data
                 entity.HasOne(e => e.User)
                     .WithMany(a => a.ArtistComments)
                     .HasForeignKey(e => e.UserId)
-                    .OnDelete(DeleteBehavior.Restrict)
-                    .IsRequired();
-            });
-
-            modelBuilder.Entity<ArtistGenre>(entity =>
-            {
-                entity.HasOne(e => e.Artist)
-                    .WithMany(a => a.ArtistGenres)
-                    .HasForeignKey(e => e.ArtistId)
-                    .OnDelete(DeleteBehavior.Restrict)
-                    .IsRequired();
-
-                entity.HasOne(e => e.Genre)
-                    .WithMany(a => a.ArtistGenres)
-                    .HasForeignKey(e => e.GenreId)
                     .OnDelete(DeleteBehavior.Restrict)
                     .IsRequired();
             });

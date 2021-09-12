@@ -31,7 +31,6 @@ namespace MusicWeb.Models.Entities
         public virtual ICollection<Song> Songs{ get; set; }
         public virtual ICollection<SongGuestArtist> SongGuestArtists{ get; set; }
         public virtual ICollection<ArtistComment> ArtistComments{ get; set; }
-        public virtual ICollection<ArtistGenre> ArtistGenres{ get; set; }
         public virtual ICollection<UserFavoriteArtist> UserFavoriteArtists{ get; set; }
         public virtual ICollection<UserObservedArtist> UserObservedArtists{ get; set; }
         public virtual ICollection<ArtistsOnTheAlbum> ArtistsOnTheAlbums{ get; set; }

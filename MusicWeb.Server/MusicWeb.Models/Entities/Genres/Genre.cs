@@ -11,6 +11,6 @@ namespace MusicWeb.Models.Entities
     {
         public string Name { get; set; }
 
-        public ICollection<ArtistGenre> ArtistGenres { get; set; }
+        public ICollection<Album> Albums { get; set; }
     }
 }

@@ -28,10 +28,6 @@ namespace MusicWeb.Api.Extensions.AutoMapper
             CreateMap<ArtistComment, ArtistCommentDto>();
             CreateMap<ArtistCommentDto, ArtistComment>();
 
-            CreateMap<ArtistGenreDto, ArtistGenre>();
-            CreateMap<ArtistGenre, ArtistGenreDto>()
-                .ForMember(prp => prp.GenreName, prop => prop.MapFrom(src => src.Genre.Name));
-
             CreateMap<Album, AlbumDto>();
             CreateMap<AlbumDto, Album>();
 
@@ -40,6 +36,7 @@ namespace MusicWeb.Api.Extensions.AutoMapper
                 .ForMember(prp => prp.Name, prop => prop.MapFrom(src => src.Member.Name));
 
             CreateMap<GenreDto, Genre>();
+            CreateMap<Genre, GenreDto>();
 
             CreateMap<CountryDto, Country>();
             CreateMap<StateDto, State>();

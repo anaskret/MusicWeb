@@ -25,15 +25,14 @@ namespace MusicWeb.Repositories.Repositories.Artists
         public async Task<Artist> GetFullArtistDataByIdAsync(int id)
         {
             var entity = await _dbContext.Artists
-                                           .Include(origin => origin.Country)
-                                           .Include(origin => origin.State)
-                                           .Include(origin => origin.City)
-                                          .Include(genre => genre.ArtistGenres)
-                                          .ThenInclude(genre => genre.Genre)
-                                          .Include(albums => albums.Albums)
-                                          .Include(band => band.Band)
-                                          .ThenInclude(member => member.Member)
-                                          .Include(comments => comments.ArtistComments).FirstOrDefaultAsync(prp => prp.Id == id);
+                                             .Include(origin => origin.Country)
+                                             .Include(origin => origin.State)
+                                             .Include(origin => origin.City)
+                                             .Include(albums => albums.Albums)
+                                             .ThenInclude(genres => genres.AlbumGenre)
+                                             .Include(band => band.Band)
+                                             .ThenInclude(member => member.Member)
+                                             .Include(comments => comments.ArtistComments).FirstOrDefaultAsync(prp => prp.Id == id);
 
             return entity;
         }
