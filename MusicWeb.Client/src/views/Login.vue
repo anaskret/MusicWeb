@@ -1,0 +1,168 @@
+<template>
+    <div class="row">
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+            <v-card v-if="message" class="mx-auto col-md-4">
+                <v-card-subtitle
+                    ><h5 class="text-center">{{ message }}</h5></v-card-subtitle
+                >
+            </v-card>
+            <form @submit.prevent="onSubmit">
+                <v-text-field
+                    label="Username"
+                    prepend-icon="mdi-account"
+                    type="text"
+                    v-model.trim="$v.user.username.$model"
+                    :error-messages="usernameErrors"
+                    :counter="16"
+                    required
+                    @input="$v.user.username.$touch()"
+                    @blur="$v.user.username.$touch()"
+                ></v-text-field>
+                <v-text-field
+                    label="Password"
+                    prepend-icon="mdi-lock"
+                    type="password"
+                    v-model.trim="$v.user.password.$model"
+                    :error-messages="passwordErrors"
+                    :counter="25"
+                    required
+                    @input="$v.user.password.$touch()"
+                    @blur="$v.user.password.$touch()"
+                ></v-text-field>
+
+                <v-btn type="submit" class="mr-4" :disabled="this.isDisabled">
+                    Log in
+                    <v-progress-circular
+                        v-if="isLogging"
+                        :size="20"
+                        indeterminate
+                        color="light-green darken-1"
+                        class="ml-2"
+                    ></v-progress-circular>
+                </v-btn>
+                <v-btn @click="clear"> clear </v-btn>
+            </form>
+        </div>
+        <div class="col-md-4"></div>
+    </div>
+</template>
+
+<script>
+import { required, minLength, maxLength } from "vuelidate/lib/validators";
+import User from "@/models/User";
+export default {
+    name: "Login",
+    data() {
+        return {
+            user: new User(),
+            isLogging: false,
+            message: "",
+        };
+    },
+    computed: {
+        isDisabled() {
+            return this.$v.$invalid;
+        },
+        usernameErrors() {
+            const errors = [];
+            if (!this.$v.user.username.$dirty) return errors;
+            !this.$v.user.username.required &&
+                errors.push("Field is required.");
+            !this.$v.user.username.maxLength &&
+                errors.push(`You must not have greater then
+                                ${this.$v.user.username.$params.maxLength.max}
+                                digits.`);
+            !this.$v.user.username.minLength &&
+                errors.push(`You must not have at least
+                                ${this.$v.user.username.$params.minLength.min}
+                                letters.`);
+            return errors;
+        },
+        passwordErrors() {
+            const errors = [];
+            if (!this.$v.user.password.$dirty) return errors;
+            !this.$v.user.password.required &&
+                errors.push("Field is required.");
+            !this.$v.user.password.maxLength &&
+                errors.push(`You must not have greater then
+                                ${this.$v.user.password.$params.maxLength.max}
+                                letters.`);
+            !this.$v.user.password.minLength &&
+                errors.push(`You must not have at least
+                                ${this.$v.user.password.$params.minLength.min}
+                                letters.`);
+            return errors;
+        },
+        loggedIn() {
+            return this.$store.state.auth.status.loggedIn;
+        },
+    },
+    created() {
+        if (this.loggedIn) {
+            this.redirect();
+        }
+    },
+    validations: {
+        user: {
+            username: {
+                required,
+                minLength: minLength(5),
+                maxLength: maxLength(16),
+            },
+            password: {
+                required,
+                minLength: minLength(8),
+                maxLength: maxLength(25),
+            },
+        },
+    },
+    methods: {
+        clear() {
+            this.$v.$reset();
+            this.user.username = "";
+            this.user.password = "";
+        },
+        validationStatus(validation) {
+            return typeof validation != "undefined" ? validation.$error : false;
+        },
+        redirect() {
+            this.$router.push({ name: "ArtistPage" });
+        },
+    },
+    setup() {
+        // const { loginAccount } = useAccounts();
+        const onSubmit = function () {
+            this.isLogging = true;
+            this.$v.$touch();
+            if (this.$v.$pendding || this.$v.$error) {
+                return;
+            }
+            console.log(this.user);
+            this.$store
+                .dispatch("auth/login", this.user)
+                .then(
+                    () => {
+                        setTimeout(this.redirect, 500);
+                    },
+                    (error) => {
+                        this.message =
+                            (error.response && error.response.data) ||
+                            error.message ||
+                            error.toString();
+                    }
+                )
+                .catch((error) => {
+                    this.message =
+                        (error.response && error.response.data) ||
+                        error.message ||
+                        error.toString();
+                });
+        };
+
+        return {
+            onSubmit,
+        };
+    },
+};
+</script>

@@ -23,13 +23,14 @@
 
             <v-spacer></v-spacer>
 
-            <v-btn
-                href="https://github.com/vuetifyjs/vuetify/releases/latest"
-                target="_blank"
-                text
-            >
-                <span class="mr-2">Latest Release</span>
-                <v-icon>mdi-open-in-new</v-icon>
+            <v-btn @click="onLogout" text>
+                <span class="mr-2">Wyloguj</span>
+                <font-awesome-icon
+                    class="icon"
+                    icon="sign-out-alt"
+                    size="1x"
+                    color="#white"
+                />
             </v-btn>
         </v-app-bar>
 
@@ -40,11 +41,20 @@
 </template>
 
 <script>
+import useAccounts from "@/modules/accounts";
 export default {
     name: "App",
 
-    data: () => ({
-        //
-    }),
+    data: () => ({}),
+    setup() {
+        const { logoutAccount } = useAccounts();
+        const onLogout = function () {
+            logoutAccount();
+        };
+
+        return {
+            onLogout,
+        };
+    },
 };
 </script>

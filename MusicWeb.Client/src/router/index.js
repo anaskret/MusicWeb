@@ -1,14 +1,20 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import ArtistPage from "../views/ArtistPage.vue";
+import Login from "@/views/Login.vue";
 
 Vue.use(VueRouter);
 
 const routes = [
     {
         path: "/",
+        name: "Login",
+        component: Login,
+    },
+    {
+        path: "/artist",
         name: "ArtistPage",
-        component: ArtistPage,
+        //lazy load
+        component: () => import("@/views/ArtistPage.vue"),
     },
     {
         path: "/about",
@@ -25,6 +31,18 @@ const router = new VueRouter({
     mode: "history",
     base: process.env.BASE_URL,
     routes,
+});
+
+router.beforeEach((to, from, next) => {
+    const publicPages = ["/"];
+    const authRequired = !publicPages.includes(to.path);
+    const loggedIn = localStorage.getItem("user-token");
+
+    if (authRequired && !loggedIn) {
+        return next("/");
+    }
+
+    next();
 });
 
 export default router;
