@@ -14,7 +14,7 @@ export const auth = {
         login({ commit }, user) {
             return loginAccount(user).then(
                 (response) => {
-                    // debugger; // TODO Dokończyć walidację (brak catchowania errora)
+                    debugger; // TODO Dokończyć walidację (brak catchowania errora)
                     localStorage.setItem("user-token", response.data.token);
                     axios.defaults.headers.common["Authorization"] =
                         "Bearer " + localStorage.getItem("user-token");
@@ -46,12 +46,12 @@ export const auth = {
     },
     mutations: {
         loginSuccess(state, token) {
-            // debugger; // TODO Dokończyć walidację (brak catchowania errora)
+            debugger; // TODO Dokończyć walidację (brak catchowania errora)
             state.status.loggedIn = true;
             state.token = token;
         },
         loginFailure(state) {
-            // debugger; // TODO Dokończyć walidację (brak catchowania errora)
+            debugger; // TODO Dokończyć walidację (brak catchowania errora)
             state.status.loggedIn = false;
             state.token = null;
         },

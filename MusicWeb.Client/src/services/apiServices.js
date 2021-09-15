@@ -42,6 +42,8 @@ const ApiService = {
                     resolve(response);
                 })
                 .catch((e) => {
+                    console.trace();
+                    debugger;
                     console.log(e);
                     throw e;
                 });

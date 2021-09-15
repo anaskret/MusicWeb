@@ -1,51 +1,71 @@
 <template>
-    <div class="row">
-        <div class="col-md-4"></div>
-        <div class="col-md-4">
-            <v-card v-if="message" class="mx-auto col-md-4">
-                <v-card-subtitle
-                    ><h5 class="text-center">{{ message }}</h5></v-card-subtitle
-                >
-            </v-card>
-            <form @submit.prevent="onSubmit">
-                <v-text-field
-                    label="Username"
-                    prepend-icon="mdi-account"
-                    type="text"
-                    v-model.trim="$v.user.username.$model"
-                    :error-messages="usernameErrors"
-                    :counter="16"
-                    required
-                    @input="$v.user.username.$touch()"
-                    @blur="$v.user.username.$touch()"
-                ></v-text-field>
-                <v-text-field
-                    label="Password"
-                    prepend-icon="mdi-lock"
-                    type="password"
-                    v-model.trim="$v.user.password.$model"
-                    :error-messages="passwordErrors"
-                    :counter="25"
-                    required
-                    @input="$v.user.password.$touch()"
-                    @blur="$v.user.password.$touch()"
-                ></v-text-field>
+    <v-container fluid>
+        <v-row justify="center">
+            <v-col class="mt-6" lg="4" sm="6">
+                <div justify="center" align="center">
+                    <v-img
+                        lazy-src="@/assets/logo2-lazy.png"
+                        src="@/assets/logo2.png"
+                        max-width="50%"
+                    ></v-img>
+                </div>
+                <v-card v-if="message" class="col-md-4">
+                    <v-card-subtitle
+                        ><h5 class="text-center">
+                            {{ message }}
+                        </h5></v-card-subtitle
+                    >
+                </v-card>
+                <v-card-title class="mt-10">Zaloguj się</v-card-title>
+                <form @submit.prevent="onSubmit">
+                    <v-text-field
+                        class="p-4"
+                        label="Podaj login"
+                        prepend-icon="mdi-account"
+                        type="text"
+                        v-model.trim="$v.user.username.$model"
+                        :error-messages="usernameErrors"
+                        :counter="16"
+                        required
+                        @input="$v.user.username.$touch()"
+                        @blur="$v.user.username.$touch()"
+                    ></v-text-field>
+                    <v-text-field
+                        class="p-4"
+                        label="Podaj hasło"
+                        prepend-icon="mdi-lock"
+                        type="password"
+                        v-model.trim="$v.user.password.$model"
+                        :error-messages="passwordErrors"
+                        :counter="25"
+                        required
+                        @input="$v.user.password.$touch()"
+                        @blur="$v.user.password.$touch()"
+                    ></v-text-field>
 
-                <v-btn type="submit" class="mr-4" :disabled="this.isDisabled">
-                    Log in
-                    <v-progress-circular
-                        v-if="isLogging"
-                        :size="20"
-                        indeterminate
-                        color="light-green darken-1"
-                        class="ml-2"
-                    ></v-progress-circular>
-                </v-btn>
-                <v-btn @click="clear"> clear </v-btn>
-            </form>
-        </div>
-        <div class="col-md-4"></div>
-    </div>
+                    <div class="btns mt-8">
+                        <v-btn
+                            outlined
+                            color="gray"
+                            type="submit"
+                            class="px-5 mr-4"
+                            :disabled="this.isDisabled"
+                        >
+                            Zaloguj się
+                            <v-progress-circular
+                                v-if="isLogging"
+                                :size="20"
+                                indeterminate
+                                color="#3a4b63"
+                                class="ml-2"
+                            ></v-progress-circular>
+                        </v-btn>
+                        <v-btn @click="clear" outlined> Wyczyść </v-btn>
+                    </div>
+                </form>
+            </v-col>
+        </v-row>
+    </v-container>
 </template>
 
 <script>
