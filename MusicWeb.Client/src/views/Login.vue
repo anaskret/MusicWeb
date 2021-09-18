@@ -78,6 +78,8 @@ export default {
             user: new User(),
             isLogging: false,
             message: "",
+            errorThrowed: false,
+            error: {}
         };
     },
     computed: {
@@ -88,30 +90,30 @@ export default {
             const errors = [];
             if (!this.$v.user.username.$dirty) return errors;
             !this.$v.user.username.required &&
-                errors.push("Field is required.");
+                errors.push("Pole jest wymagane.");
             !this.$v.user.username.maxLength &&
-                errors.push(`You must not have greater then
+                errors.push(`Login nie może być dłuższy niż
                                 ${this.$v.user.username.$params.maxLength.max}
-                                digits.`);
+                                liter.`);
             !this.$v.user.username.minLength &&
-                errors.push(`You must not have at least
+                errors.push(`Login musi mieć przynajmniej
                                 ${this.$v.user.username.$params.minLength.min}
-                                letters.`);
+                                liter.`);
             return errors;
         },
         passwordErrors() {
             const errors = [];
             if (!this.$v.user.password.$dirty) return errors;
             !this.$v.user.password.required &&
-                errors.push("Field is required.");
+                errors.push("Pole jest wymagane.");
             !this.$v.user.password.maxLength &&
-                errors.push(`You must not have greater then
+                errors.push(`Hasło nie może być dłuższy niż
                                 ${this.$v.user.password.$params.maxLength.max}
-                                letters.`);
+                                znaków.`);
             !this.$v.user.password.minLength &&
-                errors.push(`You must not have at least
+                errors.push(`Hasło musi mieć przynajmniej
                                 ${this.$v.user.password.$params.minLength.min}
-                                letters.`);
+                                znaków.`);
             return errors;
         },
         loggedIn() {
@@ -142,6 +144,7 @@ export default {
             this.$v.$reset();
             this.user.username = "";
             this.user.password = "";
+            this.message = "";
         },
         validationStatus(validation) {
             return typeof validation != "undefined" ? validation.$error : false;
@@ -153,7 +156,6 @@ export default {
     setup() {
         // const { loginAccount } = useAccounts();
         const onSubmit = function () {
-            this.isLogging = true;
             this.$v.$touch();
             if (this.$v.$pendding || this.$v.$error) {
                 return;
@@ -163,21 +165,16 @@ export default {
                 .dispatch("auth/login", this.user)
                 .then(
                     () => {
+                        this.isLogging = true;
                         setTimeout(this.redirect, 500);
                     },
                     (error) => {
-                        this.message =
-                            (error.response && error.response.data) ||
-                            error.message ||
-                            error.toString();
+                        if(error.response.status == 500 && error.response.data == "Wrong username/password"){
+                            this.isLogging = false;
+                            this.message = "Niepoprawny login lub hasło!";
+                        }
                     }
                 )
-                .catch((error) => {
-                    this.message =
-                        (error.response && error.response.data) ||
-                        error.message ||
-                        error.toString();
-                });
         };
 
         return {

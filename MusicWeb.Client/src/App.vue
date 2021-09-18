@@ -44,8 +44,10 @@
 import useAccounts from "@/modules/accounts";
 export default {
     name: "App",
-
-    data: () => ({}),
+    data() {
+        return {
+        };
+    },
     setup() {
         const { logoutAccount } = useAccounts();
         const onLogout = function () {

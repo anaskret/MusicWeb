@@ -36,16 +36,13 @@ const ApiService = {
     },
 
     authRequest(route, method, paramOrData, configs) {
-        return new Promise((resolve) => {
+        return new Promise((resolve, reject) => {
             method(route, paramOrData, configs)
                 .then((response) => {
                     resolve(response);
                 })
                 .catch((e) => {
-                    console.trace();
-                    debugger;
-                    console.log(e);
-                    throw e;
+                    reject(e);
                 });
         });
     },

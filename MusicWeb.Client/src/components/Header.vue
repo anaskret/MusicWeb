@@ -31,7 +31,7 @@
 
             <v-col class="mt-9" lg="6" sm="12">
                 <v-row>
-                    <v-col class="my-9" lg="6" sm="6">
+                    <v-col class="my-9" lg="7" sm="7">
                         <v-card>
                             <h1
                                 class="
