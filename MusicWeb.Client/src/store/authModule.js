@@ -1,7 +1,7 @@
 import useAccounts from "@/modules/accounts";
 import axios from "axios";
 
-const { loginAccount } = useAccounts();
+const { loginAccount, logoutAccount, registerAccount } = useAccounts();
 const token = localStorage.getItem("user-token");
 const initialState = token
     ? { status: { loggedIn: true }, token }
@@ -26,22 +26,22 @@ export const auth = {
                 }
             );
         },
-        // logout({ commit }) {
-        //     AuthService.logout();
-        //     commit("logout");
-        // },
-        // register({ commit }, user) {
-        //     return AuthService.register(user).then(
-        //         (response) => {
-        //             commit("registerSuccess");
-        //             return Promise.resolve(response.data);
-        //         },
-        //         (error) => {
-        //             commit("registerFailure");
-        //             return Promise.reject(error);
-        //         }
-        //     );
-        // },
+        logout({ commit }) {
+            commit("logout");
+            return logoutAccount();
+        },
+        register({ commit }, user) {
+            return registerAccount(user).then(
+                () => {
+                    commit("registerSuccess");
+                    return Promise.resolve();
+                },
+                (error) => {
+                    commit("registerFailure");
+                    return Promise.reject(error);
+                }
+            );
+        },
     },
     mutations: {
         loginSuccess(state, token) {
@@ -52,15 +52,15 @@ export const auth = {
             state.status.loggedIn = false;
             state.token = null;
         },
-        // logout(state) {
-        //     state.status.loggedIn = false;
-        //     state.user = null;
-        // },
-        // registerSuccess(state) {
-        //     state.status.loggedIn = false;
-        // },
-        // registerFailure(state) {
-        //     state.status.loggedIn = false;
-        // },
+        logout(state) {
+            state.status.loggedIn = false;
+            state.token = null;
+        },
+        registerSuccess(state) {
+            state.status.loggedIn = false;
+        },
+        registerFailure(state) {
+            state.status.loggedIn = false;
+        },
     },
 };

@@ -7,4 +7,7 @@ export default {
         localStorage.removeItem("user-token");
         location.reload(true);
     },
+    register(data) {
+        return ApiService.authRequest(`/register`, ApiService.post, data);
+    },
 };

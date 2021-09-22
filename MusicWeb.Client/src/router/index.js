@@ -17,6 +17,12 @@ const routes = [
         component: () => import("@/views/ArtistPage.vue"),
     },
     {
+        path: "/register",
+        name: "Register",
+        //lazy load
+        component: () => import("@/views/Register.vue"),
+    },
+    {
         path: "/about",
         name: "About",
         // route level code-splitting
@@ -34,7 +40,7 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
-    const publicPages = ["/"];
+    const publicPages = ["/", "/register"];
     const authRequired = !publicPages.includes(to.path);
     const loggedIn = localStorage.getItem("user-token");
 

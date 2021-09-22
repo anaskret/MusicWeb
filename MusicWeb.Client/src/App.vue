@@ -23,7 +23,11 @@
 
             <v-spacer></v-spacer>
 
-            <v-btn @click="onLogout" text>
+            <v-btn
+                v-if="this.$store.state.auth.status.loggedIn"
+                @click="onLogout"
+                text
+            >
                 <span class="mr-2">Wyloguj</span>
                 <font-awesome-icon
                     class="icon"
@@ -41,17 +45,14 @@
 </template>
 
 <script>
-import useAccounts from "@/modules/accounts";
 export default {
     name: "App",
     data() {
-        return {
-        };
+        return {};
     },
     setup() {
-        const { logoutAccount } = useAccounts();
         const onLogout = function () {
-            logoutAccount();
+            this.$store.dispatch("auth/logout");
         };
 
         return {

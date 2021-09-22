@@ -16,7 +16,7 @@
                         </h5></v-card-subtitle
                     >
                 </v-card>
-                <v-card-title class="mt-10">Zaloguj się</v-card-title>
+                <v-card-title class="mt-10">Zarejestruj się</v-card-title>
                 <form @submit.prevent="onSubmit">
                     <v-text-field
                         class="p-4"
@@ -51,7 +51,7 @@
                             class="px-5 mr-4"
                             :disabled="this.isDisabled"
                         >
-                            Zaloguj się
+                            Zarejestruj
                             <v-progress-circular
                                 v-if="isLogging"
                                 :size="20"
@@ -63,8 +63,8 @@
                         <v-btn @click="clear" class="mr-4" outlined>
                             Wyczyść
                         </v-btn>
-                        <v-btn @click="register" class="mr-4" outlined>
-                            Zarejestruj
+                        <v-btn @click="redirect" class="mr-4" outlined>
+                            Zaloguj
                         </v-btn>
                     </div>
                 </form>
@@ -77,7 +77,7 @@
 import { required, minLength, maxLength } from "vuelidate/lib/validators";
 import User from "@/models/User";
 export default {
-    name: "Login",
+    name: "Register",
     data() {
         return {
             user: new User(),
@@ -155,10 +155,7 @@ export default {
             return typeof validation != "undefined" ? validation.$error : false;
         },
         redirect() {
-            this.$router.push({ name: "ArtistPage" });
-        },
-        register() {
-            this.$router.push({ name: "Register" });
+            this.$router.push({ name: "Login" });
         },
     },
     setup() {
@@ -168,7 +165,7 @@ export default {
                 return;
             }
             console.log(this.user);
-            this.$store.dispatch("auth/login", this.user).then(
+            this.$store.dispatch("auth/register", this.user).then(
                 () => {
                     this.isLogging = true;
                     setTimeout(this.redirect, 500);
@@ -176,10 +173,12 @@ export default {
                 (error) => {
                     if (
                         error.response.status == 500 &&
-                        error.response.data == "Wrong username/password"
+                        error.response.data ==
+                            "User creation failed! Please check user details and try again."
                     ) {
                         this.isLogging = false;
-                        this.message = "Niepoprawny login lub hasło!";
+                        this.message =
+                            "Nie udało się utworzyć użytkownika! Sprawdź poprawność danych.";
                     }
                 }
             );
