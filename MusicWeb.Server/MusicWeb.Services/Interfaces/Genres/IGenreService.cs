@@ -10,5 +10,9 @@ namespace MusicWeb.Services.Interfaces.Genres
     public interface IGenreService
     {
         Task AddAsync(Genre entity);
+        Task UpdateAsync(Genre entity);
+        Task DeleteAsync(int id);
+        Task<Genre> GetByIdAsync(int id);
+        Task<List<Genre>> GetAllAsync();
     }
 }

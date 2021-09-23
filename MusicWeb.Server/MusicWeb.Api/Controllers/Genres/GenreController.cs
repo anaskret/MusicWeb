@@ -25,6 +25,36 @@ namespace MusicWeb.Api.Controllers.Genres
             _logger = logger;
         }
 
+        [HttpGet(ApiRoutes.Genres.GetById)]
+        public async Task<IActionResult> GetAll()
+        {
+            try
+            {
+                var models = _mapper.Map<List<GenreDto>>(await _genreService.GetAllAsync());
+                return Ok(models);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [HttpGet(ApiRoutes.Genres.GetById)]
+        public async Task<IActionResult> GetById([FromRoute] int id)
+        {
+            try
+            {
+                var model = _mapper.Map<GenreDto>(await _genreService.GetByIdAsync(id));
+                return Ok(model);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return StatusCode(500, ex.Message);
+            }
+        }
+
         [HttpPost(ApiRoutes.Genres.Create)]
         public async Task<IActionResult> CreateGenre([FromBody] GenreDto dto)
         {
@@ -33,6 +63,38 @@ namespace MusicWeb.Api.Controllers.Genres
                 var entity = _mapper.Map<Genre>(dto);
                 await _genreService.AddAsync(entity);
 
+                return Ok();
+            }
+            catch(Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [HttpPut(ApiRoutes.Genres.Update)]
+        public async Task<IActionResult> UpdateGenre([FromBody] GenreDto dto)
+        {
+            try
+            {
+                var entity = _mapper.Map<Genre>(dto);
+                await _genreService.UpdateAsync(entity);
+
+                return Ok();
+            }
+            catch(Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [HttpDelete(ApiRoutes.Genres.Delete)]
+        public async Task<IActionResult> DeleteGenre([FromRoute] int id)
+        {
+            try
+            {
+                await _genreService.DeleteAsync(id);
                 return Ok();
             }
             catch(Exception ex)
