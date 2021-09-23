@@ -25,6 +25,51 @@ namespace MusicWeb.Api.Controllers.Origins
             _mapper = mapper;
         }
 
+        [HttpGet(ApiRoutes.Origins.GetAllCountries)]
+        public async Task<IActionResult> GetAllCountries()
+        {
+            try
+            {
+                var countries = _mapper.Map<List<CountryDto>>(await _originService.GetAllCountriesAsync());
+                return Ok(countries);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [HttpGet(ApiRoutes.Origins.GetCountryById)]
+        public async Task<IActionResult> GetCountryById([FromRoute] int id)
+        {
+            try
+            {
+                var country = _mapper.Map<CountryDto>(await _originService.GetCountryByIdAsync(id));
+                return Ok(country);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [HttpGet(ApiRoutes.Origins.GetCountryStates)]
+        public async Task<IActionResult> GetCountryStates([FromRoute] int id)
+        {
+            try
+            {
+                var states = _mapper.Map<List<StateDto>>(await _originService.GetStatesByCountryAsync(id));
+                return Ok(states);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return StatusCode(500, ex.Message);
+            }
+        }
+
         [HttpPost(ApiRoutes.Origins.CreateCountry)]
         public async Task<IActionResult> CreateCountry([FromBody] CountryDto dto)
         {
@@ -42,13 +87,13 @@ namespace MusicWeb.Api.Controllers.Origins
             }
         }
 
-        [HttpPost(ApiRoutes.Origins.CreateState)]
-        public async Task<IActionResult> CreateCountry([FromBody] StateDto dto)
+        [HttpPut(ApiRoutes.Origins.UpdateCountry)]
+        public async Task<IActionResult> UpdateCountry([FromBody] CountryDto dto)
         {
             try
             {
-                var entity = _mapper.Map<State>(dto);
-                await _originService.AddStateAsync(entity);
+                var entity = _mapper.Map<Country>(dto);
+                await _originService.UpdateCountryAsync(entity);
 
                 return Ok();
             }
@@ -58,6 +103,146 @@ namespace MusicWeb.Api.Controllers.Origins
                 return StatusCode(500, ex.Message);
             }
         }
+
+        [HttpDelete(ApiRoutes.Origins.DeleteCountry)]
+        public async Task<IActionResult> DeleteCountry([FromRoute] int id)
+        {
+            try
+            {
+                await _originService.DeleteCountryAsync(id);
+                return Ok();
+            }
+            catch(Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [HttpGet(ApiRoutes.Origins.GetAllStates)]
+        public async Task<IActionResult> GetAllStates()
+        {
+            try
+            {
+                var states = _mapper.Map<List<StateDto>>(await _originService.GetAllStatesAsync());
+                return Ok(states);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [HttpGet(ApiRoutes.Origins.GetStateById)]
+        public async Task<IActionResult> GetStateById([FromRoute] int id)
+        {
+            try
+            {
+                var state = _mapper.Map<StateDto>(await _originService.GetStateByIdAsync(id));
+                return Ok(state);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [HttpGet(ApiRoutes.Origins.GetStateCities)]
+        public async Task<IActionResult> GetStateCities([FromRoute] int id)
+        {
+            try
+            {
+                var cities = _mapper.Map<List<CityDto>>(await _originService.GetCitiesByStateAsync(id));
+                return Ok(cities);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [HttpPost(ApiRoutes.Origins.CreateState)]
+        public async Task<IActionResult> CreateState([FromBody] StateDto dto)
+        {
+            try
+            {
+                var entity = _mapper.Map<State>(dto);
+                await _originService.AddStateAsync(entity);
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [HttpPut(ApiRoutes.Origins.UpdateState)]
+        public async Task<IActionResult> UpdateState([FromBody] StateDto dto)
+        {
+            try
+            {
+                var entity = _mapper.Map<State>(dto);
+                await _originService.UpdateStateAsync(entity);
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [HttpDelete(ApiRoutes.Origins.DeleteState)]
+        public async Task<IActionResult> DeleteState([FromRoute] int id)
+        {
+            try
+            {
+                await _originService.DeleteStateAsync(id);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [HttpGet(ApiRoutes.Origins.GetAllCities)]
+        public async Task<IActionResult> GetAllCities()
+        {
+            try
+            {
+                var cities = _mapper.Map<List<CityDto>>(await _originService.GetAllCitiesAsync());
+                return Ok(cities);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [HttpGet(ApiRoutes.Origins.GetCityById)]
+        public async Task<IActionResult> GetCityById([FromRoute] int id)
+        {
+            try
+            {
+                var city = _mapper.Map<CityDto>(await _originService.GetCityByIdAsync(id));
+                return Ok(city);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return StatusCode(500, ex.Message);
+            }
+        }
+
         [HttpPost(ApiRoutes.Origins.CreateCity)]
         public async Task<IActionResult> CreateCity([FromBody] CityDto dto)
         {
@@ -68,7 +253,39 @@ namespace MusicWeb.Api.Controllers.Origins
 
                 return Ok();
             }
-            catch(Exception ex)
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [HttpPut(ApiRoutes.Origins.UpdateCity)]
+        public async Task<IActionResult> UpdateCity([FromBody] CityDto dto)
+        {
+            try
+            {
+                var entity = _mapper.Map<City>(dto);
+                await _originService.UpdateCityAsync(entity);
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [HttpDelete(ApiRoutes.Origins.DeleteCity)]
+        public async Task<IActionResult> DeleteCity([FromRoute] int id)
+        {
+            try
+            {
+                await _originService.DeleteCityAsync(id);
+                return Ok();
+            }
+            catch (Exception ex)
             {
                 _logger.LogError(ex.Message);
                 return StatusCode(500, ex.Message);
