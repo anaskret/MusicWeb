@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using MusicWeb.Api.Extensions;
 using MusicWeb.Models.Dtos.Users;
@@ -15,11 +16,12 @@ namespace MusicWeb.Api.Controllers.Users
     {
         private readonly ILogger _logger;
         private readonly IUserFriendService _userFriendService;
-
-        public UserFriendController(ILogger<UserFavoriteSongController> logger, IUserFriendService userFriendService)
+        private readonly IMapper _mapper;
+        public UserFriendController(ILogger<UserFavoriteSongController> logger, IUserFriendService userFriendService, IMapper mapper)
         {
             _logger = logger;
             _userFriendService = userFriendService;
+            _mapper = mapper;
         }
 
         [HttpGet(ApiRoutes.UserFriends.GetAll)]
@@ -27,7 +29,7 @@ namespace MusicWeb.Api.Controllers.Users
         {
             try
             {
-                var models = await _userFriendService.GetAllAsync();
+                var models = _mapper.Map<List<UserFriendDto>>(await _userFriendService.GetAllAsync());
                 return Ok(models);
             }
             catch (Exception ex)
@@ -42,7 +44,24 @@ namespace MusicWeb.Api.Controllers.Users
         {
             try
             {
-                await _userFriendService.CreateAsync(model);
+                var entity = _mapper.Map<UserFriend>(model);
+                await _userFriendService.CreateAsync(entity);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [HttpPut(ApiRoutes.UserFriends.Update)]
+        public async Task<IActionResult> Update([FromBody] UserFriendDto model)
+        {
+            try
+            {
+                var entity = _mapper.Map<UserFriend>(model);
+                await _userFriendService.UpdateAsync(entity);
                 return Ok();
             }
             catch (Exception ex)
@@ -53,7 +72,7 @@ namespace MusicWeb.Api.Controllers.Users
         }
 
         [HttpDelete(ApiRoutes.UserFriends.Delete)]
-        public async Task<IActionResult> Create([FromRoute] int id)
+        public async Task<IActionResult> Delete([FromRoute] int id)
         {
             try
             {
@@ -72,7 +91,7 @@ namespace MusicWeb.Api.Controllers.Users
         {
             try
             {
-                var model = await _userFriendService.GetByIdAsync(id);
+                var model = _mapper.Map<UserFriendDto>(await _userFriendService.GetByIdAsync(id));
                 return Ok(model);
             }
             catch (Exception ex)

@@ -22,9 +22,8 @@ namespace MusicWeb.Services.Services.Users
             _mapper = mapper;
         }
 
-        public async Task CreateAsync(UserFriendDto model)
+        public async Task CreateAsync(UserFriend entity)
         {
-            var entity = _mapper.Map<UserFriend>(model);
             await _userFriendRepository.AddAsync(entity);
         }
 
@@ -34,14 +33,19 @@ namespace MusicWeb.Services.Services.Users
             await _userFriendRepository.DeleteAsync(entity);
         }
 
-        public async Task<List<UserFriendDto>> GetAllAsync()
+        public async Task<List<UserFriend>> GetAllAsync()
         {
-            return _mapper.Map<List<UserFriendDto>>(await _userFriendRepository.GetAllAsync());
+            return await _userFriendRepository.GetAllAsync();
         }
 
-        public async Task<UserFriendDto> GetByIdAsync(int id)
+        public async Task<UserFriend> GetByIdAsync(int id)
         {
-            return _mapper.Map<UserFriendDto>(await _userFriendRepository.GetByIdAsync(id));
+            return await _userFriendRepository.GetByIdAsync(id);
+        }
+
+        public async Task UpdateAsync(UserFriend entity)
+        {
+            await _userFriendRepository.UpdateAsync(entity);
         }
     }
 }
