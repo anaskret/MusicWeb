@@ -27,11 +27,11 @@ namespace MusicWeb.Repositories.Repositories.Base
             }
             catch (Exception ex)
             {
-                throw new Exception($"Couldn't retrieve entities: {ex.Message}");
+                throw new Exception($"Couldn't retrieve entities: {ex.Message}", ex);
             }
         }
 
-        public async Task<IList<TEntity>> GetAllAsync()
+        public async Task<List<TEntity>> GetAllAsync()
         {
             try
             {
@@ -39,7 +39,7 @@ namespace MusicWeb.Repositories.Repositories.Base
             }
             catch (Exception ex)
             {
-                throw new Exception($"Couldn't retrieve entities: {ex.Message}");
+                throw new Exception($"Couldn't retrieve entities: {ex.Message}", ex);
             }
         }
 
@@ -69,7 +69,7 @@ namespace MusicWeb.Repositories.Repositories.Base
             }
             catch (Exception ex)
             {
-                throw new Exception($"{nameof(entity)} could not be saved: {ex.Message}");
+                throw new Exception($"{nameof(entity)} could not be saved: {ex.Message}", ex);
             }
         }
 
@@ -91,7 +91,7 @@ namespace MusicWeb.Repositories.Repositories.Base
             }
             catch (Exception ex)
             {
-                throw;
+                throw new Exception($"Entities could not be saved: {ex.Message}", ex);
             }
 
             return entities;
@@ -137,7 +137,7 @@ namespace MusicWeb.Repositories.Repositories.Base
             }
             catch (Exception ex)
             {
-                throw;
+                throw new Exception($"Entities could not be updated: {ex.Message}", ex);
             }
 
             return entities;
@@ -159,7 +159,7 @@ namespace MusicWeb.Repositories.Repositories.Base
             }
             catch (Exception ex)
             {
-                throw new Exception($"{nameof(entity)} could not be delete: {ex.Message}");
+                throw new Exception($"{nameof(entity)} could not be deleted: {ex.Message}", ex);
             }
         }
 
@@ -192,7 +192,7 @@ namespace MusicWeb.Repositories.Repositories.Base
             }
             catch (Exception ex)
             {
-                throw;
+                    throw new Exception($"Entities could not be deleted: {ex.Message}", ex);
             }
         }
     }
