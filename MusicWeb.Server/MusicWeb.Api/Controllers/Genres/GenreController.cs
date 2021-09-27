@@ -25,7 +25,7 @@ namespace MusicWeb.Api.Controllers.Genres
             _logger = logger;
         }
 
-        [HttpGet(ApiRoutes.Genres.GetById)]
+        [HttpGet(ApiRoutes.Genres.GetAll)]
         public async Task<IActionResult> GetAll()
         {
             try
