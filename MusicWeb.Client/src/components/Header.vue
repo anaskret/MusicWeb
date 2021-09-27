@@ -1,5 +1,6 @@
 <template>
     <v-container fluid>
+        {{ artist }}
         <v-row justify="center">
             <v-col class="mt-6" lg="3" sm="6">
                 <v-card>
@@ -13,13 +14,24 @@
                 </v-card>
                 <v-card class="my-9 text-left border-right-4 border-danger">
                     <h1 class="title font-weight-bold mb-12">Informacje</h1>
-                    <p>Rok założenia: <span>1990</span></p>
-                    <p>Pochodzenie: <span>Liverpool, Anglia</span></p>
+                    <p>
+                        Rok założenia:
+                        <span>{{
+                            artist.establishmentDate /* Convert ot real date */
+                        }}</span>
+                    </p>
+                    <p>
+                        Pochodzenie:
+                        <span
+                            >{{ address.city }} {{ address.state }},
+                            {{ address.country }}</span
+                        >
+                    </p>
                     <p>
                         Gatunek muzyczny:
                         <span>rock progresywny, art rock, doom metal</span>
                     </p>
-                    <p>
+                    <p v-if="artist.isBand && !artist.isIndividual">
                         Członkowie:
                         <span
                             >Vincent Cavanagh, Daniel Cavanagh, Jaime Cavanagh,
@@ -42,7 +54,7 @@
                                     artist-title
                                 "
                             >
-                                Anathema
+                                {{ artist.name }}
                             </h1>
                             <p class="mb-8 text-left">Dodaj do ulubionych:</p>
                             <p class="mb-8 text-left">
@@ -92,23 +104,7 @@
                                 Biografia
                             </h1>
                             <p class="text-justify">
-                                Anathema (gr. klątwa) to angielska grupa
-                                muzyczna. Powstała 1990 roku w Liverpoolu.
-                                Początkowo wykonująca drugofalowy death
-                                metal/doom metal, będąc wraz z grupami
-                                Katatonia, Tiamat, Winter, My Dying Bride i
-                                Paradise Lost prekursorem gatunku. Obecnie grupa
-                                zaliczana jest do nurtu art rocka oraz rocka
-                                atmosferycznego.
-                                <br /><br />
-                                Anathema została stworzona w 1990 roku pod nazwą
-                                Pagan Angel. W listopadzie tego roku zespół
-                                nagrał pierwsze demo "An Iliad of Woes". Zmiana
-                                nazwy nastąpiła na początku 1991 roku. Pierwsze
-                                demo przyciągnęło uwagę zespołów z brytyjskiej
-                                sceny metalowej i pozwoliło Anathemie zagrać
-                                koncerty u boku takich kapel jak Bolt Thrower
-                                czy Paradise Lost.
+                                {{ artist.bio }}
                             </p>
                         </v-card>
                     </v-col>
@@ -121,16 +117,31 @@
 <script>
 export default {
     name: "Header",
-
-    data: () => ({
-        stars: [
-            { color: "#868263" },
-            { color: "#868263" },
-            { color: "#868263" },
-            { color: "#868263" },
-            { color: "gray" },
-        ],
-    }),
+    props: {
+        artist: {
+            type: Object,
+            default: () => ({}),
+        },
+        address: {
+            type: Object,
+            default: () => ({}),
+        },
+    },
+    data() {
+        return {
+            stars: [
+                { color: "#868263" },
+                { color: "#868263" },
+                { color: "#868263" },
+                { color: "#868263" },
+                { color: "gray" },
+            ],
+        };
+    },
+    mounted() {
+        debugger;
+        console.log(this.address);
+    },
 };
 </script>
 

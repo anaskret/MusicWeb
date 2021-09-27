@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Header />
+        <Header :artist="artist" :address="address" />
         <item-carousel :albums="albums" />
         <item-list :songs="songs" />
         <comments-list :comments="comments" />
@@ -13,6 +13,8 @@ import ItemCarousel from "@/components/ItemCarousel.vue";
 import ItemList from "@/components/ItemList.vue";
 import CommentsList from "../components/CommentsList.vue";
 import useArtists from "@/modules/artists";
+import useOrigins from "@/modules/origins";
+import useAlbums from "@/modules/albums";
 
 export default {
     name: "ArtistPage",
@@ -24,7 +26,9 @@ export default {
     },
     data() {
         return {
-            artists: [],
+            id: this.$route.params.id,
+            artist: {},
+            address: {},
             albums: [],
             songs: [],
             comments: [],
@@ -34,18 +38,10 @@ export default {
         this.getArtist();
         this.getSongs();
         this.getComments();
-        this.getArtists();
+        this.getAlbums();
     },
     methods: {
-        getArtists() {
-            const { getAll } = useArtists();
-            getAll().then((response) => {
-                this.artists = response.data;
-                console.log(response.data);
-            });
-        },
-
-        getArtist() {
+        getAlbums() {
             this.albums = [
                 { img: "weather", title: "Weather Systems", year: "2012" },
                 {
@@ -106,6 +102,42 @@ export default {
                 },
             ];
         },
+
+        getAddress(artist) {
+            const { getCountryById, getStateById, getCityById } = useOrigins();
+            getCountryById(artist.countryId).then((response) => {
+                this.address.country = response;
+            });
+            getStateById(artist.stateId).then((response) => {
+                this.address.state = response;
+            });
+            getCityById(artist.cityId).then((response) => {
+                this.address.city = response;
+            });
+        },
+    },
+
+    setup() {
+        const { getById } = useArtists();
+        const { getAll } = useAlbums();
+
+        const getArtist = function () {
+            getById(this.id).then((response) => {
+                this.artist = response;
+                this.getAddress(response);
+            });
+        };
+
+        const getAlbums = function () {
+            getAll().then((response) => {
+                this.albums = response;
+            });
+        };
+
+        return {
+            getArtist,
+            getAlbums,
+        };
     },
 };
 </script>

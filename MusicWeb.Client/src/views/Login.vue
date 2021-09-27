@@ -155,7 +155,7 @@ export default {
             return typeof validation != "undefined" ? validation.$error : false;
         },
         redirect() {
-            this.$router.push({ name: "ArtistPage" });
+            this.$router.push({ name: "ArtistPage", params: { id: "2" } }); //TODO redirect to artist list/wall/main page
         },
         register() {
             this.$router.push({ name: "Register" });

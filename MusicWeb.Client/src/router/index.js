@@ -11,7 +11,7 @@ const routes = [
         component: Login,
     },
     {
-        path: "/artist",
+        path: "/artist/:id",
         name: "ArtistPage",
         //lazy load
         component: () => import("@/views/ArtistPage.vue"),
