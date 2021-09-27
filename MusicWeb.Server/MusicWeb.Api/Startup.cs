@@ -39,11 +39,13 @@ using MusicWeb.Services.Interfaces.Artists;
 using MusicWeb.Services.Interfaces.Genres;
 using MusicWeb.Services.Interfaces.Identity;
 using MusicWeb.Services.Interfaces.Origins;
+using MusicWeb.Services.Interfaces.Users;
 using MusicWeb.Services.Services.Albums;
 using MusicWeb.Services.Services.Artists;
 using MusicWeb.Services.Services.Genres;
 using MusicWeb.Services.Services.Identity;
 using MusicWeb.Services.Services.Origins;
+using MusicWeb.Services.Services.Users;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -153,10 +155,18 @@ namespace MusicWeb.Api
             services.AddTransient<ISongGuestArtistRepository, SongGuestArtistRepository>();
             services.AddTransient<ISongReviewRepository, SongReviewRepository>();
 
-            services.AddTransient<IUserFavoriteAlbumRepository, UserFavoriteAlbumRepository>();
             services.AddTransient<IUserFavoriteArtistRepository, UserFavoriteArtistRepository>();
+            services.AddTransient<IUserFavoriteArtistService, UserFavoriteArtistService>();
+
+            services.AddTransient<IUserFavoriteAlbumRepository, UserFavoriteAlbumRepository>();
+            services.AddTransient<IUserFavoriteAlbumService, UserFavoriteAlbumService>();
+
             services.AddTransient<IUserFavoriteSongRepository, UserFavoriteSongRepository>();
+            services.AddTransient<IUserFavoriteSongService, UserFavoriteSongService>();
+
             services.AddTransient<IUserFriendRepository, UserFriendRepository>();
+            services.AddTransient<IUserFriendService, UserFriendService>();
+
             services.AddTransient<IUserObservedArtistRepository, UserObservedArtistRepository>();
 
             services.AddTransient<IArtistCommentService, ArtistCommentService>();
@@ -171,6 +181,9 @@ namespace MusicWeb.Api
 
             services.AddTransient<IIdentityRepository, IdentityRepository>();
             services.AddTransient<IIdentityService, IdentityService>();
+
+            services.AddTransient<IUserRepository, UserRepository>();
+            services.AddTransient<IUserService, UserService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

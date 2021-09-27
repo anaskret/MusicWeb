@@ -3,9 +3,11 @@ using MusicWeb.Models.Dtos.Albums;
 using MusicWeb.Models.Dtos.Artists;
 using MusicWeb.Models.Dtos.Genres;
 using MusicWeb.Models.Dtos.Origins;
+using MusicWeb.Models.Dtos.Users;
 using MusicWeb.Models.Entities;
 using MusicWeb.Models.Entities.Artists;
 using MusicWeb.Models.Entities.Origins;
+using MusicWeb.Models.Identity;
 using MusicWeb.Models.Models.Artists;
 using System;
 using System.Collections.Generic;
@@ -45,6 +47,27 @@ namespace MusicWeb.Api.Extensions.AutoMapper
             CreateMap<Country, CountryDto>();
             CreateMap<State, StateDto>();
             CreateMap<City, CityDto>();
+
+            CreateMap<ApplicationUser, UserDto>();
+            CreateMap<UserFavoriteArtist, UserFavoriteDto>()
+                .ForMember(prp => prp.Name, prop => prop.MapFrom(src => src.Artist.Name))
+                .ForMember(prp => prp.FavoriteId, prop => prop.MapFrom(src => src.ArtistId));
+            CreateMap<UserFavoriteAlbum, UserFavoriteDto>()
+                .ForMember(prp => prp.Name, prop => prop.MapFrom(src => src.Album.Name))
+                .ForMember(prp => prp.FavoriteId, prop => prop.MapFrom(src => src.AlbumId));
+            CreateMap<UserFavoriteSong, UserFavoriteDto>()
+                .ForMember(prp => prp.Name, prop => prop.MapFrom(src => src.Song.Name))
+                .ForMember(prp => prp.FavoriteId, prop => prop.MapFrom(src => src.SongId));
+            CreateMap<UserFriend, UserFriendDto>()
+                .ForMember(prp => prp.FriendName, prop => prop.MapFrom(src => src.Friend.UserName));
+            CreateMap<UserFriendDto, UserFriend>();
+
+            CreateMap<UserFavoriteDto, UserFavoriteArtist>()
+                .ForMember(prp => prp.ArtistId, prop => prop.MapFrom(src => src.FavoriteId));
+            CreateMap<UserFavoriteDto, UserFavoriteAlbum>()
+                .ForMember(prp => prp.AlbumId, prop => prop.MapFrom(src => src.FavoriteId));
+            CreateMap<UserFavoriteDto, UserFavoriteSong>()
+                .ForMember(prp => prp.SongId, prop => prop.MapFrom(src => src.FavoriteId));
         }
 
     }

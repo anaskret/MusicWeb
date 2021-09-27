@@ -11,8 +11,11 @@ namespace MusicWeb.Services.Interfaces.Artists
 {
     public interface IArtistService
     {
-        Task AddAsync(Artist entity);
         Task<ArtistFullInfoDto> GetFullArtistInfoByIdAsync(int id);
         Task<List<ArtistDto>> GetAllAsync();
+        Task<Artist> GetByIdAsync(int id);
+        Task AddAsync(Artist entity);
+        Task UpdateAsync(Artist entity);
+        Task DeleteAsync(int id);
     }
 }

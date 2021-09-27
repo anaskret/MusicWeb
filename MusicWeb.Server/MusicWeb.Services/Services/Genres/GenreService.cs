@@ -22,5 +22,26 @@ namespace MusicWeb.Services.Services.Genres
         {
             await _genreRepository.AddAsync(entity);
         }
+
+        public async Task DeleteAsync(int id)
+        {
+            var entity = await GetByIdAsync(id);
+            await _genreRepository.DeleteAsync(entity);
+        }
+
+        public async Task<List<Genre>> GetAllAsync()
+        {
+            return await _genreRepository.GetAllAsync();
+        }
+
+        public async Task<Genre> GetByIdAsync(int id)
+        {
+            return await _genreRepository.GetByIdAsync(id);
+        }
+
+        public async Task UpdateAsync(Genre entity)
+        {
+            await _genreRepository.UpdateAsync(entity);
+        }
     }
 }

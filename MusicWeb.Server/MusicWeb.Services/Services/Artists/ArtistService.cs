@@ -33,12 +33,25 @@ namespace MusicWeb.Services.Services.Artists
             _bandService = bandService;
         }
 
+        public async Task<Artist> GetByIdAsync(int id)
+        {
+            return await _artistRepository.GetByIdAsync(id);
+        }
+
         public async Task AddAsync(Artist entity)
         {
-            await _artistRepository.AddAsync(entity);
+            if (entity.IsBand && entity.IsIndividual)
+                throw new ArgumentException("Artist cannot be both individual and a band at the same time");
+            if (entity.IsIndividual || entity.IsBand)
+            {
+                await _artistRepository.AddAsync(entity);
+                return;
+            }
+            var bandEntity = await GetByIdAsync(entity.BandId.GetValueOrDefault());
+            if (bandEntity == null)
+                throw new ArgumentException("Incorrect BandId");
 
-            if (!entity.IsIndividual)
-                await _bandService.AddAsync(new BandMember { ArtistId = entity.Id, BandId = entity.BandId.GetValueOrDefault() });
+            await _bandService.AddAsync(new BandMember { ArtistId = entity.Id, BandId = entity.BandId.GetValueOrDefault() });
         }
 
         public async Task<List<ArtistDto>> GetAllAsync()
@@ -70,6 +83,17 @@ namespace MusicWeb.Services.Services.Artists
 
 
             return mappedEntity;
+        }
+
+        public async Task UpdateAsync(Artist entity)
+        {
+            await _artistRepository.UpdateAsync(entity);
+        }
+
+        public async Task DeleteAsync(int id)
+        {
+            var entity = await GetByIdAsync(id);
+            await _artistRepository.DeleteAsync(entity);
         }
     }
 }
