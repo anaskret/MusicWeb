@@ -14,7 +14,7 @@ import ItemList from "@/components/ItemList.vue";
 import CommentsList from "../components/CommentsList.vue";
 import useArtists from "@/modules/artists";
 import useOrigins from "@/modules/origins";
-import useAlbums from "@/modules/albums";
+// import useAlbums from "@/modules/albums";
 
 export default {
     name: "ArtistPage",
@@ -119,7 +119,7 @@ export default {
 
     setup() {
         const { getById } = useArtists();
-        const { getAll } = useAlbums();
+        // const { getAll } = useAlbums();
 
         const getArtist = function () {
             getById(this.id).then((response) => {
@@ -128,15 +128,15 @@ export default {
             });
         };
 
-        const getAlbums = function () {
-            getAll().then((response) => {
-                this.albums = response;
-            });
-        };
+        // const getAlbums = function () {
+        //     getAll().then((response) => {
+        //         this.albums = response;
+        //     });
+        // };
 
         return {
             getArtist,
-            getAlbums,
+            // getAlbums,
         };
     },
 };

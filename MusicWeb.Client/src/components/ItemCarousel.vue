@@ -2,7 +2,7 @@
     <v-container fluid>
         <v-row justify="center">
             <v-col class="mt-3" lg="9" sm="9">
-                <v-card>
+                <div>
                     <v-row>
                         <v-col lg="2" sm="2">
                             <h1 class="display-1 font-weight-bold text-left">
@@ -79,7 +79,7 @@
                             </v-sheet>
                         </v-expand-transition>
                     </v-sheet>
-                </v-card>
+                </div>
             </v-col>
         </v-row>
     </v-container>

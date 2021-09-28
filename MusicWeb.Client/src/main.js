@@ -12,16 +12,25 @@ import {
     faChevronDown,
     faChevronRight,
     faSignOutAlt,
+    faUser,
+    faSearch,
+    faCog,
+    faCaretDown,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import axios from "axios";
 import VueCompositionApi from "@vue/composition-api";
+import moment from "moment";
 
 library.add(faHeart);
 library.add(faStar);
 library.add(faChevronDown);
 library.add(faChevronRight);
 library.add(faSignOutAlt);
+library.add(faUser);
+library.add(faSearch);
+library.add(faCog);
+library.add(faCaretDown);
 
 Vue.component("font-awesome-icon", FontAwesomeIcon);
 
@@ -33,6 +42,8 @@ Vue.prototype.$http = axios;
 
 Vue.use(Vuelidate);
 Vue.use(VueCompositionApi);
+
+Vue.prototype.moment = moment;
 
 new Vue({
     router,

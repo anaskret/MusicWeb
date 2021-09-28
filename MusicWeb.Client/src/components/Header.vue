@@ -1,9 +1,9 @@
 <template>
     <v-container fluid>
-        {{ artist }}
         <v-row justify="center">
+            {{ artist }}
             <v-col class="mt-6" lg="3" sm="6">
-                <v-card>
+                <div>
                     <v-img
                         :src="require('@/assets/BandPhoto.svg')"
                         class="mx-1"
@@ -11,21 +11,21 @@
                         width="402"
                         height="395"
                     />
-                </v-card>
-                <v-card class="my-9 text-left border-right-4 border-danger">
+                </div>
+                <div class="my-9 text-left border-right-4 border-danger">
                     <h1 class="title font-weight-bold mb-12">Informacje</h1>
                     <p>
                         Rok założenia:
                         <span>{{
-                            artist.establishmentDate /* Convert ot real date */
+                            moment(artist.establishmentDate).format("L")
                         }}</span>
                     </p>
                     <p>
                         Pochodzenie:
                         <span
                             >{{ address.city }} {{ address.state }},
-                            {{ address.country }}</span
-                        >
+                            {{ address.country }}
+                        </span>
                     </p>
                     <p>
                         Gatunek muzyczny:
@@ -38,13 +38,13 @@
                             Lee Douglas, John Douglas</span
                         >
                     </p>
-                </v-card>
+                </div>
             </v-col>
 
             <v-col class="mt-9" lg="6" sm="12">
                 <v-row>
                     <v-col class="my-9" lg="7" sm="7">
-                        <v-card>
+                        <div>
                             <h1
                                 class="
                                     display-3
@@ -66,10 +66,10 @@
                                 />
                                 <span>199 osób</span> dodało do ulubionych
                             </p>
-                        </v-card>
+                        </div>
                     </v-col>
                     <v-col class="mt-14" lg="4" sm="12">
-                        <v-card align="flex-start">
+                        <div align="flex-start">
                             <v-btn
                                 outlined
                                 color="grey"
@@ -89,10 +89,10 @@
                                 />
                                 <span> 4.0</span>
                             </p>
-                        </v-card>
+                        </div>
                     </v-col>
                     <v-col class="my-9" lg="12" sm="8">
-                        <v-card class="my-9">
+                        <div class="my-9">
                             <h1
                                 class="
                                     display-1
@@ -106,7 +106,7 @@
                             <p class="text-justify">
                                 {{ artist.bio }}
                             </p>
-                        </v-card>
+                        </div>
                     </v-col>
                 </v-row>
             </v-col>
@@ -139,7 +139,6 @@ export default {
         };
     },
     mounted() {
-        debugger;
         console.log(this.address);
     },
 };

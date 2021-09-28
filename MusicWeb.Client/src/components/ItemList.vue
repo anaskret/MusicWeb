@@ -2,7 +2,7 @@
     <v-container fluid>
         <v-row justify="center">
             <v-col class="mt-3" lg="9" sm="9">
-                <v-card>
+                <div>
                     <v-row>
                         <v-col lg="2" sm="2">
                             <h1 class="display-1 font-weight-bold text-left">
@@ -21,7 +21,7 @@
                             </p>
                         </v-col>
                     </v-row>
-                    <v-card class="mx-auto">
+                    <div class="mx-auto">
                         <v-list>
                             <v-list-item-group v-model="show">
                                 <v-list-item
@@ -111,8 +111,8 @@
                                 </v-list-item>
                             </v-list-item-group>
                         </v-list>
-                    </v-card>
-                </v-card>
+                    </div>
+                </div>
             </v-col>
         </v-row>
     </v-container>

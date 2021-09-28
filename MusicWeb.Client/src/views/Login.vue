@@ -9,13 +9,13 @@
                         max-width="50%"
                     ></v-img>
                 </div>
-                <v-card v-if="message" class="col-md-4">
+                <div v-if="message" class="col-md-4" justify="center">
                     <v-card-subtitle
                         ><h5 class="text-center">
                             {{ message }}
                         </h5></v-card-subtitle
                     >
-                </v-card>
+                </div>
                 <v-card-title class="mt-10">Zaloguj się</v-card-title>
                 <form @submit.prevent="onSubmit">
                     <v-text-field
@@ -50,15 +50,9 @@
                             type="submit"
                             class="px-5 mr-4"
                             :disabled="this.isDisabled"
+                            :loading="isLogging"
                         >
                             Zaloguj się
-                            <v-progress-circular
-                                v-if="isLogging"
-                                :size="20"
-                                indeterminate
-                                color="#3a4b63"
-                                class="ml-2"
-                            ></v-progress-circular>
                         </v-btn>
                         <v-btn @click="clear" class="mr-4" outlined>
                             Wyczyść
