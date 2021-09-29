@@ -388,3 +388,4 @@ pnpm-debug.log*
 *.sw?
 
 package-lock.json
+MusicWeb.Client/src/components/HeaderOld.vue
