@@ -7,6 +7,6 @@ export default {
         });
     },
     getById(id) {
-        return ApiService.authRequest(`/artists/${id}`, ApiService.get);
+        return ApiService.authRequest(`/artistdata/${id}`, ApiService.get);
     },
 };

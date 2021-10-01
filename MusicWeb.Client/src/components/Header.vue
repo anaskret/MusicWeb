@@ -1,7 +1,6 @@
 <template>
     <v-container fluid>
         <v-row justify="center">
-            {{ artist }}
             <v-col class="mt-6" lg="3" sm="6">
                 <div>
                     <v-img
@@ -23,8 +22,8 @@
                     <p>
                         Pochodzenie:
                         <span
-                            >{{ address.city }} {{ address.state }},
-                            {{ address.country }}
+                            >{{ artist.city }} {{ artist.state }},
+                            {{ artist.country }}
                         </span>
                     </p>
                     <p>
@@ -34,8 +33,13 @@
                     <p v-if="artist.isBand && !artist.isIndividual">
                         Członkowie:
                         <span
-                            >Vincent Cavanagh, Daniel Cavanagh, Jaime Cavanagh,
-                            Lee Douglas, John Douglas</span
+                            v-for="(member, index) in artist.members"
+                            :key="index"
+                        >
+                            {{ member
+                            }}<span v-if="index != artist.members.length - 1"
+                                >,</span
+                            ></span
                         >
                     </p>
                 </div>
@@ -122,10 +126,6 @@ export default {
             type: Object,
             default: () => ({}),
         },
-        address: {
-            type: Object,
-            default: () => ({}),
-        },
     },
     data() {
         return {
@@ -137,9 +137,6 @@ export default {
                 { color: "gray" },
             ],
         };
-    },
-    mounted() {
-        console.log(this.address);
     },
 };
 </script>

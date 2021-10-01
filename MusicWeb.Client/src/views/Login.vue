@@ -9,14 +9,12 @@
                         max-width="50%"
                     ></v-img>
                 </div>
-                <div v-if="message" class="col-md-4" justify="center">
-                    <v-card-subtitle
-                        ><h5 class="text-center">
-                            {{ message }}
-                        </h5></v-card-subtitle
-                    >
+                <div v-if="message" class="py-6" justify="center">
+                    <h5 class="text-center">
+                        {{ message }}
+                    </h5>
                 </div>
-                <v-card-title class="mt-10">Zaloguj się</v-card-title>
+                <v-card-title>Zaloguj się</v-card-title>
                 <form @submit.prevent="onSubmit">
                     <v-text-field
                         class="p-4"

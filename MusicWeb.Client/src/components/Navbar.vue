@@ -1,5 +1,13 @@
 <template>
-    <v-app-bar v-if="this.$route.name != 'Login'" app color="#2C2F33">
+    <v-app-bar
+        v-if="this.$route.name != 'Login'"
+        app
+        color="#2C2F33"
+        shrink-on-scroll
+        prominent
+        dense
+        scroll-threshold="500"
+    >
         <div class="d-flex align-center">
             <v-img
                 alt="MusicWeb"
@@ -11,16 +19,26 @@
             />
         </div>
         <v-spacer></v-spacer>
-        <v-btn plain>
-            <!-- TODO Onclick underline  -->
-            Baza
-            <font-awesome-icon class="icon" icon="caret-down" color="#white"
-        /></v-btn>
-        <v-btn plain class="mx-8">
-            Ranking
-            <font-awesome-icon class="icon" icon="caret-down" color="#white"
-        /></v-btn>
-        <v-btn plain> Aktywność </v-btn>
+        <template v-slot:extension>
+            <v-tabs class="d-flex justify-center">
+                <v-tab color="#white">
+                    <!-- TODO Onclick underline  -->
+                    Baza
+                    <font-awesome-icon
+                        class="icon"
+                        icon="caret-down"
+                        color="#white"
+                /></v-tab>
+                <v-tab>
+                    Ranking
+                    <font-awesome-icon
+                        class="icon"
+                        icon="caret-down"
+                        color="#white"
+                /></v-tab>
+                <v-tab>Aktywność</v-tab>
+            </v-tabs>
+        </template>
         <v-spacer></v-spacer>
         <v-btn class="mx-2" small fab dark outlined>
             <font-awesome-icon class="icon" icon="search" color="#white" />
@@ -111,6 +129,7 @@ export default {
         return {
             drawer: null,
             group: null,
+            fav: false,
         };
     },
     setup() {

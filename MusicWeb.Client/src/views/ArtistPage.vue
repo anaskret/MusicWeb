@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Header :artist="artist" :address="address" />
+        <Header :artist="artist" />
         <item-carousel :albums="albums" />
         <item-list :songs="songs" />
         <comments-list :comments="comments" />
@@ -13,8 +13,6 @@ import ItemCarousel from "@/components/ItemCarousel.vue";
 import ItemList from "@/components/ItemList.vue";
 import CommentsList from "../components/CommentsList.vue";
 import useArtists from "@/modules/artists";
-import useOrigins from "@/modules/origins";
-// import useAlbums from "@/modules/albums";
 
 export default {
     name: "ArtistPage",
@@ -28,7 +26,6 @@ export default {
         return {
             id: this.$route.params.id,
             artist: {},
-            address: {},
             albums: [],
             songs: [],
             comments: [],
@@ -102,19 +99,6 @@ export default {
                 },
             ];
         },
-
-        getAddress(artist) {
-            const { getCountryById, getStateById, getCityById } = useOrigins();
-            getCountryById(artist.countryId).then((response) => {
-                this.address.country = response;
-            });
-            getStateById(artist.stateId).then((response) => {
-                this.address.state = response;
-            });
-            getCityById(artist.cityId).then((response) => {
-                this.address.city = response;
-            });
-        },
     },
 
     setup() {
@@ -124,7 +108,6 @@ export default {
         const getArtist = function () {
             getById(this.id).then((response) => {
                 this.artist = response;
-                this.getAddress(response);
             });
         };
 
