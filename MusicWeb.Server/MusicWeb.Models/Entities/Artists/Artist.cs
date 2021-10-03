@@ -19,12 +19,8 @@ namespace MusicWeb.Models.Entities
         public bool IsBand { get; set; }
 
         public int? BandId { get; set; }
-        public int CountryId{ get; set; }
-        public int StateId{ get; set; }
         public int CityId{ get; set; }
         public virtual BandMember BandMember { get; set; }
-        public virtual Country Country{ get; set; }
-        public virtual State State{ get; set; }
         public virtual City City{ get; set; }
 
         public virtual ICollection<Album> Albums{ get; set; }

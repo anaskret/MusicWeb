@@ -47,6 +47,7 @@ namespace MusicWeb.Services.Services.Artists
                 await _artistRepository.AddAsync(entity);
                 return;
             }
+
             var bandEntity = await GetByIdAsync(entity.BandId.GetValueOrDefault());
             if (bandEntity == null)
                 throw new ArgumentException("Incorrect BandId");

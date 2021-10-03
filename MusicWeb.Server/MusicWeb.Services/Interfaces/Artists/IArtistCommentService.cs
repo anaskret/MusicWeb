@@ -10,5 +10,9 @@ namespace MusicWeb.Services.Interfaces.Artists
     public interface IArtistCommentService
     {
         Task AddAsync(ArtistComment entity);
+        Task<List<ArtistComment>> GetAllByArtistIdAsync(int id);
+        Task<ArtistComment> GetByIdAsync(int id);
+        Task UpdateAsync(ArtistComment entity);
+        Task DeleteAsync(int id);
     }
 }

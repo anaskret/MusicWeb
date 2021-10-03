@@ -16,8 +16,6 @@ namespace MusicWeb.Models.Dtos.Artists
         public bool IsBand { get; set; }
 
         public int? BandId { get; set; }
-        public int CountryId { get; set; }
-        public int StateId { get; set; }
         public int CityId { get; set; }
     }
 }

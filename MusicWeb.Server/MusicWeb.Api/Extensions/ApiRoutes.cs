@@ -22,9 +22,9 @@ namespace MusicWeb.Api.Extensions
         public static class ArtistComments
         {
             public const string Create = Root + "/artistcomments";
-            public const string GetAll = Root + "/artistcomments";
+            public const string GetAllById = Root + "/artistcomments/{id}";
             public const string Update = Root + "/artistcomments";
-            public const string GetById = Root + "/artistcomments/{id}";
+            public const string GetById = Root + "/artistcomments/singlecomment/{id}";
             public const string Delete = Root + "/artistcomments/{id}";
         }
 
@@ -102,7 +102,6 @@ namespace MusicWeb.Api.Extensions
         public static class UserFavoriteArtists
         {
             public const string Create = Root + "/userfavoriteartists";
-            public const string Update = Root + "/userfavoriteartists";
             public const string GetAll = Root + "/userfavoriteartists";
             public const string GetById = Root + "/userfavoriteartists/{id}";
             public const string Delete = Root + "/userfavoriteartists/{id}";
@@ -111,7 +110,6 @@ namespace MusicWeb.Api.Extensions
         public static class UserFavoriteAlbums
         {
             public const string Create = Root + "/userfavoritealbums";
-            public const string Update = Root + "/userfavoritealbums";
             public const string GetAll = Root + "/userfavoritealbums";
             public const string GetById = Root + "/userfavoritealbums/{id}";
             public const string Delete = Root + "/userfavoritealbums/{id}";
@@ -120,7 +118,6 @@ namespace MusicWeb.Api.Extensions
         public static class UserFavoriteSongs
         {
             public const string Create = Root + "/userfavoritesongs";
-            public const string Update = Root + "/userfavoritesongs";
             public const string GetById = Root + "/userfavoritesongs/{id}";
             public const string GetAll = Root + "/userfavoritesongs";
             public const string Delete = Root + "/userfavoritesongs/{id}";

@@ -123,18 +123,6 @@ namespace MusicWeb.DataAccess.Data
                     .WithOne(a => a.Member)
                     .HasForeignKey<Artist>(e => e.BandId);
 
-                entity.HasOne(e => e.Country)
-                    .WithMany(a => a.Artists)
-                    .HasForeignKey(e => e.CountryId)
-                    .OnDelete(DeleteBehavior.Restrict)
-                    .IsRequired();
-
-                entity.HasOne(e => e.State)
-                    .WithMany(a => a.Artists)
-                    .HasForeignKey(e => e.StateId)
-                    .OnDelete(DeleteBehavior.Restrict)
-                    .IsRequired();
-
                 entity.HasOne(e => e.City)
                     .WithMany(a => a.Artists)
                     .HasForeignKey(e => e.CityId)

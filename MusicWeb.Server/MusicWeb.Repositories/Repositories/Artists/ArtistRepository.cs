@@ -17,17 +17,12 @@ namespace MusicWeb.Repositories.Repositories.Artists
         {
         }
 
-        public async Task<List<Artist>> GetAllAsync()
-        {
-            return await _dbContext.Artists.ToListAsync();
-        }
-
         public async Task<Artist> GetFullArtistDataByIdAsync(int id)
         {
             var entity = await _dbContext.Artists
-                                             .Include(origin => origin.Country)
-                                             .Include(origin => origin.State)
                                              .Include(origin => origin.City)
+                                             .ThenInclude(origin => origin.State)
+                                             .ThenInclude(origin => origin.Country)
                                              .Include(albums => albums.Albums)
                                              .ThenInclude(genres => genres.AlbumGenre)
                                              .Include(band => band.Band)

@@ -25,7 +25,7 @@ namespace MusicWeb.Api.Controllers.Artists
             _logger = logger;
         }
 
-        [HttpPost(ApiRoutes.BandMembers.Create)]
+        /*[HttpPost(ApiRoutes.BandMembers.Create)]
         public async Task<IActionResult> CreateBandMember([FromBody] BandMemberDto dto)
         {
             try
@@ -40,6 +40,6 @@ namespace MusicWeb.Api.Controllers.Artists
                 _logger.LogError(ex.Message);
                 return StatusCode(500, ex.Message);
             }
-        }
+        }*/
     }
 }

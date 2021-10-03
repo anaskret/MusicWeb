@@ -21,8 +21,8 @@ namespace MusicWeb.Api.Extensions.AutoMapper
         public AutoMapperProfile()
         {
             CreateMap<Artist, ArtistFullInfoDto>()
-                .ForMember(prp => prp.Country, prop => prop.MapFrom(src => src.Country.Name))
-                .ForMember(prp => prp.State, prop => prop.MapFrom(src => src.State.Name))
+                .ForMember(prp => prp.Country, prop => prop.MapFrom(src => src.City.State.Country.Name))
+                .ForMember(prp => prp.State, prop => prop.MapFrom(src => src.City.State.Name))
                 .ForMember(prp => prp.City, prop => prop.MapFrom(src => src.City.Name));
             CreateMap<ArtistDto, Artist>();
             CreateMap<Artist, ArtistDto>();
