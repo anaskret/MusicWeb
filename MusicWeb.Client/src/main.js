@@ -7,15 +7,15 @@ import ApiService from "./services/apiServices";
 import Vuelidate from "vuelidate";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import {
-    faHeart,
-    faStar,
-    faChevronDown,
-    faChevronRight,
-    faSignOutAlt,
-    faUser,
-    faSearch,
-    faCog,
-    faCaretDown,
+  faHeart,
+  faStar,
+  faChevronDown,
+  faChevronRight,
+  faSignOutAlt,
+  faUser,
+  faSearch,
+  faCog,
+  faCaretDown,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import axios from "axios";
@@ -46,8 +46,8 @@ Vue.use(VueCompositionApi);
 Vue.prototype.moment = moment;
 
 new Vue({
-    router,
-    store,
-    vuetify,
-    render: (h) => h(App),
+  router,
+  store,
+  vuetify,
+  render: (h) => h(App),
 }).$mount("#app");
