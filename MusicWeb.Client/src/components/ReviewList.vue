@@ -32,7 +32,9 @@
 
               <v-card-title> {{ review.album }} </v-card-title>
 
-              <v-card-subtitle> {{ review.band }} </v-card-subtitle>
+              <v-card-subtitle>
+                {{ review.band }}
+              </v-card-subtitle>
             </v-card>
           </v-col>
           <v-col md="9">
@@ -46,32 +48,16 @@
               <v-card-subtitle class="review-text">
                 {{ review.text }}
               </v-card-subtitle>
-              <v-card-actions class="flex-column">
-                <v-spacer></v-spacer>
-
-                <v-btn
-                  icon
-                  @click="review_text_truncate = !review_text_truncate"
-                >
-                  <!-- TODO only one at the time expanding -->
-                  <v-icon>{{
-                    review_text_truncate ? "mdi-chevron-up" : "mdi-chevron-down"
-                  }}</v-icon>
-                </v-btn>
-              </v-card-actions>
-
-              <v-expand-transition>
-                <div v-show="review_text_truncate">
-                  <v-card-text>
-                    I'm a thing. But, like most politicians, he promised more
-                    than he could deliver. You won't have time for sleeping,
-                    soldier, not with all the bed making you'll be doing. Then
-                    we'll go with that data file! Hey, you add a one and two
-                    zeros to that or we walk! You're going to do his laundry?
-                    I've got to find a way to escape.
-                  </v-card-text>
-                </div>
-              </v-expand-transition>
+              <v-expansion-panels>
+                <v-expansion-panel>
+                  <v-expansion-panel-header>
+                    Czytaj więcej
+                  </v-expansion-panel-header>
+                  <v-expansion-panel-content>
+                    {{ review.text }}
+                  </v-expansion-panel-content>
+                </v-expansion-panel>
+              </v-expansion-panels>
             </v-card>
           </v-col>
         </v-row>
@@ -88,7 +74,7 @@ export default {
   },
   data() {
     return {
-      review_text_truncate: false,
+      showMore: false,
     };
   },
 };
