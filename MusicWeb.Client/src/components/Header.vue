@@ -1,14 +1,14 @@
 <template>
   <v-container fluid class="py-16">
     <v-row justify="center">
-      <v-col md="3" sm="6">
+      <v-col md="3" sm="6" class="pa-lg-5">
         <div>
           <v-img :src="require('@/assets/BandPhoto.svg')" contain />
         </div>
       </v-col>
-      <v-col md="7" sm="12">
-        <v-row class="d-flex align-items-center">
-          <v-col lg="12" sm="7">
+      <v-col md="7" sm="12" class="d-flex flex-column">
+        <v-row align-content="end" class="pb-lg-3">
+          <v-col lg="12" sm="7" class="pl-lg-15">
             <div class="d-flex">
               <div>
                 <h1 class="text-uppercase display-3 font-weight-bold">
@@ -19,48 +19,54 @@
                 outlined
                 color="grey"
                 height="30px"
-                class="text-uppercase align-self-center ml-16"
+                class="text-uppercase align-self-center ml-md-16"
                 >Obserwuj
               </v-btn>
             </div>
           </v-col>
         </v-row>
         <v-row>
-          <v-col md="12" class="rating">
-            <!-- TODO Style => bootstrap class -->
+          <v-col md="12" class="pl-lg-15 d-flex flex-row pr-lg-5">
             <div>
               <p>Dodaj do ulubionych</p>
-              <p>
-                <font-awesome-icon
-                  class="icon"
-                  icon="heart"
-                  size="2x"
-                  color="#865e61"
-                ></font-awesome-icon>
-                <span>199 osób</span> dodało do ulubionych
-              </p>
+              <div class="d-flex flex-row">
+                <div align-content="center" class="mr-lg-3">
+                  <font-awesome-icon
+                    class="icon"
+                    icon="heart"
+                    size="2x"
+                    color="#865e61"
+                  ></font-awesome-icon>
+                </div>
+                <div align-items="center" class="align-center">
+                  <span>199 osób</span> dodało do ulubionych
+                </div>
+              </div>
             </div>
-            <div>
+            <div class="ml-lg-16">
               <p>Oceń artystę</p>
-              <p>
+              <div class="d-flex flex-row">
                 <font-awesome-icon
-                  class="icon"
+                  class="icon pr-2"
                   v-for="(star, index) in stars"
                   :key="index"
                   icon="star"
                   size="2x"
                   :colot="star.color"
                 ></font-awesome-icon>
-                <span>4.0</span>
-              </p>
+                <div class="align-center">
+                  <span>4.0</span>
+                </div>
+              </div>
             </div>
           </v-col>
         </v-row>
       </v-col>
     </v-row>
     <v-row justify="center">
-      <v-col md="3" sm="6">
-        <h1 class="title font-weight-bold">Informacje</h1>
+      <v-col md="3" sm="6" class="pa-lg-5">
+        <span class="border-right border-dark"></span>
+        <h1 class="title font-weight-bold pb-lg-5">Informacje</h1>
         <p>Rok założenia: <span>1990</span></p>
         <p>Pochodzenie: <span>Liverpool, Anglia</span></p>
         <p>
@@ -74,8 +80,8 @@
           >
         </p>
       </v-col>
-      <v-col lg="7">
-        <h1>Biografia</h1>
+      <v-col lg="7" class="pl-lg-16">
+        <h1 class="pb-lg-5">Biografia</h1>
         <p class="text-justify">
           Anathema (gr. klątwa) to angielska grupa muzyczna. Powstała 1990 roku
           w Liverpoolu. Początkowo wykonująca drugofalowy death metal/doom
@@ -124,8 +130,16 @@ export default {
 </script>
 
 <style scoped>
-.rating {
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;700&display=swap");
+/* .rating {
   display: flex;
   justify-content: space-between;
+} */
+.align-center {
+  display: flex;
+  align-items: center;
+}
+template {
+  font-family: "Montserrat";
 }
 </style>
