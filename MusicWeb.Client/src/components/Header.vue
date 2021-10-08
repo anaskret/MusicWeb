@@ -1,17 +1,17 @@
 <template>
   <v-container fluid class="py-16">
     <v-row justify="center">
-      <v-col md="3" sm="6" class="pa-lg-5">
+      <v-col lg="3" sm="6" class="px-lg-8">
         <div>
           <v-img :src="require('@/assets/BandPhoto.svg')" contain />
         </div>
       </v-col>
-      <v-col md="7" sm="12" class="d-flex flex-column">
-        <v-row align-content="end" class="pb-lg-3">
-          <v-col lg="12" sm="7" class="pl-lg-15">
+      <v-col lg="5" sm="12" class="d-flex flex-column">
+        <v-row align-content="end" class="pb-lg-2">
+          <v-col lg="12" sm="7">
             <div class="d-flex">
               <div>
-                <h1 class="text-uppercase display-3 font-weight-bold">
+                <h1 class="text-uppercase font-weight-bold artist_title">
                   ANATHEMA
                 </h1>
               </div>
@@ -26,7 +26,7 @@
           </v-col>
         </v-row>
         <v-row>
-          <v-col md="12" class="pl-lg-15 d-flex flex-row pr-lg-5">
+          <v-col md="12" class="d-flex flex-row pr-lg-5">
             <div>
               <p>Dodaj do ulubionych</p>
               <div class="d-flex flex-row">
@@ -39,7 +39,8 @@
                   ></font-awesome-icon>
                 </div>
                 <div align-items="center" class="align-center">
-                  <span>199 osób</span> dodało do ulubionych
+                  <span class="feature-text">199 osób </span> dodało do
+                  ulubionych
                 </div>
               </div>
             </div>
@@ -55,7 +56,7 @@
                   :colot="star.color"
                 ></font-awesome-icon>
                 <div class="align-center">
-                  <span>4.0</span>
+                  <span class="feature-text">4.0</span>
                 </div>
               </div>
             </div>
@@ -64,7 +65,7 @@
       </v-col>
     </v-row>
     <v-row justify="center">
-      <v-col md="3" sm="6" class="pa-lg-5">
+      <v-col md="3" sm="6" class="pa-lg-9">
         <span class="border-right border-dark"></span>
         <h1 class="title font-weight-bold pb-lg-5">Informacje</h1>
         <p>Rok założenia: <span>1990</span></p>
@@ -80,7 +81,7 @@
           >
         </p>
       </v-col>
-      <v-col lg="7" class="pl-lg-16">
+      <v-col lg="5">
         <h1 class="pb-lg-5">Biografia</h1>
         <p class="text-justify">
           Anathema (gr. klątwa) to angielska grupa muzyczna. Powstała 1990 roku
@@ -131,15 +132,21 @@ export default {
 
 <style scoped>
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;700&display=swap");
-/* .rating {
-  display: flex;
-  justify-content: space-between;
-} */
+.artist_title {
+  letter-spacing: 5px;
+  font-size: 3.2rem;
+}
 .align-center {
   display: flex;
   align-items: center;
 }
 template {
   font-family: "Montserrat";
+}
+p {
+  font-size: 1rem;
+}
+.feature-text {
+  font-size: 1rem;
 }
 </style>
