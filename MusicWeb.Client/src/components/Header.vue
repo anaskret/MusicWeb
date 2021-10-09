@@ -19,6 +19,7 @@
                 outlined
                 color="grey"
                 height="30px"
+                v-if="show_observe_button"
                 class="text-uppercase align-self-center ml-md-16"
                 >Obserwuj
               </v-btn>
@@ -39,13 +40,13 @@
                   ></font-awesome-icon>
                 </div>
                 <div align-items="center" class="align-center">
-                  <span class="feature-text">199 osób </span> dodało do
+                  <span class="feature-text pr-1">199 osób </span> dodało do
                   ulubionych
                 </div>
               </div>
             </div>
             <div class="ml-lg-16">
-              <p>Oceń artystę</p>
+              <p>{{ vote_title }}</p>
               <div class="d-flex flex-row">
                 <font-awesome-icon
                   class="icon pr-2"
@@ -68,17 +69,8 @@
       <v-col md="3" sm="6" class="py-lg-9 pr-lg-10">
         <span class="border-right border-dark"></span>
         <h1 class="title font-weight-bold pb-lg-5">Informacje</h1>
-        <p>Rok założenia: <span>1990</span></p>
-        <p>Pochodzenie: <span>Liverpool, Anglia</span></p>
-        <p>
-          Gatunek muzyczny: <span>rock progresywny, art rock, doom metal</span>
-        </p>
-        <p>
-          Członkowie:
-          <span
-            >Vincent Cavanagh, Daniel Cavanagh, Jaime Cavanagh, Lee Douglas,
-            John Douglas</span
-          >
+        <p v-for="(info, index) in info_content" :key="index">
+          {{ info.info }}
         </p>
       </v-col>
       <v-col lg="5">
@@ -104,6 +96,10 @@
 export default {
   name: "Header",
   props: {
+    show_observe_button: {
+      type: Boolean,
+      default: false,
+    },
     artist: {
       type: Object,
       default: () => ({}),
@@ -111,6 +107,13 @@ export default {
     address: {
       type: Object,
       default: () => ({}),
+    },
+    info_content: {
+      type: Array,
+      default: () => ({}),
+    },
+    vote_title: {
+      type: String,
     },
   },
   data() {
