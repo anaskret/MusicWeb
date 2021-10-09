@@ -7,6 +7,7 @@
       :info_content="info_content"
       :vote_title="vote_title"
     />
+
     <item-carousel :albums="albums" />
     <item-list :songs="songs" />
     <comments-list :comments="comments" />
