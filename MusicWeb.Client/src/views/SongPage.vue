@@ -79,29 +79,20 @@
         </v-row>
       </v-col>
     </v-row>
-    <v-row justify="center">
-      <v-col lg="10">
-        <h1>Komentarze</h1>
-      </v-col>
-    </v-row>
-    <v-row justify="center">
-      <v-col lg="2">
-        <v-avatar size="70">
-          <v-img :src="require('@/assets/band_logo.jpg')"></v-img>
-        </v-avatar>
-      </v-col>
-      <v-col lg="8">
-        <div>
-          <h3>AnathemaLover</h3>
-          <p>25.09.2021</p>
-        </div>
-      </v-col>
-    </v-row>
+    <RankSection />
+    <CommentsList />
   </v-container>
 </template>
 
 <script>
+import CommentsList from "@/components/CommentsList.vue";
+import RankSection from "@/components/RankSection.vue";
+
 export default {
   name: "SongPage",
+  components: {
+    CommentsList,
+    RankSection,
+  },
 };
 </script>

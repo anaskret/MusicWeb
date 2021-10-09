@@ -1,7 +1,7 @@
 <template>
   <v-container fluid class="py-16">
     <v-row justify="center">
-      <v-col lg="3" sm="6" class="pr-lg-16">
+      <v-col lg="3" sm="6" class="pr-lg-12">
         <div>
           <v-img :src="require('@/assets/BandPhoto.svg')" contain />
         </div>
@@ -11,7 +11,7 @@
           <v-col lg="12" sm="7">
             <div class="d-flex">
               <div>
-                <h1 class="text-uppercase font-weight-bold artist_title">
+                <h1 class="text-uppercase font-weight-bold artist-title">
                   ANATHEMA
                 </h1>
               </div>
@@ -60,6 +60,24 @@
                   <span class="feature-text">4.0</span>
                 </div>
               </div>
+            </div>
+          </v-col>
+        </v-row>
+        <v-row justify="center">
+          <v-col>
+            <div class="d-flex flex-row justify-space-center">
+              <v-card outlined width="30%" class="py-3 mr-5" height="20%">
+                <p class="d-flex justify-center rank-number">5.0</p>
+                <p class="justify-center d-flex rank-caption">Średnia ocen</p>
+              </v-card>
+              <v-card outlined width="30%" class="py-3 mr-5">
+                <p class="d-flex justify-center rank-number">4564</p>
+                <p class="d-flex justify-center rank-caption">Ilość ocen</p>
+              </v-card>
+              <v-card outlined width="30%" class="py-3">
+                <p class="d-flex justify-center rank-number">100</p>
+                <p class="d-flex justify-center rank-caption">Ranking</p>
+              </v-card>
             </div>
           </v-col>
         </v-row>
@@ -135,7 +153,7 @@ export default {
 
 <style scoped>
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;700&display=swap");
-.artist_title {
+.artist-title {
   letter-spacing: 5px;
   font-size: 3.2rem;
 }
@@ -151,5 +169,14 @@ p {
 }
 .feature-text {
   font-size: 1rem;
+}
+.rank-caption {
+  font-weight: 300;
+  margin-bottom: 0px;
+}
+.rank-number {
+  font-weight: 700;
+  font-size: 1.2rem;
+  margin-bottom: 0px;
 }
 </style>
