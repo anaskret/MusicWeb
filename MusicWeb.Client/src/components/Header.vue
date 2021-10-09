@@ -1,7 +1,7 @@
 <template>
   <v-container fluid class="py-16">
     <v-row justify="center">
-      <v-col lg="3" sm="6" class="px-lg-8">
+      <v-col lg="3" sm="6" class="pr-lg-16">
         <div>
           <v-img :src="require('@/assets/BandPhoto.svg')" contain />
         </div>
@@ -65,7 +65,7 @@
       </v-col>
     </v-row>
     <v-row justify="center">
-      <v-col md="3" sm="6" class="pa-lg-9">
+      <v-col md="3" sm="6" class="py-lg-9 pr-lg-10">
         <span class="border-right border-dark"></span>
         <h1 class="title font-weight-bold pb-lg-5">Informacje</h1>
         <p>Rok założenia: <span>1990</span></p>

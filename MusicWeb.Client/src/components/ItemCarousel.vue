@@ -1,10 +1,11 @@
 <template>
-  <v-container fluid>
-    <v-row justify="center">
-      <v-col class="mt-3" lg="8">
-        <div class="d-flex flex-row">
+  <v-container fluid class="mb-lg-16">
+    <v-row justify="center" class="pb-lg-3">
+      <v-col lg="8">
+        <!-- TO DO : wyśrodkować w pionie -->
+        <div class="d-flex flex-row" style="align-items: center">
           <h1 class="display-1 font-weight-bold text-left">Dyskografia</h1>
-          <p class="py-3 pl-lg-16">
+          <p class="pl-lg-16">
             Wyświetl pełną dyskografię
             <font-awesome-icon
               class="icon"
@@ -19,7 +20,7 @@
     <v-row justify="center">
       <v-col lg="9">
         <v-sheet class="mx-auto" elevation="0">
-          <v-slide-group v-model="show" class="pa-4" show-arrows center-active>
+          <v-slide-group v-model="show" class="px-4" show-arrows center-active>
             <v-slide-item
               v-for="(album, index) in albumsView"
               :key="index"
@@ -28,7 +29,7 @@
               <v-card>
                 <v-card
                   :img="require(`@/assets/${album.img}.svg`)"
-                  class="ma-6"
+                  class="mx-6"
                   height="200"
                   width="200"
                   @click="toggle"
