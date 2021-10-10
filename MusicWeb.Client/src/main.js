@@ -16,21 +16,26 @@ import {
   faSearch,
   faCog,
   faCaretDown,
+  faChevronCircleRight,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import axios from "axios";
 import VueCompositionApi from "@vue/composition-api";
 import moment from "moment";
 
-library.add(faHeart);
-library.add(faStar);
-library.add(faChevronDown);
-library.add(faChevronRight);
-library.add(faSignOutAlt);
-library.add(faUser);
-library.add(faSearch);
-library.add(faCog);
-library.add(faCaretDown);
+const faIcons = [
+  faHeart,
+  faStar,
+  faChevronDown,
+  faChevronRight,
+  faSignOutAlt,
+  faUser,
+  faSearch,
+  faCog,
+  faCaretDown,
+  faChevronCircleRight,
+];
+faIcons.forEach((icon) => library.add(icon));
 
 Vue.component("font-awesome-icon", FontAwesomeIcon);
 
@@ -44,6 +49,24 @@ Vue.use(Vuelidate);
 Vue.use(VueCompositionApi);
 
 Vue.prototype.moment = moment;
+
+/** Vue Filters Start */
+Vue.filter("truncate", function (text, length, suffix) {
+  if (text.length > length) {
+    return text.substring(0, length) + suffix;
+  } else {
+    return text;
+  }
+});
+
+Vue.filter("truncateRest", function (text, length) {
+  if (text.length > length) {
+    return text.substring(length, text.length);
+  } else {
+    return;
+  }
+});
+/** Vue Filters End */
 
 new Vue({
   router,

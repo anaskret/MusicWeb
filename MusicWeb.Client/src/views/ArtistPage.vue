@@ -1,7 +1,7 @@
 <template>
   <div>
     <Header :artist="artist" />
-    <item-carousel :albums="albums" />
+    <item-carousel :items="albums" :componentTitle="componentTitle" :componentLinkTitle="componentLinkTitle" />
     <item-list :songs="songs" />
     <comments-list :comments="comments" />
   </div>
@@ -29,6 +29,8 @@ export default {
       albums: [],
       songs: [],
       comments: [],
+      componentTitle: "Dyskografia",
+      componentLinkTitle: "Wyświetl pełną dyskografię"
     };
   },
   created() {

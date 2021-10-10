@@ -3,12 +3,12 @@
     <v-row justify="center">
       <v-col md="10" sm="10">
         <v-row class="title underline">
-          <v-col md="3" sm="2">
+          <v-col md="5" sm="5">
             <h1 class="display-1 font-weight-bold text-left">
               Ostatnie recenzje
             </h1>
           </v-col>
-          <v-col md="2" sm="10" class="show-all">
+          <v-col md="2" sm="2" class="show-all">
             <v-btn
               plain
               color="grey"
@@ -24,13 +24,16 @@
           class="underline"
         >
           <v-col md="3">
-            <v-card>
+            <v-card class="review-left">
+              <!-- TODO Delete class, items center by class   -->
               <v-img
                 max-width="75%"
                 :src="require(`@/assets/${review.img}.svg`)"
               ></v-img>
 
-              <v-card-title> {{ review.album }} </v-card-title>
+              <v-card-title class="text-center">
+                {{ review.album }}
+              </v-card-title>
 
               <v-card-subtitle>
                 {{ review.band }}
@@ -46,15 +49,15 @@
               <v-spacer></v-spacer>
 
               <v-card-subtitle class="review-text">
-                {{ review.text }}
+                {{ review.text | truncate(reviewTextLength, "...") }}
               </v-card-subtitle>
-              <v-expansion-panels>
+              <v-expansion-panels v-if="review.text.length >= reviewTextLength">
                 <v-expansion-panel>
                   <v-expansion-panel-header>
                     Czytaj więcej
                   </v-expansion-panel-header>
                   <v-expansion-panel-content>
-                    {{ review.text }}
+                    {{ review.text | truncateRest(reviewTextLength) }}
                   </v-expansion-panel-content>
                 </v-expansion-panel>
               </v-expansion-panels>
@@ -75,6 +78,7 @@ export default {
   data() {
     return {
       showMore: false,
+      reviewTextLength: 350,
     };
   },
 };
@@ -95,5 +99,10 @@ export default {
 }
 .review-text {
   text-align: justify;
+}
+.review-left {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 </style>

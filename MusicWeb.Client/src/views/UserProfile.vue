@@ -35,16 +35,24 @@
       <v-col md="12">
         <ReviewList :reviews="reviews" />
       </v-col>
+      <v-col md="12">
+        <item-carousel :items="artists" :componentTitle="artistsTitle" :componentLinkTitle="artistsLinkTitle"/>  
+      </v-col>
+      <v-col md="12">
+        <item-carousel :items="genres" :componentTitle="genresTitle" :componentLinkTitle="genresLinkTitle"/>  
+      </v-col>
     </v-row>
   </v-container>
 </template>
 
 <script>
 import ReviewList from "@/components/ReviewList";
+import ItemCarousel from '../components/ItemCarousel.vue';
 export default {
   name: "UserProfile",
   components: {
     ReviewList,
+    ItemCarousel,
   },
   data() {
     return {
@@ -56,10 +64,18 @@ export default {
         { color: "gray" },
       ],
       reviews: [],
+      artists: [],
+      genres: [],
+      artistsTitle: "Ulubieni artyści",
+      genresTitle: "Ulubione gatunki",
+      artistsLinkTitle: "Zobacz wszystko",
+      genresLinkTitle: "Zobacz wszystko"
     };
   },
   created() {
     this.getReviews();
+    this.getArtists();
+    this.getGenres();
   },
   methods: {
     getReviews() {
@@ -69,7 +85,7 @@ export default {
           album: "Weather Systems",
           band: "Anathema",
           title: "Dzieło sztuki!",
-          text: "1Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec fringilla magna fringilla nisi tristique, vel tempus risus malesuada. Fusce venenatis, orci eget blandit mollis, diam nisl interdum nulla, a convallis purus augue ut odio. Cras urna sapien, faucibus tincidunt placerat non, laoreet nec nunc. Praesent felis nibh, laoreet et sapien in, tincidunt eleifend tellus. Morbi ante urna, mollis quis eros sed, pulvinar venenatis lacus. Quisque interdum urna molestie porta auctor. Aliquam erat volutpat. Integer in aliquam sem. Quisque varius purus eu eros elementum varius. ",
+          text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec fringilla magna fringilla nisi tristique, vel tempus risus malesuada. Fusce venenatis, orci eget blandit mollis, diam nisl interdum nulla, a convallis purus augue ut odio. Cras urna sapien, faucibus tincidunt placerat non, laoreet nec nunc.",
         },
         {
           img: "werehere",
@@ -85,6 +101,38 @@ export default {
           title: "Dzieło sztuki!",
           text: "3Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec fringilla magna fringilla nisi tristique, vel tempus risus malesuada. Fusce venenatis, orci eget blandit mollis, diam nisl interdum nulla, a convallis purus augue ut odio. Cras urna sapien, faucibus tincidunt placerat non, laoreet nec nunc. Praesent felis nibh, laoreet et sapien in, tincidunt eleifend tellus. Morbi ante urna, mollis quis eros sed, pulvinar venenatis lacus. Quisque interdum urna molestie porta auctor. Aliquam erat volutpat. Integer in aliquam sem. Quisque varius purus eu eros elementum varius. ",
         },
+      ];
+    },
+    getArtists() {
+      this.artists = [
+        { img: "BandPhoto", title: "Anathema"  },
+        {
+          img: "BandPhoto",
+          title: "Anathema"
+          
+        },
+        {
+          img: "BandPhoto",
+          title: "Anathema"
+          
+        },
+        { img: "BandPhoto", title: "Anathema" },
+      ];
+    },
+    getGenres() {
+      this.genres = [
+        { img: "BandPhoto", title: "Rock/Metal"  },
+        {
+          img: "BandPhoto",
+          title: "Klasyczna"
+          
+        },
+        {
+          img: "BandPhoto",
+          title: "Jazz"
+          
+        },
+        { img: "BandPhoto", title: "Pop" },
       ];
     },
   },

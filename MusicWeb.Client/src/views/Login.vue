@@ -141,7 +141,9 @@ export default {
       return typeof validation != "undefined" ? validation.$error : false;
     },
     redirect() {
-      this.$router.push({ name: "ArtistPage", params: { id: "2" } }); //TODO redirect to artist list/wall/main page
+      this.$router
+        .push({ name: "ArtistPage", params: { id: "2" } })
+        .catch(() => {}); //TODO redirect to artist list/wall/main page
     },
     register() {
       this.$router.push({ name: "Register" });
