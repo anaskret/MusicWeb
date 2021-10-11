@@ -46,7 +46,7 @@ namespace MusicWeb.DataAccess.Data
         public DbSet<Chat> Chat{ get; set; }
         public DbSet<Message> Message{ get; set; }
 
-        //public DbSet<Post> Post{ get; set; }
+        public DbSet<Post> Post{ get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
