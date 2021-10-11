@@ -4,9 +4,9 @@
       :artist="artist"
       :address="address"
       :show_observe_button="show_observe_button"
-      :info_content="info_content"
       :vote_title="vote_title"
     />
+    <InfoSection :info_content="info_content" />
 
     <item-carousel :albums="albums" />
     <item-list :songs="songs" />
@@ -19,6 +19,7 @@ import Header from "@/components/Header.vue";
 import ItemCarousel from "@/components/ItemCarousel.vue";
 import ItemList from "@/components/ItemList.vue";
 import CommentsList from "../components/CommentsList.vue";
+import InfoSection from "../components/InfoSection.vue";
 import useArtists from "@/modules/artists";
 import useOrigins from "@/modules/origins";
 import useAlbums from "@/modules/albums";
@@ -30,6 +31,7 @@ export default {
     ItemCarousel,
     ItemList,
     CommentsList,
+    InfoSection,
   },
   data() {
     return {

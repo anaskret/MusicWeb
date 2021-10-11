@@ -63,56 +63,20 @@
             </div>
           </v-col>
         </v-row>
-        <v-row justify="center">
-          <v-col>
-            <div class="d-flex flex-row justify-space-center">
-              <v-card outlined width="30%" class="py-3 mr-5" height="20%">
-                <p class="d-flex justify-center rank-number">5.0</p>
-                <p class="justify-center d-flex rank-caption">Średnia ocen</p>
-              </v-card>
-              <v-card outlined width="30%" class="py-3 mr-5">
-                <p class="d-flex justify-center rank-number">4564</p>
-                <p class="d-flex justify-center rank-caption">Ilość ocen</p>
-              </v-card>
-              <v-card outlined width="30%" class="py-3">
-                <p class="d-flex justify-center rank-number">100</p>
-                <p class="d-flex justify-center rank-caption">Ranking</p>
-              </v-card>
-            </div>
-          </v-col>
-        </v-row>
-      </v-col>
-    </v-row>
-    <v-row justify="center">
-      <v-col md="3" sm="6" class="py-lg-9 pr-lg-10">
-        <span class="border-right border-dark"></span>
-        <h1 class="title font-weight-bold pb-lg-5">Informacje</h1>
-        <p v-for="(info, index) in info_content" :key="index">
-          {{ info.info }}
-        </p>
-      </v-col>
-      <v-col lg="5">
-        <h1 class="pb-lg-5">Biografia</h1>
-        <p class="text-justify">
-          Anathema (gr. klątwa) to angielska grupa muzyczna. Powstała 1990 roku
-          w Liverpoolu. Początkowo wykonująca drugofalowy death metal/doom
-          metal, będąc wraz z grupami Katatonia, Tiamat, Winter, My Dying Bride
-          i Paradise Lost prekursorem gatunku. Obecnie grupa zaliczana jest do
-          nurtu art rocka oraz rocka atmosferycznego. Anathema została stworzona
-          w 1990 roku pod nazwą Pagan Angel. W listopadzie tego roku zespół
-          nagrał pierwsze demo "An Iliad of Woes". Zmiana nazwy nastąpiła na
-          początku 1991 roku. Pierwsze demo przyciągnęło uwagę zespołów z
-          brytyjskiej sceny metalowej i pozwoliło Anathemie zagrać koncerty u
-          boku takich kapel jak Bolt Thrower czy Paradise Lost.
-        </p>
+        <RankSection />
       </v-col>
     </v-row>
   </v-container>
 </template>
 
 <script>
+import RankSection from "@/components/RankSection.vue";
+
 export default {
   name: "Header",
+  components: {
+    RankSection,
+  },
   props: {
     show_observe_button: {
       type: Boolean,
@@ -170,7 +134,7 @@ p {
 .feature-text {
   font-size: 1rem;
 }
-.rank-caption {
+/* .rank-caption {
   font-weight: 300;
   margin-bottom: 0px;
 }
@@ -178,5 +142,5 @@ p {
   font-weight: 700;
   font-size: 1.2rem;
   margin-bottom: 0px;
-}
+} */
 </style>

@@ -1,23 +1,26 @@
 <template>
-  <v-container fluid>
+  <div fluid>
     <Header
       :show_observe_button="show_observe_button"
-      :info_content="info_content"
       :vote_title="vote_title"
     />
+
+    <InfoSection :info_content="info_content" />
     <ItemList :songs="songs" />
-  </v-container>
+  </div>
 </template>
 
 <script>
 import Header from "@/components/Header.vue";
 import ItemList from "@/components/ItemList.vue";
+import InfoSection from "@/components/InfoSection.vue";
 
 export default {
   name: "AlbumPage",
   components: {
     Header,
     ItemList,
+    InfoSection,
   },
   data() {
     return {
@@ -27,6 +30,7 @@ export default {
       reviews: {},
       show_observe_button: false,
       info_content: [
+        { info: "Zespół: Anathema" },
         { info: "Data wydania: 15. 04. 2012" },
         { info: "Czas trwania: 55 minut" },
         { info: "Gatunek muzyczny: rock progresywny, art rock, doom metal" },
