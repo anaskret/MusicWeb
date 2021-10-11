@@ -11,7 +11,7 @@
       <v-col lg="5">
         <h1 class="pb-lg-5">Biografia</h1>
         <p class="text-justify">
-            {{ artist.bio }}
+          {{ artist.bio }}
         </p>
       </v-col>
     </v-row>

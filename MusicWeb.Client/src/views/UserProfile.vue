@@ -36,10 +36,18 @@
         <ReviewList :reviews="reviews" />
       </v-col>
       <v-col md="12">
-        <item-carousel :items="artists" :componentTitle="artistsTitle" :componentLinkTitle="artistsLinkTitle"/>  
+        <item-carousel
+          :items="artists"
+          :componentTitle="artistsTitle"
+          :componentLinkTitle="artistsLinkTitle"
+        />
       </v-col>
       <v-col md="12">
-        <item-carousel :items="genres" :componentTitle="genresTitle" :componentLinkTitle="genresLinkTitle"/>  
+        <item-carousel
+          :items="genres"
+          :componentTitle="genresTitle"
+          :componentLinkTitle="genresLinkTitle"
+        />
       </v-col>
     </v-row>
   </v-container>
@@ -47,7 +55,7 @@
 
 <script>
 import ReviewList from "@/components/ReviewList";
-import ItemCarousel from '../components/ItemCarousel.vue';
+import ItemCarousel from "../components/ItemCarousel.vue";
 export default {
   name: "UserProfile",
   components: {
@@ -69,7 +77,7 @@ export default {
       artistsTitle: "Ulubieni artyści",
       genresTitle: "Ulubione gatunki",
       artistsLinkTitle: "Zobacz wszystko",
-      genresLinkTitle: "Zobacz wszystko"
+      genresLinkTitle: "Zobacz wszystko",
     };
   },
   created() {
@@ -105,32 +113,28 @@ export default {
     },
     getArtists() {
       this.artists = [
-        { img: "BandPhoto", title: "Anathema"  },
+        { img: "BandPhoto", title: "Anathema" },
         {
           img: "BandPhoto",
-          title: "Anathema"
-          
+          title: "Anathema",
         },
         {
           img: "BandPhoto",
-          title: "Anathema"
-          
+          title: "Anathema",
         },
         { img: "BandPhoto", title: "Anathema" },
       ];
     },
     getGenres() {
       this.genres = [
-        { img: "BandPhoto", title: "Rock/Metal"  },
+        { img: "BandPhoto", title: "Rock/Metal" },
         {
           img: "BandPhoto",
-          title: "Klasyczna"
-          
+          title: "Klasyczna",
         },
         {
           img: "BandPhoto",
-          title: "Jazz"
-          
+          title: "Jazz",
         },
         { img: "BandPhoto", title: "Pop" },
       ];

@@ -4,7 +4,7 @@
       :show_observe_button="show_observe_button"
       :vote_title="vote_title"
     />
-      <!-- :album="album" -->
+    <!-- :album="album" -->
 
     <InfoSection :info_content="info_content" />
     <ItemList :songs="songs" />
@@ -67,18 +67,18 @@ export default {
       ];
     },
   },
-//   setup() {
-    // const { getById } = useAlbums();
+  //   setup() {
+  // const { getById } = useAlbums();
 
-    // const getAlbums = function () {
-    //     getAll().then((response) => {
-    //         this.albums = response;
-    //     });
-    // };
+  // const getAlbums = function () {
+  //     getAll().then((response) => {
+  //         this.albums = response;
+  //     });
+  // };
 
-    // return {
-      // getAlbums,
-    // };
-//   },
+  // return {
+  // getAlbums,
+  // };
+  //   },
 };
 </script>

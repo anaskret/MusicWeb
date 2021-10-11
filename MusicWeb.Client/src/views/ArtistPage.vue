@@ -7,7 +7,11 @@
     />
     <InfoSection :info_content="info_content" :artist="artist" />
 
-    <item-carousel :items="albums" :componentTitle="component_title" :componentLinkTitle="component_link_title" />
+    <item-carousel
+      :items="albums"
+      :componentTitle="component_title"
+      :componentLinkTitle="component_link_title"
+    />
     <item-list :songs="songs" />
     <comments-list :comments="comments" />
   </div>
@@ -49,8 +53,8 @@ export default {
           info: "Członkowie: Vincent Cavanagh, Daniel Cavanagh, Lee Douglas, John Douglas, Jamie Cavanagh",
         },
       ],
-    //   TODO: Preparing infosection in views 
-    /* 
+      //   TODO: Preparing infosection in views
+      /* 
     <p>
             Rok założenia:
             <span>{{ moment(artist.establishmentDate).format("L") }}</span>
