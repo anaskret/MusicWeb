@@ -1,7 +1,13 @@
 <template>
   <div>
-    <Header :artist="artist" />
-    <item-carousel :items="albums" :componentTitle="componentTitle" :componentLinkTitle="componentLinkTitle" />
+    <Header
+      :artist="artist"
+      :show_observe_button="show_observe_button"
+      :vote_title="vote_title"
+    />
+    <InfoSection :info_content="info_content" :artist="artist" />
+
+    <item-carousel :items="albums" :componentTitle="component_title" :componentLinkTitle="component_link_title" />
     <item-list :songs="songs" />
     <comments-list :comments="comments" />
   </div>
@@ -11,7 +17,8 @@
 import Header from "@/components/Header.vue";
 import ItemCarousel from "@/components/ItemCarousel.vue";
 import ItemList from "@/components/ItemList.vue";
-import CommentsList from "../components/CommentsList.vue";
+import CommentsList from "@/components/CommentsList.vue";
+import InfoSection from "@/components/InfoSection.vue";
 import useArtists from "@/modules/artists";
 
 export default {
@@ -21,6 +28,7 @@ export default {
     ItemCarousel,
     ItemList,
     CommentsList,
+    InfoSection,
   },
   data() {
     return {
@@ -29,8 +37,43 @@ export default {
       albums: [],
       songs: [],
       comments: [],
-      componentTitle: "Dyskografia",
-      componentLinkTitle: "Wyświetl pełną dyskografię"
+      component_title: "Dyskografia",
+      component_link_title: "Wyświetl pełną dyskografię",
+      show_observe_button: true,
+      vote_title: "Oceń artystę:",
+      info_content: [
+        { info: "Rok założenia: 1990" },
+        { info: "Pochodzenie: Liverpool, Anglia" },
+        { info: "Gatunek muzyczny: rock progresywny, art rock, doom metal" },
+        {
+          info: "Członkowie: Vincent Cavanagh, Daniel Cavanagh, Lee Douglas, John Douglas, Jamie Cavanagh",
+        },
+      ],
+    //   TODO: Preparing infosection in views 
+    /* 
+    <p>
+            Rok założenia:
+            <span>{{ moment(artist.establishmentDate).format("L") }}</span>
+          </p>
+          <p>
+            Pochodzenie:
+            <span
+              >{{ artist.city }} {{ artist.state }},
+              {{ artist.country }}
+            </span>
+          </p>
+          <p>
+            Gatunek muzyczny:
+            <span>rock progresywny, art rock, doom metal</span>
+          </p>
+          <p v-if="artist.isBand && !artist.isIndividual">
+            Członkowie:
+            <span v-for="(member, index) in artist.members" :key="index">
+              {{ member
+              }}<span v-if="index != artist.members.length - 1">,</span></span
+            >
+        </p>
+    */
     };
   },
   created() {
@@ -101,6 +144,9 @@ export default {
         },
       ];
     },
+    // prepareInfoSection(){
+
+    // }
   },
 
   setup() {

@@ -1,37 +1,37 @@
 <template>
-  <v-container fluid>
+  <v-container fluid class="mb-lg-16">
+    <v-row justify="center" class="pb-lg-3">
+      <v-col lg="8">
+        <!-- TODO : wyśrodkować w pionie -->
+        <div class="d-flex flex-row" style="align-items: center">
+          <h1 class="display-1 font-weight-bold text-left">{{componentTitle}}</h1>
+          <p class="pl-lg-16">
+            {{componentLinkTitle}}
+            <font-awesome-icon
+              class="icon"
+              icon="chevron-right"
+              size="1x"
+              color="gray"
+            />
+          </p>
+        </div>
+      </v-col>
+    </v-row>
     <v-row justify="center">
-      <v-col class="mt-3" lg="9" sm="9">
-        <div>
-          <v-row class="title underline">
-            <v-col lg="5" sm="5">
-              <h1 class="display-1 font-weight-bold text-left">{{componentTitle}}</h1>
-            </v-col>
-            <v-col lg="3" sm="3">
-              <p class="py-3">
-                {{componentLinkTitle}}
-                <font-awesome-icon
-                  class="icon"
-                  icon="chevron-right"
-                  size="1x"
-                  color="gray"
-                />
-              </p>
-            </v-col>
-          </v-row>
-          <v-sheet class="mx-auto" >
-            <v-slide-group class="pa-4" show-arrows center-active>
+      <v-col lg="9">
+        <v-sheet class="mx-auto">
+          <v-slide-group class="px-4" show-arrows center-active>
               <v-slide-item v-for="(item, index) in itemsView" :key="index">
                 <v-hover v-slot="{ hover }">
-                  <v-card>
-                    <v-card
-                      :img="require(`@/assets/${item.img}.svg`)"
-                      class="ma-4"
-                      height="250"
-                      width="260"
-                      :elevation="hover ? 12 : 2"
-                      :class="{ 'on-hover': hover }"
-                        >
+              <v-card>
+                <v-card
+                    :img="require(`@/assets/${item.img}.svg`)"
+                  class="mx-6"
+                  height="200"
+                  width="200"
+                :elevation="hover ? 12 : 2"
+                :class="{ 'on-hover': hover }"
+                >
                         <div class="read-more-icon">
                           <v-btn
                             :class="{ 'show-btn': hover }"
@@ -45,17 +45,16 @@
                               />
                           </v-btn>
                         </div>
-                    </v-card>
-                    <h4 class="text-center">
-                      {{ item.title }}
-                    </h4>
-                    <p class="text-center">{{ item.year }}</p>
-                  </v-card>
+                </v-card>
+                <h4 class="text-center">
+                  {{ item.title }}
+                </h4>
+                <p class="text-center">{{ item.year }}</p>
+              </v-card>
                 </v-hover>
-              </v-slide-item>
-            </v-slide-group>
-          </v-sheet>
-        </div>
+            </v-slide-item>
+          </v-slide-group>
+        </v-sheet>
       </v-col>
     </v-row>
   </v-container>
@@ -102,10 +101,5 @@ color: rgba(255, 255, 255, 1) !important;
 }
 .underline {
   border-bottom: solid gray 1px;
-}
-.title {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
 }
 </style>

@@ -1,92 +1,85 @@
 <template>
-  <v-container fluid>
+  <v-container fluid class="mb-lg-16">
+    <v-row justify="center" class="pb-lg-2">
+      <v-col lg="8">
+        <h1 class="display-1 font-weight-bold text-left">Komentarze</h1>
+      </v-col>
+    </v-row>
     <v-row justify="center">
-      <v-col class="mt-3" lg="9" sm="9">
-        <div>
-          <v-row class="py-3">
-            <v-col lg="12" sm="12">
-              <h1 class="display-1 font-weight-bold text-left">Komentarze</h1>
-            </v-col>
-          </v-row>
-          <div class="mx-auto">
-            <v-list>
-              <v-list-item-group v-model="show">
-                <v-list-item
-                  v-for="(comment, index) in commentsView"
-                  :key="index"
+      <v-col lg="8">
+        <div class="mx-auto">
+          <v-list>
+            <v-list-item-group v-model="show">
+              <v-list-item
+                v-for="(comment, index) in commentsView"
+                :key="index"
+              >
+                <v-list-item-content
+                  :style="
+                    index != commentsView.length - 1
+                      ? {
+                          borderBottom: '1px solid #cbcbf233',
+                        }
+                      : ''
+                  "
+                  class="pb-lg-10"
                 >
-                  <v-list-item-content
-                    :style="
-                      index != commentsView.length - 1
-                        ? {
-                            borderBottom: '1px solid #cbcbf233',
-                          }
-                        : ''
-                    "
-                    class="pb-16"
-                  >
-                    <v-row>
-                      <v-col
-                        class="d-flex justify-center align-center"
-                        lg="1"
-                        sm="1"
-                      >
-                        <img
-                          :src="
-                            comment.img == ''
-                              ? require(`@/assets/unknownUser.svg`)
-                              : require(`@/assets/${comment.img}.svg`)
-                          "
-                          :alt="comment.userName"
-                          width="100%"
-                        />
-                      </v-col>
-                      <v-col
-                        class="d-flex justify-center align-center"
-                        lg="11"
-                        sm="11"
-                      >
-                        <v-row>
-                          <v-col
-                            class="d-flex justify-start align-center"
-                            lg="6"
-                            sm="6"
-                          >
-                            <h1 class="title">
-                              {{ comment.userName }}
-                            </h1>
-                          </v-col>
-                          <v-col
-                            class="d-flex justify-end align-center"
-                            lg="6"
-                            sm="6"
-                          >
-                            <p>
-                              {{ comment.date }}
-                            </p>
-                          </v-col>
-                          <v-col
-                            class="
-                              d-flex
-                              justify-left
-                              align-center
-                              text-justify
-                            "
-                            lg="12"
-                            sm="12"
-                          >
-                            {{ comment.text }}
-                          </v-col>
-                        </v-row>
-                      </v-col>
-                    </v-row>
-                  </v-list-item-content>
-                </v-list-item>
-              </v-list-item-group>
-            </v-list>
-          </div>
+                  <v-row>
+                    <v-col
+                      class="d-flex justify-center align-center"
+                      lg="1"
+                      sm="1"
+                    >
+                      <img
+                        :src="
+                          comment.img == ''
+                            ? require(`@/assets/unknownUser.svg`)
+                            : require(`@/assets/${comment.img}.svg`)
+                        "
+                        :alt="comment.userName"
+                        width="100%"
+                      />
+                    </v-col>
+                    <v-col
+                      class="d-flex justify-center align-center"
+                      lg="11"
+                      sm="11"
+                    >
+                      <v-row>
+                        <v-col
+                          class="d-flex justify-start align-center"
+                          lg="6"
+                          sm="6"
+                        >
+                          <h1 class="title">
+                            {{ comment.userName }}
+                          </h1>
+                        </v-col>
+                        <v-col
+                          class="d-flex justify-end align-center"
+                          lg="6"
+                          sm="6"
+                        >
+                          <p>
+                            {{ comment.date }}
+                          </p>
+                        </v-col>
+                        <v-col
+                          class="d-flex justify-left align-center text-justify"
+                          lg="12"
+                          sm="12"
+                        >
+                          {{ comment.text }}
+                        </v-col>
+                      </v-row>
+                    </v-col>
+                  </v-row>
+                </v-list-item-content>
+              </v-list-item>
+            </v-list-item-group>
+          </v-list>
         </div>
-        <v-form ref="form" v-model="form" class="pt-6">
+        <v-form ref="form" v-model="form" class="pt-lg-10">
           <v-textarea
             v-model="commentPlaceHolder"
             auto-grow

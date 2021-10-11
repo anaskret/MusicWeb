@@ -1,116 +1,93 @@
 <template>
-  <v-container fluid>
+  <v-container fluid class="py-16">
     <v-row justify="center">
-      <v-col class="mt-6" lg="3" sm="6">
+      <v-col lg="3" sm="6" class="pr-lg-12">
         <div>
-          <v-img
-            :src="require('@/assets/BandPhoto.svg')"
-            class="mx-1"
-            contain
-            width="402"
-            height="395"
-          />
-        </div>
-        <div class="my-9 text-left border-right-4 border-danger">
-          <h1 class="title font-weight-bold mb-12">Informacje</h1>
-          <p>
-            Rok założenia:
-            <span>{{ moment(artist.establishmentDate).format("L") }}</span>
-          </p>
-          <p>
-            Pochodzenie:
-            <span
-              >{{ artist.city }} {{ artist.state }},
-              {{ artist.country }}
-            </span>
-          </p>
-          <p>
-            Gatunek muzyczny:
-            <span>rock progresywny, art rock, doom metal</span>
-          </p>
-          <p v-if="artist.isBand && !artist.isIndividual">
-            Członkowie:
-            <span v-for="(member, index) in artist.members" :key="index">
-              {{ member
-              }}<span v-if="index != artist.members.length - 1">,</span></span
-            >
-          </p>
+          <v-img :src="require('@/assets/BandPhoto.svg')" contain />
         </div>
       </v-col>
-
-      <v-col class="mt-9" lg="6" sm="12">
-        <v-row>
-          <v-col class="my-9" lg="7" sm="7">
-            <div>
-              <h1
-                class="
-                  display-3
-                  font-weight-bold
-                  mb-14
-                  text-left text-uppercase
-                  artist-title
-                "
-              >
-                {{ artist.name }}
-              </h1>
-              <p class="mb-8 text-left">Dodaj do ulubionych:</p>
-              <p class="mb-8 text-left">
-                <font-awesome-icon
-                  class="icon"
-                  icon="heart"
-                  size="2x"
-                  color="#865e61"
-                />
-                <span>199 osób</span> dodało do ulubionych
-              </p>
-            </div>
-          </v-col>
-          <v-col class="mt-14" lg="4" sm="12">
-            <div align="flex-start">
+      <v-col lg="5" sm="12" class="d-flex flex-column">
+        <v-row align-content="end" class="pb-lg-2">
+          <v-col lg="12" sm="7">
+            <div class="d-flex">
+              <div>
+                <h1 class="text-uppercase font-weight-bold artist-title">
+                  {{ artist.name }}
+                </h1>
+              </div>
               <v-btn
                 outlined
                 color="grey"
                 height="30px"
-                class="text-uppercase mb-16"
-                >Obserwuj</v-btn
-              >
-              <p class="mb-8">Oceń artystę:</p>
-              <p class="mb-8">
+                v-if="show_observe_button"
+                class="text-uppercase align-self-center ml-md-16"
+                >Obserwuj
+              </v-btn>
+            </div>
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col md="12" class="d-flex flex-row pr-lg-5">
+            <div>
+              <p>Dodaj do ulubionych</p>
+              <div class="d-flex flex-row">
+                <div align-content="center" class="mr-lg-3">
+                  <font-awesome-icon
+                    class="icon"
+                    icon="heart"
+                    size="2x"
+                    color="#865e61"
+                  ></font-awesome-icon>
+                </div>
+                <div align-items="center" class="align-center">
+                  <span class="feature-text pr-1">199 osób </span> dodało do
+                  ulubionych
+                </div>
+              </div>
+            </div>
+            <div class="ml-lg-16">
+              <p>{{ vote_title }}</p>
+              <div class="d-flex flex-row">
                 <font-awesome-icon
-                  class="icon"
+                  class="icon pr-2"
                   v-for="(star, index) in stars"
                   :key="index"
                   icon="star"
                   size="2x"
                   :color="star.color"
-                />
-                <span> 4.0</span>
-              </p>
-            </div>
-          </v-col>
-          <v-col class="my-9" lg="12" sm="8">
-            <div class="my-9">
-              <h1 class="display-1 font-weight-bold mb-12 text-left">
-                Biografia
-              </h1>
-              <p class="text-justify">
-                {{ artist.bio }}
-              </p>
+                ></font-awesome-icon>
+                <div class="align-center">
+                  <span class="feature-text">4.0</span>
+                </div>
+              </div>
             </div>
           </v-col>
         </v-row>
+        <RankSection />
       </v-col>
     </v-row>
   </v-container>
 </template>
 
 <script>
+import RankSection from "@/components/RankSection.vue";
+
 export default {
   name: "Header",
+  components: {
+    RankSection,
+  },
   props: {
     artist: {
       type: Object,
       default: () => ({}),
+    },
+    show_observe_button: {
+      type: Boolean,
+      default: false,
+    },
+    vote_title: {
+      type: String,
     },
   },
   data() {
@@ -128,18 +105,22 @@ export default {
 </script>
 
 <style scoped>
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;700&display=swap");
 .artist-title {
-  letter-spacing: 5px !important;
+  letter-spacing: 5px;
+  font-size: 3.2rem;
+}
+.align-center {
+  display: flex;
+  align-items: center;
+}
+template {
+  font-family: "Montserrat";
 }
 p {
-  color: gray;
+  font-size: 1rem;
 }
-p > span {
-  color: #ebebf2;
-  padding-bottom: 1px;
-}
-.icon {
-  position: relative;
-  top: 5px;
+.feature-text {
+  font-size: 1rem;
 }
 </style>
