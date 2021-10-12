@@ -1,4 +1,5 @@
-﻿using MusicWeb.Models.Entities.Posts;
+﻿using MusicWeb.Models.Dtos.Posts;
+using MusicWeb.Models.Entities.Posts;
 using MusicWeb.Repositories.Interfaces.Base;
 using System;
 using System.Collections.Generic;
@@ -10,5 +11,6 @@ namespace MusicWeb.Repositories.Interfaces.Posts
 {
     public interface IPostRepository : IRepository<Post>
     {
+        Task<List<GetPostDto>> GetPostForUserAsync(string userId);
     }
 }

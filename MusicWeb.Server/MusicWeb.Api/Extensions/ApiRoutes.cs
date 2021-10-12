@@ -139,6 +139,7 @@ namespace MusicWeb.Api.Extensions
             public const string Delete = Root + "/posts/{id}";
             public const string GetById = Root + "/posts/{id}";
             public const string GetAll = Root + "/posts";
+            public const string GetUserPosts = Root + "/userposts/{userId}";
         }
     }
 }

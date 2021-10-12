@@ -1,4 +1,5 @@
-﻿using MusicWeb.Models.Entities.Posts;
+﻿using MusicWeb.Models.Dtos.Posts;
+using MusicWeb.Models.Entities.Posts;
 using MusicWeb.Repositories.Interfaces.Posts;
 using MusicWeb.Services.Interfaces.Posts;
 using System;
@@ -37,6 +38,11 @@ namespace MusicWeb.Services.Services.Posts
         public async Task<Post> GetByIdAsync(int id)
         {
             return await _postRepository.GetByIdAsync(id);
+        }
+
+        public async Task<List<GetPostDto>> GetUserPostsAsync(string userId)
+        {
+            return await _postRepository.GetPostForUserAsync(userId);
         }
 
         public async Task UpdateAsync(Post entity)

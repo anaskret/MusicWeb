@@ -25,6 +25,21 @@ namespace MusicWeb.Api.Controllers.Posts
             _logger = logger;
         }
 
+        [HttpGet(ApiRoutes.Posts.GetUserPosts)]
+        public async Task<IActionResult> GetUserPosts([FromRoute] string userId)
+        {
+            try
+            {
+                var models = await _postService.GetUserPostsAsync(userId);
+                return Ok(models);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return StatusCode(500, ex.Message);
+            }
+        }
+
         [HttpGet(ApiRoutes.Posts.GetAll)]
         public async Task<IActionResult> GetAllPosts()
         {
