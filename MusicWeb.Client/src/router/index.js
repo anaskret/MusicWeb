@@ -26,6 +26,16 @@ const routes = [
     name: "UserProfile",
     component: () => import("@/views/UserProfile.vue"),
   },
+  {
+    path: "/album/:id",
+    name: "AlbumPage",
+    component: () => import("@/views/AlbumPage.vue"),
+  },
+  {
+    path: "/song/:id",
+    name: "SongPage",
+    component: () => import("@/views/SongPage.vue"),
+  },
 ];
 
 const router = new VueRouter({

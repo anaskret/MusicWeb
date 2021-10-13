@@ -163,15 +163,8 @@ export default {
       });
     };
 
-    // const getAlbums = function () {
-    //     getAll().then((response) => {
-    //         this.albums = response;
-    //     });
-    // };
-
     return {
       getArtist,
-      // getAlbums,
     };
   },
 };

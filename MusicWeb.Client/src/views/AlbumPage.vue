@@ -1,12 +1,13 @@
 <template>
   <div fluid>
     <Header
+      :artist="artist"
       :show_observe_button="show_observe_button"
       :vote_title="vote_title"
     />
     <!-- :album="album" -->
 
-    <InfoSection :info_content="info_content" />
+    <InfoSection :info_content="info_content" :artist="artist" />
     <ItemList :songs="songs" />
   </div>
 </template>
@@ -15,6 +16,7 @@
 import Header from "@/components/Header.vue";
 import ItemList from "@/components/ItemList.vue";
 import InfoSection from "@/components/InfoSection.vue";
+import useArtists from "@/modules/artists";
 // import useAlbums from "@/modules/albums";
 
 export default {
@@ -42,6 +44,7 @@ export default {
   },
   created() {
     this.getSongs();
+    this.getArtist();
   },
   methods: {
     getSongs() {
@@ -80,5 +83,19 @@ export default {
   // getAlbums,
   // };
   //   },
+  setup() {
+    const { getById } = useArtists();
+    // const { getAll } = useAlbums();
+
+    const getArtist = function () {
+      getById(this.id).then((response) => {
+        this.artist = response;
+      });
+    };
+
+    return {
+      getArtist,
+    };
+  },
 };
 </script>
