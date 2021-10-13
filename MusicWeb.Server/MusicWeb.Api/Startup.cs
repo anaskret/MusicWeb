@@ -202,6 +202,8 @@ namespace MusicWeb.Api
             .AllowAnyOrigin()
             .AllowAnyMethod()
             .AllowAnyHeader());
+            
+            app.UseDeveloperExceptionPage();
 
             app.UseHttpsRedirection();
 
