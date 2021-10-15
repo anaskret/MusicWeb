@@ -1,6 +1,6 @@
 <template>
   <v-app-bar
-    v-if="this.$route.name != 'Login'"
+    v-if="!['Login', 'Register'].includes(this.$route.name)"
     app
     color="#2C2F33"
     shrink-on-scroll
@@ -62,15 +62,19 @@
         <v-list>
           <v-list-item>
             <v-list-item-avatar>
-              <img src="https://cdn.vuetifyjs.com/images/john.jpg" alt="John" />
+              <img src="@/assets/admin.jpg" alt="John" />
             </v-list-item-avatar>
 
             <v-list-item-content>
-              <v-list-item-title>John Leider</v-list-item-title>
+              <v-list-item-title
+                >{{ account.firstName }}
+                {{ account.lastName }}</v-list-item-title
+              >
               <v-list-item-subtitle>Founder of Vuetify</v-list-item-subtitle>
             </v-list-item-content>
 
             <v-list-item-action>
+              <!-- get User id from db  -->
               <v-btn :class="fav ? 'red--text' : ''" icon @click="fav = !fav">
                 <v-icon>mdi-heart</v-icon>
               </v-btn>
@@ -81,13 +85,11 @@
         <v-divider></v-divider>
 
         <v-card-actions>
+          <v-btn @click="redirectToProfile" text>
+            <span class="mr-2">Profil</span>
+          </v-btn>
           <v-spacer></v-spacer>
-
-          <v-btn
-            v-if="this.$store.state.auth.status.loggedIn"
-            @click="onLogout"
-            text
-          >
+          <v-btn @click="onLogout" text>
             <span class="mr-2">Wyloguj</span>
             <font-awesome-icon
               class="icon"
@@ -103,6 +105,7 @@
 </template>
 
 <script>
+import useAccounts from "@/modules/accounts";
 export default {
   name: "Navbar",
   data() {
@@ -110,16 +113,41 @@ export default {
       drawer: null,
       group: null,
       fav: false,
+      account: {}, //get User id from db
     };
   },
+  methods: {
+    redirectToProfile() {
+      this.drawer = !this.drawer;
+      this.$router.push({ name: "UserProfile" });
+    },
+  },
+  created() {
+    //   this.getAccount();
+  },
   setup() {
+    const { getById } = useAccounts();
+
     const onLogout = function () {
       this.$store.dispatch("auth/logout");
     };
 
+    const getAccount = function () {
+      getById(this.id /* get User id from db */).then((response) => {
+        this.account = response;
+      });
+    };
+
     return {
       onLogout,
+      getAccount,
     };
   },
 };
 </script>
+
+<style scoped>
+* >>> .v-toolbar__content {
+  align-items: center !important;
+}
+</style>

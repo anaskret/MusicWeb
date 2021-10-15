@@ -4,7 +4,7 @@
       <v-col md="2" sm="6">
         <v-img :src="require('@/assets/BandPhoto.svg')" contain />
       </v-col>
-      <v-col md="5" sm="9">
+      <v-col md="4" sm="9">
         <v-row class="d-flex align-items-center">
           <v-col md="12" class="title-text">
             <h1 class="text-uppercase display-2">Użytkownik</h1>
@@ -32,17 +32,17 @@
           </v-col>
         </v-row>
       </v-col>
-      <v-col md="12">
+      <v-col md="9">
         <ReviewList :reviews="reviews" />
       </v-col>
-      <v-col md="12">
+      <v-col md="10">
         <item-carousel
           :items="artists"
           :componentTitle="artistsTitle"
           :componentLinkTitle="artistsLinkTitle"
         />
       </v-col>
-      <v-col md="12">
+      <v-col md="10">
         <item-carousel
           :items="genres"
           :componentTitle="genresTitle"

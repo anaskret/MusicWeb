@@ -1,13 +1,12 @@
 <template>
   <div fluid>
     <Header
-      :artist="artist"
+      :parent="album"
       :show_observe_button="show_observe_button"
       :vote_title="vote_title"
     />
-    <!-- :album="album" -->
 
-    <InfoSection :info_content="info_content" :artist="artist" />
+    <InfoSection :parent="album" :module_name="module_name" />
     <ItemList :songs="songs" />
   </div>
 </template>
@@ -16,7 +15,6 @@
 import Header from "@/components/Header.vue";
 import ItemList from "@/components/ItemList.vue";
 import InfoSection from "@/components/InfoSection.vue";
-import useArtists from "@/modules/artists";
 // import useAlbums from "@/modules/albums";
 
 export default {
@@ -30,15 +28,17 @@ export default {
     return {
       id: this.$route.params.id,
       artist: {},
+      album: {
+        name: "Weather Systems",
+        artistName: "Anathema",
+        establishmentDate: "2021-10-12T17:41:14.306",
+        duration: 55,
+        bio: 'Anathema (gr. klatwa) to angielska grupa muzyczna. Powstala 1990 roku w Liverpoolu. Poczatkowo wykonujaca drugofalowy death metal/doom metal, bedac wraz z grupami Katatonia, Tiamat, Winter, My Dying Bride i Paradise Lost prekursorem gatunku. Obecnie grupa zaliczana jest do nurtu art rocka oraz rocka atmosferycznego. Anathema zostala stworzona w 1990 roku pod nazwa Pagan Angel. W listopadzie tego roku zespól nagral pierwsze demo "An Iliad of Woes". Zmiana nazwy nastapila na poczatku 1991 roku. Pierwsze demo przyciagnelo uwage zespolów z brytyjskiej sceny metalowej i pozwolilo Anathemie zagrac koncerty u boku takich kapel jak Bolt Thrower czy Paradise Lost.',
+      },
       songs: {},
       reviews: {},
       show_observe_button: false,
-      info_content: [
-        { info: "Zespół: Anathema" },
-        { info: "Data wydania: 15. 04. 2012" },
-        { info: "Czas trwania: 55 minut" },
-        { info: "Gatunek muzyczny: rock progresywny, art rock, doom metal" },
-      ],
+      module_name: "Album",
       vote_title: "Oceń album:",
     };
   },
@@ -83,19 +83,18 @@ export default {
   // getAlbums,
   // };
   //   },
-  setup() {
-    const { getById } = useArtists();
-    // const { getAll } = useAlbums();
+  //   setup() {
+  // const { getById } = useAlbums();
 
-    const getArtist = function () {
-      getById(this.id).then((response) => {
-        this.artist = response;
-      });
-    };
+  // const getAlbum = function () {
+  //   getById(this.id).then((response) => {
+  //     this.album = response;
+  //   });
+  // };
 
-    return {
-      getArtist,
-    };
-  },
+  // return {
+  //   getAlbum
+  // };
+  //   },
 };
 </script>

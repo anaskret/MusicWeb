@@ -21,24 +21,24 @@
             label="Podaj login"
             prepend-icon="mdi-account"
             type="text"
-            v-model.trim="$v.user.username.$model"
-            :error-messages="usernameErrors"
+            v-model.trim="$v.account.username.$model"
+            :error-messages="userNameErrors"
             :counter="16"
             required
-            @input="$v.user.username.$touch()"
-            @blur="$v.user.username.$touch()"
+            @input="$v.account.username.$touch()"
+            @blur="$v.account.username.$touch()"
           ></v-text-field>
           <v-text-field
             class="p-4"
             label="Podaj hasło"
             prepend-icon="mdi-lock"
             type="password"
-            v-model.trim="$v.user.password.$model"
+            v-model.trim="$v.account.password.$model"
             :error-messages="passwordErrors"
             :counter="25"
             required
-            @input="$v.user.password.$touch()"
-            @blur="$v.user.password.$touch()"
+            @input="$v.account.password.$touch()"
+            @blur="$v.account.password.$touch()"
           ></v-text-field>
 
           <div class="btns mt-8">
@@ -63,12 +63,12 @@
 
 <script>
 import { required, minLength, maxLength } from "vuelidate/lib/validators";
-import User from "@/models/User";
+import Account from "@/models/Account";
 export default {
   name: "Login",
   data() {
     return {
-      user: new User(),
+      account: new Account(),
       isLogging: false,
       message: "",
       errorThrowed: false,
@@ -79,33 +79,11 @@ export default {
     isDisabled() {
       return this.$v.$invalid;
     },
-    usernameErrors() {
-      const errors = [];
-      if (!this.$v.user.username.$dirty) return errors;
-      !this.$v.user.username.required && errors.push("Pole jest wymagane.");
-      !this.$v.user.username.maxLength &&
-        errors.push(`Login nie może być dłuższy niż
-                                ${this.$v.user.username.$params.maxLength.max}
-                                liter.`);
-      !this.$v.user.username.minLength &&
-        errors.push(`Login musi mieć przynajmniej
-                                ${this.$v.user.username.$params.minLength.min}
-                                liter.`);
-      return errors;
+    userNameErrors() {
+      return this.prepareErrorArray("username");
     },
     passwordErrors() {
-      const errors = [];
-      if (!this.$v.user.password.$dirty) return errors;
-      !this.$v.user.password.required && errors.push("Pole jest wymagane.");
-      !this.$v.user.password.maxLength &&
-        errors.push(`Hasło nie może być dłuższy niż
-                                ${this.$v.user.password.$params.maxLength.max}
-                                znaków.`);
-      !this.$v.user.password.minLength &&
-        errors.push(`Hasło musi mieć przynajmniej
-                                ${this.$v.user.password.$params.minLength.min}
-                                znaków.`);
-      return errors;
+      return this.prepareErrorArray("password");
     },
     loggedIn() {
       return this.$store.state.auth.status.loggedIn;
@@ -117,7 +95,7 @@ export default {
     }
   },
   validations: {
-    user: {
+    account: {
       username: {
         required,
         minLength: minLength(5),
@@ -133,9 +111,37 @@ export default {
   methods: {
     clear() {
       this.$v.$reset();
-      this.user.username = "";
-      this.user.password = "";
+      this.account = new Account();
       this.message = "";
+    },
+    prepareErrorArray(field) {
+      const errors = [];
+      if (!this.$v.account[field].$dirty) return errors;
+        !this.$v.account[field].required && errors.push("Pole jest wymagane.");
+      if(this.$v.account[field].maxLength != undefined && this.$v.account[field].minLength != undefined){
+          !this.$v.account[field].maxLength &&
+        errors.push(
+            `Pole nie może być dłuższy niż ${this.$v.account[field].$params.maxLength.max} znaków.`
+        );
+      !this.$v.account[field].minLength &&
+        errors.push(
+            `Pole musi mieć przynajmniej ${this.$v.account[field].$params.minLength.min} znaków.`
+        );
+     }
+        if(this.$v.account[field].email != undefined){
+            !this.$v.account[field].email &&
+                errors.push(
+                    `Pole musi być uzupełnione według szablonu "example@ex.pl".`
+                );
+        }
+
+        if(this.$v.account[field].maxValue != undefined){
+            !this.$v.account[field].maxValue &&
+                errors.push(
+                    `Data urodzenia nie może być w przyszłości.`
+                );
+        }
+      return errors;
     },
     validationStatus(validation) {
       return typeof validation != "undefined" ? validation.$error : false;
@@ -155,8 +161,7 @@ export default {
       if (this.$v.$pendding || this.$v.$error) {
         return;
       }
-      console.log(this.user);
-      this.$store.dispatch("auth/login", this.user).then(
+      this.$store.dispatch("auth/login", this.account).then(
         () => {
           this.isLogging = true;
           setTimeout(this.redirect, 500);

@@ -10,4 +10,7 @@ export default {
   register(data) {
     return ApiService.authRequest(`/register`, ApiService.post, data);
   },
+  getById(id) {
+    return ApiService.authRequest(`/users/${id}`, ApiService.get);
+  },
 };

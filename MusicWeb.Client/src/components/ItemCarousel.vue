@@ -22,7 +22,7 @@
     <v-row justify="center">
       <v-col lg="9">
         <v-sheet class="mx-auto">
-          <v-slide-group class="px-4" show-arrows center-active>
+          <v-slide-group class="px-4" show-arrows center>
             <v-slide-item v-for="(item, index) in itemsView" :key="index">
               <v-hover v-slot="{ hover }">
                 <v-card>
