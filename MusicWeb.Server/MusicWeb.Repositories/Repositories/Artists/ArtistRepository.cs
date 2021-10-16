@@ -19,7 +19,7 @@ namespace MusicWeb.Repositories.Repositories.Artists
 
         public async Task<Artist> GetFullArtistDataByIdAsync(int id)
         {
-            var entity = await _dbContext.Artists
+            var entity = await _dbContext.Artist
                                              .Include(origin => origin.City)
                                              .ThenInclude(origin => origin.State)
                                              .ThenInclude(origin => origin.Country)

@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using MusicWeb.Models.Entities;
 using MusicWeb.Models.Entities.Artists;
 using MusicWeb.Models.Entities.Origins;
+using MusicWeb.Models.Entities.Posts;
 using MusicWeb.Models.Identity;
 using System;
 using System.Collections.Generic;
@@ -18,32 +19,34 @@ namespace MusicWeb.DataAccess.Data
         {
         }
 
-        public DbSet<Album> Albums { get; set; }
-        public DbSet<AlbumReview> AlbumReviews{ get; set; }
-        public DbSet<ArtistsOnTheAlbum> ArtistsOnTheAlbums{ get; set; }
+        public DbSet<Album> Album { get; set; }
+        public DbSet<AlbumReview> AlbumReview{ get; set; }
+        public DbSet<ArtistsOnTheAlbum> ArtistsOnTheAlbum{ get; set; }
 
-        public DbSet<Artist> Artists{ get; set; }
-        public DbSet<ArtistComment> ArtistComments{ get; set; }
-        public DbSet<BandMember> BandMembers{ get; set; }
+        public DbSet<Artist> Artist{ get; set; }
+        public DbSet<ArtistComment> ArtistComment{ get; set; }
+        public DbSet<BandMember> BandMember{ get; set; }
 
-        public DbSet<Genre> Genres { get; set; }
+        public DbSet<Genre> Genre { get; set; }
 
-        public DbSet<Country> Countries{ get; set; }
-        public DbSet<State> States{ get; set; }
-        public DbSet<City> Cities{ get; set; }
+        public DbSet<Country> Country{ get; set; }
+        public DbSet<State> State{ get; set; }
+        public DbSet<City> City{ get; set; }
 
-        public DbSet<Song> Songs{ get; set; }
+        public DbSet<Song> Song{ get; set; }
         public DbSet<SongGuestArtist> SongGuestArtist{ get; set; }
-        public DbSet<SongReview> SongReviews{ get; set; }
+        public DbSet<SongReview> SongReview{ get; set; }
 
-        public DbSet<UserFavoriteAlbum> UserFavoriteAlbums{ get; set; }
-        public DbSet<UserFavoriteArtist> UserFavoriteArtists{ get; set; }
-        public DbSet<UserFavoriteSong> UserFavoriteSongs{ get; set; }
-        public DbSet<UserFriend> UserFriends{ get; set; }
-        public DbSet<UserObservedArtist> UserObservedArtists{ get; set; }
+        public DbSet<UserFavoriteAlbum> UserFavoriteAlbum{ get; set; }
+        public DbSet<UserFavoriteArtist> UserFavoriteArtist{ get; set; }
+        public DbSet<UserFavoriteSong> UserFavoriteSong{ get; set; }
+        public DbSet<UserFriend> UserFriend{ get; set; }
+        public DbSet<UserObservedArtist> UserObservedArtist{ get; set; }
 
-        public DbSet<Chat> Chats{ get; set; }
-        public DbSet<Message> Messages{ get; set; }
+        public DbSet<Chat> Chat{ get; set; }
+        public DbSet<Message> Message{ get; set; }
+
+        public DbSet<Post> Post{ get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

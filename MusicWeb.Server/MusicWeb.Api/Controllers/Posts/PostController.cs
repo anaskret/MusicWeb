@@ -1,0 +1,122 @@
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using MusicWeb.Api.Extensions;
+using MusicWeb.Models.Dtos.Posts;
+using MusicWeb.Models.Entities.Posts;
+using MusicWeb.Services.Interfaces.Posts;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace MusicWeb.Api.Controllers.Posts
+{
+    public class PostController : Controller
+    {
+        private readonly IPostService _postService;
+        private readonly IMapper _mapper;
+        private readonly ILogger _logger;
+
+        public PostController(IPostService postService, IMapper mapper, ILogger logger)
+        {
+            _postService = postService;
+            _mapper = mapper;
+            _logger = logger;
+        }
+
+        [HttpGet(ApiRoutes.Posts.GetUserPosts)]
+        public async Task<IActionResult> GetUserPosts([FromRoute] string userId)
+        {
+            try
+            {
+                var models = await _postService.GetUserPostsAsync(userId);
+                return Ok(models);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [HttpGet(ApiRoutes.Posts.GetAll)]
+        public async Task<IActionResult> GetAllPosts()
+        {
+            try
+            {
+                var models = _mapper.Map<List<PostDto>>(await _postService.GetAllAsync());
+                return Ok(models);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [HttpGet(ApiRoutes.Posts.GetById)]
+        public async Task<IActionResult> GetPostById([FromRoute] int id)
+        {
+            try
+            {
+                var model = _mapper.Map<PostDto>(await _postService.GetByIdAsync(id));
+                return Ok(model);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [HttpPost(ApiRoutes.Posts.Create)]
+        public async Task<IActionResult> CreatePost([FromBody] PostDto dto)
+        {
+            try
+            {
+                var entity = _mapper.Map<Post>(dto);
+                await _postService.AddAsync(entity);
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [HttpPut(ApiRoutes.Posts.Update)]
+        public async Task<IActionResult> UpdatePost([FromBody] PostDto dto)
+        {
+            try
+            {
+                var entity = _mapper.Map<Post>(dto);
+                await _postService.UpdateAsync(entity);
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [HttpDelete(ApiRoutes.Posts.Delete)]
+        public async Task<IActionResult> DeletePost([FromRoute] int id)
+        {
+            try
+            {
+                await _postService.DeleteAsync(id);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return StatusCode(500, ex.Message);
+            }
+        }
+    }
+}

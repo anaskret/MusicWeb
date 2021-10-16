@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MusicWeb.DataAccess.Data;
 
 namespace MusicWeb.DataAccess.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211012162452_PostMigration")]
+    partial class PostMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -485,10 +487,7 @@ namespace MusicWeb.DataAccess.Migrations
                     b.Property<int?>("PosterArtistId")
                         .HasColumnType("int");
 
-                    b.Property<string>("PosterId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("PosterId1")
+                    b.Property<int?>("PosterId")
                         .HasColumnType("int");
 
                     b.Property<string>("Text")
@@ -496,9 +495,11 @@ namespace MusicWeb.DataAccess.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("AlbumId");
+
                     b.HasIndex("PosterArtistId");
 
-                    b.HasIndex("PosterId1");
+                    b.HasIndex("PosterId");
 
                     b.ToTable("Post");
                 });
@@ -1026,13 +1027,19 @@ namespace MusicWeb.DataAccess.Migrations
 
             modelBuilder.Entity("MusicWeb.Models.Entities.Posts.Post", b =>
                 {
+                    b.HasOne("MusicWeb.Models.Entities.Album", "Album")
+                        .WithMany()
+                        .HasForeignKey("AlbumId");
+
                     b.HasOne("MusicWeb.Models.Entities.UserObservedArtist", "PosterArtist")
                         .WithMany()
                         .HasForeignKey("PosterArtistId");
 
                     b.HasOne("MusicWeb.Models.Entities.UserFriend", "Poster")
                         .WithMany()
-                        .HasForeignKey("PosterId1");
+                        .HasForeignKey("PosterId");
+
+                    b.Navigation("Album");
 
                     b.Navigation("Poster");
 

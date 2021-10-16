@@ -3,10 +3,12 @@ using MusicWeb.Models.Dtos.Albums;
 using MusicWeb.Models.Dtos.Artists;
 using MusicWeb.Models.Dtos.Genres;
 using MusicWeb.Models.Dtos.Origins;
+using MusicWeb.Models.Dtos.Posts;
 using MusicWeb.Models.Dtos.Users;
 using MusicWeb.Models.Entities;
 using MusicWeb.Models.Entities.Artists;
 using MusicWeb.Models.Entities.Origins;
+using MusicWeb.Models.Entities.Posts;
 using MusicWeb.Models.Identity;
 using MusicWeb.Models.Models.Artists;
 using System;
@@ -68,6 +70,9 @@ namespace MusicWeb.Api.Extensions.AutoMapper
                 .ForMember(prp => prp.AlbumId, prop => prop.MapFrom(src => src.FavoriteId));
             CreateMap<UserFavoriteDto, UserFavoriteSong>()
                 .ForMember(prp => prp.SongId, prop => prop.MapFrom(src => src.FavoriteId));
+
+            CreateMap<Post, PostDto>();
+            CreateMap<PostDto, Post>();
         }
 
     }
