@@ -1,0 +1,171 @@
+<template>
+  <div>
+    <Header
+      :artist="artist"
+      :show_observe_button="show_observe_button"
+      :vote_title="vote_title"
+    />
+    <InfoSection :info_content="info_content" :artist="artist" />
+
+    <item-carousel
+      :items="albums"
+      :componentTitle="component_title"
+      :componentLinkTitle="component_link_title"
+    />
+    <item-list :songs="songs" />
+    <comments-list :comments="comments" />
+  </div>
+</template>
+
+<script>
+import Header from "@/components/Header.vue";
+import ItemCarousel from "@/components/ItemCarousel.vue";
+import ItemList from "@/components/ItemList.vue";
+import CommentsList from "@/components/CommentsList.vue";
+import InfoSection from "@/components/InfoSection.vue";
+import useArtists from "@/modules/artists";
+
+export default {
+  name: "ArtistPage",
+  components: {
+    Header,
+    ItemCarousel,
+    ItemList,
+    CommentsList,
+    InfoSection,
+  },
+  data() {
+    return {
+      id: this.$route.params.id,
+      artist: {},
+      albums: [],
+      songs: [],
+      comments: [],
+      component_title: "Dyskografia",
+      component_link_title: "Wyświetl pełną dyskografię",
+      show_observe_button: true,
+      vote_title: "Oceń artystę:",
+      info_content: [
+        { info: "Rok założenia: 1990" },
+        { info: "Pochodzenie: Liverpool, Anglia" },
+        { info: "Gatunek muzyczny: rock progresywny, art rock, doom metal" },
+        {
+          info: "Członkowie: Vincent Cavanagh, Daniel Cavanagh, Lee Douglas, John Douglas, Jamie Cavanagh",
+        },
+      ],
+      //   TODO: Preparing infosection in views
+      /* 
+    <p>
+            Rok założenia:
+            <span>{{ moment(artist.establishmentDate).format("L") }}</span>
+          </p>
+          <p>
+            Pochodzenie:
+            <span
+              >{{ artist.city }} {{ artist.state }},
+              {{ artist.country }}
+            </span>
+          </p>
+          <p>
+            Gatunek muzyczny:
+            <span>rock progresywny, art rock, doom metal</span>
+          </p>
+          <p v-if="artist.isBand && !artist.isIndividual">
+            Członkowie:
+            <span v-for="(member, index) in artist.members" :key="index">
+              {{ member
+              }}<span v-if="index != artist.members.length - 1">,</span></span
+            >
+        </p>
+    */
+    };
+  },
+  created() {
+    this.getArtist();
+    this.getSongs();
+    this.getComments();
+    this.getAlbums();
+  },
+  methods: {
+    getAlbums() {
+      this.albums = [
+        { img: "weather", title: "Weather Systems", year: "2012" },
+        {
+          img: "werehere",
+          title: "We're Here Because We're Here",
+          year: "2010",
+        },
+        {
+          img: "naturaldisaster",
+          title: "A Natural Disaster",
+          year: "2003",
+        },
+        { img: "judgement", title: "Judgement", year: "1999" },
+        { img: "judgement", title: "Eternity", year: "1996" },
+      ];
+    },
+    getSongs() {
+      this.songs = [
+        {
+          img: "weather",
+          title: "Untochable, pt I",
+          album: "Weather Systems",
+          rating: "5.0",
+        },
+        {
+          img: "naturaldisaster",
+          title: "Flying",
+          album: "A Natural Disaster",
+          rating: "5.0",
+        },
+        {
+          img: "judgement",
+          title: "Pitiless",
+          album: "Judgement",
+          rating: "5.0",
+        },
+      ];
+    },
+    getComments() {
+      this.comments = [
+        {
+          img: "",
+          userName: "AnathemaLover",
+          date: "11:12 23.04.2020",
+          text: "Jakiś tam przykładowy komentarz użytkownika, który kocha Anathemę, bo przecież każdy człowiek na świecie powinien kochać Anathemę. Anathema plz come back.",
+        },
+        {
+          img: "",
+          userName: "AnathemaLover",
+          date: "11:12 23.04.2020",
+          text: "Jakiś tam przykładowy komentarz użytkownika, który kocha Anathemę, bo przecież każdy człowiek na świecie powinien kochać Anathemę. Anathema plz come back.",
+        },
+        {
+          img: "",
+          userName: "AnathemaLover",
+          date: "11:12 23.04.2020",
+          text: "Jakiś tam przykładowy komentarz użytkownika, który kocha Anathemę, bo przecież każdy człowiek na świecie powinien kochać Anathemę. Anathema plz come back.",
+        },
+      ];
+    },
+    // prepareInfoSection(){
+
+    // }
+  },
+
+  setup() {
+    const { getById } = useArtists();
+    // const { getAll } = useAlbums();
+
+    const getArtist = function () {
+      getById(this.id).then((response) => {
+        this.artist = response;
+      });
+    };
+
+    return {
+      getArtist,
+    };
+  },
+};
+</script>
