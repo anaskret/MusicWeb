@@ -25,6 +25,9 @@ namespace MusicWeb.Api.Controllers.Posts
             _logger = logger;
         }
 
+        /// <summary>
+        /// WIP
+        /// </summary>
         [HttpGet(ApiRoutes.Posts.GetUserPosts)]
         public async Task<IActionResult> GetUserPosts([FromRoute] string userId)
         {
@@ -40,6 +43,9 @@ namespace MusicWeb.Api.Controllers.Posts
             }
         }
 
+        /// <summary>
+        /// Gets all posts
+        /// </summary>
         [HttpGet(ApiRoutes.Posts.GetAll)]
         public async Task<IActionResult> GetAllPosts()
         {
@@ -55,6 +61,9 @@ namespace MusicWeb.Api.Controllers.Posts
             }
         }
 
+        /// <summary>
+        /// Gets a single post
+        /// </summary>
         [HttpGet(ApiRoutes.Posts.GetById)]
         public async Task<IActionResult> GetPostById([FromRoute] int id)
         {
@@ -70,8 +79,11 @@ namespace MusicWeb.Api.Controllers.Posts
             }
         }
 
+        /// <summary>
+        /// Creates a post
+        /// </summary>
         [HttpPost(ApiRoutes.Posts.Create)]
-        public async Task<IActionResult> CreatePost([FromBody] PostDto dto)
+        public async Task<IActionResult> CreatePost([FromBody] CreatePostDto dto)
         {
             try
             {
@@ -87,6 +99,9 @@ namespace MusicWeb.Api.Controllers.Posts
             }
         }
 
+        /// <summary>
+        /// Updates a post
+        /// </summary>
         [HttpPut(ApiRoutes.Posts.Update)]
         public async Task<IActionResult> UpdatePost([FromBody] PostDto dto)
         {
@@ -104,6 +119,9 @@ namespace MusicWeb.Api.Controllers.Posts
             }
         }
 
+        /// <summary>
+        /// Deletes a post
+        /// </summary>
         [HttpDelete(ApiRoutes.Posts.Delete)]
         public async Task<IActionResult> DeletePost([FromRoute] int id)
         {

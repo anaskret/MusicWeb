@@ -1,0 +1,68 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>MusicWeb.Api</name>
+    </assembly>
+    <members>
+        <member name="M:MusicWeb.Api.Controllers.Artists.ArtistCommentsController.GetArtists(System.Int32)">
+            <summary>
+            Gets all comments for an artist
+            </summary>
+        </member>
+        <member name="M:MusicWeb.Api.Controllers.Artists.ArtistCommentsController.GetArtist(System.Int32)">
+            <summary>
+            Gets a single comment
+            </summary>
+        </member>
+        <member name="M:MusicWeb.Api.Controllers.Artists.ArtistCommentsController.CreateComment(MusicWeb.Models.Dtos.Artists.Create.CreateArtistCommentDto)">
+            <summary>
+            Creates an comment
+            </summary>
+        </member>
+        <member name="M:MusicWeb.Api.Controllers.Artists.ArtistCommentsController.UpdateComment(MusicWeb.Models.Models.Artists.ArtistCommentDto)">
+            <summary>
+            Updates an comment
+            </summary>
+        </member>
+        <member name="M:MusicWeb.Api.Controllers.Artists.ArtistCommentsController.UpdateComment(System.Int32)">
+            <summary>
+            Deletes a comment
+            </summary>
+        </member>
+        <member name="M:MusicWeb.Api.Controllers.Artists.ArtistsController.GetFullArtistData(System.Int32)">
+            <summary>
+            Gets full data for an artist or a band
+            </summary>
+        </member>
+        <member name="M:MusicWeb.Api.Controllers.Artists.ArtistsController.GetById(System.Int32)">
+            <summary>
+            Gets a single artist or a band without extra data
+            </summary>
+        </member>
+        <member name="M:MusicWeb.Api.Controllers.Artists.ArtistsController.GetFullArtistData">
+            <summary>
+            Gets all artists and bands
+            </summary>
+        </member>
+        <member name="M:MusicWeb.Api.Controllers.Artists.ArtistsController.CreateArtist(MusicWeb.Models.Dtos.Artists.Create.CreateArtistDto)">
+            <summary>
+            Creates an artist or a band.
+            </summary>
+            <remarks>
+            To create a band set IsBand = true and IsIndividual = false &#xA;
+            To add a band member set IsBand = false, IsIndividual = false nad BandId = SomeBandId &#xA;
+            To add an individual artist (without a band) set IsIndividual = true and IsBand = false &#xA;
+            </remarks>
+        </member>
+        <member name="M:MusicWeb.Api.Controllers.Artists.ArtistsController.UpdateArtist(MusicWeb.Models.Dtos.Artists.ArtistDto)">
+            <summary>
+            Updates an artist or a band
+            </summary>
+        </member>
+        <member name="M:MusicWeb.Api.Controllers.Artists.ArtistsController.DeleteArtist(System.Int32)">
+            <summary>
+            Deletes an artist or a band
+            </summary>
+        </member>
+    </members>
+</doc>

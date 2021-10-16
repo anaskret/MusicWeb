@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using MusicWeb.Api.Extensions;
+using MusicWeb.Models.Dtos.Artists.Create;
 using MusicWeb.Models.Entities;
 using MusicWeb.Models.Models.Artists;
 using MusicWeb.Services.Interfaces.Artists;
@@ -25,6 +26,9 @@ namespace MusicWeb.Api.Controllers.Artists
             _logger = logger;
         }
 
+        /// <summary>
+        /// Gets all comments for an artist
+        /// </summary>
         [HttpGet(ApiRoutes.ArtistComments.GetAllById)]
         public async Task<IActionResult> GetArtists([FromRoute] int id)
         {
@@ -41,6 +45,9 @@ namespace MusicWeb.Api.Controllers.Artists
             }
         }
 
+        /// <summary>
+        /// Gets a single comment
+        /// </summary>
         [HttpGet(ApiRoutes.ArtistComments.GetById)]
         public async Task<IActionResult> GetArtist([FromRoute] int id)
         {
@@ -57,8 +64,11 @@ namespace MusicWeb.Api.Controllers.Artists
             }
         }
 
+        /// <summary>
+        /// Creates a comment
+        /// </summary>
         [HttpPost(ApiRoutes.ArtistComments.Create)]
-        public async Task<IActionResult> CreateComment([FromBody] ArtistCommentDto dto)
+        public async Task<IActionResult> CreateComment([FromBody] CreateArtistCommentDto dto)
         {
             try
             {
@@ -74,6 +84,9 @@ namespace MusicWeb.Api.Controllers.Artists
             }
         }
 
+        /// <summary>
+        /// Updates a comment
+        /// </summary>
         [HttpPut(ApiRoutes.ArtistComments.Update)]
         public async Task<IActionResult> UpdateComment([FromBody] ArtistCommentDto dto)
         {
@@ -81,6 +94,25 @@ namespace MusicWeb.Api.Controllers.Artists
             {
                 var entity = _mapper.Map<ArtistComment>(dto);
                 await _artistCommentService.UpdateAsync(entity);
+
+                return Ok();
+            }
+            catch(Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Deletes a comment
+        /// </summary>
+        [HttpDelete(ApiRoutes.ArtistComments.Delete)]
+        public async Task<IActionResult> UpdateComment([FromRoute] int id)
+        {
+            try
+            {
+                await _artistCommentService.DeleteAsync(id);
 
                 return Ok();
             }
