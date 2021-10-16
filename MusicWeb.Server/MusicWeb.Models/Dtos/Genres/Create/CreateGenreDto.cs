@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MusicWeb.Models.Dtos.Posts
+namespace MusicWeb.Models.Dtos.Genres.Create
 {
-    public class PostDto : CreatePostDto
+    public class CreateGenreDto
     {
-        public int Id { get; set; }
+        public string Name { get; set; }
     }
 }

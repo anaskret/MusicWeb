@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MusicWeb.Models.Dtos.Origins.Create;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,9 +7,8 @@ using System.Threading.Tasks;
 
 namespace MusicWeb.Models.Dtos.Origins
 {
-    public class CityDto
+    public class CityDto : CreateCityDto
     {
-        public int StateId { get; set; }
-        public string Name { get; set; }
+        public int Id { get; set; }
     }
 }

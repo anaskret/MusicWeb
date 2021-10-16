@@ -8,6 +8,6 @@ namespace MusicWeb.Models.Dtos.Genres
 {
     public class GenreDto
     {
-        public string Name { get; set; }
+        public int Id { get; set; }
     }
 }
