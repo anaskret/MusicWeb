@@ -100,29 +100,27 @@
               ></v-text-field>
             </template>
             <v-date-picker
+                color="#647da1"
               v-model.trim="$v.account.birthdate.$model"
               @input="isDatePicker = false"
             ></v-date-picker>
           </v-menu>
+
           <div class="btns mt-8">
             <v-btn
               outlined
               color="gray"
               type="submit"
-              class="px-5 mr-4"
+              class="md-4"
               :disabled="this.isDisabled"
+              :loading="isLogging"
+              width="40%"
             >
               Zarejestruj
-              <v-progress-circular
-                v-if="isLogging"
-                :size="20"
-                indeterminate
-                color="#3a4b63"
-                class="ml-2"
-              ></v-progress-circular>
             </v-btn>
-            <v-btn @click="clear" class="mr-4" outlined> Wyczyść </v-btn>
-            <v-btn @click="redirect" class="mr-4" outlined> Zaloguj </v-btn>
+            <div></div>
+            <v-btn class="mt-4" @click="redirect" outlined
+              width="40%"> Zaloguj się</v-btn>
           </div>
         </form>
       </v-col>
@@ -211,11 +209,6 @@ export default {
     },
   },
   methods: {
-    clear() {
-      this.$v.$reset();
-      this.account = new Account();
-      this.message = "";
-    },
     redirect() {
       this.$router.push({ name: "Login" });
     },
@@ -285,3 +278,11 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.btns{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+</style>

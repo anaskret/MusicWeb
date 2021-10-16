@@ -46,14 +46,16 @@
               outlined
               color="gray"
               type="submit"
-              class="px-5 mr-4"
+              class="md-4"
               :disabled="this.isDisabled"
               :loading="isLogging"
+              width="40%"
             >
               Zaloguj się
             </v-btn>
-            <v-btn @click="clear" class="mr-4" outlined> Wyczyść </v-btn>
-            <v-btn @click="register" class="mr-4" outlined> Zarejestruj </v-btn>
+            <div></div>
+            <v-btn class="mt-4" @click="register" outlined
+              width="40%"> Zarejestruj </v-btn>
           </div>
         </form>
       </v-col>
@@ -109,11 +111,6 @@ export default {
     },
   },
   methods: {
-    clear() {
-      this.$v.$reset();
-      this.account = new Account();
-      this.message = "";
-    },
     prepareErrorArray(field) {
       const errors = [];
       if (!this.$v.account[field].$dirty) return errors;
@@ -184,3 +181,11 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.btns{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+</style>
