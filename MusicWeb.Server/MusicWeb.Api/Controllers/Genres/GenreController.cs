@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using MusicWeb.Api.Extensions;
 using MusicWeb.Models.Dtos.Genres;
+using MusicWeb.Models.Dtos.Genres.Create;
 using MusicWeb.Models.Entities;
 using MusicWeb.Services.Interfaces.Genres;
 using System;
@@ -25,6 +26,9 @@ namespace MusicWeb.Api.Controllers.Genres
             _logger = logger;
         }
 
+        /// <summary>
+        /// Gets all music genres
+        /// </summary>
         [HttpGet(ApiRoutes.Genres.GetAll)]
         public async Task<IActionResult> GetAll()
         {
@@ -40,6 +44,9 @@ namespace MusicWeb.Api.Controllers.Genres
             }
         }
 
+        /// <summary>
+        /// Gets a single music genre
+        /// </summary>
         [HttpGet(ApiRoutes.Genres.GetById)]
         public async Task<IActionResult> GetById([FromRoute] int id)
         {
@@ -55,8 +62,11 @@ namespace MusicWeb.Api.Controllers.Genres
             }
         }
 
+        /// <summary>
+        /// Creates a music genre
+        /// </summary>
         [HttpPost(ApiRoutes.Genres.Create)]
-        public async Task<IActionResult> CreateGenre([FromBody] GenreDto dto)
+        public async Task<IActionResult> CreateGenre([FromBody] CreateGenreDto dto)
         {
             try
             {
@@ -72,6 +82,9 @@ namespace MusicWeb.Api.Controllers.Genres
             }
         }
 
+        /// <summary>
+        /// Updates a music genre
+        /// </summary>
         [HttpPut(ApiRoutes.Genres.Update)]
         public async Task<IActionResult> UpdateGenre([FromBody] GenreDto dto)
         {
@@ -89,6 +102,9 @@ namespace MusicWeb.Api.Controllers.Genres
             }
         }
 
+        /// <summary>
+        /// Deletes a music genre
+        /// </summary>
         [HttpDelete(ApiRoutes.Genres.Delete)]
         public async Task<IActionResult> DeleteGenre([FromRoute] int id)
         {

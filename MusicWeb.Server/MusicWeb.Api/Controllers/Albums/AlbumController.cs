@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using MusicWeb.Api.Extensions;
 using MusicWeb.Models.Dtos.Albums;
+using MusicWeb.Models.Dtos.Albums.Create;
 using MusicWeb.Models.Entities;
 using MusicWeb.Services.Interfaces;
 using System;
@@ -26,7 +27,7 @@ namespace MusicWeb.Api.Controllers.Albums
         }
 
         [HttpPost(ApiRoutes.Albums.Create)]
-        public async Task<IActionResult> CreateAlbum([FromBody] AlbumDto dto)
+        public async Task<IActionResult> CreateAlbum([FromBody] CreateAlbumDto dto)
         {
             try
             {

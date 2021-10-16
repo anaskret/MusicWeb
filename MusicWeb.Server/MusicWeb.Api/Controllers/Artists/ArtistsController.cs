@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using MusicWeb.Api.Extensions;
 using MusicWeb.Models.Dtos.Artists;
+using MusicWeb.Models.Dtos.Artists.Create;
 using MusicWeb.Models.Entities;
 using MusicWeb.Services.Interfaces.Artists;
 using System;
@@ -26,6 +27,9 @@ namespace MusicWeb.Api.Controllers.Artists
             _mapper = mapper;
         }
 
+        /// <summary>
+        /// Gets full data for an artist or a band
+        /// </summary>
         [HttpGet(ApiRoutes.Artists.GetFullData)]
         public async Task<IActionResult> GetFullArtistData([FromRoute] int id)
         {
@@ -41,6 +45,9 @@ namespace MusicWeb.Api.Controllers.Artists
             }
         }
 
+        /// <summary>
+        /// Gets a single artist or a band without extra data
+        /// </summary>
         [HttpGet(ApiRoutes.Artists.GetById)]
         public async Task<IActionResult> GetById([FromRoute] int id)
         {
@@ -56,6 +63,9 @@ namespace MusicWeb.Api.Controllers.Artists
             }
         }
 
+        /// <summary>
+        /// Gets all artists and bands
+        /// </summary>
         [HttpGet(ApiRoutes.Artists.GetAll)]
         public async Task<IActionResult> GetFullArtistData()
         {
@@ -71,8 +81,16 @@ namespace MusicWeb.Api.Controllers.Artists
             }
         }
 
+        /// <summary>
+        /// Creates an artist or a band.
+        /// </summary>
+        /// <remarks>
+        /// To create a band set IsBand = true and IsIndividual = false &#xA;
+        /// To add a band member set IsBand = false, IsIndividual = false nad BandId = SomeBandId &#xA;
+        /// To add an individual artist (without a band) set IsIndividual = true and IsBand = false &#xA;
+        /// </remarks>
         [HttpPost(ApiRoutes.Artists.Create)]
-        public async Task<IActionResult> CreateArtist([FromBody] ArtistDto dto)
+        public async Task<IActionResult> CreateArtist([FromBody] CreateArtistDto dto)
         {
             try
             {
@@ -88,6 +106,9 @@ namespace MusicWeb.Api.Controllers.Artists
             }
         }
 
+        /// <summary>
+        /// Updates an artist or a band
+        /// </summary>
         [HttpPut(ApiRoutes.Artists.Update)]
         public async Task<IActionResult> UpdateArtist([FromBody] ArtistDto dto)
         {
@@ -105,6 +126,9 @@ namespace MusicWeb.Api.Controllers.Artists
             }
         }
 
+        /// <summary>
+        /// Deletes an artist or a band
+        /// </summary>
         [HttpDelete(ApiRoutes.Artists.Delete)]
         public async Task<IActionResult> DeleteArtist([FromRoute] int id)
         {

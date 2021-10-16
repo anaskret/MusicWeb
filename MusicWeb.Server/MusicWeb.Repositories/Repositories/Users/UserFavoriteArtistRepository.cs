@@ -19,7 +19,7 @@ namespace MusicWeb.Repositories.Repositories.Users
 
         public async Task<List<UserFavoriteArtist>> GetAllWithArtistAsync()
         {
-            return await _dbContext.UserFavoriteArtists.Include(prp => prp.Artist).ToListAsync();
+            return await _dbContext.UserFavoriteArtist.Include(prp => prp.Artist).ToListAsync();
         }
     }
 }

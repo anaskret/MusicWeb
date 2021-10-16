@@ -25,6 +25,9 @@ namespace MusicWeb.Api.Controllers.Origins
             _mapper = mapper;
         }
 
+        /// <summary>
+        /// Gets all countries
+        /// </summary>
         [HttpGet(ApiRoutes.Origins.GetAllCountries)]
         public async Task<IActionResult> GetAllCountries()
         {
@@ -40,6 +43,9 @@ namespace MusicWeb.Api.Controllers.Origins
             }
         }
 
+        /// <summary>
+        /// Gets a single country
+        /// </summary>
         [HttpGet(ApiRoutes.Origins.GetCountryById)]
         public async Task<IActionResult> GetCountryById([FromRoute] int id)
         {
@@ -55,6 +61,9 @@ namespace MusicWeb.Api.Controllers.Origins
             }
         }
 
+        /// <summary>
+        /// Gets all states in a country
+        /// </summary>
         [HttpGet(ApiRoutes.Origins.GetCountryStates)]
         public async Task<IActionResult> GetCountryStates([FromRoute] int id)
         {
@@ -70,6 +79,9 @@ namespace MusicWeb.Api.Controllers.Origins
             }
         }
 
+        /// <summary>
+        /// Creates a country
+        /// </summary>
         [HttpPost(ApiRoutes.Origins.CreateCountry)]
         public async Task<IActionResult> CreateCountry([FromBody] CountryDto dto)
         {
@@ -87,6 +99,9 @@ namespace MusicWeb.Api.Controllers.Origins
             }
         }
 
+        /// <summary>
+        /// Updates a country
+        /// </summary>
         [HttpPut(ApiRoutes.Origins.UpdateCountry)]
         public async Task<IActionResult> UpdateCountry([FromBody] CountryDto dto)
         {
@@ -104,6 +119,9 @@ namespace MusicWeb.Api.Controllers.Origins
             }
         }
 
+        /// <summary>
+        /// Deletes a country with all its states and citites
+        /// </summary>
         [HttpDelete(ApiRoutes.Origins.DeleteCountry)]
         public async Task<IActionResult> DeleteCountry([FromRoute] int id)
         {
@@ -119,6 +137,9 @@ namespace MusicWeb.Api.Controllers.Origins
             }
         }
 
+        /// <summary>
+        /// Gets all states
+        /// </summary>
         [HttpGet(ApiRoutes.Origins.GetAllStates)]
         public async Task<IActionResult> GetAllStates()
         {
@@ -134,6 +155,9 @@ namespace MusicWeb.Api.Controllers.Origins
             }
         }
 
+        /// <summary>
+        /// Gets a single state
+        /// </summary>
         [HttpGet(ApiRoutes.Origins.GetStateById)]
         public async Task<IActionResult> GetStateById([FromRoute] int id)
         {
@@ -149,6 +173,9 @@ namespace MusicWeb.Api.Controllers.Origins
             }
         }
 
+        /// <summary>
+        /// Gets all cities in a state
+        /// </summary>
         [HttpGet(ApiRoutes.Origins.GetStateCities)]
         public async Task<IActionResult> GetStateCities([FromRoute] int id)
         {
@@ -164,6 +191,9 @@ namespace MusicWeb.Api.Controllers.Origins
             }
         }
 
+        /// <summary>
+        /// Create a state
+        /// </summary>
         [HttpPost(ApiRoutes.Origins.CreateState)]
         public async Task<IActionResult> CreateState([FromBody] StateDto dto)
         {
@@ -181,6 +211,9 @@ namespace MusicWeb.Api.Controllers.Origins
             }
         }
 
+        /// <summary>
+        /// Updates a state
+        /// </summary>
         [HttpPut(ApiRoutes.Origins.UpdateState)]
         public async Task<IActionResult> UpdateState([FromBody] StateDto dto)
         {
@@ -198,6 +231,9 @@ namespace MusicWeb.Api.Controllers.Origins
             }
         }
 
+        /// <summary>
+        /// Deletes a state with all its cities
+        /// </summary>
         [HttpDelete(ApiRoutes.Origins.DeleteState)]
         public async Task<IActionResult> DeleteState([FromRoute] int id)
         {
@@ -213,6 +249,9 @@ namespace MusicWeb.Api.Controllers.Origins
             }
         }
 
+        /// <summary>
+        /// Gets all cities
+        /// </summary>
         [HttpGet(ApiRoutes.Origins.GetAllCities)]
         public async Task<IActionResult> GetAllCities()
         {
@@ -228,6 +267,9 @@ namespace MusicWeb.Api.Controllers.Origins
             }
         }
 
+        /// <summary>
+        /// Gets a single city
+        /// </summary>
         [HttpGet(ApiRoutes.Origins.GetCityById)]
         public async Task<IActionResult> GetCityById([FromRoute] int id)
         {
@@ -243,6 +285,9 @@ namespace MusicWeb.Api.Controllers.Origins
             }
         }
 
+        /// <summary>
+        /// Creates a city
+        /// </summary>
         [HttpPost(ApiRoutes.Origins.CreateCity)]
         public async Task<IActionResult> CreateCity([FromBody] CityDto dto)
         {
@@ -260,6 +305,9 @@ namespace MusicWeb.Api.Controllers.Origins
             }
         }
 
+        /// <summary>
+        /// Updates a city
+        /// </summary>
         [HttpPut(ApiRoutes.Origins.UpdateCity)]
         public async Task<IActionResult> UpdateCity([FromBody] CityDto dto)
         {
@@ -277,6 +325,9 @@ namespace MusicWeb.Api.Controllers.Origins
             }
         }
 
+        /// <summary>
+        /// Deletes a city
+        /// </summary>
         [HttpDelete(ApiRoutes.Origins.DeleteCity)]
         public async Task<IActionResult> DeleteCity([FromRoute] int id)
         {

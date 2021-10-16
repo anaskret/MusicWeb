@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MusicWeb.Models.Dtos.Genres
+namespace MusicWeb.Models.Dtos.Origins.Create
 {
-    public class GenreDto
+    public class CreateCountryDto
     {
-        public int Id { get; set; }
+        public string Name { get; set; }
     }
 }

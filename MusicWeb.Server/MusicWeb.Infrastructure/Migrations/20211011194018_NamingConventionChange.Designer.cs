@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MusicWeb.DataAccess.Data;
 
 namespace MusicWeb.DataAccess.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211011194018_NamingConventionChange")]
+    partial class NamingConventionChange
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -464,43 +466,6 @@ namespace MusicWeb.DataAccess.Migrations
                     b.HasIndex("CountryId");
 
                     b.ToTable("State");
-                });
-
-            modelBuilder.Entity("MusicWeb.Models.Entities.Posts.Post", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int?>("AlbumId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("ArtistPosterId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("CreateDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("PosterArtistId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("PosterId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("PosterId1")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Text")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PosterArtistId");
-
-                    b.HasIndex("PosterId1");
-
-                    b.ToTable("Post");
                 });
 
             modelBuilder.Entity("MusicWeb.Models.Entities.Song", b =>
@@ -1022,21 +987,6 @@ namespace MusicWeb.DataAccess.Migrations
                         .IsRequired();
 
                     b.Navigation("Country");
-                });
-
-            modelBuilder.Entity("MusicWeb.Models.Entities.Posts.Post", b =>
-                {
-                    b.HasOne("MusicWeb.Models.Entities.UserObservedArtist", "PosterArtist")
-                        .WithMany()
-                        .HasForeignKey("PosterArtistId");
-
-                    b.HasOne("MusicWeb.Models.Entities.UserFriend", "Poster")
-                        .WithMany()
-                        .HasForeignKey("PosterId1");
-
-                    b.Navigation("Poster");
-
-                    b.Navigation("PosterArtist");
                 });
 
             modelBuilder.Entity("MusicWeb.Models.Entities.Song", b =>
