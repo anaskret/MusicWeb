@@ -15,6 +15,7 @@ namespace MusicWeb.Models.Entities
         public string Name { get; set; }
         public DateTime EstablishmentDate { get; set; }
         public string Bio { get; set; }
+        public string ImagePath { get; set; }
         public bool IsIndividual { get; set; }
         public bool IsBand { get; set; }
 

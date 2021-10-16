@@ -13,7 +13,7 @@ namespace MusicWeb.Models.Identity
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public DateTime BirthDate { get; set; }
-        public string Image { get; set; }
+        public string ImagePath { get; set; }
 
         public virtual ICollection<AlbumReview> AlbumReviews{ get; set; }
         public virtual ICollection<SongReview> SongReviews{ get; set; }

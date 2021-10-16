@@ -95,7 +95,7 @@ namespace MusicWeb.Api.Controllers.Artists
             try
             {
                 var entity = _mapper.Map<Artist>(dto);
-                await _artistService.AddAsync(entity);
+                await _artistService.AddAsync(entity, dto.ImageBytes);
 
                 return Ok();
             }
@@ -116,6 +116,25 @@ namespace MusicWeb.Api.Controllers.Artists
             {
                 var entity = _mapper.Map<Artist>(dto);
                 await _artistService.UpdateAsync(entity);
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Updates artist image
+        /// </summary>
+        [HttpPut(ApiRoutes.Artists.UpdateImage)]
+        public async Task<IActionResult> UpdateArtistImage([FromBody] ArtistFileUpdateDto dto)
+        {
+            try
+            {
+                await _artistService.UpdateImageAsync(dto);
 
                 return Ok();
             }

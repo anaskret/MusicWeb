@@ -14,8 +14,9 @@ namespace MusicWeb.Services.Interfaces.Artists
         Task<ArtistFullInfoDto> GetFullArtistInfoByIdAsync(int id);
         Task<List<ArtistDto>> GetAllAsync();
         Task<Artist> GetByIdAsync(int id);
-        Task AddAsync(Artist entity);
+        Task AddAsync(Artist entity, byte[] imageBytes);
         Task UpdateAsync(Artist entity);
+        Task UpdateImageAsync(ArtistFileUpdateDto dto);
         Task DeleteAsync(int id);
     }
 }

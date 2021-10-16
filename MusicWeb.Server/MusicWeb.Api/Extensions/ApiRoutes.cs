@@ -15,6 +15,7 @@ namespace MusicWeb.Api.Extensions
             public const string Create = Root + "/artists";
             public const string GetAll = Root + "/artists";
             public const string Update = Root + "/artists";
+            public const string UpdateImage = Root + "/artists/images";
             public const string GetById = Root + "/artists/{id}";
             public const string Delete = Root + "/artists/{id}";
         }
