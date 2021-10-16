@@ -17,6 +17,7 @@ import {
   faCog,
   faCaretDown,
   faChevronCircleRight,
+  faPen,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import axios from "axios";
@@ -34,6 +35,7 @@ const faIcons = [
   faCog,
   faCaretDown,
   faChevronCircleRight,
+  faPen,
 ];
 faIcons.forEach((icon) => library.add(icon));
 

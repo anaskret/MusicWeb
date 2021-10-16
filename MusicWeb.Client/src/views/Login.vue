@@ -54,8 +54,9 @@
               Zaloguj się
             </v-btn>
             <div></div>
-            <v-btn class="mt-4" @click="register" outlined
-              width="40%"> Zarejestruj </v-btn>
+            <v-btn class="mt-4" @click="register" outlined width="40%">
+              Zarejestruj
+            </v-btn>
           </div>
         </form>
       </v-col>
@@ -114,30 +115,31 @@ export default {
     prepareErrorArray(field) {
       const errors = [];
       if (!this.$v.account[field].$dirty) return errors;
-        !this.$v.account[field].required && errors.push("Pole jest wymagane.");
-      if(this.$v.account[field].maxLength != undefined && this.$v.account[field].minLength != undefined){
-          !this.$v.account[field].maxLength &&
-        errors.push(
+      !this.$v.account[field].required && errors.push("Pole jest wymagane.");
+      if (
+        this.$v.account[field].maxLength != undefined &&
+        this.$v.account[field].minLength != undefined
+      ) {
+        !this.$v.account[field].maxLength &&
+          errors.push(
             `Pole nie może być dłuższy niż ${this.$v.account[field].$params.maxLength.max} znaków.`
-        );
-      !this.$v.account[field].minLength &&
-        errors.push(
+          );
+        !this.$v.account[field].minLength &&
+          errors.push(
             `Pole musi mieć przynajmniej ${this.$v.account[field].$params.minLength.min} znaków.`
-        );
-     }
-        if(this.$v.account[field].email != undefined){
-            !this.$v.account[field].email &&
-                errors.push(
-                    `Pole musi być uzupełnione według szablonu "example@ex.pl".`
-                );
-        }
+          );
+      }
+      if (this.$v.account[field].email != undefined) {
+        !this.$v.account[field].email &&
+          errors.push(
+            `Pole musi być uzupełnione według szablonu "example@ex.pl".`
+          );
+      }
 
-        if(this.$v.account[field].maxValue != undefined){
-            !this.$v.account[field].maxValue &&
-                errors.push(
-                    `Data urodzenia nie może być w przyszłości.`
-                );
-        }
+      if (this.$v.account[field].maxValue != undefined) {
+        !this.$v.account[field].maxValue &&
+          errors.push(`Data urodzenia nie może być w przyszłości.`);
+      }
       return errors;
     },
     validationStatus(validation) {
@@ -183,9 +185,9 @@ export default {
 </script>
 
 <style scoped>
-.btns{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+.btns {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 </style>

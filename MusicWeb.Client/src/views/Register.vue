@@ -100,7 +100,7 @@
               ></v-text-field>
             </template>
             <v-date-picker
-                color="#647da1"
+              color="#647da1"
               v-model.trim="$v.account.birthdate.$model"
               @input="isDatePicker = false"
             ></v-date-picker>
@@ -119,8 +119,9 @@
               Zarejestruj
             </v-btn>
             <div></div>
-            <v-btn class="mt-4" @click="redirect" outlined
-              width="40%"> Zaloguj się</v-btn>
+            <v-btn class="mt-4" @click="redirect" outlined width="40%">
+              Zaloguj się</v-btn
+            >
           </div>
         </form>
       </v-col>
@@ -129,7 +130,12 @@
 </template>
 
 <script>
-import { required, minLength, maxLength, email } from "vuelidate/lib/validators";
+import {
+  required,
+  minLength,
+  maxLength,
+  email,
+} from "vuelidate/lib/validators";
 import Account from "@/models/Account";
 export default {
   name: "Register",
@@ -215,30 +221,31 @@ export default {
     prepareErrorArray(field) {
       const errors = [];
       if (!this.$v.account[field].$dirty) return errors;
-        !this.$v.account[field].required && errors.push("Pole jest wymagane.");
-      if(this.$v.account[field].maxLength != undefined && this.$v.account[field].minLength != undefined){
-          !this.$v.account[field].maxLength &&
-        errors.push(
+      !this.$v.account[field].required && errors.push("Pole jest wymagane.");
+      if (
+        this.$v.account[field].maxLength != undefined &&
+        this.$v.account[field].minLength != undefined
+      ) {
+        !this.$v.account[field].maxLength &&
+          errors.push(
             `Pole nie może być dłuższy niż ${this.$v.account[field].$params.maxLength.max} znaków.`
-        );
-      !this.$v.account[field].minLength &&
-        errors.push(
+          );
+        !this.$v.account[field].minLength &&
+          errors.push(
             `Pole musi mieć przynajmniej ${this.$v.account[field].$params.minLength.min} znaków.`
-        );
-     }
-        if(this.$v.account[field].email != undefined){
-            !this.$v.account[field].email &&
-                errors.push(
-                    `Pole musi być uzupełnione według szablonu "example@ex.pl".`
-                );
-        }
+          );
+      }
+      if (this.$v.account[field].email != undefined) {
+        !this.$v.account[field].email &&
+          errors.push(
+            `Pole musi być uzupełnione według szablonu "example@ex.pl".`
+          );
+      }
 
-        if(this.$v.account[field].maxValue != undefined){
-            !this.$v.account[field].maxValue &&
-                errors.push(
-                    `Data urodzenia nie może być w przyszłości.`
-                );
-        }
+      if (this.$v.account[field].maxValue != undefined) {
+        !this.$v.account[field].maxValue &&
+          errors.push(`Data urodzenia nie może być w przyszłości.`);
+      }
       return errors;
     },
   },
@@ -263,10 +270,8 @@ export default {
             this.isLogging = false;
             this.message =
               "Nie udało się utworzyć użytkownika! Sprawdź poprawność danych.";
-          }
-
-          else if (error.response.status == 400){
-              this.message = error.response.data;
+          } else if (error.response.status == 400) {
+            this.message = error.response.data;
           }
         }
       );
@@ -280,9 +285,9 @@ export default {
 </script>
 
 <style scoped>
-.btns{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+.btns {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 </style>

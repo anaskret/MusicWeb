@@ -5,32 +5,22 @@
         <v-img :src="require('@/assets/BandPhoto.svg')" contain />
       </v-col>
       <v-col md="4" sm="9">
-        <v-row class="d-flex align-items-center">
-          <v-col md="12" class="title-text">
-            <h1 class="text-uppercase display-2">Użytkownik</h1>
-            <v-btn
-              outlined
-              color="grey"
-              height="30px"
-              class="text-uppercase align-self-center"
-              >Ustawienia
+        <div class="profile-header">
+          <p>Profil</p>
+          <h1 class="profile-title">
+            <span class="text-uppercase display-2">
+              {{ account.firstname }} {{ account.lastname }}
+            </span>
+            <v-btn text>
+              <font-awesome-icon
+                transform="{ rotate: 42 }"
+                class="icon"
+                icon="pen"
+                color="#white"
+              />
             </v-btn>
-          </v-col>
-          <v-col md="12" class="favorites">
-            <p>
-              Ulubiony artysta:
-              <span> Anathema </span>
-            </p>
-            <p>
-              Ulubiony album:
-              <span> Weather Systems </span>
-            </p>
-            <p>
-              Ulubiony utwór:
-              <span> Untouchable pt. I </span>
-            </p>
-          </v-col>
-        </v-row>
+          </h1>
+        </div>
       </v-col>
       <v-col md="9">
         <ReviewList :reviews="reviews" />
@@ -56,6 +46,7 @@
 <script>
 import ReviewList from "@/components/ReviewList";
 import ItemCarousel from "../components/ItemCarousel.vue";
+import useAccounts from "@/modules/accounts";
 export default {
   name: "UserProfile",
   components: {
@@ -78,12 +69,14 @@ export default {
       genresTitle: "Ulubione gatunki",
       artistsLinkTitle: "Zobacz wszystko",
       genresLinkTitle: "Zobacz wszystko",
+      account: {},
     };
   },
   created() {
     this.getReviews();
     this.getArtists();
     this.getGenres();
+    this.getAccount();
   },
   methods: {
     getReviews() {
@@ -140,6 +133,19 @@ export default {
       ];
     },
   },
+  setup() {
+    const { getById } = useAccounts();
+
+    const getAccount = function () {
+      getById(localStorage.getItem("user-id")).then((response) => {
+        this.account = response;
+      });
+    };
+
+    return {
+      getAccount,
+    };
+  },
 };
 </script>
 
@@ -152,14 +158,15 @@ p > span {
   padding-bottom: 1px;
   font-weight: bold;
 }
-.title-text {
+.profile-header {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.profile-title {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-}
-.user {
-  border-bottom: solid gray 1px;
-  margin-right: 18%;
 }
 .favorites {
   padding: 7%;

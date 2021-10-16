@@ -67,16 +67,19 @@
 
             <v-list-item-content>
               <v-list-item-title
-                >{{ account.firstName }}
-                {{ account.lastName }}</v-list-item-title
+                >{{ account.firstname }}
+                {{ account.lastname }}</v-list-item-title
               >
-              <v-list-item-subtitle>Founder of Vuetify</v-list-item-subtitle>
             </v-list-item-content>
 
             <v-list-item-action>
-              <!-- get User id from db  -->
               <v-btn :class="fav ? 'red--text' : ''" icon @click="fav = !fav">
-                <v-icon>mdi-heart</v-icon>
+                <font-awesome-icon
+                  size="1x"
+                  class="icon"
+                  icon="cog"
+                  color="#white"
+                />
               </v-btn>
             </v-list-item-action>
           </v-list-item>
@@ -113,7 +116,7 @@ export default {
       drawer: null,
       group: null,
       fav: false,
-      account: {}, //get User id from db
+      account: {},
     };
   },
   methods: {
@@ -123,7 +126,7 @@ export default {
     },
   },
   created() {
-    //   this.getAccount();
+    this.getAccount();
   },
   setup() {
     const { getById } = useAccounts();
@@ -133,7 +136,7 @@ export default {
     };
 
     const getAccount = function () {
-      getById(this.id /* get User id from db */).then((response) => {
+      getById(localStorage.getItem("user-id")).then((response) => {
         this.account = response;
       });
     };
