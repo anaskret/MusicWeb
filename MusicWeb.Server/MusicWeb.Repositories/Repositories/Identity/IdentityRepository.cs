@@ -81,7 +81,11 @@ namespace MusicWeb.Repositories.Repositories.Identity
             ApplicationUser user = new ApplicationUser()
             {
                 SecurityStamp = Guid.NewGuid().ToString(),
-                UserName = model.Username
+                UserName = model.Username,
+                FirstName = model.FirstName,
+                LastName = model.LastName,
+                Email = model.Email,
+                BirthDate = model.BirthDate
             };
 
             var result = await _userManager.CreateAsync(user, model.Password);
