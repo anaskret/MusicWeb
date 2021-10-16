@@ -12,6 +12,7 @@ namespace MusicWeb.Models.Entities
     {
         public string Name { get; set; }
         public DateTime ReleaseDate { get; set; }
+        public string ImagePath { get; set; }
 
         public int ArtistId { get; set; }
         public virtual Artist Artist { get; set; }

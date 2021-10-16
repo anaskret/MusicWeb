@@ -38,6 +38,7 @@ using MusicWeb.Repositories.Repositories.Songs;
 using MusicWeb.Repositories.Repositories.Users;
 using MusicWeb.Services.Interfaces;
 using MusicWeb.Services.Interfaces.Artists;
+using MusicWeb.Services.Interfaces.Files;
 using MusicWeb.Services.Interfaces.Genres;
 using MusicWeb.Services.Interfaces.Identity;
 using MusicWeb.Services.Interfaces.Origins;
@@ -45,6 +46,7 @@ using MusicWeb.Services.Interfaces.Posts;
 using MusicWeb.Services.Interfaces.Users;
 using MusicWeb.Services.Services.Albums;
 using MusicWeb.Services.Services.Artists;
+using MusicWeb.Services.Services.Files;
 using MusicWeb.Services.Services.Genres;
 using MusicWeb.Services.Services.Identity;
 using MusicWeb.Services.Services.Origins;
@@ -196,6 +198,8 @@ namespace MusicWeb.Api
 
             services.AddTransient<IPostRepository, PostRepository>();
             services.AddTransient<IPostService, PostService>();
+
+            services.AddTransient<IFileService, FileService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -215,6 +219,8 @@ namespace MusicWeb.Api
             .AllowAnyMethod()
             .AllowAnyHeader());
             
+            app.UseStaticFiles();
+
             app.UseDeveloperExceptionPage();
 
             app.UseHttpsRedirection();

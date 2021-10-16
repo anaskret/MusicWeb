@@ -1,18 +1,22 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Identity;
+using MusicWeb.Models.Constants;
 using MusicWeb.Models.Dtos.Artists;
 using MusicWeb.Models.Dtos.Genres;
 using MusicWeb.Models.Entities;
 using MusicWeb.Models.Entities.Artists;
+using MusicWeb.Models.Enums;
 using MusicWeb.Models.Identity;
 using MusicWeb.Models.Models.Artists;
 using MusicWeb.Repositories.Interfaces.Artists;
 using MusicWeb.Services.Interfaces;
 using MusicWeb.Services.Interfaces.Artists;
+using MusicWeb.Services.Interfaces.Files;
 using MusicWeb.Services.Interfaces.Genres;
 using MusicWeb.Services.Interfaces.Origins;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,13 +28,15 @@ namespace MusicWeb.Services.Services.Artists
         private readonly IArtistRepository _artistRepository;
         private readonly IBandService _bandService;
         private readonly IMapper _mapper;
+        private readonly IFileService _fileService;
 
         public ArtistService(IArtistRepository artistRepository, IMapper mapper,
-                             IBandService bandService)
+                             IBandService bandService, IFileService fileService)
         {
             _artistRepository = artistRepository;
             _mapper = mapper;
             _bandService = bandService;
+            _fileService = fileService;
         }
 
         public async Task<Artist> GetByIdAsync(int id)
@@ -38,10 +44,12 @@ namespace MusicWeb.Services.Services.Artists
             return await _artistRepository.GetByIdAsync(id);
         }
 
-        public async Task AddAsync(Artist entity)
+        public async Task AddAsync(Artist entity, byte[] imageBytes)
         {
             if (entity.IsBand && entity.IsIndividual)
                 throw new ArgumentException("Artist cannot be both individual and a band at the same time");
+            if (imageBytes.Length > 0)
+                entity.ImagePath = await _fileService.UploadFile(imageBytes, FilePathConsts.ArtistPath);
             if (entity.IsIndividual || entity.IsBand)
             {
                 await _artistRepository.AddAsync(entity);
@@ -89,6 +97,20 @@ namespace MusicWeb.Services.Services.Artists
         public async Task UpdateAsync(Artist entity)
         {
             await _artistRepository.UpdateAsync(entity);
+        }
+        
+        public async Task UpdateImageAsync(ArtistFileUpdateDto dto)
+        {
+            if (dto.ImageBytes.Length == 0)
+                throw new ArgumentException("File is empty");
+
+            _fileService.DeleteFile(Path.GetFileName(dto.ImagePath), FilePathConsts.ArtistPath);
+            var filePath = await _fileService.UploadFile(dto.ImageBytes, FilePathConsts.ArtistPath);
+
+            var artist = await GetByIdAsync(dto.ArtistId);
+            artist.ImagePath = filePath;
+
+            await UpdateAsync(artist);
         }
 
         public async Task DeleteAsync(int id)
