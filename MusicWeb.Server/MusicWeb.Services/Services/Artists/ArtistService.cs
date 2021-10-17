@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using MusicWeb.Models.Constants;
 using MusicWeb.Models.Dtos.Artists;
 using MusicWeb.Models.Dtos.Genres;
@@ -111,6 +112,34 @@ namespace MusicWeb.Services.Services.Artists
             artist.ImagePath = filePath;
 
             await UpdateAsync(artist);
+        }
+
+        public async Task<List<Artist>> GetPagedAsync(SortType sortType, DateTime startDate, DateTime endDate, int pageNum = 0, int pageSize = 15, string searchString = "")
+        {
+            var query = _artistRepository.GetAll();
+
+            if(!string.IsNullOrEmpty(searchString))
+                query = query.Where(prp => prp.Name.Contains(searchString));
+            if (startDate > DateTime.MinValue)
+                query = query.Where(prp => prp.EstablishmentDate > startDate);
+            if (endDate < DateTime.MaxValue)
+                query = query.Where(prp => prp.EstablishmentDate < endDate);
+
+            switch (sortType)
+            {
+                case SortType.AlphabeticAsc: query.OrderBy(prp => prp.Name);
+                    break;
+                case SortType.AlphabeticDesc: query.OrderByDescending(prp => prp.Name);
+                    break;
+                //case SortType.PopularityAsc: query.OrderBy(prp => prp.)
+                default: query.OrderBy(prp => prp.Name);
+                    break;
+            }
+
+            query.Skip(pageNum * pageSize);
+            query.Take(pageSize);
+
+            return await query.ToListAsync();
         }
 
         public async Task DeleteAsync(int id)

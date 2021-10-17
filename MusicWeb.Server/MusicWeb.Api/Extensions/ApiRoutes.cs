@@ -13,7 +13,8 @@ namespace MusicWeb.Api.Extensions
         {
             public const string GetFullData = Root + "/artistdata/{id}";
             public const string Create = Root + "/artists";
-            public const string GetAll = Root + "/artists";
+            public const string GetAllPagedSearchString = Root + "/artists/{pageNum}/{pageSize}/{sortType}/{createDateStart}/{createDateEnd}/{searchString}";
+            public const string GetAllPaged = Root + "/artists/{pageNum}/{pageSize}/{sortType}/{createDateStart}/{createDateEnd}";
             public const string Update = Root + "/artists";
             public const string UpdateImage = Root + "/artists/images";
             public const string GetById = Root + "/artists/{id}";
