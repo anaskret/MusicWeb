@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MusicWeb.DataAccess.Data;
 using MusicWeb.Models.Entities;
+using MusicWeb.Models.Enums;
 using MusicWeb.Repositories.Interfaces.Artists;
 using MusicWeb.Repositories.Repositories.Base;
 using System;
@@ -30,6 +31,37 @@ namespace MusicWeb.Repositories.Repositories.Artists
                                              .Include(comments => comments.ArtistComments).FirstOrDefaultAsync(prp => prp.Id == id);
 
             return entity;
+        }
+
+        public async Task GetArtistsPagedAsync(SortType sortType, DateTime startDate, DateTime endDate, int pageNum = 0, int pageSize = 15, string searchString = "")
+        {
+            var query = GetAll();
+
+            //query.Include(prp => prp)
+
+            if (!string.IsNullOrEmpty(searchString))
+                query = query.Where(prp => prp.Name.Contains(searchString));
+            if (startDate > DateTime.MinValue)
+                query = query.Where(prp => prp.EstablishmentDate > startDate);
+            if (endDate < DateTime.MaxValue)
+                query = query.Where(prp => prp.EstablishmentDate < endDate);
+
+            switch (sortType)
+            {
+                case SortType.AlphabeticAsc:
+                    query.OrderBy(prp => prp.Name);
+                    break;
+                case SortType.AlphabeticDesc:
+                    query.OrderByDescending(prp => prp.Name);
+                    break;
+                //case SortType.PopularityAsc: query.OrderBy(prp => prp.)
+                default:
+                    query.OrderBy(prp => prp.Name);
+                    break;
+            }
+
+            query.Skip(pageNum * pageSize);
+            query.Take(pageSize);
         }
     }
 }

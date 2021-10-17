@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using MusicWeb.Models.Entities;
+using MusicWeb.Models.Entities.Artists;
+using MusicWeb.Models.Entities.Ratings;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,5 +29,6 @@ namespace MusicWeb.Models.Identity
         public virtual ICollection<Message> Messages{ get; set; }
         public virtual ICollection<UserFriend> UserFriends{ get; set; }
         public virtual ICollection<UserFriend> FriendUsers{ get; set; }
+        public virtual ICollection<ArtistRating> ArtistRatings { get; set; }
     }
 }

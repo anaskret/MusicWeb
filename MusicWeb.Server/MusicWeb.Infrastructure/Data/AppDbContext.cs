@@ -4,6 +4,7 @@ using MusicWeb.Models.Entities;
 using MusicWeb.Models.Entities.Artists;
 using MusicWeb.Models.Entities.Origins;
 using MusicWeb.Models.Entities.Posts;
+using MusicWeb.Models.Entities.Ratings;
 using MusicWeb.Models.Identity;
 using System;
 using System.Collections.Generic;
@@ -360,6 +361,43 @@ namespace MusicWeb.DataAccess.Data
                     .HasForeignKey(e => e.FriendId)
                     .OnDelete(DeleteBehavior.Restrict)
                     .IsRequired();
+            });
+
+            modelBuilder.Entity<Post>(entity =>
+            {
+                entity.HasOne(e => e.Poster)
+                .WithMany(p => p.Posts)
+                .HasPrincipalKey(p => p.FriendId)
+                .HasForeignKey(e => e.PosterId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+                /* entity.HasOne(e => e.PosterArtist)
+                 .WithMany(p => p.Posts)
+                 .HasForeignKey(e => e.ArtistPosterId)
+                 .OnDelete(DeleteBehavior.Restrict);
+
+                 entity.HasOne(e => e.Album)
+                 .WithMany(p => p.Posts)
+                 .HasForeignKey(e => e.AlbumId)
+                 .OnDelete(DeleteBehavior.Restrict);*/
+            });
+
+            modelBuilder.Entity<ArtistRating>(entity =>
+            {
+                entity.Property(e => e.Rating)
+                .IsRequired(true);
+
+                entity.HasOne(e => e.Artist)
+                .WithMany(p => p.ArtistRatings)
+                .HasForeignKey(e => e.ArtistId)
+                .OnDelete(DeleteBehavior.Restrict)
+                .IsRequired(true);
+
+                entity.HasOne(e => e.User)
+                .WithMany(p => p.ArtistRatings)
+                .HasForeignKey(e => e.UserId)
+                .OnDelete(DeleteBehavior.Restrict)
+                .IsRequired(true);
             });
 
             base.OnModelCreating(modelBuilder);

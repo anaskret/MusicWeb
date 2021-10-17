@@ -1,4 +1,5 @@
 ﻿using MusicWeb.Models.Entities.Base;
+using MusicWeb.Models.Entities.Posts;
 using MusicWeb.Models.Identity;
 using System;
 using System.Collections.Generic;
@@ -14,5 +15,7 @@ namespace MusicWeb.Models.Entities
         public string FriendId { get; set; }
         public virtual ApplicationUser User { get; set; }
         public virtual ApplicationUser Friend { get; set; }
+
+        public virtual ICollection<Post> Posts { get; set; }
     }
 }

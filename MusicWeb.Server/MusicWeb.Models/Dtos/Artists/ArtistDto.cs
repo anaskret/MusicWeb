@@ -12,5 +12,6 @@ namespace MusicWeb.Models.Dtos.Artists
     {
         public int Id { get; set; }
         public string ImagePath { get; set; }
+        public double Popularity { get; set; }
     }
 }

@@ -57,10 +57,10 @@
             </summary>
             <remarks>
             SortTypes: &#xA; 
-            0 - Alphabetical Ascending &#xA;
-            1 - Alphabetical Descending &#xA;
-            2 - Popularity Ascending &#xA; 
-            3 - Popularity Descending &#xA;
+                0 - Alphabetical Ascending &#xA;
+                1 - Alphabetical Descending &#xA;
+                2 - Popularity Ascending &#xA; 
+                3 - Popularity Descending &#xA;
             </remarks>
         </member>
         <member name="M:MusicWeb.Api.Controllers.Artists.ArtistsController.CreateArtist(MusicWeb.Models.Dtos.Artists.Create.CreateArtistDto)">
@@ -227,6 +227,26 @@
         <member name="M:MusicWeb.Api.Controllers.Posts.PostController.DeletePost(System.Int32)">
             <summary>
             Deletes a post
+            </summary>
+        </member>
+        <member name="M:MusicWeb.Api.Controllers.Ratings.ArtistRatingController.GetById(System.Int32)">
+            <summary>
+            Gets a single rating
+            </summary>
+        </member>
+        <member name="M:MusicWeb.Api.Controllers.Ratings.ArtistRatingController.GetAllForArtist(System.Int32)">
+            <summary>
+            Gets all ratings for an artist
+            </summary>
+        </member>
+        <member name="M:MusicWeb.Api.Controllers.Ratings.ArtistRatingController.CreateArtist(MusicWeb.Models.Dtos.Ratings.CreateArtistRatingDto)">
+            <summary>
+            Creates an artist rating
+            </summary>
+        </member>
+        <member name="M:MusicWeb.Api.Controllers.Ratings.ArtistRatingController.UpdateArtist(MusicWeb.Models.Dtos.Ratings.ArtistRatingDto)">
+            <summary>
+            Updates a rating for an artist
             </summary>
         </member>
     </members>
