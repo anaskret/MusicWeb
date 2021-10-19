@@ -6,6 +6,7 @@ using MusicWeb.Api.Extensions;
 using MusicWeb.Models.Dtos.Artists;
 using MusicWeb.Models.Dtos.Artists.Create;
 using MusicWeb.Models.Entities;
+using MusicWeb.Models.Enums;
 using MusicWeb.Services.Interfaces.Artists;
 using System;
 using System.Collections.Generic;
@@ -53,7 +54,7 @@ namespace MusicWeb.Api.Controllers.Artists
         {
             try
             {
-                var response = await _artistService.GetByIdAsync(id);
+                var response = _mapper.Map<ArtistDto>(await _artistService.GetByIdAsync(id));
                 return Ok(response);
             }
             catch(Exception ex)
@@ -64,14 +65,46 @@ namespace MusicWeb.Api.Controllers.Artists
         }
 
         /// <summary>
-        /// Gets all artists and bands
+        /// Gets paged artists and bands woth search string
         /// </summary>
-        [HttpGet(ApiRoutes.Artists.GetAll)]
-        public async Task<IActionResult> GetFullArtistData()
+        /// <remarks>
+        /// SortTypes: &#xA; 
+        ///     0 - Alphabetical Ascending &#xA;
+        ///     1 - Alphabetical Descending &#xA;
+        ///     2 - Popularity Ascending &#xA; 
+        ///     3 - Popularity Descending &#xA;
+        /// </remarks>
+        [HttpGet(ApiRoutes.Artists.GetAllPagedSearchString)]
+        public async Task<IActionResult> GetAllPagedSearchStriny([FromRoute] int pageNum, [FromRoute] int pageSize, [FromRoute] SortType sortType, [FromRoute] DateTime createDateStart, [FromRoute] DateTime createDateEnd, [FromRoute] string searchString = "")
         {
             try
             {
-                var response = await _artistService.GetAllAsync();
+                var response = _mapper.Map<List<ArtistDto>>(await _artistService.GetPagedAsync(sortType, createDateStart, createDateEnd, pageNum, pageSize, searchString));
+                return Ok(response);
+            }
+            catch(Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Gets paged artists and bands
+        /// </summary>
+        /// <remarks>
+        /// SortTypes: &#xA; 
+        ///     0 - Alphabetical Ascending &#xA;
+        ///     1 - Alphabetical Descending &#xA;
+        ///     2 - Popularity Ascending &#xA; 
+        ///     3 - Popularity Descending &#xA;
+        /// </remarks>
+        [HttpGet(ApiRoutes.Artists.GetAllPaged)]
+        public async Task<IActionResult> GetAllPaged([FromRoute] int pageNum, [FromRoute] int pageSize, [FromRoute] SortType sortType, [FromRoute] DateTime createDateStart, [FromRoute] DateTime createDateEnd)
+        {
+            try
+            {
+                var response = _mapper.Map<List<ArtistDto>>(await _artistService.GetPagedAsync(sortType, createDateStart, createDateEnd, pageNum, pageSize));
                 return Ok(response);
             }
             catch(Exception ex)
@@ -88,6 +121,7 @@ namespace MusicWeb.Api.Controllers.Artists
         /// To create a band set IsBand = true and IsIndividual = false &#xA;
         /// To add a band member set IsBand = false, IsIndividual = false nad BandId = SomeBandId &#xA;
         /// To add an individual artist (without a band) set IsIndividual = true and IsBand = false &#xA;
+        /// To add an artist image pass image bytes in ImageBytes, otherwise set the property to an empty string &#xA;
         /// </remarks>
         [HttpPost(ApiRoutes.Artists.Create)]
         public async Task<IActionResult> CreateArtist([FromBody] CreateArtistDto dto)
