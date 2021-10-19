@@ -21,7 +21,7 @@
     <v-spacer></v-spacer>
     <template v-slot:extension>
       <v-tabs class="d-flex justify-center">
-        <v-tab color="#white">
+        <v-tab color="#white" @click="redirectToArtistList">
           Baza
           <font-awesome-icon class="icon" icon="caret-down" color="#white"
         /></v-tab>
@@ -123,6 +123,9 @@ export default {
     redirectToProfile() {
       this.drawer = !this.drawer;
       this.$router.push({ name: "UserProfile" });
+    },
+    redirectToArtistList() {
+      this.$router.push({ name: "ArtistListPage" });
     },
   },
   created() {

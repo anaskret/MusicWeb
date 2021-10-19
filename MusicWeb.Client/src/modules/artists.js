@@ -2,13 +2,6 @@ import artistServices from "@/services/artistServices";
 import Artist from "@/models/Artist";
 
 export default function useArtists() {
-  const getAll = async () => {
-    try {
-      return await artistServices.getAll();
-    } catch (e) {
-      console.log(e);
-    }
-  };
   const getById = function (id) {
     if (id) {
       return artistServices.getById(id).then((response) => {
@@ -16,8 +9,21 @@ export default function useArtists() {
       });
     }
   };
+  const getPaged = function (pageNum, pageSize, sortType, createDateStart, createDateEnd) {
+    if (
+        pageNum
+        && pageSize
+        && createDateStart
+        && createDateEnd
+    ) {
+      return artistServices.getPaged(pageNum, pageSize, sortType, createDateStart, createDateEnd).then((response) => {
+        // return response.map(artist => new Artist(artist.data));
+        return response.data;  //TODO return Artist model array
+      });
+    }
+  };
   return {
-    getAll,
     getById,
+    getPaged
   };
 }
