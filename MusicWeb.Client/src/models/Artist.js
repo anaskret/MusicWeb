@@ -8,6 +8,7 @@ export default class Artist {
   country = "";
   state = "";
   city = "";
+  albums = [];
   members = [];
 
   constructor($data) {
@@ -21,6 +22,7 @@ export default class Artist {
       this.country = $data.country;
       this.state = $data.state;
       this.city = $data.city;
+      this.albums = $data.albums;
       this.members = $data.members.map((member) => member.name);
     }
   }

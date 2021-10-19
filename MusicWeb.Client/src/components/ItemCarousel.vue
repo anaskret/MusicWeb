@@ -23,11 +23,11 @@
       <v-col lg="9">
         <v-sheet class="mx-auto">
           <v-slide-group class="px-4" show-arrows center>
-            <v-slide-item v-for="(item, index) in itemsView" :key="index">
+            <v-slide-item v-for="(item, index) in items" :key="index">
               <v-hover v-slot="{ hover }">
                 <v-card>
                   <v-card
-                    :img="require(`@/assets/${item.img}.svg`)"
+                    :img="require(`@/assets/judgement.svg`)"
                     class="mx-6"
                     height="200"
                     width="200"
@@ -49,9 +49,9 @@
                     </div>
                   </v-card>
                   <h4 class="text-center">
-                    {{ item.title }}
+                    {{ item.name }}
                   </h4>
-                  <p class="text-center">{{ item.year }}</p>
+                  <p class="text-center">{{ moment(item.releaseDate).format("YYYY") }}</p>
                 </v-card>
               </v-hover>
             </v-slide-item>
@@ -73,7 +73,6 @@ export default {
   data() {
     return {
       show: null,
-      itemsView: this.items,
       transparent: "rgba(255, 255, 255, 0)",
     };
   },

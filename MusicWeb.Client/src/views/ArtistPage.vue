@@ -6,9 +6,8 @@
       :vote_title="vote_title"
     />
     <InfoSection :parent="artist" :module_name="module_name" />
-
     <item-carousel
-      :items="albums"
+      :items="artist.albums"
       :componentTitle="component_title"
       :componentLinkTitle="component_link_title"
     />
@@ -38,8 +37,6 @@ export default {
     return {
       id: this.$route.params.id,
       artist: {},
-      album: {},
-      albums: [],
       songs: [],
       comments: [],
       component_title: "Dyskografia",
@@ -53,27 +50,8 @@ export default {
     this.getArtist();
     this.getSongs();
     this.getComments();
-    this.getAlbums();
   },
   methods: {
-    getAlbums() {
-      this.albums = [
-        { img: "weather", title: "Weather Systems", year: "2012" },
-        {
-          img: "werehere",
-          title: "We're Here Because We're Here",
-          year: "2010",
-        },
-        {
-          img: "naturaldisaster",
-          title: "A Natural Disaster",
-          year: "2003",
-        },
-        { img: "judgement", title: "Judgement", year: "1999" },
-        { img: "judgement", title: "Eternity", year: "1996" },
-        { img: "judgement", title: "The Optimist", year: "2017" },
-      ];
-    },
     getSongs() {
       this.songs = [
         {
