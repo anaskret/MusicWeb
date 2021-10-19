@@ -106,30 +106,30 @@ export default {
     },
     getArtists() {
       this.artists = [
-        { img: "BandPhoto", title: "Anathema" },
+        { img: "BandPhoto", name: "Anathema" },
         {
           img: "BandPhoto",
-          title: "Anathema",
+          name: "Anathema",
         },
         {
           img: "BandPhoto",
-          title: "Anathema",
+          name: "Anathema",
         },
-        { img: "BandPhoto", title: "Anathema" },
+        { img: "BandPhoto", name: "Anathema" },
       ];
     },
     getGenres() {
       this.genres = [
-        { img: "BandPhoto", title: "Rock/Metal" },
+        { img: "BandPhoto", name: "Rock/Metal" },
         {
           img: "BandPhoto",
-          title: "Klasyczna",
+          name: "Klasyczna",
         },
         {
           img: "BandPhoto",
-          title: "Jazz",
+          name: "Jazz",
         },
-        { img: "BandPhoto", title: "Pop" },
+        { img: "BandPhoto", name: "Pop" },
       ];
     },
   },
