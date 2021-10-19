@@ -47,6 +47,15 @@ namespace MusicWeb.Api.Extensions
             public const string Delete = Root + "/albums/{id}";
         }
 
+        public static class Songs
+        {
+            public const string Create = Root + "/songs";
+            public const string GetAll = Root + "/songs";
+            public const string Update = Root + "/songs";
+            public const string GetById = Root + "/songs/{id}";
+            public const string Delete = Root + "/songs/{id}";
+        }
+
         public static class Genres
         {
             public const string Create = Root + "/genres";

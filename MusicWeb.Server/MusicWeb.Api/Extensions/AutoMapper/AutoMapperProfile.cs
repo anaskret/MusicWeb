@@ -8,6 +8,7 @@ using MusicWeb.Models.Dtos.Genres.Create;
 using MusicWeb.Models.Dtos.Origins;
 using MusicWeb.Models.Dtos.Origins.Create;
 using MusicWeb.Models.Dtos.Posts;
+using MusicWeb.Models.Dtos.Songs;
 using MusicWeb.Models.Dtos.Users;
 using MusicWeb.Models.Entities;
 using MusicWeb.Models.Entities.Artists;
@@ -40,6 +41,9 @@ namespace MusicWeb.Api.Extensions.AutoMapper
             CreateMap<Album, AlbumDto>();
             CreateMap<AlbumDto, Album>();
             CreateMap<CreateAlbumDto, Album>();
+
+            CreateMap<Song, SongDto>();
+            CreateMap<SongDto, Song>();
 
             CreateMap<BandMemberDto, BandMember>();
             CreateMap<BandMember, BandMemberDto>()
