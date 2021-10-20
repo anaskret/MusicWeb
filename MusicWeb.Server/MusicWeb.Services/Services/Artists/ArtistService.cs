@@ -6,6 +6,7 @@ using MusicWeb.Models.Dtos.Artists;
 using MusicWeb.Models.Dtos.Genres;
 using MusicWeb.Models.Entities;
 using MusicWeb.Models.Entities.Artists;
+using MusicWeb.Models.Entities.Keyless;
 using MusicWeb.Models.Enums;
 using MusicWeb.Models.Identity;
 using MusicWeb.Models.Models.Artists;
@@ -114,40 +115,16 @@ namespace MusicWeb.Services.Services.Artists
             await UpdateAsync(artist);
         }
 
-        public async Task<List<Artist>> GetPagedAsync(SortType sortType, DateTime startDate, DateTime endDate, int pageNum = 0, int pageSize = 15, string searchString = "")
+        public async Task<List<ArtistRatingAverage>> GetPagedAsync(SortType sortType, DateTime startDate, DateTime endDate, int pageNum = 0, int pageSize = 15, string searchString = "")
         {
-            //przepisać na sql
-            var query = _artistRepository.GetAll();
+            if (startDate < endDate)
+                throw new ArgumentException("Start Date has to be smaller than End Date");
+            if (pageNum < 0)
+                pageNum = 0;
+            if (pageSize < 1)
+                pageSize = 1;
 
-            if(!string.IsNullOrEmpty(searchString))
-                query = query.Where(prp => prp.Name.Contains(searchString));
-            if (startDate > DateTime.MinValue)
-                query = query.Where(prp => prp.EstablishmentDate > startDate);
-            if (endDate < DateTime.MaxValue)
-                query = query.Where(prp => prp.EstablishmentDate < endDate);
-
-            switch (sortType)
-            {
-                case SortType.AlphabeticAsc: query.OrderBy(prp => prp.Name);
-                    break;
-                case SortType.AlphabeticDesc: query.OrderByDescending(prp => prp.Name);
-                    break;
-                case SortType.PopularityAsc:
-                    query.Include(prp => prp.ArtistRatings);
-                    query.OrderBy(obj => obj.ArtistRatings.Where(prp => prp.ArtistId == obj.Id).Average(prp => prp.Rating));
-                        break;
-                case SortType.PopularityDesc:
-                    query.Include(prp => prp.ArtistRatings);
-                    query.OrderByDescending(obj => obj.ArtistRatings.Where(prp => prp.ArtistId == obj.Id).ToList().Average(prp => prp.Rating));
-                        break;
-                default: query.OrderBy(prp => prp.Name);
-                    break;
-            }
-
-            /*query.Skip(pageNum * pageSize);
-            query.Take(pageSize);*/
-
-            var response = await query.ToListAsync();
+            var response = await _artistRepository.GetArtistsPagedAsync(sortType, startDate, endDate, pageNum, pageSize, searchString);
             return response;
         }
 

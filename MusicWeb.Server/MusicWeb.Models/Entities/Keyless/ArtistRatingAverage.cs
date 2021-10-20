@@ -1,29 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MusicWeb.Models.Dtos.Artists.Base
+namespace MusicWeb.Models.Entities.Keyless
 {
-    public abstract class BaseArtistDto
+    public class ArtistRatingAverage
     {
-        [Required(ErrorMessage = "Name is required")]
+        public int Id { get; set; }
+        public string ImagePath { get; set; }
         public string Name { get; set; }
-
-        [Required(ErrorMessage = "Establishment Date is required")]
         public DateTime EstablishmentDate { get; set; }
-
         public string Bio { get; set; }
-
-        [Required(ErrorMessage = "IsIndividual is required")]
         public bool IsIndividual { get; set; }
-
-        [Required(ErrorMessage = "IsIndividual is required")]
         public bool IsBand { get; set; }
 
         public int? BandId { get; set; }
         public int CityId { get; set; }
+        public double Popularity { get; set; }
     }
 }

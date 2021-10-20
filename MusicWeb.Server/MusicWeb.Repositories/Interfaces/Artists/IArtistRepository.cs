@@ -1,4 +1,6 @@
 ﻿using MusicWeb.Models.Entities;
+using MusicWeb.Models.Entities.Keyless;
+using MusicWeb.Models.Enums;
 using MusicWeb.Repositories.Interfaces.Base;
 using System;
 using System.Collections.Generic;
@@ -12,5 +14,6 @@ namespace MusicWeb.Repositories.Interfaces.Artists
     {
         Task<Artist> GetFullArtistDataByIdAsync(int id);
         Task<List<Artist>> GetAllAsync();
+        Task<List<ArtistRatingAverage>> GetArtistsPagedAsync(SortType sortType, DateTime startDate, DateTime endDate, int pageNum = 0, int pageSize = 15, string searchString = "");
     }
 }

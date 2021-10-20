@@ -12,6 +12,7 @@ using MusicWeb.Models.Dtos.Ratings;
 using MusicWeb.Models.Dtos.Users;
 using MusicWeb.Models.Entities;
 using MusicWeb.Models.Entities.Artists;
+using MusicWeb.Models.Entities.Keyless;
 using MusicWeb.Models.Entities.Origins;
 using MusicWeb.Models.Entities.Posts;
 using MusicWeb.Models.Entities.Ratings;
@@ -35,6 +36,7 @@ namespace MusicWeb.Api.Extensions.AutoMapper
             CreateMap<ArtistDto, Artist>();
             CreateMap<CreateArtistDto, Artist>();
             CreateMap<Artist, ArtistDto>();
+            CreateMap<ArtistRatingAverage, ArtistDto>();
 
             CreateMap<ArtistComment, ArtistCommentDto>();
             CreateMap<ArtistCommentDto, ArtistComment>();

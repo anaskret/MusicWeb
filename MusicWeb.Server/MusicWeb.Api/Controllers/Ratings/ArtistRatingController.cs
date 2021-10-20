@@ -5,6 +5,7 @@ using MusicWeb.Api.Extensions;
 using MusicWeb.Models.Dtos.Ratings;
 using MusicWeb.Models.Entities.Ratings;
 using MusicWeb.Services.Interfaces.Ratings;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,7 @@ using System.Threading.Tasks;
 
 namespace MusicWeb.Api.Controllers.Ratings
 {
+    [ApiController]
     public class ArtistRatingController : Controller
     {
         private readonly IMapper _mapper;
@@ -67,6 +69,8 @@ namespace MusicWeb.Api.Controllers.Ratings
         [HttpPost(ApiRoutes.ArtistRatings.Create)]
         public async Task<IActionResult> CreateArtist([FromBody] CreateArtistRatingDto dto)
         {
+            /*if (!ModelState.IsValid)
+                return BadRequest(JsonConvert.SerializeObject(ModelState.Values.Select(e => e.Errors).ToList()));*/
             try
             {
                 var entity = _mapper.Map<ArtistRating>(dto);
@@ -87,6 +91,8 @@ namespace MusicWeb.Api.Controllers.Ratings
         [HttpPut(ApiRoutes.ArtistRatings.Update)]
         public async Task<IActionResult> UpdateArtist([FromBody] ArtistRatingDto dto)
         {
+           /* if (!ModelState.IsValid)
+                return BadRequest("Model is invalid, Rating has to be between 1 and 5");*/
             try
             {
                 var entity = _mapper.Map<ArtistRating>(dto);

@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MusicWeb.DataAccess.Data;
 using MusicWeb.Models.Entities;
+using MusicWeb.Models.Entities.Keyless;
 using MusicWeb.Models.Enums;
 using MusicWeb.Repositories.Interfaces.Artists;
 using MusicWeb.Repositories.Repositories.Base;
@@ -33,26 +34,42 @@ namespace MusicWeb.Repositories.Repositories.Artists
             return entity;
         }
 
-        public async Task GetArtistsPagedAsync(SortType sortType, DateTime startDate, DateTime endDate, int pageNum = 0, int pageSize = 15, string searchString = "")
+        public async Task<List<ArtistRatingAverage>> GetArtistsPagedAsync(SortType sortType, DateTime startDate, DateTime endDate, int pageNum = 0, int pageSize = 15, string searchString = "")
         {
-           /* SELECT *, T1.Rating
+            var sql = @$"SELECT T0.*, ROUND(Coalesce(T1.Rating, 0), 2) as Popularity
 FROM Artist T0
-JOIN(SELECT ArtistId, AVG(Rating) as Rating FROM ArtistRating GROUP BY ArtistId) T1 ON T1.ArtistId = T0.Id
-WHERE T0.Name LIKE(CASE
-                        WHEN LEN('test') > 0 THEN '%test%'
+LEFT JOIN(SELECT ArtistId, AVG(Cast(Rating as float)) as Rating FROM ArtistRating GROUP BY ArtistId) T1 ON T1.ArtistId = T0.Id";
 
-                        ELSE '%%'
+            var query = _dbContext.ArtistRatingAverage.FromSqlRaw(sql);
 
-                    END)
-	OR(T0.EstablishmentDate < '12.15.2015 00:00:00' AND T0.EstablishmentDate < '12.15.2021 00:00:00')
-ORDER BY
+            if (!string.IsNullOrEmpty(searchString))
+                query = query.Where(prp => prp.Name.Contains(searchString));
 
-         CASE 0 WHEN 0 THEN T0.Name ELSE '' END ASC,
-         CASE 1 WHEN 0 THEN T0.Name ELSE '' END DESC,
-         CASE 2 WHEN 0 THEN T1.Rating ELSE '' END ASC,
-         CASE 3 WHEN 0 THEN T1.Rating ELSE '' END DESC
-OFFSET 0 * 15 ROWS
-  FETCH NEXT 15 ROWS ONLY;*/
+            query = query.Where(prp => prp.EstablishmentDate > startDate && prp.EstablishmentDate < endDate );
+            switch (sortType)
+            {
+                case SortType.AlphabeticAsc:
+                    query = query.OrderBy(prp => prp.Name);
+                break;
+                case SortType.AlphabeticDesc:
+                    query =  query.OrderByDescending(prp => prp.Name);
+                break;
+                case SortType.PopularityAsc:
+                    query =  query.OrderBy(prp => prp.Popularity);
+                break;
+                case SortType.PopularityDesc:
+                    query =  query.OrderByDescending(prp => prp.Popularity);
+                break;
+                default:
+                    query =  query.OrderBy(prp => prp.Name);
+                break;
+            }
+
+            query = query.Skip(pageNum * pageSize);
+            query = query.Take(pageSize);
+
+            var entities = await query.ToListAsync();
+            return entities;
         }
     }
 }

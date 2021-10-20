@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using MusicWeb.Models.Entities;
 using MusicWeb.Models.Entities.Artists;
+using MusicWeb.Models.Entities.Keyless;
 using MusicWeb.Models.Entities.Origins;
 using MusicWeb.Models.Entities.Posts;
 using MusicWeb.Models.Entities.Ratings;
@@ -48,6 +49,9 @@ namespace MusicWeb.DataAccess.Data
         public DbSet<Message> Message{ get; set; }
 
         public DbSet<Post> Post{ get; set; }
+
+        //Keyless
+        public DbSet<ArtistRatingAverage> ArtistRatingAverage { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -398,6 +402,11 @@ namespace MusicWeb.DataAccess.Data
                 .HasForeignKey(e => e.UserId)
                 .OnDelete(DeleteBehavior.Restrict)
                 .IsRequired(true);
+            });
+
+            modelBuilder.Entity<ArtistRatingAverage>(entity =>
+            {
+                entity.HasNoKey();
             });
 
             base.OnModelCreating(modelBuilder);
