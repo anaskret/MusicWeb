@@ -116,6 +116,7 @@ namespace MusicWeb.Services.Services.Artists
 
         public async Task<List<Artist>> GetPagedAsync(SortType sortType, DateTime startDate, DateTime endDate, int pageNum = 0, int pageSize = 15, string searchString = "")
         {
+            //przepisać na sql
             var query = _artistRepository.GetAll();
 
             if(!string.IsNullOrEmpty(searchString))
@@ -131,15 +132,23 @@ namespace MusicWeb.Services.Services.Artists
                     break;
                 case SortType.AlphabeticDesc: query.OrderByDescending(prp => prp.Name);
                     break;
-                //case SortType.PopularityAsc: query.OrderBy(prp => prp.)
+                case SortType.PopularityAsc:
+                    query.Include(prp => prp.ArtistRatings);
+                    query.OrderBy(obj => obj.ArtistRatings.Where(prp => prp.ArtistId == obj.Id).Average(prp => prp.Rating));
+                        break;
+                case SortType.PopularityDesc:
+                    query.Include(prp => prp.ArtistRatings);
+                    query.OrderByDescending(obj => obj.ArtistRatings.Where(prp => prp.ArtistId == obj.Id).ToList().Average(prp => prp.Rating));
+                        break;
                 default: query.OrderBy(prp => prp.Name);
                     break;
             }
 
-            query.Skip(pageNum * pageSize);
-            query.Take(pageSize);
+            /*query.Skip(pageNum * pageSize);
+            query.Take(pageSize);*/
 
-            return await query.ToListAsync();
+            var response = await query.ToListAsync();
+            return response;
         }
 
         public async Task DeleteAsync(int id)

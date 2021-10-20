@@ -35,7 +35,9 @@ namespace MusicWeb.Repositories.Repositories.Artists
 
         public async Task GetArtistsPagedAsync(SortType sortType, DateTime startDate, DateTime endDate, int pageNum = 0, int pageSize = 15, string searchString = "")
         {
-            var query = GetAll();
+            var sql = $"SELECT * FROM Artist";
+
+            /*var query = GetAll();
 
             //query.Include(prp => prp)
 
@@ -61,7 +63,7 @@ namespace MusicWeb.Repositories.Repositories.Artists
             }
 
             query.Skip(pageNum * pageSize);
-            query.Take(pageSize);
+            query.Take(pageSize);*/
         }
     }
 }
