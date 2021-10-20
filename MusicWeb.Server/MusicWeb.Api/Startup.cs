@@ -37,6 +37,7 @@ using MusicWeb.Repositories.Repositories.Posts;
 using MusicWeb.Repositories.Repositories.Songs;
 using MusicWeb.Repositories.Repositories.Users;
 using MusicWeb.Services.Interfaces;
+using MusicWeb.Services.Interfaces.Albums;
 using MusicWeb.Services.Interfaces.Artists;
 using MusicWeb.Services.Interfaces.Files;
 using MusicWeb.Services.Interfaces.Genres;
@@ -192,6 +193,7 @@ namespace MusicWeb.Api
             services.AddTransient<IOriginService, OriginService>();
 
             services.AddTransient<IAlbumService, AlbumService>();
+            services.AddTransient<IAlbumReviewService, AlbumReviewService>();
 
             services.AddTransient<ISongService, SongService>();
 
