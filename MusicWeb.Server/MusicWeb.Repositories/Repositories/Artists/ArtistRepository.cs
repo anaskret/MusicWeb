@@ -35,33 +35,24 @@ namespace MusicWeb.Repositories.Repositories.Artists
 
         public async Task GetArtistsPagedAsync(SortType sortType, DateTime startDate, DateTime endDate, int pageNum = 0, int pageSize = 15, string searchString = "")
         {
-            var query = GetAll();
+           /* SELECT *, T1.Rating
+FROM Artist T0
+JOIN(SELECT ArtistId, AVG(Rating) as Rating FROM ArtistRating GROUP BY ArtistId) T1 ON T1.ArtistId = T0.Id
+WHERE T0.Name LIKE(CASE
+                        WHEN LEN('test') > 0 THEN '%test%'
 
-            //query.Include(prp => prp)
+                        ELSE '%%'
 
-            if (!string.IsNullOrEmpty(searchString))
-                query = query.Where(prp => prp.Name.Contains(searchString));
-            if (startDate > DateTime.MinValue)
-                query = query.Where(prp => prp.EstablishmentDate > startDate);
-            if (endDate < DateTime.MaxValue)
-                query = query.Where(prp => prp.EstablishmentDate < endDate);
+                    END)
+	OR(T0.EstablishmentDate < '12.15.2015 00:00:00' AND T0.EstablishmentDate < '12.15.2021 00:00:00')
+ORDER BY
 
-            switch (sortType)
-            {
-                case SortType.AlphabeticAsc:
-                    query.OrderBy(prp => prp.Name);
-                    break;
-                case SortType.AlphabeticDesc:
-                    query.OrderByDescending(prp => prp.Name);
-                    break;
-                //case SortType.PopularityAsc: query.OrderBy(prp => prp.)
-                default:
-                    query.OrderBy(prp => prp.Name);
-                    break;
-            }
-
-            query.Skip(pageNum * pageSize);
-            query.Take(pageSize);
+         CASE 0 WHEN 0 THEN T0.Name ELSE '' END ASC,
+         CASE 1 WHEN 0 THEN T0.Name ELSE '' END DESC,
+         CASE 2 WHEN 0 THEN T1.Rating ELSE '' END ASC,
+         CASE 3 WHEN 0 THEN T1.Rating ELSE '' END DESC
+OFFSET 0 * 15 ROWS
+  FETCH NEXT 15 ROWS ONLY;*/
         }
     }
 }
