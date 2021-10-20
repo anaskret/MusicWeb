@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 
 namespace MusicWeb.Api.Controllers.Genres
 {
+    [ApiController]
     public class GenreController : Controller
     {
         private readonly IGenreService _genreService;

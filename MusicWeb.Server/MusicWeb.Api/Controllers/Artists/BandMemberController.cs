@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 
 namespace MusicWeb.Api.Controllers.Artists
 {
+    [ApiController]
     public class BandMemberController : Controller
     {
         private readonly IBandService _bandService;

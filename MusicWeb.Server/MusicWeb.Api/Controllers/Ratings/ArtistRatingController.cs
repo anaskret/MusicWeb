@@ -69,8 +69,6 @@ namespace MusicWeb.Api.Controllers.Ratings
         [HttpPost(ApiRoutes.ArtistRatings.Create)]
         public async Task<IActionResult> CreateArtist([FromBody] CreateArtistRatingDto dto)
         {
-            /*if (!ModelState.IsValid)
-                return BadRequest(JsonConvert.SerializeObject(ModelState.Values.Select(e => e.Errors).ToList()));*/
             try
             {
                 var entity = _mapper.Map<ArtistRating>(dto);
@@ -91,8 +89,6 @@ namespace MusicWeb.Api.Controllers.Ratings
         [HttpPut(ApiRoutes.ArtistRatings.Update)]
         public async Task<IActionResult> UpdateArtist([FromBody] ArtistRatingDto dto)
         {
-           /* if (!ModelState.IsValid)
-                return BadRequest("Model is invalid, Rating has to be between 1 and 5");*/
             try
             {
                 var entity = _mapper.Map<ArtistRating>(dto);

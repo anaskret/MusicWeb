@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 
 namespace MusicWeb.Api.Controllers.Posts
 {
+    [ApiController]
     public class PostController : Controller
     {
         private readonly IPostService _postService;

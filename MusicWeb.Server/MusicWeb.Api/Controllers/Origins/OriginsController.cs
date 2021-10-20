@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 
 namespace MusicWeb.Api.Controllers.Origins
 {
+    [ApiController]
     public class OriginsController : Controller
     {
         private readonly IOriginService _originService;
