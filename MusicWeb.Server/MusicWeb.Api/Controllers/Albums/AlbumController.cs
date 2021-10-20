@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace MusicWeb.Api.Controllers.Albums
 {
-    public class AlbumController: Controller
+    public class AlbumController : Controller
     {
         private readonly IAlbumService _albumService;
         private readonly IMapper _mapper;
@@ -26,8 +26,39 @@ namespace MusicWeb.Api.Controllers.Albums
             _logger = logger;
         }
 
+        [HttpGet(ApiRoutes.Albums.GetById)]
+        public async Task<IActionResult> GetById([FromRoute] int id)
+        {
+            try
+            {
+                var response = await _albumService.GetByIdAsync(id);
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+
+        [HttpGet(ApiRoutes.Albums.GetAll)]
+        public async Task<IActionResult> GetFullAlbumData()
+        {
+            try
+            {
+                var response = await _albumService.GetAllAsync();
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return StatusCode(500, ex.Message);
+            }
+        }
+
         [HttpPost(ApiRoutes.Albums.Create)]
-        public async Task<IActionResult> CreateAlbum([FromBody] CreateAlbumDto dto)
+        public async Task<IActionResult> CreateAlbum([FromBody] AlbumDto dto)
         {
             try
             {
@@ -36,7 +67,40 @@ namespace MusicWeb.Api.Controllers.Albums
 
                 return Ok();
             }
-            catch(Exception ex)
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [HttpPut(ApiRoutes.Albums.Update)]
+        public async Task<IActionResult> UpdateAlbum([FromBody] AlbumDto dto)
+        {
+            try
+            {
+                var entity = _mapper.Map<Album>(dto);
+                await _albumService.UpdateAsync(entity);
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [HttpDelete(ApiRoutes.Albums.Delete)]
+        public async Task<IActionResult> DeleteAlbum([FromRoute] int id)
+        {
+            try
+            {
+                await _albumService.DeleteAsync(id);
+
+                return Ok();
+            }
+            catch (Exception ex)
             {
                 _logger.LogError(ex.Message);
                 return StatusCode(500, ex.Message);
