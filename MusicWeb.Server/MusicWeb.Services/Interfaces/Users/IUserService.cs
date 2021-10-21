@@ -1,4 +1,5 @@
 ﻿using MusicWeb.Models.Dtos.Users;
+using MusicWeb.Models.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ namespace MusicWeb.Services.Interfaces.Users
 {
     public interface IUserService
     {
-        Task<UserDto> GetUserProfileById(string id);
-        Task<List<UserDto>> GetAllAsync();
+        Task<ApplicationUser> GetUserProfileById(string id);
+        Task<List<ApplicationUser>> GetAllAsync();
     }
 }

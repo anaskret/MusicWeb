@@ -46,6 +46,7 @@ using MusicWeb.Services.Interfaces.Identity;
 using MusicWeb.Services.Interfaces.Origins;
 using MusicWeb.Services.Interfaces.Posts;
 using MusicWeb.Services.Interfaces.Ratings;
+using MusicWeb.Services.Interfaces.Roles;
 using MusicWeb.Services.Interfaces.Users;
 using MusicWeb.Services.Services.Albums;
 using MusicWeb.Services.Services.Artists;
@@ -55,6 +56,7 @@ using MusicWeb.Services.Services.Identity;
 using MusicWeb.Services.Services.Origins;
 using MusicWeb.Services.Services.Posts;
 using MusicWeb.Services.Services.Ratings;
+using MusicWeb.Services.Services.Roles;
 using MusicWeb.Services.Services.Users;
 using System;
 using System.Collections.Generic;
@@ -207,6 +209,8 @@ namespace MusicWeb.Api
 
             services.AddTransient<IArtistRatingRepository, ArtistRatingRepository>();
             services.AddTransient<IArtistRatingService, ArtistRatingService>();
+
+            services.AddTransient<IRolesService, RolesService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -1,0 +1,110 @@
+﻿@page "/users/list"
+
+@using Admin.Pages.Settings.Models
+@using Admin.Pages.Settings.Factories.Interfaces
+
+@inject IUserModelFactory _userModelFactory;
+@inject ILogger<List> _logger;
+@inject UserManager<ApplicationUser> _userManager;
+
+@*@attribute [Authorize(Roles = "Admin")]*@
+
+<title>MusicWeb - Users</title>
+
+<div class="row">
+    <div class="panel-hdr text-center">
+        <div class="col-12">
+            <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                <h4 class="mb-sm-0">Users</h4>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-12">
+        <div class="card mb-g">
+            <div class="card-body">
+                <StatusMessageComponent @ref="StatusMessage" />
+                <div class="frame-wrap p-0 border-0 m-0">
+                    <div class="d-flex flex-row-reverse">
+                        <a href="/users/create" class="btn btn-primary btn-xs-block mb-3 float-right waves-effect waves-themed">Create new admin</a>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table m-0 table-striped table-bordered" id="table-example">
+                            <thead class="thead-themed">
+                                <tr>
+                                    <th>UserName</th>
+                                    <th>Email</th>
+                                    <th>Account Type</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var user in UsersList)
+                                {
+                                    <tr>
+                                        <td>@user.UserName</td>
+                                        <td>@user.Email</td>
+                                        <td>@user.Type</td>
+                                        <td>
+                                            <div class="text-center">
+                                                <a href="/users/edit/@user.Id" title="Edit">
+                                                    <i class="fas fa-edit"></i>
+                                                </a>
+                                                <a href="#" @onclick="() => DeleteClick(user.Id)" @onclick:preventDefault title="Delete">
+                                                    <i class="fas fa-trash-alt"></i>
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<ConfirmComponent ConfirmationChanged="ConfirmDelete_Click" @ref="DeleteConfirmation"></ConfirmComponent>
+
+@code {
+    public List<UserListModel> UsersList { get; set; }
+
+    protected ConfirmComponent DeleteConfirmation { get; set; }
+    public StatusMessageComponent StatusMessage { get; set; }
+
+    private string idToDelete;
+
+    protected override async Task OnInitializedAsync()
+    {
+            await base.OnInitializedAsync();
+
+            UsersList = new List<UserListModel>();
+            await _userModelFactory.PrepareListAsync(UsersList);
+    }
+
+    private void DeleteClick(string id)
+    {
+        idToDelete = id;
+        DeleteConfirmation.Show();
+    }
+
+    protected async Task ConfirmDelete_Click(bool deleteConfirmed)
+    {
+        try
+        {
+            if (deleteConfirmed)
+            {
+                var user = await _userManager.FindByIdAsync(idToDelete);
+                var model = UsersList.FirstOrDefault(prp => prp.Id == user.Id);
+                UsersList.Remove(model);
+                await _userManager.DeleteAsync(user);
+                StateHasChanged();
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex.Message);
+            StatusMessage.Show("Error Something went wrong while deleting the user. Please try again");
+        }
+    }
+}

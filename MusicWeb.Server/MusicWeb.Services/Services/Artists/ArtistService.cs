@@ -117,13 +117,6 @@ namespace MusicWeb.Services.Services.Artists
 
         public async Task<List<ArtistRatingAverage>> GetPagedAsync(SortType sortType, DateTime startDate, DateTime endDate, int pageNum = 0, int pageSize = 15, string searchString = "")
         {
-            if (startDate < endDate)
-                throw new ArgumentException("Start Date has to be smaller than End Date");
-            if (pageNum < 0)
-                pageNum = 0;
-            if (pageSize < 1)
-                pageSize = 1;
-
             var response = await _artistRepository.GetArtistsPagedAsync(sortType, startDate, endDate, pageNum, pageSize, searchString);
             return response;
         }

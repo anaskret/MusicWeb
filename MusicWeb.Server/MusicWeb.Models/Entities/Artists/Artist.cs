@@ -2,6 +2,7 @@
 using MusicWeb.Models.Entities.Base;
 using MusicWeb.Models.Entities.Origins;
 using MusicWeb.Models.Entities.Ratings;
+using MusicWeb.Models.Identity;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -25,6 +26,9 @@ namespace MusicWeb.Models.Entities
         public virtual BandMember BandMember { get; set; }
         public virtual City City{ get; set; }
 
+        public string UserId { get; set; }
+
+        public virtual ApplicationUser ArtistUser{ get; set; }
         public virtual ICollection<Album> Albums{ get; set; }
         public virtual ICollection<Song> Songs{ get; set; }
         public virtual ICollection<SongGuestArtist> SongGuestArtists{ get; set; }

@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using MusicWeb.DataAccess.Data;
+using MusicWeb.Models.Enums;
 using MusicWeb.Models.Identity;
 using MusicWeb.Models.Models.Identity;
 using MusicWeb.Repositories.Interfaces.Identity;
@@ -70,14 +71,16 @@ namespace MusicWeb.Repositories.Repositories.Identity
             return response;
         }
 
-        public async Task<RegisterResponse> Register(RegisterModel model) //
+        public async Task<RegisterResponse> Register(RegisterModel model) 
         {
             var userExists = await _userManager.FindByNameAsync(model.Username);
+            var userByEmail = await _userManager.FindByEmailAsync(model.Email);
 
             if (userExists != null)
-            {
                 throw new ArgumentException("User already exists!");
-            }
+            if(userByEmail != null)
+                throw new ArgumentException("Email already taken!");
+
 
             ApplicationUser user = new ApplicationUser()
             {
@@ -86,7 +89,9 @@ namespace MusicWeb.Repositories.Repositories.Identity
                 FirstName = model.FirstName,
                 LastName = model.LastName,
                 Email = model.Email,
-                BirthDate = model.BirthDate
+                BirthDate = model.BirthDate,
+                Type = UserType.Standard,
+                ArtistId = 0
             };
 
             var result = await _userManager.CreateAsync(user, model.Password);

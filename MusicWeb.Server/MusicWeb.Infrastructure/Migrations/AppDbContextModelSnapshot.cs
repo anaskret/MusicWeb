@@ -16,7 +16,7 @@ namespace MusicWeb.DataAccess.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("ProductVersion", "5.0.9")
+                .HasAnnotation("ProductVersion", "5.0.11")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -97,10 +97,12 @@ namespace MusicWeb.DataAccess.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(450)");
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
 
                     b.Property<string>("ProviderKey")
-                        .HasColumnType("nvarchar(450)");
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
 
                     b.Property<string>("ProviderDisplayName")
                         .HasColumnType("nvarchar(max)");
@@ -137,10 +139,12 @@ namespace MusicWeb.DataAccess.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(450)");
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(450)");
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
 
                     b.Property<string>("Value")
                         .HasColumnType("nvarchar(max)");
@@ -258,6 +262,9 @@ namespace MusicWeb.DataAccess.Migrations
                     b.Property<int?>("StateId")
                         .HasColumnType("int");
 
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("CityId");
@@ -265,6 +272,10 @@ namespace MusicWeb.DataAccess.Migrations
                     b.HasIndex("CountryId");
 
                     b.HasIndex("StateId");
+
+                    b.HasIndex("UserId")
+                        .IsUnique()
+                        .HasFilter("[UserId] IS NOT NULL");
 
                     b.ToTable("Artist");
                 });
@@ -789,6 +800,9 @@ namespace MusicWeb.DataAccess.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
+                    b.Property<int?>("ArtistId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("BirthDate")
                         .HasColumnType("datetime2");
 
@@ -840,6 +854,9 @@ namespace MusicWeb.DataAccess.Migrations
 
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("bit");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
 
                     b.Property<string>("UserName")
                         .HasMaxLength(256)
@@ -962,6 +979,12 @@ namespace MusicWeb.DataAccess.Migrations
                     b.HasOne("MusicWeb.Models.Entities.Origins.State", null)
                         .WithMany("Artists")
                         .HasForeignKey("StateId");
+
+                    b.HasOne("MusicWeb.Models.Identity.ApplicationUser", "ArtistUser")
+                        .WithOne("Artist")
+                        .HasForeignKey("MusicWeb.Models.Entities.Artist", "UserId");
+
+                    b.Navigation("ArtistUser");
 
                     b.Navigation("City");
                 });
@@ -1354,6 +1377,8 @@ namespace MusicWeb.DataAccess.Migrations
             modelBuilder.Entity("MusicWeb.Models.Identity.ApplicationUser", b =>
                 {
                     b.Navigation("AlbumReviews");
+
+                    b.Navigation("Artist");
 
                     b.Navigation("ArtistComments");
 

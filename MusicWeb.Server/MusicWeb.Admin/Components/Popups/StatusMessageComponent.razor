@@ -1,0 +1,27 @@
+﻿@if (ShowMessage)
+{
+    var statusMessageClass = Message.StartsWith("Error") ? "danger" : "success";
+    <div class="alert alert-@statusMessageClass alert-dismissible mb-2" role="alert">
+        <button type="button" @onclick="Hide" class="btn-close" aria-label="Close"></button>
+        @Message.Replace("Error ", "")
+    </div>
+}
+
+@code {
+    private bool ShowMessage { get; set; }
+
+    private string Message { get; set; }
+
+    public void Show(string message)
+    {
+        ShowMessage = true;
+        Message = message;
+        StateHasChanged();
+    }
+
+    public void Hide()
+    {
+        ShowMessage = false;
+        StateHasChanged();
+    }
+}

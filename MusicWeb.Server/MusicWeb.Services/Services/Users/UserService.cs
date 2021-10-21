@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using MusicWeb.Models.Dtos.Users;
+using MusicWeb.Models.Identity;
 using MusicWeb.Repositories.Interfaces.Users;
 using MusicWeb.Services.Interfaces.Users;
 using System;
@@ -21,15 +22,15 @@ namespace MusicWeb.Services.Services.Users
             _mapper = mapper;
         }
 
-        public async Task<List<UserDto>> GetAllAsync()
+        public async Task<List<ApplicationUser>> GetAllAsync()
         {
-            return _mapper.Map<List<UserDto>>(await _userRepository.GetAllAsync());
+            return await _userRepository.GetAllAsync();
         }
 
-        public async Task<UserDto> GetUserProfileById(string id)
+        public async Task<ApplicationUser> GetUserProfileById(string id)
         {
             var entity = await _userRepository.GetUserByIdAsync(id);
-            return _mapper.Map<UserDto>(entity);
+            return entity;
         }
     }
 }

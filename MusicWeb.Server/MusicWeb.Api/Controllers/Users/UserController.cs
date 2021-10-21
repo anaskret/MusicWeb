@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using MusicWeb.Api.Extensions;
+using MusicWeb.Models.Dtos.Users;
 using MusicWeb.Services.Interfaces.Users;
 using System;
 using System.Collections.Generic;
@@ -14,11 +16,13 @@ namespace MusicWeb.Api.Controllers.Users
     {
         private readonly IUserService _userService;
         private readonly ILogger _logger;
+        private readonly IMapper _mapper;
 
-        public UserController(IUserService userService, ILogger<UserController> logger)
+        public UserController(IUserService userService, ILogger<UserController> logger, IMapper mapper)
         {
             _userService = userService;
             _logger = logger;
+            _mapper = mapper;
         }
 
         [HttpGet(ApiRoutes.Users.GetAll)]
@@ -26,7 +30,7 @@ namespace MusicWeb.Api.Controllers.Users
         {
             try
             {
-                var models = await _userService.GetAllAsync();
+                var models = _mapper.Map<List<UserDto>>(await _userService.GetAllAsync());
                 return Ok(models);
             }
             catch(Exception ex)
@@ -41,7 +45,7 @@ namespace MusicWeb.Api.Controllers.Users
         {
             try
             {
-                var model = await _userService.GetUserProfileById(id);
+                var model = _mapper.Map<UserDto>(await _userService.GetUserProfileById(id));
                 return Ok(model);
             }
             catch(Exception ex)
