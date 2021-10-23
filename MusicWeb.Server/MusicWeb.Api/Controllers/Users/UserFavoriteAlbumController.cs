@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using MusicWeb.Api.Extensions;
 using MusicWeb.Models.Dtos.Users;
+using MusicWeb.Models.Entities;
 using MusicWeb.Services.Interfaces.Users;
 using System;
 using System.Collections.Generic;
@@ -15,19 +17,23 @@ namespace MusicWeb.Api.Controllers.Users
     {
         private readonly ILogger _logger;
         private readonly IUserFavoriteAlbumService _userFavoriteAlbumService;
+        private readonly IMapper _mapper;
 
-        public UserFavoriteAlbumController(ILogger<UserFavoriteAlbumController> logger, IUserFavoriteAlbumService userFavoriteAlbumService)
+        public UserFavoriteAlbumController(ILogger<UserFavoriteAlbumController> logger,
+            IUserFavoriteAlbumService userFavoriteAlbumService,
+            IMapper mapper)
         {
             _logger = logger;
             _userFavoriteAlbumService = userFavoriteAlbumService;
+            _mapper = mapper;
         }
 
         [HttpGet(ApiRoutes.UserFavoriteAlbums.GetAll)]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAll([FromRoute] string userId)
         {
             try
             {
-                var models = await _userFavoriteAlbumService.GetAllAsync();
+                var models = _mapper.Map<List<UserFavoriteDto>>(await _userFavoriteAlbumService.GetAllByUserIdAsync(userId));
                 return Ok(models);
             }
             catch (Exception ex)
@@ -42,7 +48,7 @@ namespace MusicWeb.Api.Controllers.Users
         {
             try
             {
-                await _userFavoriteAlbumService.CreateAsync(model);
+                await _userFavoriteAlbumService.CreateAsync(_mapper.Map<UserFavoriteAlbum>(model));
                 return Ok();
             }
             catch(Exception ex)

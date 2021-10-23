@@ -10,7 +10,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    Warning! Deleting an element is unreversable
+                    @Message
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary waves-effect waves-light" data-dismiss="modal"
@@ -29,9 +29,14 @@
 }
 @code {
     private bool ShowConfirmation { get; set; }
+    private string Message { get; set; }
 
-    public void Show()
+    public void Show(string message = "")
     {
+        Message = message;
+        if (string.IsNullOrEmpty(Message))
+            Message = "Warning! Deleting an element is unreversable";
+
         ShowConfirmation = true;
         StateHasChanged();
     }

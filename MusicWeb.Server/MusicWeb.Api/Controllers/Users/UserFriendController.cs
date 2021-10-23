@@ -26,11 +26,11 @@ namespace MusicWeb.Api.Controllers.Users
         }
 
         [HttpGet(ApiRoutes.UserFriends.GetAll)]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAll([FromRoute] string userId)
         {
             try
             {
-                var models = _mapper.Map<List<UserFriendDto>>(await _userFriendService.GetAllAsync());
+                var models = _mapper.Map<List<UserFriendDto>>(await _userFriendService.GetAllByUserIdAsync(userId));
                 return Ok(models);
             }
             catch (Exception ex)

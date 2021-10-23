@@ -10,6 +10,6 @@ namespace MusicWeb.Repositories.Interfaces.Users
 {
     public interface IUserFavoriteArtistRepository : IRepository<UserFavoriteArtist>
     {
-        Task<List<UserFavoriteArtist>> GetAllWithArtistAsync();
+        Task<List<UserFavoriteArtist>> GetAllWithArtistByUserIdAsync(string userId);
     }
 }

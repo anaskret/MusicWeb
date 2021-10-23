@@ -150,7 +150,11 @@
                 return;
             }
 
-            user = _mapper.Map<ApplicationUser>(Input);
+            user.UserName = Input.Username;
+            user.Email = Input.Email;
+            user.FirstName = Input.FirstName;
+            user.LastName = Input.LastName;
+            user.BirthDate = Input.BirthDate;
 
             var result = await _userManager.UpdateAsync(user);
 

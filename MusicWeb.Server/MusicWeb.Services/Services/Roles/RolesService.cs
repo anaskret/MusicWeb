@@ -12,10 +12,12 @@ namespace MusicWeb.Services.Services.Roles
     public class RolesService : IRolesService
     {
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
 
-        public RolesService(UserManager<ApplicationUser> userManager)
+        public RolesService(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
         {
             _userManager = userManager;
+            _roleManager = roleManager;
         }
 
         public async Task RemoveAdminRoles(string userId)
@@ -36,6 +38,10 @@ namespace MusicWeb.Services.Services.Roles
 
         public async Task SetAdminRoles(string userId)
         {
+            var role = await _roleManager.RoleExistsAsync("Admin");
+            if (!role)
+                await _roleManager.CreateAsync(new IdentityRole("Admin"));
+
             var user = await _userManager.FindByIdAsync(userId);
             await _userManager.AddToRoleAsync(user, "Admin");
 
@@ -44,6 +50,10 @@ namespace MusicWeb.Services.Services.Roles
 
         public async Task SetArtistRoles(string userId)
         {
+            var role = await _roleManager.RoleExistsAsync("Artist");
+            if (!role)
+                await _roleManager.CreateAsync(new IdentityRole("Artist"));
+
             var user = await _userManager.FindByIdAsync(userId);
             await _userManager.AddToRoleAsync(user, "Artist");
 

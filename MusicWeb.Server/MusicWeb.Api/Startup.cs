@@ -185,6 +185,7 @@ namespace MusicWeb.Api
             services.AddTransient<IUserFriendService, UserFriendService>();
 
             services.AddTransient<IUserObservedArtistRepository, UserObservedArtistRepository>();
+            services.AddTransient<IUserObservedArtistService, UserObservedArtistService>();
 
             services.AddTransient<IArtistCommentService, ArtistCommentService>();
             services.AddTransient<IArtistService, ArtistService>();

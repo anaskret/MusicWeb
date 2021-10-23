@@ -67,7 +67,7 @@ namespace MusicWeb.Services.Services.Artists
 
         public async Task<List<ArtistDto>> GetAllAsync()
         {
-            return _mapper.Map<List<ArtistDto>>(await _artistRepository.GetAllAsync());
+            return _mapper.Map<List<ArtistDto>>(await _artistRepository.GetAllAsync(artist => artist));
         }
 
         public async Task<ArtistFullInfoDto> GetFullArtistInfoByIdAsync(int id)

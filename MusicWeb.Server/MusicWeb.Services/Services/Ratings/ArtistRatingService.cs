@@ -30,9 +30,19 @@ namespace MusicWeb.Services.Services.Ratings
             await _artistRatingRepository.DeleteAsync(entity);
         }
 
-        public async Task<List<ArtistRating>> GetAllByArtistIdAsync(int id)
+        public async Task DeleteRangeByUserIdAsync(string userId)
         {
-            return await _artistRatingRepository.GetAll().Where(prp => prp.ArtistId == id).ToListAsync();
+            var entities = await GetAllByUserIdAsync(userId);
+            await _artistRatingRepository.DeleteRangeAsync(entities.ToList());
+        }
+        public async Task<IList<ArtistRating>> GetAllByArtistIdAsync(int id)
+        {
+            return await _artistRatingRepository.GetAllAsync(entity => entity.Where(prp => prp.ArtistId == id));
+        }
+
+        public async Task<IList<ArtistRating>> GetAllByUserIdAsync(string id)
+        {
+            return await _artistRatingRepository.GetAllAsync(entity => entity.Where(prp => string.Equals(prp.UserId, id)));
         }
 
         public async Task<ArtistRating> GetByIdAsync(int id)

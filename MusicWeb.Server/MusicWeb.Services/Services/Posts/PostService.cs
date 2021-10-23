@@ -30,7 +30,7 @@ namespace MusicWeb.Services.Services.Posts
             await _postRepository.DeleteAsync(entity);
         }
 
-        public async Task<List<Post>> GetAllAsync()
+        public async Task<IList<Post>> GetAllAsync()
         {
             return await _postRepository.GetAllAsync();
         }

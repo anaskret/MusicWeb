@@ -8,6 +8,7 @@ namespace MusicWeb.Models.Enums
 {
     public enum UserType
     {
+        All,
         Standard,
         Artist,
         Admin

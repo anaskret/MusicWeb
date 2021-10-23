@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MusicWeb.Repositories", "Mu
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MusicWeb.Services", "MusicWeb.Services\MusicWeb.Services.csproj", "{569DFFEE-3CD8-47B7-8ED9-9B8AE5714F67}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MusicWeb.Admin", "MusicWeb.Admin\MusicWeb.Admin.csproj", "{D1C1D42F-DB09-49F6-AF45-AD4E09257C9D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MusicWeb.Admin", "MusicWeb.Admin\MusicWeb.Admin.csproj", "{D1C1D42F-DB09-49F6-AF45-AD4E09257C9D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

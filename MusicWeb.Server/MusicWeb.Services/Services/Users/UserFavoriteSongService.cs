@@ -21,9 +21,8 @@ namespace MusicWeb.Services.Services.Users
             _userFavoriteSongRepository = userFavoriteSongRepository;
         }
 
-        public async Task CreateAsync(UserFavoriteDto model)
+        public async Task CreateAsync(UserFavoriteSong entity)
         {
-            var entity = _mapper.Map<UserFavoriteSong>(model);
             await _userFavoriteSongRepository.AddAsync(entity);
         }
 
@@ -33,10 +32,15 @@ namespace MusicWeb.Services.Services.Users
             await _userFavoriteSongRepository.DeleteAsync(entity);
         }
 
-        public async Task<List<UserFavoriteDto>> GetAllAsync()
+        public async Task DeleteRangeByUserIdAsync(string userId)
         {
-            var entites = await _userFavoriteSongRepository.GetAllWithSongAsync();
-            return _mapper.Map<List<UserFavoriteDto>>(entites);
+            var entities = await GetAllByUserIdAsync(userId);
+            await _userFavoriteSongRepository.DeleteRangeAsync(entities.ToList());
+        }
+
+        public async Task<IList<UserFavoriteSong>> GetAllByUserIdAsync(string userId)
+        {
+            return await _userFavoriteSongRepository.GetAllWithSongByUserIdAsync(userId);
         }
     }
 }

@@ -104,7 +104,7 @@ namespace MusicWeb.Api.Extensions
         public static class UserFavoriteArtists
         {
             public const string Create = Root + "/userfavoriteartists";
-            public const string GetAll = Root + "/userfavoriteartists";
+            public const string GetAll = Root + "/userfavoriteartistsbyuser/{id}";
             public const string GetById = Root + "/userfavoriteartists/{id}";
             public const string Delete = Root + "/userfavoriteartists/{id}";
         }
@@ -112,7 +112,7 @@ namespace MusicWeb.Api.Extensions
         public static class UserFavoriteAlbums
         {
             public const string Create = Root + "/userfavoritealbums";
-            public const string GetAll = Root + "/userfavoritealbums";
+            public const string GetAll = Root + "/userfavoritealbumsbyuser/{userId}";
             public const string GetById = Root + "/userfavoritealbums/{id}";
             public const string Delete = Root + "/userfavoritealbums/{id}";
         }
@@ -121,7 +121,7 @@ namespace MusicWeb.Api.Extensions
         {
             public const string Create = Root + "/userfavoritesongs";
             public const string GetById = Root + "/userfavoritesongs/{id}";
-            public const string GetAll = Root + "/userfavoritesongs";
+            public const string GetAll = Root + "/userfavoritesongsbyuser/{id}";
             public const string Delete = Root + "/userfavoritesongs/{id}";
         }
 
@@ -131,7 +131,7 @@ namespace MusicWeb.Api.Extensions
             public const string Update = Root + "/userfriends";
             public const string Delete = Root + "/userfriends/{id}";
             public const string GetById = Root + "/userfriends/{id}";
-            public const string GetAll = Root + "/userfriends";
+            public const string GetAll = Root + "/userfriendsbyuserId/{userId}";
         }
 
         public static class Posts
