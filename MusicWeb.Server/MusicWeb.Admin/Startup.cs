@@ -12,6 +12,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using MusicWeb.Admin.Areas.Identity;
 using MusicWeb.Admin.Middleware;
+using MusicWeb.Admin.Pages.Artists.Factories;
+using MusicWeb.Admin.Pages.Artists.Factories.Interfaces;
 using MusicWeb.Admin.Pages.Settings.Factories;
 using MusicWeb.Admin.Pages.Settings.Factories.Interfaces;
 using MusicWeb.DataAccess.Data;
@@ -170,6 +172,8 @@ namespace MusicWeb.Admin
             services.AddTransient<IRolesService, RolesService>();
 
             services.AddTransient<IFileService, FileService>();
+
+            services.AddTransient<IArtistModelFactory, ArtistModelFactory>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

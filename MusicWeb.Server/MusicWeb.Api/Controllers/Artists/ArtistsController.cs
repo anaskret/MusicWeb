@@ -119,9 +119,7 @@ namespace MusicWeb.Api.Controllers.Artists
         /// Creates an artist or a band.
         /// </summary>
         /// <remarks>
-        /// To create a band set IsBand = true and IsIndividual = false &#xA;
-        /// To add a band member set IsBand = false, IsIndividual = false nad BandId = SomeBandId &#xA;
-        /// To add an individual artist (without a band) set IsIndividual = true and IsBand = false &#xA;
+        /// To add a band member set Type to Band Member and BandId = SomeBandId &#xA;
         /// To add an artist image pass image bytes in ImageBytes, otherwise set the property to an empty string &#xA;
         /// </remarks>
         [HttpPost(ApiRoutes.Artists.Create)]

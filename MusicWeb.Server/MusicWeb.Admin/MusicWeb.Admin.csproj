@@ -28,4 +28,8 @@
     <ProjectReference Include="..\MusicWeb.Services\MusicWeb.Services.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Pages\Artists\Models\" />
+  </ItemGroup>
+
 </Project>

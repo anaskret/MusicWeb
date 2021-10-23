@@ -24,9 +24,12 @@ namespace MusicWeb.Admin.Pages.Artists.Factories
             _mapper = mapper;
         }
 
-        public Task PrepareCreator(List<CountryModel> countries, List<StateModel> states, List<CityModel> cities, List<BandModel> bands)
+        public async Task PrepareCreator(List<CountryModel> countries, List<StateModel> states, List<CityModel> cities, List<BandModel> bands)
         {
-            throw new NotImplementedException();
+            countries.AddRange(_mapper.Map<List<CountryModel>>(await _originService.GetAllCountriesAsync()));
+            states.AddRange(_mapper.Map<List<StateModel>>(await _originService.GetAllStatesAsync()));
+            cities.AddRange(_mapper.Map<List<CityModel>>(await _originService.GetAllCitiesAsync()));
+            bands.AddRange(_mapper.Map<List<BandModel>>(await _artistService.GetAllBandsAsync()));
         }
     }
 }

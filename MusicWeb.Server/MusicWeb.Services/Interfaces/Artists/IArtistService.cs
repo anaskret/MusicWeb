@@ -14,10 +14,12 @@ namespace MusicWeb.Services.Interfaces.Artists
     public interface IArtistService
     {
         Task<ArtistFullInfoDto> GetFullArtistInfoByIdAsync(int id);
-        Task<List<ArtistDto>> GetAllAsync();
+        Task<IList<Artist>> GetAllAsync();
+        Task<IList<Artist>> GetAllBandsAsync();
         Task<Artist> GetByIdAsync(int id);
         Task<List<ArtistRatingAverage>> GetPagedAsync(SortType sortType, DateTime startDate, DateTime endDate, int pageNum = 0, int pageSize = 15, string searchString = "");
         Task AddAsync(Artist entity, byte[] imageBytes);
+        Task AddArtistAsync(ArtistWithUserModel model);
         Task UpdateAsync(Artist entity);
         Task UpdateImageAsync(ArtistFileUpdateDto dto);
         Task DeleteAsync(int id);

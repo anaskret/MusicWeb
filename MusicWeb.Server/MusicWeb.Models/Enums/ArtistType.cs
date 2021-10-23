@@ -14,6 +14,6 @@ namespace MusicWeb.Models.Enums
         [Description("Band Member")]
         BandMember,
         [Description("Band")]
-        Bamd
+        Band
     }
 }

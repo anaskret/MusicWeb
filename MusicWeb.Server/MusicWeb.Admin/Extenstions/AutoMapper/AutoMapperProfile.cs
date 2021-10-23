@@ -1,6 +1,10 @@
 ﻿using AutoMapper;
 using MusicWeb.Admin.Pages.Settings.Models;
+using MusicWeb.Models.Entities;
+using MusicWeb.Models.Entities.Origins;
 using MusicWeb.Models.Identity;
+using MusicWeb.Models.Models.Artists;
+using MusicWeb.Models.Models.Origins;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +20,12 @@ namespace MusicWeb.Admin.Extenstions.AutoMapper
             CreateMap<ApplicationUser, UserModel>();
             CreateMap<ApplicationUser, EditUserModel>();
             CreateMap<EditUserModel, ApplicationUser>();
+
+            CreateMap<Country, CountryModel>();
+            CreateMap<State, StateModel>();
+            CreateMap<City, CityModel>();
+            CreateMap<Artist, BandModel>();
+            CreateMap<ArtistWithUserModel, Artist>();
         }
     }
 }

@@ -2,6 +2,7 @@
 using MusicWeb.Models.Entities.Base;
 using MusicWeb.Models.Entities.Origins;
 using MusicWeb.Models.Entities.Ratings;
+using MusicWeb.Models.Enums;
 using MusicWeb.Models.Identity;
 using System;
 using System.Collections.Generic;
@@ -18,8 +19,7 @@ namespace MusicWeb.Models.Entities
         public DateTime EstablishmentDate { get; set; }
         public string Bio { get; set; }
         public string ImagePath { get; set; }
-        public bool IsIndividual { get; set; }
-        public bool IsBand { get; set; }
+        public ArtistType Type { get; set; }
 
         public int? BandId { get; set; }
         public int CityId{ get; set; }
