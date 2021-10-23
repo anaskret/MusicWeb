@@ -52,13 +52,13 @@ namespace MusicWeb.Services.Services.Artists
         {
             if (imageBytes.Length > 0)
                 entity.ImagePath = await _fileService.UploadFile(imageBytes, FilePathConsts.ArtistPath);
-            if (entity.Type != ArtistType.BandMember)
-            {
-                await _artistRepository.AddAsync(entity);
-                return;
-            }
 
-            var bandEntity = await GetByIdAsync(entity.BandId.GetValueOrDefault());
+            await _artistRepository.AddAsync(entity);
+            if (entity.Type != ArtistType.BandMember)
+                return;
+
+            var bandId = entity.BandId.GetValueOrDefault();
+            var bandEntity = await GetByIdAsync(bandId);
             if (bandEntity == null)
                 throw new ArgumentException("Incorrect BandId");
 
@@ -140,6 +140,17 @@ namespace MusicWeb.Services.Services.Artists
             if (userByUserName != null)
                 throw new ArgumentException("User with given username already exists!");
 
+            var artistEntity = _mapper.Map<Artist>(model);
+
+            if (model.Image != null)
+            {
+                var fileBytes = new byte[model.Image.Size];
+                await model.Image.OpenReadStream(int.MaxValue).ReadAsync(fileBytes);
+                await AddAsync(artistEntity, fileBytes);
+            }
+            else
+                await AddAsync(artistEntity, Array.Empty<byte>());
+
             var userEntity = new ApplicationUser()
             {
                 Email = model.Email,
@@ -147,15 +158,12 @@ namespace MusicWeb.Services.Services.Artists
                 FirstName = model.Name,
                 LastName = string.IsNullOrEmpty(model.LastName) ? model.LastName : model.Name,
                 BirthDate = model.EstablishmentDate,
+                ArtistId = artistEntity.Id,
                 Type = UserType.Artist
             };
             await _userManager.CreateAsync(userEntity);
 
-            var artistEntity = _mapper.Map<Artist>(model);
-            var fileBytes = new byte[model.Image.Size];
-            await model.Image.OpenReadStream(int.MaxValue).ReadAsync(fileBytes);
-
-            await AddAsync(artistEntity, fileBytes);
+            
         }
     }
 }
