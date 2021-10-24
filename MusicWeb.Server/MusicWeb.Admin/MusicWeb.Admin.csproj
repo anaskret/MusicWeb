@@ -19,6 +19,7 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.2" />
     <PackageReference Include="NLog" Version="4.7.11" />
     <PackageReference Include="NLog.Web.AspNetCore" Version="4.14.0" />
+    <PackageReference Include="xunit.extensibility.core" Version="2.4.1" />
   </ItemGroup>
 
   <ItemGroup>
@@ -26,10 +27,6 @@
     <ProjectReference Include="..\MusicWeb.Models\MusicWeb.Models.csproj" />
     <ProjectReference Include="..\MusicWeb.Repositories\MusicWeb.Repositories.csproj" />
     <ProjectReference Include="..\MusicWeb.Services\MusicWeb.Services.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Pages\Artists\Models\" />
   </ItemGroup>
 
 </Project>

@@ -11,7 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MusicWeb.Models.Entities
+namespace MusicWeb.Models.Entities.Artists
 {
     public class Artist : BaseEntity
     {

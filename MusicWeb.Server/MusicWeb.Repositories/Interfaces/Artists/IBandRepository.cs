@@ -12,5 +12,6 @@ namespace MusicWeb.Repositories.Interfaces.Artists
     public interface IBandRepository : IRepository<BandMember>
     {
         Task<List<BandMember>> GetBandMembersAsync(int id);
+        Task<BandMember> GetByBandIdAndArtistId(int bandId, int artistId);
     }
 }

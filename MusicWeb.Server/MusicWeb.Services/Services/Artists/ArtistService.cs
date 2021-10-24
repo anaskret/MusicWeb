@@ -10,12 +10,15 @@ using MusicWeb.Models.Entities.Keyless;
 using MusicWeb.Models.Enums;
 using MusicWeb.Models.Identity;
 using MusicWeb.Models.Models.Artists;
+using MusicWeb.Repositories.Extensions.Pagination.Interfaces;
 using MusicWeb.Repositories.Interfaces.Artists;
 using MusicWeb.Services.Interfaces;
 using MusicWeb.Services.Interfaces.Artists;
 using MusicWeb.Services.Interfaces.Files;
 using MusicWeb.Services.Interfaces.Genres;
 using MusicWeb.Services.Interfaces.Origins;
+using MusicWeb.Services.Interfaces.Ratings;
+using MusicWeb.Services.Interfaces.Users;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -32,15 +35,33 @@ namespace MusicWeb.Services.Services.Artists
         private readonly IMapper _mapper;
         private readonly IFileService _fileService;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IAlbumService _albumService;
+        private readonly IArtistCommentService _artistCommentService;
+        private readonly IArtistRatingService _artistRatingService;
+        private readonly IUserFavoriteArtistService _userFavoriteArtistService;
+        private readonly IUserObservedArtistService _userObserverArtistService;
 
-        public ArtistService(IArtistRepository artistRepository, IMapper mapper,
-                             IBandService bandService, IFileService fileService, UserManager<ApplicationUser> userManager)
+        public ArtistService(IArtistRepository artistRepository,
+            IMapper mapper,
+            IBandService bandService,
+            IFileService fileService,
+            UserManager<ApplicationUser> userManager,
+            IAlbumService albumService,
+            IArtistCommentService artistCommentService,
+            IArtistRatingService artistRatingService, 
+            IUserFavoriteArtistService userFavoriteArtistService, 
+            IUserObservedArtistService userObserverArtistService)
         {
             _artistRepository = artistRepository;
             _mapper = mapper;
             _bandService = bandService;
             _fileService = fileService;
             _userManager = userManager;
+            _albumService = albumService;
+            _artistCommentService = artistCommentService;
+            _artistRatingService = artistRatingService;
+            _userFavoriteArtistService = userFavoriteArtistService;
+            _userObserverArtistService = userObserverArtistService;
         }
 
         public async Task<Artist> GetByIdAsync(int id)
@@ -113,14 +134,27 @@ namespace MusicWeb.Services.Services.Artists
             await UpdateAsync(artist);
         }
 
-        public async Task<List<ArtistRatingAverage>> GetPagedAsync(SortType sortType, DateTime startDate, DateTime endDate, int pageNum = 0, int pageSize = 15, string searchString = "")
+        public async Task<List<ArtistRatingAverage>> GetPagedAsync(SortType sortType, DateTime startDate, DateTime endDate, int pageNum = 0, int pageSize = int.MaxValue, string searchString = "")
         {
             var response = await _artistRepository.GetArtistsPagedAsync(sortType, startDate, endDate, pageNum, pageSize, searchString);
             return response;
         }
 
+        public async Task<IPagedList<Artist>> GetIPagedAsync(string searchString, int pageNum = 0, int pageSize = int.MaxValue)
+        {
+            return await _artistRepository.GetAllPagedAsync(query =>
+            {
+                if (!string.IsNullOrEmpty(searchString))
+                    query = query.Where(prp => prp.Name.Contains(searchString));
+
+                return query.OrderByDescending(prp => prp.Name);
+            });
+        }
+
         public async Task DeleteAsync(int id)
         {
+            //add related objects deletion
+
             var entity = await GetByIdAsync(id);
             await _artistRepository.DeleteAsync(entity);
         }
@@ -162,8 +196,14 @@ namespace MusicWeb.Services.Services.Artists
                 Type = UserType.Artist
             };
             await _userManager.CreateAsync(userEntity);
+        }
 
-            
+        public async Task UpdateArtistAsync(Artist entity)
+        {
+            if(entity.Type == ArtistType.BandMember)
+                await _bandService.DeleteAsync(entity.BandId.GetValueOrDefault(), entity.Id);
+
+            await _artistRepository.UpdateAsync(entity);
         }
     }
 }

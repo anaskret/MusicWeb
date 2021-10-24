@@ -6,6 +6,7 @@ using MusicWeb.Api.Extensions;
 using MusicWeb.Models.Dtos.Artists;
 using MusicWeb.Models.Dtos.Artists.Create;
 using MusicWeb.Models.Entities;
+using MusicWeb.Models.Entities.Artists;
 using MusicWeb.Models.Enums;
 using MusicWeb.Services.Interfaces.Artists;
 using System;

@@ -191,6 +191,8 @@ namespace MusicWeb.Admin
                 app.UseHsts();
             }
 
+            app.UseMiddleware<ExceptionMiddleware>();
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 

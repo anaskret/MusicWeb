@@ -1,4 +1,5 @@
 ﻿using MusicWeb.Models.Entities;
+using MusicWeb.Models.Entities.Artists;
 using MusicWeb.Models.Entities.Keyless;
 using MusicWeb.Models.Enums;
 using MusicWeb.Repositories.Interfaces.Base;
