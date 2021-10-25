@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -17,6 +18,7 @@ using System.Threading.Tasks;
 namespace MusicWeb.Api.Controllers.Artists
 {
     [ApiController]
+    [Authorize]
     public class ArtistsController : Controller
     {
         private readonly IArtistService _artistService;

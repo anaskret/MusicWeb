@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using MusicWeb.Api.Extensions;
@@ -13,7 +14,8 @@ using System.Threading.Tasks;
 namespace MusicWeb.Api.Controllers.Users
 {
     [ApiController]
-    public class UserFavoriteArtistController:Controller
+    [Authorize]
+    public class UserFavoriteArtistController :Controller
     {
         private readonly ILogger _logger;
         private readonly IUserFavoriteArtistService _userFavoriteArtistService;

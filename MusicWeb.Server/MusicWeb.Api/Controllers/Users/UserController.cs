@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using MusicWeb.Api.Extensions;
@@ -12,6 +13,7 @@ using System.Threading.Tasks;
 namespace MusicWeb.Api.Controllers.Users
 {
     [ApiController]
+    [Authorize]
     public class UserController : Controller
     {
         private readonly IUserService _userService;
