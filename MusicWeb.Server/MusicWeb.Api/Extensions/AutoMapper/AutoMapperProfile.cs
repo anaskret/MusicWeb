@@ -8,11 +8,14 @@ using MusicWeb.Models.Dtos.Genres.Create;
 using MusicWeb.Models.Dtos.Origins;
 using MusicWeb.Models.Dtos.Origins.Create;
 using MusicWeb.Models.Dtos.Posts;
+using MusicWeb.Models.Dtos.Ratings;
 using MusicWeb.Models.Dtos.Users;
 using MusicWeb.Models.Entities;
 using MusicWeb.Models.Entities.Artists;
+using MusicWeb.Models.Entities.Keyless;
 using MusicWeb.Models.Entities.Origins;
 using MusicWeb.Models.Entities.Posts;
+using MusicWeb.Models.Entities.Ratings;
 using MusicWeb.Models.Identity;
 using MusicWeb.Models.Models.Artists;
 using System;
@@ -33,6 +36,7 @@ namespace MusicWeb.Api.Extensions.AutoMapper
             CreateMap<ArtistDto, Artist>();
             CreateMap<CreateArtistDto, Artist>();
             CreateMap<Artist, ArtistDto>();
+            CreateMap<ArtistRatingAverage, ArtistDto>();
 
             CreateMap<ArtistComment, ArtistCommentDto>();
             CreateMap<ArtistCommentDto, ArtistComment>();
@@ -84,6 +88,10 @@ namespace MusicWeb.Api.Extensions.AutoMapper
             CreateMap<Post, PostDto>();
             CreateMap<PostDto, Post>();
             CreateMap<CreatePostDto, Post>();
+
+            CreateMap<ArtistRating, ArtistRatingDto>();
+            CreateMap<ArtistRatingDto, ArtistRating>();
+            CreateMap<CreateArtistRatingDto, ArtistRating>();
         }
 
     }

@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace MusicWeb.Api.Controllers.Users
 {
+    [ApiController]
     public class UserFavoriteArtistController:Controller
     {
         private readonly ILogger _logger;

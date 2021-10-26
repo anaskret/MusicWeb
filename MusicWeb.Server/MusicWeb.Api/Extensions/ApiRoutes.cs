@@ -143,5 +143,14 @@ namespace MusicWeb.Api.Extensions
             public const string GetAll = Root + "/posts";
             public const string GetUserPosts = Root + "/userposts/{userId}";
         }
+
+        public static class ArtistRatings
+        {
+            public const string Create = Root + "/artistratings";
+            public const string Update = Root + "/artistratings";
+            public const string Delete = Root + "/artistratings/{id}";
+            public const string GetById = Root + "/artistratings/{id}";
+            public const string GetAll = Root + "/listartistratings/{id}";
+        }
     }
 }

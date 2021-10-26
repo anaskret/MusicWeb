@@ -13,7 +13,8 @@ using System.Threading.Tasks;
 
 namespace MusicWeb.Api.Controllers.Albums
 {
-    public class AlbumController: Controller
+    [ApiController]
+    public class AlbumController : Controller
     {
         private readonly IAlbumService _albumService;
         private readonly IMapper _mapper;

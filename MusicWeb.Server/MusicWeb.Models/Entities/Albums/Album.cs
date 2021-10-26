@@ -1,4 +1,5 @@
 ﻿using MusicWeb.Models.Entities.Base;
+using MusicWeb.Models.Entities.Posts;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -24,5 +25,6 @@ namespace MusicWeb.Models.Entities
         public virtual ICollection<AlbumReview> AlbumReviews{ get; set; }
         public virtual ICollection<UserFavoriteAlbum> UserFavoriteAlbums{ get; set; }
         public virtual ICollection<ArtistsOnTheAlbum> ArtistsOnTheAlbums{ get; set; }
+        //public virtual ICollection<Post> Posts { get; set; }
     }
 }
