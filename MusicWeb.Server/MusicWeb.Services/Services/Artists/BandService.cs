@@ -28,5 +28,19 @@ namespace MusicWeb.Services.Services.Artists
         {
             return await _bandRepository.GetBandMembersAsync(id);
         }
+
+        public async Task DeleteAsync(int bandId, int artistId)
+        {
+            var entity = await GetByBandIdAndArtistIdAsync(bandId, artistId);
+            if (entity == null)
+                return;
+
+            await _bandRepository.DeleteAsync(entity);
+        }
+
+        public async Task<BandMember> GetByBandIdAndArtistIdAsync(int bandId, int artistId)
+        {
+            return await _bandRepository.GetByBandIdAndArtistId(bandId, artistId);
+        }
     }
 }

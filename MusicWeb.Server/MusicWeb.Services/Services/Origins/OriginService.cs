@@ -52,7 +52,7 @@ namespace MusicWeb.Services.Services.Origins
 
             var states = await GetStatesByCountryAsync(id);
             if (states.Count > 0)
-                await DeleteStatesRangeAsync(states);
+                await DeleteStatesRangeAsync(states.ToList());
 
             await _countryRepository.DeleteAsync(entity);
         }
@@ -62,18 +62,18 @@ namespace MusicWeb.Services.Services.Origins
             return await _countryRepository.GetByIdAsync(id);
         }
 
-        public async Task<List<Country>> GetAllCountriesAsync()
+        public async Task<IList<Country>> GetAllCountriesAsync()
         {
             return await _countryRepository.GetAllAsync();
         }
 
-        public async Task<List<State>> GetStatesByCountryAsync(int id)
+        public async Task<IList<State>> GetStatesByCountryAsync(int id)
         {
             var countryEntity = await GetCountryByIdAsync(id);
             if (countryEntity == null)
                 throw new ArgumentException($"Country with id {id} doesn't exist");
 
-            return await _stateRepository.GetAll().Where(prp => prp.CountryId == id).ToListAsync();
+            return await _stateRepository.GetAllAsync(entity => entity.Where(prp => prp.CountryId == id));
         }
 
         public async Task UpdateStateAsync(State entity)
@@ -89,7 +89,7 @@ namespace MusicWeb.Services.Services.Origins
 
             var cities = await GetCitiesByStateAsync(id);
             if(cities.Count > 0)
-                await DeleteCitiesRangeAsync(cities);
+                await DeleteCitiesRangeAsync(cities.ToList());
 
             await _stateRepository.DeleteAsync(entity);
         }
@@ -100,7 +100,7 @@ namespace MusicWeb.Services.Services.Origins
             {
                 var cities = await GetCitiesByStateAsync(entity.Id);
                 if (cities.Count > 0)
-                    await DeleteCitiesRangeAsync(cities);
+                    await DeleteCitiesRangeAsync(cities.ToList());
             }
 
             await _stateRepository.DeleteRangeAsync(entities);
@@ -111,18 +111,18 @@ namespace MusicWeb.Services.Services.Origins
             return await _stateRepository.GetByIdAsync(id);
         }
 
-        public async Task<List<State>> GetAllStatesAsync()
+        public async Task<IList<State>> GetAllStatesAsync()
         {
             return await _stateRepository.GetAllAsync();
         }
 
-        public async Task<List<City>> GetCitiesByStateAsync(int id)
+        public async Task<IList<City>> GetCitiesByStateAsync(int id)
         {
             var stateEntity = await GetStateByIdAsync(id);
             if (stateEntity == null)
                 throw new ArgumentException($"State with id {id} doesn't exist");
 
-            return await _cityRepository.GetAll().Where(prp => prp.StateId == id).ToListAsync();
+            return await _cityRepository.GetAllAsync(entity => entity.Where(prp => prp.StateId == id));
         }
 
         public async Task UpdateCityAsync(City entity)
@@ -149,7 +149,7 @@ namespace MusicWeb.Services.Services.Origins
             return await _cityRepository.GetByIdAsync(id);
         }
 
-        public async Task<List<City>> GetAllCitiesAsync()
+        public async Task<IList<City>> GetAllCitiesAsync()
         {
             return await _cityRepository.GetAllAsync();
         }

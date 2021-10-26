@@ -10,5 +10,6 @@ namespace MusicWeb.Repositories.Interfaces.Users
 {
     public interface IUserObservedArtistRepository : IRepository<UserObservedArtist>
     {
+        Task<List<UserObservedArtist>> GetAllWithArtistByUserIdAsync(string userId);
     }
 }

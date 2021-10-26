@@ -55,6 +55,13 @@ namespace MusicWeb.DataAccess.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<ApplicationUser>(entity =>
+            {
+                entity.HasOne(e => e.Artist)
+                .WithOne(a => a.ArtistUser)
+                .HasForeignKey<ApplicationUser>(e => e.ArtistId);
+            });
+
             modelBuilder.Entity<Album>(entity =>
             {
                 entity.Property(e => e.Name)
@@ -136,6 +143,11 @@ namespace MusicWeb.DataAccess.Data
                     .HasForeignKey(e => e.CityId)
                     .OnDelete(DeleteBehavior.Restrict)
                     .IsRequired();
+
+
+                entity.HasOne(e => e.ArtistUser)
+                .WithOne(a => a.Artist)
+                .HasForeignKey<Artist>(e => e.UserId);
             });
 
             modelBuilder.Entity<ArtistComment>(entity =>

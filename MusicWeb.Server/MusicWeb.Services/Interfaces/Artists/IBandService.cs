@@ -12,5 +12,7 @@ namespace MusicWeb.Services.Interfaces.Artists
     {
         Task AddAsync(BandMember entity);
         Task<List<BandMember>> GetBandMembersAsync(int id);
+        Task<BandMember> GetByBandIdAndArtistIdAsync(int bandId, int artistId);
+        Task DeleteAsync(int id, int artistId);
     }
 }

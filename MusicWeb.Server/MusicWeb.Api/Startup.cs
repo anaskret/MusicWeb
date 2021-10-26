@@ -46,6 +46,7 @@ using MusicWeb.Services.Interfaces.Identity;
 using MusicWeb.Services.Interfaces.Origins;
 using MusicWeb.Services.Interfaces.Posts;
 using MusicWeb.Services.Interfaces.Ratings;
+using MusicWeb.Services.Interfaces.Roles;
 using MusicWeb.Services.Interfaces.Users;
 using MusicWeb.Services.Services.Albums;
 using MusicWeb.Services.Services.Artists;
@@ -55,6 +56,7 @@ using MusicWeb.Services.Services.Identity;
 using MusicWeb.Services.Services.Origins;
 using MusicWeb.Services.Services.Posts;
 using MusicWeb.Services.Services.Ratings;
+using MusicWeb.Services.Services.Roles;
 using MusicWeb.Services.Services.Users;
 using System;
 using System.Collections.Generic;
@@ -117,14 +119,6 @@ namespace MusicWeb.Api
                         options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
                     );
 
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "MusicWeb.Api", Version = "v1" });
-                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-                c.IncludeXmlComments(xmlPath);
-            });
-
             var securityScheme = new OpenApiSecurityScheme
             {
                 Name = "JWT Authentication",
@@ -139,6 +133,38 @@ namespace MusicWeb.Api
                     Type = ReferenceType.SecurityScheme
                 }
             };
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "MusicWeb.Api", Version = "v1" });
+
+                c.AddSecurityDefinition("Bearer", securityScheme);
+
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement()
+                {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                        Reference = new OpenApiReference
+                            {
+                            Type = ReferenceType.SecurityScheme,
+                            Id = "Bearer"
+                            },
+                            Scheme = "oauth2",
+                            Name = "Bearer",
+                            In = ParameterLocation.Header,
+
+                        },
+                        new List<string>()
+                    }
+                });
+
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                c.IncludeXmlComments(xmlPath);
+            });
+
+            
 
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddSignalR();
@@ -183,6 +209,7 @@ namespace MusicWeb.Api
             services.AddTransient<IUserFriendService, UserFriendService>();
 
             services.AddTransient<IUserObservedArtistRepository, UserObservedArtistRepository>();
+            services.AddTransient<IUserObservedArtistService, UserObservedArtistService>();
 
             services.AddTransient<IArtistCommentService, ArtistCommentService>();
             services.AddTransient<IArtistService, ArtistService>();
@@ -207,6 +234,8 @@ namespace MusicWeb.Api
 
             services.AddTransient<IArtistRatingRepository, ArtistRatingRepository>();
             services.AddTransient<IArtistRatingService, ArtistRatingService>();
+
+            services.AddTransient<IRolesService, RolesService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

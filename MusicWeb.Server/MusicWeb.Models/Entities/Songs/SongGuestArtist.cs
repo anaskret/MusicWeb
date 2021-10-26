@@ -1,4 +1,5 @@
-﻿using MusicWeb.Models.Entities.Base;
+﻿using MusicWeb.Models.Entities.Artists;
+using MusicWeb.Models.Entities.Base;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -1,4 +1,5 @@
-﻿using MusicWeb.DataAccess.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using MusicWeb.DataAccess.Data;
 using MusicWeb.Models.Entities;
 using MusicWeb.Repositories.Interfaces.Users;
 using MusicWeb.Repositories.Repositories.Base;
@@ -14,6 +15,11 @@ namespace MusicWeb.Repositories.Repositories.Users
     {
         public UserObservedArtistRepository(AppDbContext dbContext) : base(dbContext)
         {
+        }
+
+        public async Task<List<UserObservedArtist>> GetAllWithArtistByUserIdAsync(string userId)
+        {
+            return await _dbContext.UserObservedArtist.Include(prp => prp.Artist).Where(prp => string.Equals(prp.UserId, userId)).ToListAsync();
         }
     }
 }

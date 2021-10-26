@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using MusicWeb.Api.Extensions;
@@ -13,6 +14,7 @@ using System.Threading.Tasks;
 namespace MusicWeb.Api.Controllers.Users
 {
     [ApiController]
+    [Authorize]
     public class UserFriendController : Controller
     {
         private readonly ILogger _logger;
@@ -26,11 +28,11 @@ namespace MusicWeb.Api.Controllers.Users
         }
 
         [HttpGet(ApiRoutes.UserFriends.GetAll)]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAll([FromRoute] string userId)
         {
             try
             {
-                var models = _mapper.Map<List<UserFriendDto>>(await _userFriendService.GetAllAsync());
+                var models = _mapper.Map<List<UserFriendDto>>(await _userFriendService.GetAllByUserIdAsync(userId));
                 return Ok(models);
             }
             catch (Exception ex)
