@@ -9,21 +9,24 @@ export default function useArtists() {
       });
     }
   };
-  const getPaged = function (pageNum, pageSize, sortType, createDateStart, createDateEnd) {
-    if (
-        pageNum
-        && pageSize
-        && createDateStart
-        && createDateEnd
-    ) {
-      return artistServices.getPaged(pageNum, pageSize, sortType, createDateStart, createDateEnd).then((response) => {
-        // return response.map(artist => new Artist(artist.data));
-        return response.data;  //TODO return Artist model array
-      });
+  const getPaged = function (
+    pageNum,
+    pageSize,
+    sortType,
+    createDateStart,
+    createDateEnd
+  ) {
+    if (pageNum > -1 && pageSize && createDateStart && createDateEnd) {
+      return artistServices
+        .getPaged(pageNum, pageSize, sortType, createDateStart, createDateEnd)
+        .then((response) => {
+          // return response.map(artist => new Artist(artist.data));
+          return response.data; //TODO return Artist model array
+        });
     }
   };
   return {
     getById,
-    getPaged
+    getPaged,
   };
 }

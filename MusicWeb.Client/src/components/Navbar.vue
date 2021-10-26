@@ -128,8 +128,18 @@ export default {
       this.$router.push({ name: "ArtistListPage" });
     },
   },
+  watch: {
+      '$route' (to, from) {
+        if (from.path === '/' && to.path === '/artists') {
+            this.getAccount();
+        } 
+      }
+      
+    },
   created() {
-    this.getAccount();
+    if (!["Login", "Register"].includes(this.$route.name)) {
+      this.getAccount();
+    }
   },
   setup() {
     const { getById } = useAccounts();

@@ -146,9 +146,7 @@ export default {
       return typeof validation != "undefined" ? validation.$error : false;
     },
     redirect() {
-      this.$router
-        .push({ name: "ArtistListPage"})
-        .catch(() => {});
+      this.$router.push({ name: "ArtistListPage" }).catch(() => {});
     },
     register() {
       this.$router.push({ name: "Register" });

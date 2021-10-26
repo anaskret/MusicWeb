@@ -1,17 +1,19 @@
 <template>
   <v-container fluid grid-list-lg class="py-16">
-      <v-layout column wrap>
-        <v-flex v-for="(artist, index) in artists" :key="index">
-          <v-card flat hover class="white pb-2 mb-1 pl-2">
-            <v-layout>
-              <v-flex xs10>
-                <div class="py-2" style="color: black; width:100%">{{ artist.id }} - {{ artist.name }}</div>
-              </v-flex>
-            </v-layout>
-          </v-card>
-        </v-flex>
-      </v-layout>
-      <div v-intersect="getPagedArtistList"></div>
+    <v-layout column wrap>
+      <v-flex v-for="(artist, index) in artists" :key="index">
+        <v-card flat hover class="white pb-2 mb-1 pl-2">
+          <v-layout>
+            <v-flex xs10>
+              <div class="py-2" style="color: black; width: 100%">
+                {{ artist.id }} - {{ artist.name }}
+              </div>
+            </v-flex>
+          </v-layout>
+        </v-card>
+      </v-flex>
+    </v-layout>
+    <div v-intersect="getPagedArtistList"></div>
   </v-container>
 </template>
 
@@ -40,14 +42,17 @@ export default {
     const { getPaged } = useArtists();
 
     const getPagedArtistList = function () {
-        this.page++; //TODO reduce iteration to max(element)
-      getPaged(this.page, 2, 0, '1989-01-01T00:00:00', '2022-01-01T00:00:00').then((response) => { //TODO change static data to chosen by user
-        response.forEach((item) => this.artists.push(item));
-      })
+      getPaged(this.page, 5, 0, "1989-01-01T00:00:00", "2022-01-01T00:00:00")
+        .then((response) => {
+            // debugger;
+          //TODO change static data to chosen by user
+          response.forEach((item) => this.artists.push(item));
+        })
         .catch((err) => {
-        console.log(err);
+          console.log(err);
         });
       console.log(this.page);
+      this.page++; //TODO reduce iteration to max(element)
     };
 
     return {

@@ -28,7 +28,7 @@ export default class Artist {
   }
 }
 
-//TODO use if assign in modules/artists returns error 
+//TODO use if assign in modules/artists returns error
 
 // export default class Artist {
 //     name = "";
@@ -42,7 +42,7 @@ export default class Artist {
 //     city = "";
 //     albums = [];
 //     members = [];
-  
+
 //     constructor($data) {
 //       if ($data) {
 //         this.name = $data.name;
@@ -59,4 +59,3 @@ export default class Artist {
 //       }
 //     }
 //   }
-  
