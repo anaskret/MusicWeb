@@ -20,7 +20,7 @@ namespace MusicWeb.Models.Dtos.Artists
         
         public string SearchString { get; set; }
         [Required]
-        [AssertThat("CreateDateStart < CreateDateEnd", ErrorMessage = "CreateDateStart has to be smaller than CreateDateEnd")]
+        [AssertThat("CreateDateStart > CreateDateEnd", ErrorMessage = "CreateDateStart has to be smaller than CreateDateEnd")]
         public DateTime CreateDateStart { get; set; } = DateTime.MinValue;
         [Required]
         public DateTime CreateDateEnd { get; set; } = DateTime.MaxValue;

@@ -46,7 +46,7 @@ LEFT JOIN(SELECT ArtistId, AVG(Cast(Rating as float)) as Rating FROM ArtistRatin
             if (!string.IsNullOrEmpty(searchString))
                 query = query.Where(prp => prp.Name.Contains(searchString));
 
-            query = query.Where(prp => prp.EstablishmentDate > startDate && prp.EstablishmentDate < endDate );
+            query = query.Where(prp => prp.EstablishmentDate >= startDate && prp.EstablishmentDate <= endDate );
             switch (sortType)
             {
                 case SortType.AlphabeticAsc:

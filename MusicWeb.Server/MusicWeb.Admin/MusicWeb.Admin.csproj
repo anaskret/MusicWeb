@@ -29,4 +29,9 @@
     <ProjectReference Include="..\MusicWeb.Services\MusicWeb.Services.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Pages\Configuration\Factories\" />
+    <Folder Include="Pages\Configuration\Pages\" />
+  </ItemGroup>
+
 </Project>
