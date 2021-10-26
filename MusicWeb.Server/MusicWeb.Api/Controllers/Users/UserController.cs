@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace MusicWeb.Api.Controllers.Users
 {
+    [ApiController]
     public class UserController : Controller
     {
         private readonly IUserService _userService;

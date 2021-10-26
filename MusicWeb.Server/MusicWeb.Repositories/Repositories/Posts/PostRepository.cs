@@ -27,16 +27,16 @@ namespace MusicWeb.Repositories.Repositories.Posts
                                         select new GetPostDto()
                                         {
                                             Id = T10.Id,
-                                            AlbumId = T10.AlbumId,
-                                            AlbumName = "",
-                                            ArtistName = "",
+                                            //AlbumId = T10.AlbumId,
+                                            //AlbumName = "",
+                                            //ArtistName = "",
                                             PosterName = T12.UserName,
-                                            ArtistPosterId = T10.ArtistPosterId,
+                                            //ArtistPosterId = T10.ArtistPosterId,
                                             PosterId = T10.PosterId,
                                             CreateDate = T10.CreateDate,
                                             Text = T10.Text
                                         }).ToListAsync();
-            var postsFromArtists = await (from T20 in _dbContext.Post
+            /*var postsFromArtists = await (from T20 in _dbContext.Post
                                           join T21 in _dbContext.UserObservedArtist on T20.ArtistPosterId.GetValueOrDefault() equals T21.ArtistId
                                           join T22 in _dbContext.Album on T20.AlbumId.GetValueOrDefault() equals T22.Id
                                           join T23 in _dbContext.Artist on T20.ArtistPosterId.GetValueOrDefault() equals T23.Id
@@ -54,7 +54,7 @@ namespace MusicWeb.Repositories.Repositories.Posts
                                                Text = T20.Text
                                           }).ToListAsync();
 
-            postsFromUsers.AddRange(postsFromArtists);
+            postsFromUsers.AddRange(postsFromArtists);*/
             return postsFromUsers;
         }
     }

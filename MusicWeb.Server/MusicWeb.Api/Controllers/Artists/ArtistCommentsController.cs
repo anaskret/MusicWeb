@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 
 namespace MusicWeb.Api.Controllers.Artists
 {
+    [ApiController]
     public class ArtistCommentsController : Controller
     {
         private readonly IArtistCommentService _artistCommentService;

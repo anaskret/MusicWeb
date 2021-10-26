@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using MusicWeb.Models.Constants;
 using MusicWeb.Models.Dtos.Artists;
 using MusicWeb.Models.Dtos.Genres;
 using MusicWeb.Models.Entities;
 using MusicWeb.Models.Entities.Artists;
+using MusicWeb.Models.Entities.Keyless;
 using MusicWeb.Models.Enums;
 using MusicWeb.Models.Identity;
 using MusicWeb.Models.Models.Artists;
@@ -111,6 +113,19 @@ namespace MusicWeb.Services.Services.Artists
             artist.ImagePath = filePath;
 
             await UpdateAsync(artist);
+        }
+
+        public async Task<List<ArtistRatingAverage>> GetPagedAsync(SortType sortType, DateTime startDate, DateTime endDate, int pageNum = 0, int pageSize = 15, string searchString = "")
+        {
+            if (startDate < endDate)
+                throw new ArgumentException("Start Date has to be smaller than End Date");
+            if (pageNum < 0)
+                pageNum = 0;
+            if (pageSize < 1)
+                pageSize = 1;
+
+            var response = await _artistRepository.GetArtistsPagedAsync(sortType, startDate, endDate, pageNum, pageSize, searchString);
+            return response;
         }
 
         public async Task DeleteAsync(int id)

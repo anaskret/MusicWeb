@@ -39,10 +39,29 @@
             Gets a single artist or a band without extra data
             </summary>
         </member>
-        <member name="M:MusicWeb.Api.Controllers.Artists.ArtistsController.GetFullArtistData">
+        <member name="M:MusicWeb.Api.Controllers.Artists.ArtistsController.GetAllPagedSearchStriny(System.Int32,System.Int32,MusicWeb.Models.Enums.SortType,System.DateTime,System.DateTime,System.String)">
             <summary>
-            Gets all artists and bands
+            Gets paged artists and bands woth search string
             </summary>
+            <remarks>
+            SortTypes: &#xA; 
+                0 - Alphabetical Ascending &#xA;
+                1 - Alphabetical Descending &#xA;
+                2 - Popularity Ascending &#xA; 
+                3 - Popularity Descending &#xA;
+            </remarks>
+        </member>
+        <member name="M:MusicWeb.Api.Controllers.Artists.ArtistsController.GetAllPaged(System.Int32,System.Int32,MusicWeb.Models.Enums.SortType,System.DateTime,System.DateTime)">
+            <summary>
+            Gets paged artists and bands
+            </summary>
+            <remarks>
+            SortTypes: &#xA; 
+                0 - Alphabetical Ascending &#xA;
+                1 - Alphabetical Descending &#xA;
+                2 - Popularity Ascending &#xA; 
+                3 - Popularity Descending &#xA;
+            </remarks>
         </member>
         <member name="M:MusicWeb.Api.Controllers.Artists.ArtistsController.CreateArtist(MusicWeb.Models.Dtos.Artists.Create.CreateArtistDto)">
             <summary>
@@ -52,6 +71,7 @@
             To create a band set IsBand = true and IsIndividual = false &#xA;
             To add a band member set IsBand = false, IsIndividual = false nad BandId = SomeBandId &#xA;
             To add an individual artist (without a band) set IsIndividual = true and IsBand = false &#xA;
+            To add an artist image pass image bytes in ImageBytes, otherwise set the property to an empty string &#xA;
             </remarks>
         </member>
         <member name="M:MusicWeb.Api.Controllers.Artists.ArtistsController.UpdateArtist(MusicWeb.Models.Dtos.Artists.ArtistDto)">
@@ -207,6 +227,26 @@
         <member name="M:MusicWeb.Api.Controllers.Posts.PostController.DeletePost(System.Int32)">
             <summary>
             Deletes a post
+            </summary>
+        </member>
+        <member name="M:MusicWeb.Api.Controllers.Ratings.ArtistRatingController.GetById(System.Int32)">
+            <summary>
+            Gets a single rating
+            </summary>
+        </member>
+        <member name="M:MusicWeb.Api.Controllers.Ratings.ArtistRatingController.GetAllForArtist(System.Int32)">
+            <summary>
+            Gets all ratings for an artist
+            </summary>
+        </member>
+        <member name="M:MusicWeb.Api.Controllers.Ratings.ArtistRatingController.CreateArtist(MusicWeb.Models.Dtos.Ratings.CreateArtistRatingDto)">
+            <summary>
+            Creates an artist rating
+            </summary>
+        </member>
+        <member name="M:MusicWeb.Api.Controllers.Ratings.ArtistRatingController.UpdateArtist(MusicWeb.Models.Dtos.Ratings.ArtistRatingDto)">
+            <summary>
+            Updates a rating for an artist
             </summary>
         </member>
     </members>

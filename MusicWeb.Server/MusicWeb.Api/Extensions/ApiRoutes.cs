@@ -13,7 +13,8 @@ namespace MusicWeb.Api.Extensions
         {
             public const string GetFullData = Root + "/artistdata/{id}";
             public const string Create = Root + "/artists";
-            public const string GetAll = Root + "/artists";
+            public const string GetAllPagedSearchString = Root + "/artists/{pageNum}/{pageSize}/{sortType}/{createDateStart}/{createDateEnd}/{searchString}";
+            public const string GetAllPaged = Root + "/artists/{pageNum}/{pageSize}/{sortType}/{createDateStart}/{createDateEnd}";
             public const string Update = Root + "/artists";
             public const string UpdateImage = Root + "/artists/images";
             public const string GetById = Root + "/artists/{id}";
@@ -141,6 +142,15 @@ namespace MusicWeb.Api.Extensions
             public const string GetById = Root + "/posts/{id}";
             public const string GetAll = Root + "/posts";
             public const string GetUserPosts = Root + "/userposts/{userId}";
+        }
+
+        public static class ArtistRatings
+        {
+            public const string Create = Root + "/artistratings";
+            public const string Update = Root + "/artistratings";
+            public const string Delete = Root + "/artistratings/{id}";
+            public const string GetById = Root + "/artistratings/{id}";
+            public const string GetAll = Root + "/listartistratings/{id}";
         }
     }
 }
