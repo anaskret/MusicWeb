@@ -20,8 +20,13 @@ export default function useArtists() {
       return artistServices
         .getPaged(pageNum, pageSize, sortType, createDateStart, createDateEnd)
         .then((response) => {
-          // return response.map(artist => new Artist(artist.data));
-          return response.data; //TODO return Artist model array
+            let res = response.data;
+            let artists = [];
+            res.forEach(artist => {
+                artists.push(new Artist(artist));
+            });
+            return artists;
+        //   return response.data; //TODO return Artist model array
         });
     }
   };

@@ -6,7 +6,7 @@
           <v-layout>
             <v-flex xs10>
               <div class="py-2" style="color: black; width: 100%">
-                {{ artist.id }} - {{ artist.name }}
+                {{ artist.establishmentDate }} - {{ artist.name }}
               </div>
             </v-flex>
           </v-layout>
@@ -44,9 +44,9 @@ export default {
     const getPagedArtistList = function () {
       getPaged(this.page, 5, 0, "1989-01-01T00:00:00", "2022-01-01T00:00:00")
         .then((response) => {
-            // debugger;
-          //TODO change static data to chosen by user
-          response.forEach((item) => this.artists.push(item));
+            response.forEach((item) => {
+                return this.artists.push(item)
+            });
         })
         .catch((err) => {
           console.log(err);
