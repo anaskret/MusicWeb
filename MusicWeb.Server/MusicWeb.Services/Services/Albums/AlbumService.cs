@@ -60,10 +60,10 @@ namespace MusicWeb.Services.Services.Albums
             await _albumRepository.DeleteAsync(entity);
         }
 
-        public async Task<AlbumDto> GetFullAlbumDataByIdAsync(int id)
+        public async Task<AlbumFullDataDto> GetFullAlbumDataByIdAsync(int id)
         {
             var album = await _albumRepository.GetFullAlbumDataByIdAsync(id);
-            return _mapper.Map<AlbumDto>(album);
+            return _mapper.Map<AlbumFullDataDto>(album);
         }
     }
 }

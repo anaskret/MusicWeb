@@ -12,7 +12,7 @@ namespace MusicWeb.Services.Interfaces
     {
         Task<Album> GetByIdAsync(int id);
         Task<List<AlbumDto>> GetAllAsync();
-        Task<AlbumDto> GetFullAlbumDataByIdAsync(int id);
+        Task<AlbumFullDataDto> GetFullAlbumDataByIdAsync(int id);
         Task AddAsync(Album entity);
         Task UpdateAsync(Album entity);
         Task DeleteAsync(int id);
