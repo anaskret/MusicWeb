@@ -15,11 +15,9 @@ namespace MusicWeb.Models.Dtos.Albums.Create
         public int ArtistId { get; set; }
         public int AlbumGenreId { get; set; }
         public List<SongDto> Songs { get; set; }
-        public List<AlbumReviewDto> Reviews { get; set; }
         public CreateAlbumDto()
         {
             Songs = new List<SongDto>();
-            Reviews = new List<AlbumReviewDto>();
         }
     }
 }

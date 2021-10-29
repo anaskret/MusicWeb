@@ -57,6 +57,21 @@ namespace MusicWeb.Api.Controllers.Albums
             }
         }
 
+        [HttpGet(ApiRoutes.Albums.GetFullData)]
+        public async Task<IActionResult> GetFullAlbumDataByIdAsync([FromRoute] int id)
+        {
+            try
+            {
+                var response = await _albumService.GetFullAlbumDataByIdAsync(id);
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return StatusCode(500, ex.Message);
+            }
+        }
+
         [HttpPost(ApiRoutes.Albums.Create)]
         public async Task<IActionResult> CreateAlbum([FromBody] AlbumDto dto)
         {

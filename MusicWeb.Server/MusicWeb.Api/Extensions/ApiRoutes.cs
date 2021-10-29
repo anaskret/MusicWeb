@@ -45,6 +45,7 @@ namespace MusicWeb.Api.Extensions
             public const string Update = Root + "/albums";
             public const string GetById = Root + "/albums/{id}";
             public const string Delete = Root + "/albums/{id}";
+            public const string GetFullData = Root + "/albumsdata/{id}";
         }
 
         public static class AlbumReviews
