@@ -15,14 +15,12 @@ namespace MusicWeb.Services.Services.Albums
     public class AlbumService : IAlbumService
     {
         private readonly IAlbumRepository _albumRepository;
-        private readonly IArtistService _artistService;
         private readonly IMapper _mapper;
 
 
-        public AlbumService(IAlbumRepository albumRepository, IMapper mapper, IArtistService artistService)
+        public AlbumService(IAlbumRepository albumRepository, IMapper mapper)
         {
             _albumRepository = albumRepository;
-            _artistService = artistService;
             _mapper = mapper;
         }
 
@@ -39,13 +37,6 @@ namespace MusicWeb.Services.Services.Albums
         public async Task AddAsync(Album entity)
         {
             await _albumRepository.AddAsync(entity);
-
-           // var artistEntity = await GetByIdAsync(entity.Id.GetValueOrDefault());
-            var artistEntity = await GetByIdAsync(entity.ArtistId);
-            if (artistEntity == null)
-                throw new ArgumentException("Incorrect ArtistId");
-            
-
 
         }
 
