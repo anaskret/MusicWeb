@@ -145,10 +145,6 @@ export default {
 };
 </script>
 <style scoped>
-p {
-  color: gray;
-  margin: 0;
-}
 .custom-loader {
   animation: loader 1s infinite;
   display: flex;

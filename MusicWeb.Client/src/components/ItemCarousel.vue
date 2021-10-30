@@ -81,10 +81,6 @@ export default {
 };
 </script>
 <style scoped>
-p {
-  color: gray;
-  margin: 0;
-}
 .v-card {
   transition: opacity 0.4s ease-in-out;
 }

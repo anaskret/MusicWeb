@@ -150,9 +150,6 @@ export default {
 </script>
 
 <style scoped>
-p {
-  color: gray;
-}
 p > span {
   color: #ebebf2;
   padding-bottom: 1px;

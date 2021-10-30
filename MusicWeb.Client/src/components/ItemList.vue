@@ -104,9 +104,3 @@ export default {
   },
 };
 </script>
-<style scoped>
-p {
-  color: gray;
-  margin: 0;
-}
-</style>

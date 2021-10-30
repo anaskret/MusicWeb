@@ -1,4 +1,5 @@
 export default class Artist {
+  id = null;
   name = "";
   establishmentDate = "";
   bio = "";
@@ -13,6 +14,7 @@ export default class Artist {
 
   constructor($data) {
     if ($data) {
+      this.id = $data.id;
       this.name = $data.name;
       this.establishmentDate = $data.establishmentDate;
       this.bio = $data.bio;
