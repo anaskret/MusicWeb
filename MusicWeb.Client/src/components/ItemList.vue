@@ -64,8 +64,7 @@
                       lg="3"
                       sm="3"
                     >
-                      <p>Album</p>
-                      <!-- <p>{{ song.album }}</p> -->
+                      <p>{{ album }}</p>
                     </v-col>
                     <v-col
                       class="d-flex justify-center align-center"
@@ -97,6 +96,7 @@ export default {
   name: "ItemList",
   props: {
     songs: Array,
+    album: String,
   },
   data() {
     return {

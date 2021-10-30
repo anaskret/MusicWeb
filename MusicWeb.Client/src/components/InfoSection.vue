@@ -31,7 +31,7 @@
         <div v-else-if="module_name == 'Album'">
           <p>
             Artysta:
-            <span>{{ parent.artistId }}</span>
+            <span>{{ parent.artist.name }}</span>
           </p>
           <p>
             Data wydania:
@@ -43,7 +43,7 @@
           </p>
           <p>
             Gatunek muzyczny:
-            <span>{{ parent.albumGenreId }}</span>
+            <span>{{ parent.albumGenre.name }}</span>
           </p>
         </div>
       </v-col>

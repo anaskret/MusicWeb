@@ -6,6 +6,9 @@ export default class Album {
   description = "";
   duration = "";
   isConfirmed = "";
+  artist = {};
+  albumGenre = {};
+  albumReviews = [];
   songs = [];
 
   constructor($data) {
@@ -18,6 +21,9 @@ export default class Album {
       this.description = $data.description;
       this.isConfirmed = $data.isConfirmed;
       this.songs = $data.songs ? $data.songs : [];
+      this.albumReviews = $data.albumReviews ? $data.albumReviews : [];
+      this.artist = $data.artist ? $data.artist : {};
+      this.albumGenre = $data.albumGenre ? $data.albumGenre : {};
     }
   }
 }

@@ -7,8 +7,7 @@
     />
 
     <InfoSection :parent="album" :module_name="module_name" />
-    <ItemList :songs="album.songs" />'
-    <ReviewList />
+    <ItemList :songs="album.songs" :album="album.name" />'
   </div>
 </template>
 
@@ -40,6 +39,7 @@ export default {
     const { getAlbumFullData } = useAlbums();
     const getAlbumData = function () {
       getAlbumFullData(this.id).then((response) => {
+        debugger;
         return (this.album = response);
       });
     };
