@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MusicWeb.DataAccess.Data;
 
 namespace MusicWeb.DataAccess.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211030110608_UpdateAlbumTable")]
+    partial class UpdateAlbumTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -228,6 +230,56 @@ namespace MusicWeb.DataAccess.Migrations
                     b.ToTable("AlbumReview");
                 });
 
+            modelBuilder.Entity("MusicWeb.Models.Entities.Artist", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("BandId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Bio")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("CityId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("CountryId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("EstablishmentDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ImagePath")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsBand")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsIndividual")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<int?>("StateId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CityId");
+
+                    b.HasIndex("CountryId");
+
+                    b.HasIndex("StateId");
+
+                    b.ToTable("Artist");
+                });
+
             modelBuilder.Entity("MusicWeb.Models.Entities.ArtistComment", b =>
                 {
                     b.Property<int>("Id")
@@ -257,60 +309,6 @@ namespace MusicWeb.DataAccess.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("ArtistComment");
-                });
-
-            modelBuilder.Entity("MusicWeb.Models.Entities.Artists.Artist", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int?>("BandId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Bio")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("CityId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("CountryId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("EstablishmentDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("ImagePath")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<int?>("StateId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Type")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CityId");
-
-                    b.HasIndex("CountryId");
-
-                    b.HasIndex("StateId");
-
-                    b.HasIndex("UserId")
-                        .IsUnique()
-                        .HasFilter("[UserId] IS NOT NULL");
-
-                    b.ToTable("Artist");
                 });
 
             modelBuilder.Entity("MusicWeb.Models.Entities.Artists.BandMember", b =>
@@ -397,41 +395,6 @@ namespace MusicWeb.DataAccess.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Genre");
-                });
-
-            modelBuilder.Entity("MusicWeb.Models.Entities.Keyless.ArtistRatingAverage", b =>
-                {
-                    b.Property<int?>("BandId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Bio")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("CityId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("EstablishmentDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("Id")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ImagePath")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsBand")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsIndividual")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<double>("Popularity")
-                        .HasColumnType("float");
-
-                    b.ToTable("ArtistRatingAverage");
                 });
 
             modelBuilder.Entity("MusicWeb.Models.Entities.Message", b =>
@@ -527,51 +490,34 @@ namespace MusicWeb.DataAccess.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int?>("AlbumId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("ArtistPosterId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("CreateDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<int?>("PosterArtistId")
+                        .HasColumnType("int");
+
                     b.Property<string>("PosterId")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("PosterId1")
+                        .HasColumnType("int");
 
                     b.Property<string>("Text")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("UserObservedArtistId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("PosterId");
+                    b.HasIndex("PosterArtistId");
 
-                    b.HasIndex("UserObservedArtistId");
+                    b.HasIndex("PosterId1");
 
                     b.ToTable("Post");
-                });
-
-            modelBuilder.Entity("MusicWeb.Models.Entities.Ratings.ArtistRating", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("ArtistId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Rating")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ArtistId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("ArtistRating");
                 });
 
             modelBuilder.Entity("MusicWeb.Models.Entities.Song", b =>
@@ -763,6 +709,8 @@ namespace MusicWeb.DataAccess.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("FriendId");
+
                     b.HasIndex("UserId");
 
                     b.ToTable("UserFriend");
@@ -800,9 +748,6 @@ namespace MusicWeb.DataAccess.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("AccessFailedCount")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("ArtistId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("BirthDate")
@@ -856,9 +801,6 @@ namespace MusicWeb.DataAccess.Migrations
 
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("bit");
-
-                    b.Property<int>("Type")
-                        .HasColumnType("int");
 
                     b.Property<string>("UserName")
                         .HasMaxLength(256)
@@ -936,7 +878,7 @@ namespace MusicWeb.DataAccess.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("MusicWeb.Models.Entities.Artists.Artist", "Artist")
+                    b.HasOne("MusicWeb.Models.Entities.Artist", "Artist")
                         .WithMany("Albums")
                         .HasForeignKey("ArtistId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -966,9 +908,28 @@ namespace MusicWeb.DataAccess.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("MusicWeb.Models.Entities.Artist", b =>
+                {
+                    b.HasOne("MusicWeb.Models.Entities.Origins.City", "City")
+                        .WithMany("Artists")
+                        .HasForeignKey("CityId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("MusicWeb.Models.Entities.Origins.Country", null)
+                        .WithMany("Artists")
+                        .HasForeignKey("CountryId");
+
+                    b.HasOne("MusicWeb.Models.Entities.Origins.State", null)
+                        .WithMany("Artists")
+                        .HasForeignKey("StateId");
+
+                    b.Navigation("City");
+                });
+
             modelBuilder.Entity("MusicWeb.Models.Entities.ArtistComment", b =>
                 {
-                    b.HasOne("MusicWeb.Models.Entities.Artists.Artist", "Artist")
+                    b.HasOne("MusicWeb.Models.Entities.Artist", "Artist")
                         .WithMany("ArtistComments")
                         .HasForeignKey("ArtistId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -985,40 +946,15 @@ namespace MusicWeb.DataAccess.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("MusicWeb.Models.Entities.Artists.Artist", b =>
-                {
-                    b.HasOne("MusicWeb.Models.Entities.Origins.City", "City")
-                        .WithMany("Artists")
-                        .HasForeignKey("CityId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("MusicWeb.Models.Entities.Origins.Country", null)
-                        .WithMany("Artists")
-                        .HasForeignKey("CountryId");
-
-                    b.HasOne("MusicWeb.Models.Entities.Origins.State", null)
-                        .WithMany("Artists")
-                        .HasForeignKey("StateId");
-
-                    b.HasOne("MusicWeb.Models.Identity.ApplicationUser", "ArtistUser")
-                        .WithOne("Artist")
-                        .HasForeignKey("MusicWeb.Models.Entities.Artists.Artist", "UserId");
-
-                    b.Navigation("ArtistUser");
-
-                    b.Navigation("City");
-                });
-
             modelBuilder.Entity("MusicWeb.Models.Entities.Artists.BandMember", b =>
                 {
-                    b.HasOne("MusicWeb.Models.Entities.Artists.Artist", "Member")
+                    b.HasOne("MusicWeb.Models.Entities.Artist", "Member")
                         .WithOne("BandMember")
                         .HasForeignKey("MusicWeb.Models.Entities.Artists.BandMember", "ArtistId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("MusicWeb.Models.Entities.Artists.Artist", "Band")
+                    b.HasOne("MusicWeb.Models.Entities.Artist", "Band")
                         .WithMany("Band")
                         .HasForeignKey("BandId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -1037,7 +973,7 @@ namespace MusicWeb.DataAccess.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("MusicWeb.Models.Entities.Artists.Artist", "Artist")
+                    b.HasOne("MusicWeb.Models.Entities.Artist", "Artist")
                         .WithMany("ArtistsOnTheAlbums")
                         .HasForeignKey("ArtistId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -1110,36 +1046,17 @@ namespace MusicWeb.DataAccess.Migrations
 
             modelBuilder.Entity("MusicWeb.Models.Entities.Posts.Post", b =>
                 {
-                    b.HasOne("MusicWeb.Models.Entities.UserFriend", "Poster")
-                        .WithMany("Posts")
-                        .HasForeignKey("PosterId")
-                        .HasPrincipalKey("FriendId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                    b.HasOne("MusicWeb.Models.Entities.UserObservedArtist", "PosterArtist")
+                        .WithMany()
+                        .HasForeignKey("PosterArtistId");
 
-                    b.HasOne("MusicWeb.Models.Entities.UserObservedArtist", null)
-                        .WithMany("Posts")
-                        .HasForeignKey("UserObservedArtistId");
+                    b.HasOne("MusicWeb.Models.Entities.UserFriend", "Poster")
+                        .WithMany()
+                        .HasForeignKey("PosterId1");
 
                     b.Navigation("Poster");
-                });
 
-            modelBuilder.Entity("MusicWeb.Models.Entities.Ratings.ArtistRating", b =>
-                {
-                    b.HasOne("MusicWeb.Models.Entities.Artists.Artist", "Artist")
-                        .WithMany("ArtistRatings")
-                        .HasForeignKey("ArtistId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("MusicWeb.Models.Identity.ApplicationUser", "User")
-                        .WithMany("ArtistRatings")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Artist");
-
-                    b.Navigation("User");
+                    b.Navigation("PosterArtist");
                 });
 
             modelBuilder.Entity("MusicWeb.Models.Entities.Song", b =>
@@ -1150,7 +1067,7 @@ namespace MusicWeb.DataAccess.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("MusicWeb.Models.Entities.Artists.Artist", "Composer")
+                    b.HasOne("MusicWeb.Models.Entities.Artist", "Composer")
                         .WithMany("Songs")
                         .HasForeignKey("ComposerId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -1163,7 +1080,7 @@ namespace MusicWeb.DataAccess.Migrations
 
             modelBuilder.Entity("MusicWeb.Models.Entities.SongGuestArtist", b =>
                 {
-                    b.HasOne("MusicWeb.Models.Entities.Artists.Artist", "Artist")
+                    b.HasOne("MusicWeb.Models.Entities.Artist", "Artist")
                         .WithMany("SongGuestArtists")
                         .HasForeignKey("ArtistId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -1220,7 +1137,7 @@ namespace MusicWeb.DataAccess.Migrations
 
             modelBuilder.Entity("MusicWeb.Models.Entities.UserFavoriteArtist", b =>
                 {
-                    b.HasOne("MusicWeb.Models.Entities.Artists.Artist", "Artist")
+                    b.HasOne("MusicWeb.Models.Entities.Artist", "Artist")
                         .WithMany("UserFavoriteArtists")
                         .HasForeignKey("ArtistId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -1277,7 +1194,7 @@ namespace MusicWeb.DataAccess.Migrations
 
             modelBuilder.Entity("MusicWeb.Models.Entities.UserObservedArtist", b =>
                 {
-                    b.HasOne("MusicWeb.Models.Entities.Artists.Artist", "Artist")
+                    b.HasOne("MusicWeb.Models.Entities.Artist", "Artist")
                         .WithMany("UserObservedArtists")
                         .HasForeignKey("ArtistId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -1305,13 +1222,11 @@ namespace MusicWeb.DataAccess.Migrations
                     b.Navigation("UserFavoriteAlbums");
                 });
 
-            modelBuilder.Entity("MusicWeb.Models.Entities.Artists.Artist", b =>
+            modelBuilder.Entity("MusicWeb.Models.Entities.Artist", b =>
                 {
                     b.Navigation("Albums");
 
                     b.Navigation("ArtistComments");
-
-                    b.Navigation("ArtistRatings");
 
                     b.Navigation("ArtistsOnTheAlbums");
 
@@ -1366,25 +1281,11 @@ namespace MusicWeb.DataAccess.Migrations
                     b.Navigation("UserFavoriteSongs");
                 });
 
-            modelBuilder.Entity("MusicWeb.Models.Entities.UserFriend", b =>
-                {
-                    b.Navigation("Posts");
-                });
-
-            modelBuilder.Entity("MusicWeb.Models.Entities.UserObservedArtist", b =>
-                {
-                    b.Navigation("Posts");
-                });
-
             modelBuilder.Entity("MusicWeb.Models.Identity.ApplicationUser", b =>
                 {
                     b.Navigation("AlbumReviews");
 
-                    b.Navigation("Artist");
-
                     b.Navigation("ArtistComments");
-
-                    b.Navigation("ArtistRatings");
 
                     b.Navigation("Chats");
 

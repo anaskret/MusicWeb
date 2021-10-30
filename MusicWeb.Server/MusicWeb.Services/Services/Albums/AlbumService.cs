@@ -37,7 +37,6 @@ namespace MusicWeb.Services.Services.Albums
         public async Task AddAsync(Album entity)
         {
             await _albumRepository.AddAsync(entity);
-
         }
 
         public async Task UpdateAsync(Album entity)

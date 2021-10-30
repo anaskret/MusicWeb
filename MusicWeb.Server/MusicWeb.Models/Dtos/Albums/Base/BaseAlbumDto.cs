@@ -13,5 +13,8 @@ namespace MusicWeb.Models.Dtos.Albums.Base
 
         public int ArtistId { get; set; }
         public int AlbumGenreId { get; set; }
+        public double duration { get; set; }
+        public string description { get; set; }
+        public Boolean isConfirmed { get; set; }
     }
 }
