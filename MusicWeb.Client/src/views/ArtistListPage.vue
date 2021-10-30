@@ -1,200 +1,69 @@
 <template>
-    <v-container fluid class="py-16">
-        <v-data-table
-            :headers="headers"
-            :items="desserts"
-            :options.sync="options"
-            :server-items-length="totalDesserts"
-            :loading="loading"
-            class="elevation-1"
-        >
-        <template #item.custom>
-            Ddd
-        </template>
-        <!-- <template v-slot:items="props">
-            <td>{{ props.item.name }}</td>
-            <td class="text-xs-right">CONTENT </td>
-            <td class="text-xs-right">{{ props.item.fat }}</td>
-            <td class="text-xs-right">{{ props.item.carbs }}</td>
-            <td class="text-xs-right">{{ props.item.iron }}</td>
-            <td class="text-xs-right">{{ props.item.protein }}</td>
-        </template>
-        <template v-slot:pageText="props">
-            ITEMS {{ props.pageStart }} - {{ props.pageStop }} OF
-            {{ props.itemsLength }}
-        </template> -->
-      </v-data-table>
-    </v-container>
+  <v-container fluid grid-list-lg class="py-16">
+    <v-layout column wrap>
+      <v-flex v-for="(artist, index) in artists" :key="index">
+        <v-card flat hover class="white pb-2 mb-1 pl-2">
+          <v-layout>
+            <v-flex xs10>
+              <div class="py-2" style="color: black; width: 100%">
+                {{ artist.establishmentDate }} - {{ artist.name }}
+              </div>
+            </v-flex>
+          </v-layout>
+        </v-card>
+      </v-flex>
+    </v-layout>
+    <div v-intersect="getPagedArtistList"></div>
+  </v-container>
 </template>
 
 <script>
+import useArtists from "@/modules/artists";
 
 export default {
   name: "ArtistListPage",
-  components: {
-  },
-  data () {
+  components: {},
+  data() {
     return {
-      totalDesserts: 0,
-      desserts: [],
-      loading: true,
-      options: {},
-      headers: [
-        {
-          text: 'Dessert (100g serving)',
-          align: 'start',
-          sortable: false,
-          value: 'name',
-        },
-        { text: 'Calories', value: 'calories' },
-        { text: 'Fat (g)', value: 'fat' },
-        { text: 'Carbs (g)', value: 'carbs' },
-        { text: 'Protein (g)', value: 'protein' },
-        { text: 'Iron (%)', value: 'iron' },
-        { text: 'Custom', value: 'custom' },
-      ],
-    }
+      artists: [],
+      page: 0,
+    };
   },
-  watch: {
-    options: {
-      handler () {
-        this.getDataFromApi()
-      },
-      deep: true,
-    },
+  created() {
+    this.fetchData();
   },
   methods: {
-    getDataFromApi () {
-      this.loading = true
-      this.fakeApiCall().then(data => {
-        this.desserts = data.items
-        this.totalDesserts = data.total
-        this.loading = false
-      })
-    },
-    /**
-     * In a real application this would be a call to fetch() or axios.get()
-     */
-    fakeApiCall () {
-      return new Promise((resolve) => {
-        const { sortBy, sortDesc, page, itemsPerPage } = this.options
-
-        let items = this.getDesserts()
-        const total = items.length
-
-        if (sortBy.length === 1 && sortDesc.length === 1) {
-          items = items.sort((a, b) => {
-            const sortA = a[sortBy[0]]
-            const sortB = b[sortBy[0]]
-
-            if (sortDesc[0]) {
-              if (sortA < sortB) return 1
-              if (sortA > sortB) return -1
-              return 0
-            } else {
-              if (sortA < sortB) return -1
-              if (sortA > sortB) return 1
-              return 0
-            }
-          })
-        }
-
-        if (itemsPerPage > 0) {
-          items = items.slice((page - 1) * itemsPerPage, page * itemsPerPage)
-        }
-
-        setTimeout(() => {
-          resolve({
-            items,
-            total,
-          })
-        }, 1000)
-      })
-    },
-    getDesserts () {
-      return [
-        {
-          name: 'Frozen Yogurt',
-          calories: 159,
-          fat: 6.0,
-          carbs: 24,
-          protein: 4.0,
-          iron: '1%',
-        },
-        {
-          name: 'Ice cream sandwich',
-          calories: 237,
-          fat: 9.0,
-          carbs: 37,
-          protein: 4.3,
-          iron: '1%',
-        },
-        {
-          name: 'Eclair',
-          calories: 262,
-          fat: 16.0,
-          carbs: 23,
-          protein: 6.0,
-          iron: '7%',
-        },
-        {
-          name: 'Cupcake',
-          calories: 305,
-          fat: 3.7,
-          carbs: 67,
-          protein: 4.3,
-          iron: '8%',
-        },
-        {
-          name: 'Gingerbread',
-          calories: 356,
-          fat: 16.0,
-          carbs: 49,
-          protein: 3.9,
-          iron: '16%',
-        },
-        {
-          name: 'Jelly bean',
-          calories: 375,
-          fat: 0.0,
-          carbs: 94,
-          protein: 0.0,
-          iron: '0%',
-        },
-        {
-          name: 'Lollipop',
-          calories: 392,
-          fat: 0.2,
-          carbs: 98,
-          protein: 0,
-          iron: '2%',
-        },
-        {
-          name: 'Honeycomb',
-          calories: 408,
-          fat: 3.2,
-          carbs: 87,
-          protein: 6.5,
-          iron: '45%',
-        },
-        {
-          name: 'Donut',
-          calories: 452,
-          fat: 25.0,
-          carbs: 51,
-          protein: 4.9,
-          iron: '22%',
-        },
-        {
-          name: 'KitKat',
-          calories: 518,
-          fat: 26.0,
-          carbs: 65,
-          protein: 7,
-          iron: '6%',
-        },
-      ]
+    async fetchData() {
+      await this.getPagedArtistList();
     },
   },
-}
+
+  setup() {
+    const { getPaged } = useArtists();
+
+    const getPagedArtistList = function () {
+      getPaged(this.page, 5, 0, "1989-01-01T00:00:00", "2022-01-01T00:00:00")
+        .then((response) => {
+            response.forEach((item) => {
+                return this.artists.push(item)
+            });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+      console.log(this.page);
+      this.page++; //TODO reduce iteration to max(element)
+    };
+
+    return {
+      getPagedArtistList,
+    };
+  },
+};
 </script>
+
+<style scoped>
+.theme--light.v-card {
+  background-color: #f5f5f5;
+}
+</style>

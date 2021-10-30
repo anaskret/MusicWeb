@@ -1,0 +1,52 @@
+﻿@if (ShowConfirmation)
+{
+    <div class="modal fade show d-block" id="exampleModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Element deletion</h5>
+                    <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"
+                            @onclick="() => OnConfirmationChange(false)">
+                    </button>
+                </div>
+                <div class="modal-body">
+                    @Message
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary waves-effect waves-light" data-dismiss="modal"
+                            @onclick="() => OnConfirmationChange(false)">
+                        Cancel
+                    </button>
+                    <button type="button" class="btn btn-danger waves-effect waves-light"
+                            @onclick="() => OnConfirmationChange(true)">
+                        Delete
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-backdrop fade show"></div>
+}
+@code {
+    private bool ShowConfirmation { get; set; }
+    private string Message { get; set; }
+
+    public void Show(string message = "")
+    {
+        Message = message;
+        if (string.IsNullOrEmpty(Message))
+            Message = "Warning! Deleting an element is unreversable";
+
+        ShowConfirmation = true;
+        StateHasChanged();
+    }
+
+    [Parameter]
+    public EventCallback<bool> ConfirmationChanged { get; set; }
+
+    protected async Task OnConfirmationChange(bool value)
+    {
+        ShowConfirmation = false;
+        await ConfirmationChanged.InvokeAsync(value);
+    }
+}

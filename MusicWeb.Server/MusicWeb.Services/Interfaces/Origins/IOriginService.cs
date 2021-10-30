@@ -14,23 +14,23 @@ namespace MusicWeb.Services.Interfaces.Origins
         Task UpdateCountryAsync(Country entity);
         Task DeleteCountryAsync(int id);
         Task<Country> GetCountryByIdAsync(int id);
-        Task<List<Country>> GetAllCountriesAsync();
-        Task<List<State>> GetStatesByCountryAsync(int id);
+        Task<IList<Country>> GetAllCountriesAsync();
+        Task<IList<State>> GetStatesByCountryAsync(int id);
 
         Task AddStateAsync(State entity);
         Task UpdateStateAsync(State entity);
         Task DeleteStatesRangeAsync(List<State>entities);
         Task DeleteStateAsync(int id);
         Task<State> GetStateByIdAsync(int id);
-        Task<List<State>> GetAllStatesAsync();
-        Task<List<City>> GetCitiesByStateAsync(int id);
+        Task<IList<State>> GetAllStatesAsync();
+        Task<IList<City>> GetCitiesByStateAsync(int id);
 
         Task AddCityAsync(City entity);
         Task UpdateCityAsync(City entity);
         Task DeleteCityAsync(int id);
         Task DeleteCitiesRangeAsync(List<City> entities);
         Task<City> GetCityByIdAsync(int id);
-        Task<List<City>> GetAllCitiesAsync();
+        Task<IList<City>> GetAllCitiesAsync();
 
     }
 }

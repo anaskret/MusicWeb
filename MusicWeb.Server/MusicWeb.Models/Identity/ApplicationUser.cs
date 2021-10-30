@@ -1,5 +1,8 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using MusicWeb.Models.Entities;
+using MusicWeb.Models.Entities.Artists;
+using MusicWeb.Models.Entities.Ratings;
+using MusicWeb.Models.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +17,10 @@ namespace MusicWeb.Models.Identity
         public string LastName { get; set; }
         public DateTime BirthDate { get; set; }
         public string ImagePath { get; set; }
+        public UserType Type { get; set; }
+        public int? ArtistId { get; set; }
 
+        public virtual Artist Artist{ get; set; }
         public virtual ICollection<AlbumReview> AlbumReviews{ get; set; }
         public virtual ICollection<SongReview> SongReviews{ get; set; }
         public virtual ICollection<ArtistComment> ArtistComments{ get; set; }
@@ -27,5 +33,6 @@ namespace MusicWeb.Models.Identity
         public virtual ICollection<Message> Messages{ get; set; }
         public virtual ICollection<UserFriend> UserFriends{ get; set; }
         public virtual ICollection<UserFriend> FriendUsers{ get; set; }
+        public virtual ICollection<ArtistRating> ArtistRatings { get; set; }
     }
 }

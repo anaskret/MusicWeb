@@ -33,9 +33,20 @@ namespace MusicWeb.Services.Services.Users
             await _userFriendRepository.DeleteAsync(entity);
         }
 
-        public async Task<List<UserFriend>> GetAllAsync()
+        public async Task DeleteRangeByUserIdAsync(string userId)
+        {
+            var entities = await GetAllByUserIdAsync(userId);
+            await _userFriendRepository.DeleteRangeAsync(entities.ToList());
+        }
+
+        public async Task<IList<UserFriend>> GetAllAsync()
         {
             return await _userFriendRepository.GetAllAsync();
+        }
+
+        public async Task<IList<UserFriend>> GetAllByUserIdAsync(string userId)
+        {
+            return await _userFriendRepository.GetAllAsync(entity => entity.Where(prp => string.Equals(prp.UserId, userId) || string.Equals(prp.FriendId, userId)));
         }
 
         public async Task<UserFriend> GetByIdAsync(int id)

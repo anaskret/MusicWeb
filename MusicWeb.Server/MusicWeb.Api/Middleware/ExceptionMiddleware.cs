@@ -27,10 +27,9 @@ namespace MusicWeb.Api.Middleware
             {
                 _logger.LogError(ex, ex.Message);
 
-                string errorMessage = "";
-                PrepareErrorMessage(ex, errorMessage);
+                string errorMessage = PrepareErrorMessage(ex, ex.Message);
 
-                //httpContext.Response.Redirect("/Error");
+                await httpContext.Response.WriteAsJsonAsync(errorMessage);
             }
         }
 

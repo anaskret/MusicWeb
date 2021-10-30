@@ -13,6 +13,6 @@ namespace MusicWeb.Services.Interfaces.Genres
         Task UpdateAsync(Genre entity);
         Task DeleteAsync(int id);
         Task<Genre> GetByIdAsync(int id);
-        Task<List<Genre>> GetAllAsync();
+        Task<IList<Genre>> GetAllAsync();
     }
 }

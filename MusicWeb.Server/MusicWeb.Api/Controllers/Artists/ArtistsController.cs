@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -6,6 +7,7 @@ using MusicWeb.Api.Extensions;
 using MusicWeb.Models.Dtos.Artists;
 using MusicWeb.Models.Dtos.Artists.Create;
 using MusicWeb.Models.Entities;
+using MusicWeb.Models.Entities.Artists;
 using MusicWeb.Models.Enums;
 using MusicWeb.Services.Interfaces.Artists;
 using System;
@@ -15,6 +17,8 @@ using System.Threading.Tasks;
 
 namespace MusicWeb.Api.Controllers.Artists
 {
+    [ApiController]
+    [Authorize]
     public class ArtistsController : Controller
     {
         private readonly IArtistService _artistService;
@@ -118,9 +122,7 @@ namespace MusicWeb.Api.Controllers.Artists
         /// Creates an artist or a band.
         /// </summary>
         /// <remarks>
-        /// To create a band set IsBand = true and IsIndividual = false &#xA;
-        /// To add a band member set IsBand = false, IsIndividual = false nad BandId = SomeBandId &#xA;
-        /// To add an individual artist (without a band) set IsIndividual = true and IsBand = false &#xA;
+        /// To add a band member set Type to Band Member and BandId = SomeBandId &#xA;
         /// To add an artist image pass image bytes in ImageBytes, otherwise set the property to an empty string &#xA;
         /// </remarks>
         [HttpPost(ApiRoutes.Artists.Create)]

@@ -30,9 +30,9 @@ namespace MusicWeb.Services.Services.Artists
             await _artistCommentRepository.DeleteAsync(entity);
         }
 
-        public async Task<List<ArtistComment>> GetAllByArtistIdAsync(int id)
+        public async Task<IList<ArtistComment>> GetAllByArtistIdAsync(int id)
         {
-            return await _artistCommentRepository.GetAll().Where(prp => prp.ArtistId == id).ToListAsync();
+            return await _artistCommentRepository.GetAllAsync(entity => entity.Where(prp => prp.ArtistId == id));
         }
 
         public async Task<ArtistComment> GetByIdAsync(int id)

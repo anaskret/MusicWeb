@@ -5,6 +5,7 @@ export default {
   },
   logout() {
     localStorage.removeItem("user-token");
+    localStorage.removeItem("user-id");
     location.reload(true);
   },
   register(data) {

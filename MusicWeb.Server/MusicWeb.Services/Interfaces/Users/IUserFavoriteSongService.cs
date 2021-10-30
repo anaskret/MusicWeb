@@ -1,4 +1,4 @@
-﻿using MusicWeb.Services.Interfaces.Users.Base;
+﻿using MusicWeb.Models.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +7,11 @@ using System.Threading.Tasks;
 
 namespace MusicWeb.Services.Interfaces.Users
 {
-    public interface IUserFavoriteSongService : IUserFavoriteService 
+    public interface IUserFavoriteSongService 
     {
+        Task<IList<UserFavoriteSong>> GetAllByUserIdAsync(string userId);
+        Task CreateAsync(UserFavoriteSong entity);
+        Task DeleteAsync(int id);
+        Task DeleteRangeByUserIdAsync(string userId);
     }
 }
