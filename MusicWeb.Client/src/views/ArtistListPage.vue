@@ -44,9 +44,9 @@ export default {
     const getPagedArtistList = function () {
       getPaged(this.page, 5, 0, "1989-01-01T00:00:00", "2022-01-01T00:00:00")
         .then((response) => {
-            response.forEach((item) => {
-                return this.artists.push(item)
-            });
+          response.forEach((item) => {
+            return this.artists.push(item);
+          });
         })
         .catch((err) => {
           console.log(err);
