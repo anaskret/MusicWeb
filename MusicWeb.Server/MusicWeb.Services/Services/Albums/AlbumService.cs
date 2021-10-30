@@ -1,7 +1,10 @@
 ﻿using AutoMapper;
 using MusicWeb.Models.Dtos.Albums;
+using MusicWeb.Models.Dtos.Artists;
 using MusicWeb.Models.Entities;
+using MusicWeb.Models.Entities.Artists;
 using MusicWeb.Repositories.Interfaces.Albums;
+using MusicWeb.Repositories.Interfaces.Artists;
 using MusicWeb.Services.Interfaces;
 using MusicWeb.Services.Interfaces.Artists;
 using System;

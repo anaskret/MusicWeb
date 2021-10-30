@@ -21,7 +21,10 @@ namespace MusicWeb.Repositories.Repositories.Albums
         {
             var entity = await _dbContext.Album
                 .Include(songs => songs.Songs)
-                .Include(reviews => reviews.AlbumReviews).FirstOrDefaultAsync(prp => prp.Id == id);
+                .Include(reviews => reviews.AlbumReviews)
+                .Include(artist => artist.Artist)
+                .Include(genre => genre.AlbumGenre)
+                .FirstOrDefaultAsync(prp => prp.Id == id);
             return entity;
         }
     }
