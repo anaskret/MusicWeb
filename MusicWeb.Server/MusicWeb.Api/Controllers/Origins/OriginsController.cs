@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using MusicWeb.Api.Extensions;
@@ -12,6 +13,8 @@ using System.Threading.Tasks;
 
 namespace MusicWeb.Api.Controllers.Origins
 {
+    [ApiController]
+    [Authorize]
     public class OriginsController : Controller
     {
         private readonly IOriginService _originService;

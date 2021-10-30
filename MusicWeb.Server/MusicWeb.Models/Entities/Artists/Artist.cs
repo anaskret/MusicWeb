@@ -1,6 +1,9 @@
 ﻿using MusicWeb.Models.Entities.Artists;
 using MusicWeb.Models.Entities.Base;
 using MusicWeb.Models.Entities.Origins;
+using MusicWeb.Models.Entities.Ratings;
+using MusicWeb.Models.Enums;
+using MusicWeb.Models.Identity;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -8,7 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MusicWeb.Models.Entities
+namespace MusicWeb.Models.Entities.Artists
 {
     public class Artist : BaseEntity
     {
@@ -16,14 +19,16 @@ namespace MusicWeb.Models.Entities
         public DateTime EstablishmentDate { get; set; }
         public string Bio { get; set; }
         public string ImagePath { get; set; }
-        public bool IsIndividual { get; set; }
-        public bool IsBand { get; set; }
+        public ArtistType Type { get; set; }
 
         public int? BandId { get; set; }
         public int CityId{ get; set; }
         public virtual BandMember BandMember { get; set; }
         public virtual City City{ get; set; }
 
+        public string UserId { get; set; }
+
+        public virtual ApplicationUser ArtistUser{ get; set; }
         public virtual ICollection<Album> Albums{ get; set; }
         public virtual ICollection<Song> Songs{ get; set; }
         public virtual ICollection<SongGuestArtist> SongGuestArtists{ get; set; }
@@ -32,6 +37,7 @@ namespace MusicWeb.Models.Entities
         public virtual ICollection<UserObservedArtist> UserObservedArtists{ get; set; }
         public virtual ICollection<ArtistsOnTheAlbum> ArtistsOnTheAlbums{ get; set; }
         public virtual ICollection<BandMember> Band { get; set; }
+        public virtual ICollection<ArtistRating> ArtistRatings { get; set; }
 
     }
 }

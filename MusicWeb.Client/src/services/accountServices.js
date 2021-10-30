@@ -5,9 +5,13 @@ export default {
   },
   logout() {
     localStorage.removeItem("user-token");
+    localStorage.removeItem("user-id");
     location.reload(true);
   },
   register(data) {
     return ApiService.authRequest(`/register`, ApiService.post, data);
+  },
+  getById(id) {
+    return ApiService.authRequest(`/users/${id}`, ApiService.get);
   },
 };

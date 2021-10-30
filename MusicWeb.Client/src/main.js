@@ -17,6 +17,7 @@ import {
   faCog,
   faCaretDown,
   faChevronCircleRight,
+  faPen,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import axios from "axios";
@@ -34,13 +35,18 @@ const faIcons = [
   faCog,
   faCaretDown,
   faChevronCircleRight,
+  faPen,
 ];
 faIcons.forEach((icon) => library.add(icon));
 
 Vue.component("font-awesome-icon", FontAwesomeIcon);
 
 Vue.config.productionTip = false;
-
+axios.defaults.headers.common["Authorization"] = localStorage.getItem(
+  "user-token"
+)
+  ? "Bearer " + localStorage.getItem("user-token")
+  : "";
 const url = "http://localhost:5000";
 ApiService.init(url, `${url}/api`);
 Vue.prototype.$http = axios;

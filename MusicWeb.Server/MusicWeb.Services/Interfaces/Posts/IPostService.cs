@@ -14,7 +14,7 @@ namespace MusicWeb.Services.Interfaces.Posts
         Task UpdateAsync(Post entity);
         Task DeleteAsync(int id);
         Task<Post> GetByIdAsync(int id);
-        Task<List<Post>> GetAllAsync();
+        Task<IList<Post>> GetAllAsync();
         Task<List<GetPostDto>> GetUserPostsAsync(string userId);
     }
 }

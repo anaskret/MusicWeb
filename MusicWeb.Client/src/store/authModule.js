@@ -3,9 +3,10 @@ import axios from "axios";
 
 const { loginAccount, logoutAccount, registerAccount } = useAccounts();
 const token = localStorage.getItem("user-token");
+const userId = localStorage.getItem("user-id");
 const initialState = token
-  ? { status: { loggedIn: true }, token }
-  : { status: { loggedIn: false }, token: null };
+  ? { status: { loggedIn: true }, token, userId }
+  : { status: { loggedIn: false }, token: null, userId: null };
 
 export const auth = {
   namespaced: true,
@@ -15,6 +16,7 @@ export const auth = {
       return loginAccount(user).then(
         (response) => {
           localStorage.setItem("user-token", response.data.token);
+          localStorage.setItem("user-id", response.data.userId);
           axios.defaults.headers.common["Authorization"] =
             "Bearer " + localStorage.getItem("user-token");
           commit("loginSuccess", response.data.token);

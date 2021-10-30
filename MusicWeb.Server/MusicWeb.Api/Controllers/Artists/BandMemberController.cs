@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using MusicWeb.Api.Extensions;
@@ -12,6 +13,8 @@ using System.Threading.Tasks;
 
 namespace MusicWeb.Api.Controllers.Artists
 {
+    [ApiController]
+    [Authorize]
     public class BandMemberController : Controller
     {
         private readonly IBandService _bandService;

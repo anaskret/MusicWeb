@@ -1,6 +1,6 @@
 <template>
   <v-app-bar
-    v-if="this.$route.name != 'Login'"
+    v-if="!['Login', 'Register'].includes(this.$route.name)"
     app
     color="#2C2F33"
     shrink-on-scroll
@@ -21,7 +21,7 @@
     <v-spacer></v-spacer>
     <template v-slot:extension>
       <v-tabs class="d-flex justify-center">
-        <v-tab color="#white">
+        <v-tab color="#white" @click="redirectToArtistList">
           Baza
           <font-awesome-icon class="icon" icon="caret-down" color="#white"
         /></v-tab>
@@ -62,17 +62,24 @@
         <v-list>
           <v-list-item>
             <v-list-item-avatar>
-              <img src="https://cdn.vuetifyjs.com/images/john.jpg" alt="John" />
+              <img src="@/assets/admin.jpg" alt="John" />
             </v-list-item-avatar>
 
             <v-list-item-content>
-              <v-list-item-title>John Leider</v-list-item-title>
-              <v-list-item-subtitle>Founder of Vuetify</v-list-item-subtitle>
+              <v-list-item-title
+                >{{ account.firstname }}
+                {{ account.lastname }}</v-list-item-title
+              >
             </v-list-item-content>
 
             <v-list-item-action>
               <v-btn :class="fav ? 'red--text' : ''" icon @click="fav = !fav">
-                <v-icon>mdi-heart</v-icon>
+                <font-awesome-icon
+                  size="1x"
+                  class="icon"
+                  icon="cog"
+                  color="#white"
+                />
               </v-btn>
             </v-list-item-action>
           </v-list-item>
@@ -81,13 +88,11 @@
         <v-divider></v-divider>
 
         <v-card-actions>
+          <v-btn @click="redirectToProfile" text>
+            <span class="mr-2">Profil</span>
+          </v-btn>
           <v-spacer></v-spacer>
-
-          <v-btn
-            v-if="this.$store.state.auth.status.loggedIn"
-            @click="onLogout"
-            text
-          >
+          <v-btn @click="onLogout" text>
             <span class="mr-2">Wyloguj</span>
             <font-awesome-icon
               class="icon"
@@ -103,6 +108,7 @@
 </template>
 
 <script>
+import useAccounts from "@/modules/accounts";
 export default {
   name: "Navbar",
   data() {
@@ -110,16 +116,54 @@ export default {
       drawer: null,
       group: null,
       fav: false,
+      account: {},
     };
   },
+  methods: {
+    redirectToProfile() {
+      this.drawer = !this.drawer;
+      this.$router.push({ name: "UserProfile" });
+    },
+    redirectToArtistList() {
+      this.$router.push({ name: "ArtistListPage" });
+    },
+  },
+  watch: {
+      '$route' (to, from) {
+        if (from.path === '/' && to.path === '/artists') {
+            this.getAccount();
+        } 
+      }
+      
+    },
+  created() {
+    if (!["Login", "Register"].includes(this.$route.name)) {
+      this.getAccount();
+    }
+  },
   setup() {
+    const { getById } = useAccounts();
+
     const onLogout = function () {
       this.$store.dispatch("auth/logout");
     };
 
+    const getAccount = function () {
+      getById(localStorage.getItem("user-id")).then((response) => {
+        this.account = response;
+      });
+    };
+
     return {
       onLogout,
+      getAccount,
     };
   },
 };
 </script>
+
+<style scoped>
+* >>> .v-toolbar__content {
+  align-items: center !important;
+}
+</style>

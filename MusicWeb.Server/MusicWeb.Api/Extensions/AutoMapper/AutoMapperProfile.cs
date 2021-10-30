@@ -9,11 +9,14 @@ using MusicWeb.Models.Dtos.Origins;
 using MusicWeb.Models.Dtos.Origins.Create;
 using MusicWeb.Models.Dtos.Posts;
 using MusicWeb.Models.Dtos.Songs;
+using MusicWeb.Models.Dtos.Ratings;
 using MusicWeb.Models.Dtos.Users;
 using MusicWeb.Models.Entities;
 using MusicWeb.Models.Entities.Artists;
+using MusicWeb.Models.Entities.Keyless;
 using MusicWeb.Models.Entities.Origins;
 using MusicWeb.Models.Entities.Posts;
+using MusicWeb.Models.Entities.Ratings;
 using MusicWeb.Models.Identity;
 using MusicWeb.Models.Models.Artists;
 using System;
@@ -34,6 +37,7 @@ namespace MusicWeb.Api.Extensions.AutoMapper
             CreateMap<ArtistDto, Artist>();
             CreateMap<CreateArtistDto, Artist>();
             CreateMap<Artist, ArtistDto>();
+            CreateMap<ArtistRatingAverage, ArtistDto>();
 
             CreateMap<ArtistComment, ArtistCommentDto>();
             CreateMap<ArtistCommentDto, ArtistComment>();
@@ -79,6 +83,14 @@ namespace MusicWeb.Api.Extensions.AutoMapper
             CreateMap<UserFavoriteSong, UserFavoriteDto>()
                 .ForMember(prp => prp.Name, prop => prop.MapFrom(src => src.Song.Name))
                 .ForMember(prp => prp.FavoriteId, prop => prop.MapFrom(src => src.SongId));
+            CreateMap<UserFavoriteDto, UserObservedArtist>()
+                .ForMember(prp => prp.ObservedDate, obj => obj.MapFrom(src => src.FavoriteDate))
+                .ForMember(prp => prp.ArtistId, obj => obj.MapFrom(src => src.FavoriteId));
+            CreateMap<UserObservedArtist, UserFavoriteDto>()
+                .ForMember(prp => prp.FavoriteDate, obj => obj.MapFrom(src => src.ObservedDate))
+                .ForMember(prp => prp.FavoriteId, obj => obj.MapFrom(src => src.ArtistId))
+                .ForMember(prp => prp.Name, obj => obj.MapFrom(src => src.Artist.Name));
+
             CreateMap<UserFriend, UserFriendDto>()
                 .ForMember(prp => prp.FriendName, prop => prop.MapFrom(src => src.Friend.UserName));
             CreateMap<UserFriendDto, UserFriend>();
@@ -93,6 +105,10 @@ namespace MusicWeb.Api.Extensions.AutoMapper
             CreateMap<Post, PostDto>();
             CreateMap<PostDto, Post>();
             CreateMap<CreatePostDto, Post>();
+
+            CreateMap<ArtistRating, ArtistRatingDto>();
+            CreateMap<ArtistRatingDto, ArtistRating>();
+            CreateMap<CreateArtistRatingDto, ArtistRating>();
         }
 
     }

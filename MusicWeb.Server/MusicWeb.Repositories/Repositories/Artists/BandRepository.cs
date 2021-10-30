@@ -22,5 +22,10 @@ namespace MusicWeb.Repositories.Repositories.Artists
         {
             return await _dbContext.BandMember.Where(prp => prp.BandId == id).ToListAsync();
         }
+
+        public async Task<BandMember> GetByBandIdAndArtistId(int bandId, int artistId)
+        {
+            return await _dbContext.BandMember.FirstOrDefaultAsync(prp => prp.BandId == bandId && prp.ArtistId == artistId);
+        }
     }
 }

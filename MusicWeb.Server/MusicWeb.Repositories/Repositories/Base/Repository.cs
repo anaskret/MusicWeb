@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MusicWeb.DataAccess.Data;
 using MusicWeb.Models.Entities.Base;
+using MusicWeb.Repositories.Extensions;
+using MusicWeb.Repositories.Extensions.Pagination.Interfaces;
 using MusicWeb.Repositories.Interfaces.Base;
 using System;
 using System.Collections.Generic;
@@ -31,24 +33,22 @@ namespace MusicWeb.Repositories.Repositories.Base
             }
         }
 
-        public async Task<List<TEntity>> GetAllAsync()
-        {
-            try
-            {
-                return await _dbContext.Set<TEntity>().ToListAsync();
-            }
-            catch (Exception ex)
-            {
-                throw new Exception($"Couldn't retrieve entities: {ex.Message}", ex);
-            }
-        }
-
-        public IList<TEntity> GetAll(Func<IQueryable<TEntity>, IQueryable<TEntity>> func = null)
+        public async Task<IList<TEntity>> GetAllAsync(Func<IQueryable<TEntity>, IQueryable<TEntity>> func = null)
         {
             var query = GetAll();
             query = func != null ? func(query) : query;
 
-            return query.ToList();
+            return await query.ToListAsync();
+        }
+
+        public async Task<IPagedList<TEntity>> GetAllPagedAsync(Func<IQueryable<TEntity>, IQueryable<TEntity>> func = null,
+            int pageIndex = 0, int pageSize = int.MaxValue, bool getOnlyTotalCount = false)
+        {
+            var query = GetAll();
+            query = func != null ? func(query) : query;
+
+            var result = await query.ToPagedListAsync(pageIndex, pageSize, getOnlyTotalCount);
+            return result;
         }
 
         public async Task<TEntity> AddAsync(TEntity entity)

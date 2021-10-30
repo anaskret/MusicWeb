@@ -4,14 +4,53 @@
       <v-col md="3" sm="6" class="py-lg-9 pr-lg-10">
         <span class="border-right border-dark"></span>
         <h1 class="title font-weight-bold pb-lg-5">Informacje</h1>
-        <p v-for="(info, index) in info_content" :key="index">
-          {{ info.info }}
-        </p>
+        <div v-if="module_name == 'Artist'">
+          <p>
+            Rok założenia:
+            <span>{{ moment(parent.establishmentDate).format("L") }}</span>
+          </p>
+          <p>
+            Pochodzenie:
+            <span
+              >{{ parent.city }} {{ parent.state }},
+              {{ parent.country }}
+            </span>
+          </p>
+          <p>
+            Gatunek muzyczny:
+            <span>rock progresywny, art rock, doom metal</span>
+          </p>
+          <p v-if="parent.isBand && !parent.isIndividual">
+            Członkowie:parent
+            <span v-for="(member, index) in parent.members" :key="index">
+              {{ member
+              }}<span v-if="index != parent.members.length - 1">,</span></span
+            >
+          </p>
+        </div>
+        <div v-else-if="module_name == 'Album'">
+          <p>
+            Zespół:
+            <span>{{ parent.artistName }}</span>
+          </p>
+          <p>
+            Data wydania:
+            <span>{{ moment(parent.establishmentDate).format("L") }} </span>
+          </p>
+          <p>
+            Czas trwania:
+            <span>{{ parent.duration }} min</span>
+          </p>
+          <p>
+            Gatunek muzyczny:
+            <span>rock progresywny, art rock, doom metal</span>
+          </p>
+        </div>
       </v-col>
       <v-col lg="5">
         <h1 class="pb-lg-5">Biografia</h1>
         <p class="text-justify">
-          {{ artist.bio }}
+          {{ parent.bio }}
         </p>
       </v-col>
     </v-row>
@@ -22,13 +61,12 @@
 export default {
   name: "Header",
   props: {
-    info_content: {
-      type: Array,
-      default: () => ({}),
-    },
-    artist: {
+    parent: {
       type: Object,
       default: () => ({}),
+    },
+    module_name: {
+      type: String,
     },
   },
   data() {
