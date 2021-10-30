@@ -13,6 +13,9 @@ namespace MusicWeb.Models.Dtos.Albums
         public DateTime ReleaseDate { get; set; }
         public int ArtistId { get; set; }
         public int AlbumGenreId { get; set; }
+        public double duration { get; set; }
+        public string description { get; set; }
+        public Boolean isConfirmed { get; set; }
         public List<SongDto> Songs { get; set; }
         public AlbumFullDataDto()
         {
