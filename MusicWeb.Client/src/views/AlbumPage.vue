@@ -7,7 +7,8 @@
     />
 
     <InfoSection :parent="album" :module_name="module_name" />
-    <ItemList :songs="songs" />
+    <ItemList :songs="album.songs" />'
+    <ReviewList />
   </div>
 </template>
 
@@ -27,7 +28,6 @@ export default {
     return {
       id: this.$route.params.id,
       album: {},
-      songs: [],
       show_observe_button: false,
       vote_title: "Oceń album",
       module_name: "Album",
@@ -42,7 +42,6 @@ export default {
       getAlbumFullData(this.id).then((response) => {
         return (this.album = response);
       });
-      console.log(this.album);
     };
     return {
       getAlbumData,

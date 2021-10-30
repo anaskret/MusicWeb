@@ -2,7 +2,10 @@ export default class Album {
   name = "";
   releaseDate = "";
   artistId = "";
-  albumGenereId = "";
+  albumGenreId = "";
+  description = "";
+  duration = "";
+  isConfirmed = "";
   songs = [];
 
   constructor($data) {
@@ -10,7 +13,10 @@ export default class Album {
       this.name = $data.name;
       this.releaseDate = $data.releaseDate;
       this.artistId = $data.artistId;
-      this.albumGenereId = $data.albumGenereId;
+      this.albumGenreId = $data.albumGenreId;
+      this.duration = $data.duration;
+      this.description = $data.description;
+      this.isConfirmed = $data.isConfirmed;
       this.songs = $data.songs ? $data.songs : [];
     }
   }

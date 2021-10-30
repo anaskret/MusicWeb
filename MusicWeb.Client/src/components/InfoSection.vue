@@ -30,12 +30,12 @@
         </div>
         <div v-else-if="module_name == 'Album'">
           <p>
-            Zespół:
-            <span>{{ parent.artistName }}</span>
+            Artysta:
+            <span>{{ parent.artistId }}</span>
           </p>
           <p>
             Data wydania:
-            <span>{{ moment(parent.establishmentDate).format("L") }} </span>
+            <span>{{ moment(parent.releaseDate).format("L") }} </span>
           </p>
           <p>
             Czas trwania:
@@ -43,14 +43,14 @@
           </p>
           <p>
             Gatunek muzyczny:
-            <span>rock progresywny, art rock, doom metal</span>
+            <span>{{ parent.albumGenreId }}</span>
           </p>
         </div>
       </v-col>
       <v-col lg="5">
         <h1 class="pb-lg-5">Biografia</h1>
         <p class="text-justify">
-          {{ parent.bio }}
+          {{ parent.description }}
         </p>
       </v-col>
     </v-row>
