@@ -129,13 +129,12 @@ export default {
     },
   },
   watch: {
-      '$route' (to, from) {
-        if (from.path === '/' && to.path === '/artists') {
-            this.getAccount();
-        } 
+    $route(to, from) {
+      if (from.path === "/" && to.path === "/artists") {
+        this.getAccount();
       }
-      
     },
+  },
   created() {
     if (!["Login", "Register"].includes(this.$route.name)) {
       this.getAccount();

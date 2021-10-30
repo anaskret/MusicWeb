@@ -17,7 +17,7 @@ import ItemList from "@/components/ItemList.vue";
 import InfoSection from "@/components/InfoSection.vue";
 import useAlbums from "@/modules/albums";
 export default {
-  name: "Album Page",
+  name: "AlbumPage",
   components: {
     Header,
     ItemList,
@@ -28,9 +28,14 @@ export default {
       id: this.$route.params.id,
       album: {},
       songs: [],
+      show_observe_button: false,
+      vote_title: "Oceń album",
+      module_name: "Album",
     };
   },
-
+  created() {
+    this.getAlbumData();
+  },
   setup() {
     const { getAlbumFullData } = useAlbums();
     const getAlbumData = function () {
