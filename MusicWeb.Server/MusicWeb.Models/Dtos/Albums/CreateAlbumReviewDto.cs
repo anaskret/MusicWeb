@@ -8,7 +8,7 @@ namespace MusicWeb.Models.Dtos.Albums.Create
 {
     public class CreateAlbumReviewDto
     {
-        public int Rating { get; set; }
+        public string Title{ get; set; }
         public string Content { get; set; }
         public DateTime PostDate { get; set; }
         public int AlbumId { get; set; }
