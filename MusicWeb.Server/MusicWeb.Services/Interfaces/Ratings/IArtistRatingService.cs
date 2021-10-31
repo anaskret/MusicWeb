@@ -12,7 +12,9 @@ namespace MusicWeb.Services.Interfaces.Ratings
         Task AddAsync(ArtistRating entity);
         Task UpdateAsync(ArtistRating entity);
         Task DeleteAsync(int id);
-        Task<List<ArtistRating>> GetAllByArtistIdAsync(int id);
+        Task DeleteRangeByUserIdAsync(string userId);
+        Task<IList<ArtistRating>> GetAllByArtistIdAsync(int id);
+        Task<IList<ArtistRating>> GetAllByUserIdAsync(string id);
         Task<ArtistRating> GetByIdAsync(int id);
     }
 }

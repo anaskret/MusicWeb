@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MusicWeb.DataAccess.Data;
 using MusicWeb.Models.Identity;
+using MusicWeb.Repositories.Extensions;
+using MusicWeb.Repositories.Extensions.Pagination.Interfaces;
 using MusicWeb.Repositories.Interfaces.Users;
 using MusicWeb.Repositories.Repositories.Base;
 using System;
@@ -11,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace MusicWeb.Repositories.Repositories.Users
 {
-    public class UserRepository : IUserRepository
+    public class UserRepository :  IUserRepository
     {
         private readonly AppDbContext _dbContext;
 
@@ -38,6 +40,16 @@ namespace MusicWeb.Repositories.Repositories.Users
         public async Task<List<ApplicationUser>> GetAllAsync()
         {
             return await _dbContext.Users.ToListAsync();
+        }
+
+        public async Task<IPagedList<ApplicationUser>> GetAllPagedAsync(Func<IQueryable<ApplicationUser>, IQueryable<ApplicationUser>> func = null,
+            int pageIndex = 0, int pageSize = int.MaxValue, bool getOnlyTotalCount = false)
+        {
+            var query = _dbContext.Users.AsQueryable();
+            query = func != null ? func(query) : query;
+
+            var result = await query.ToPagedListAsync(pageIndex, pageSize, getOnlyTotalCount);
+            return result;
         }
     }
 }

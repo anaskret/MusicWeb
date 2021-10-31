@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MusicWeb.Repositories.Extensions.Pagination.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,8 +10,9 @@ namespace MusicWeb.Repositories.Interfaces.Base
     public interface IRepository<TEntity> where TEntity : class, new()
     {
         IQueryable<TEntity> GetAll();
-        IList<TEntity> GetAll(Func<IQueryable<TEntity>, IQueryable<TEntity>> func = null);
-        Task<List<TEntity>> GetAllAsync();
+        Task<IList<TEntity>> GetAllAsync(Func<IQueryable<TEntity>, IQueryable<TEntity>> func = null);
+        Task<IPagedList<TEntity>> GetAllPagedAsync(Func<IQueryable<TEntity>, IQueryable<TEntity>> func = null,
+            int pageIndex = 0, int pageSize = int.MaxValue, bool getOnlyTotalCount = false);
 
         Task<TEntity> AddAsync(TEntity entity);
 
@@ -23,7 +25,6 @@ namespace MusicWeb.Repositories.Interfaces.Base
         Task DeleteRangeAsync(List<TEntity> entities);
 
         Task<TEntity> GetByIdAsync(int id);
-
         Task<TEntity> GetByIdNoTrackingAsync(int id);
     }
 }

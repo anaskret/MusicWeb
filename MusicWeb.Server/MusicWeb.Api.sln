@@ -9,9 +9,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MusicWeb.DataAccess", "Musi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MusicWeb.Models", "MusicWeb.Models\MusicWeb.Models.csproj", "{52F50AA5-4F5F-4EAF-8F1E-D1222AEFC0DD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MusicWeb.Repositories", "MusicWeb.Repositories\MusicWeb.Repositories.csproj", "{54DB7F91-0836-45FE-B487-1243049293C8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MusicWeb.Repositories", "MusicWeb.Repositories\MusicWeb.Repositories.csproj", "{54DB7F91-0836-45FE-B487-1243049293C8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MusicWeb.Services", "MusicWeb.Services\MusicWeb.Services.csproj", "{569DFFEE-3CD8-47B7-8ED9-9B8AE5714F67}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MusicWeb.Services", "MusicWeb.Services\MusicWeb.Services.csproj", "{569DFFEE-3CD8-47B7-8ED9-9B8AE5714F67}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MusicWeb.Admin", "MusicWeb.Admin\MusicWeb.Admin.csproj", "{D1C1D42F-DB09-49F6-AF45-AD4E09257C9D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{569DFFEE-3CD8-47B7-8ED9-9B8AE5714F67}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{569DFFEE-3CD8-47B7-8ED9-9B8AE5714F67}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{569DFFEE-3CD8-47B7-8ED9-9B8AE5714F67}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D1C1D42F-DB09-49F6-AF45-AD4E09257C9D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D1C1D42F-DB09-49F6-AF45-AD4E09257C9D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D1C1D42F-DB09-49F6-AF45-AD4E09257C9D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D1C1D42F-DB09-49F6-AF45-AD4E09257C9D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -21,7 +21,7 @@
     <v-spacer></v-spacer>
     <template v-slot:extension>
       <v-tabs class="d-flex justify-center">
-        <v-tab color="#white">
+        <v-tab color="#white" @click="redirectToArtistList">
           Baza
           <font-awesome-icon class="icon" icon="caret-down" color="#white"
         /></v-tab>
@@ -124,9 +124,21 @@ export default {
       this.drawer = !this.drawer;
       this.$router.push({ name: "UserProfile" });
     },
+    redirectToArtistList() {
+      this.$router.push({ name: "ArtistListPage" });
+    },
+  },
+  watch: {
+    $route(to, from) {
+      if (from.path === "/" && to.path === "/artists") {
+        this.getAccount();
+      }
+    },
   },
   created() {
-    this.getAccount();
+    if (!["Login", "Register"].includes(this.$route.name)) {
+      this.getAccount();
+    }
   },
   setup() {
     const { getById } = useAccounts();

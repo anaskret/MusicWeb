@@ -1,0 +1,178 @@
+﻿@page "/artists/edit/{Id:int}";
+
+@using MusicWeb.Services.Interfaces.Roles;
+@using Microsoft.AspNetCore.Identity.UI.Services;
+@using Admin.Pages.Artists.Factories.Interfaces;
+@using Admin.Pages.Artists.Models;
+@using MusicWeb.Models.Models.Origins;
+@using MusicWeb.Models.Models.Artists;
+@using MusicWeb.Services.Interfaces.Artists;
+@using MusicWeb.Models.Entities.Artists;
+
+@inject UserManager<ApplicationUser> _userManager;
+@inject IEmailSender _emailSender;
+@inject IRolesService _rolesService;
+@inject NavigationManager NavManager;
+@inject ILogger<Edit> _logger;
+@inject IArtistModelFactory _artistModelFactory;
+@inject IArtistService _artistService;
+@inject IMapper _mapper;
+
+@*@attribute [Authorize(Roles = "Admin")]*@
+
+<title>MusicWeb - Edit Artist</title>
+
+<div class="row">
+    <EditForm Model="@Input" OnValidSubmit="OnPostAsync">
+        <div class="panel-hdr text-center mb-3">
+            <div class="col-12">
+                <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                    <h4 class="mb-sm-0">Edit Artist</h4>
+
+                    <div class="page-title-right">
+                        <button type="submit" class="btn btn-xs-block btn-primary waves-effect waves-light">
+                            Save
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-12">
+            <div class="card mb-g">
+                <div class="card-body">
+                    <div class="frame-wrap p-0 border-0 m-0">
+                        <StatusMessageComponent @ref="StatusMessage" />
+                        <DataAnnotationsValidator />
+                        <div class="row d-flex justify-content-center">
+                            <div class="ml-auto mr-auto">
+                                <div class="mb-4 row form-group">
+                                    <label class="col-md-2 col-form-label text-muted">Name</label>
+                                    <div class="col-md-10">
+                                        <InputText @bind-Value="Input.Name" class="form-control" />
+                                    </div>
+                                    <div class="text-danger">
+                                        <ValidationMessage For="() => Input.Name" />
+                                    </div>
+                                </div>
+                                <div class="mb-4 row form-group">
+                                    <label class="col-md-2 col-form-label text-muted">Bio</label>
+                                    <div class="col-md-10">
+                                        <InputTextArea @bind-Value="Input.Bio" class="form-control" />
+                                    </div>
+                                    <div class="text-danger">
+                                        <ValidationMessage For="() => Input.Bio" />
+                                    </div>
+                                </div>
+                                <div class="mb-4 row form-group">
+                                    <label class="col-md-2 col-form-label text-muted">Date of birth</label>
+                                    <div class="col-md-10">
+                                        <InputDate @bind-Value="Input.EstablishmentDate" class="form-control" />
+                                    </div>
+                                    <div class="text-danger">
+                                        <ValidationMessage For="() => Input.EstablishmentDate" />
+                                    </div>
+                                </div>
+                                <div class="mb-4 row form-group">
+                                    <label class="col-md-2 col-form-label text-muted">Country</label>
+                                    <InputSelect @bind-Value="Input.CountryId" class="form-select">
+                                        <option value="0">Select</option>
+                                        @foreach (var country in Countries)
+                                        {
+                                            <option value="@country.Id">@country.Name</option>
+                                        }
+                                    </InputSelect>
+                                </div>
+                                @if (Input.CountryId > 0)
+                                {
+                                    <div class="mb-4 row form-group">
+                                        <label class="col-md-2 col-form-label text-muted">State</label>
+                                        <InputSelect @bind-Value="Input.StateId" class="form-select">
+                                            <option value="0">Select</option>
+                                            @foreach (var state in States.Where(prp => prp.CountryId == Input.CountryId).ToList())
+                                                {
+                                                <option value="@state.Id">@state.Name</option>
+                                                }
+                                        </InputSelect>
+                                    </div>
+                                }
+                                @if (Input.StateId > 0)
+                                {
+                                    <div class="mb-4 row form-group">
+                                        <label class="col-md-2 col-form-label text-muted">City</label>
+                                        <InputSelect @bind-Value="Input.CityId" class="form-select">
+                                            <option value="0">Select</option>
+                                            @foreach (var city in Cities.Where(prp => prp.StateId == Input.StateId).ToList())
+                                                {
+                                                <option value="@city.Id">@city.Name</option>
+                                                }
+                                        </InputSelect>
+                                    </div>
+                                }
+                                @if (Input.Type == ArtistType.BandMember)
+                                {
+                                    <div class="mb-3 row form-group">
+                                        <label class="col-md-2 col-form-label text-muted">Band</label>
+                                        <InputSelect @bind-Value="@Input.BandId" class="form-select">
+                                            <option value="0">Select</option>
+                                            @foreach (var band in Bands)
+                                                {
+                                                <option value="@band.Id">@band.Name</option>
+                                                }
+                                        </InputSelect>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </EditForm>
+</div>
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+    [Parameter]
+    public EditArtistModel Input { get; set; }
+
+    public StatusMessageComponent StatusMessage { get; set; }
+
+    public List<CountryModel> Countries { get; set; }
+    public List<StateModel> States { get; set; }
+    public List<CityModel> Cities { get; set; }
+    public List<BandModel> Bands { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        Input = new EditArtistModel();
+        Countries = new List<CountryModel>();
+        States = new List<StateModel>();
+        Cities = new List<CityModel>();
+        Bands = new List<BandModel>();
+
+        await _artistModelFactory.PrepareCreator(Countries, States, Cities, Bands);
+        Input = await _artistModelFactory.PrepareEdit(Id);
+    }
+
+    private async Task OnPostAsync()
+    {
+        try
+        {
+            if (Input.Type == ArtistType.BandMember && (Input.BandId <= 0 || Input.BandId == null))
+            {
+                StatusMessage.Show("Error Select a band");
+                return;
+            }
+
+            await _artistService.UpdateArtistAsync(_mapper.Map<Artist>(Input));
+            NavManager.NavigateTo("users/list");
+        }
+        catch (Exception ex)
+        {
+            StatusMessage.Show("Error Something went wrong while creating a user");
+            _logger.LogError(ex.Message);
+        }
+    }
+}

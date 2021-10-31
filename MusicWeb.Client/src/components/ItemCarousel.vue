@@ -51,7 +51,9 @@
                   <h4 class="text-center">
                     {{ item.name }}
                   </h4>
-                  <p class="text-center">{{ moment(item.releaseDate).format("YYYY") }}</p>
+                  <p class="text-center">
+                    {{ moment(item.releaseDate).format("YYYY") }}
+                  </p>
                 </v-card>
               </v-hover>
             </v-slide-item>
@@ -79,10 +81,6 @@ export default {
 };
 </script>
 <style scoped>
-p {
-  color: gray;
-  margin: 0;
-}
 .v-card {
   transition: opacity 0.4s ease-in-out;
 }

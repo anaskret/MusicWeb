@@ -146,9 +146,7 @@ export default {
       return typeof validation != "undefined" ? validation.$error : false;
     },
     redirect() {
-      this.$router
-        .push({ name: "ArtistPage", params: { id: "2" } })
-        .catch(() => {}); //TODO redirect to artist list/wall/main page
+      this.$router.push({ name: "ArtistListPage" }).catch(() => {});
     },
     register() {
       this.$router.push({ name: "Register" });
@@ -160,10 +158,10 @@ export default {
       if (this.$v.$pendding || this.$v.$error) {
         return;
       }
+      this.isLogging = true;
       this.$store.dispatch("auth/login", this.account).then(
         () => {
-          this.isLogging = true;
-          setTimeout(this.redirect, 500);
+          setTimeout(this.redirect, 250);
         },
         (error) => {
           if (
