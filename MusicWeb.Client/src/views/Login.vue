@@ -158,10 +158,10 @@ export default {
       if (this.$v.$pendding || this.$v.$error) {
         return;
       }
+      this.isLogging = true;
       this.$store.dispatch("auth/login", this.account).then(
         () => {
-          this.isLogging = true;
-          setTimeout(this.redirect, 500);
+          setTimeout(this.redirect, 250);
         },
         (error) => {
           if (
