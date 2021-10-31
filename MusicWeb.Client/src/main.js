@@ -20,7 +20,7 @@ import {
   faPen,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
-import axios from "axios";
+import axios from "@/services/index.js";
 import VueCompositionApi from "@vue/composition-api";
 import moment from "moment";
 
