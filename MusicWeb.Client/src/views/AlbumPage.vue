@@ -7,7 +7,8 @@
     />
 
     <InfoSection :parent="album" :module_name="module_name" />
-    <ItemList :songs="album.songs" :album="album.name" />'
+    <ItemList :songs="album.songs" :album="album.name" />
+    <ReviewList :reviews="album.albumReviews" :album="album.name" />
   </div>
 </template>
 
@@ -15,6 +16,7 @@
 import Header from "@/components/Header.vue";
 import ItemList from "@/components/ItemList.vue";
 import InfoSection from "@/components/InfoSection.vue";
+import ReviewList from "@/components/ReviewList.vue";
 import useAlbums from "@/modules/albums";
 export default {
   name: "AlbumPage",
@@ -22,6 +24,7 @@ export default {
     Header,
     ItemList,
     InfoSection,
+    ReviewList,
   },
   data() {
     return {
@@ -39,7 +42,6 @@ export default {
     const { getAlbumFullData } = useAlbums();
     const getAlbumData = function () {
       getAlbumFullData(this.id).then((response) => {
-        debugger;
         return (this.album = response);
       });
     };
