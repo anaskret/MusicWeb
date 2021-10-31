@@ -1,4 +1,5 @@
-﻿using MusicWeb.DataAccess.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using MusicWeb.DataAccess.Data;
 using MusicWeb.Models.Entities;
 using MusicWeb.Repositories.Interfaces.Albums;
 using MusicWeb.Repositories.Repositories.Base;
@@ -14,6 +15,17 @@ namespace MusicWeb.Repositories.Repositories.Albums
     {
         public AlbumRepository(AppDbContext dbContext) : base(dbContext)
         {
+        }
+
+        public async Task<Album> GetFullAlbumDataByIdAsync(int id)
+        {
+            var entity = await _dbContext.Album
+                .Include(songs => songs.Songs)
+                .Include(reviews => reviews.AlbumReviews)
+                .Include(artist => artist.Artist)
+                .Include(genre => genre.AlbumGenre)
+                .FirstOrDefaultAsync(prp => prp.Id == id);
+            return entity;
         }
     }
 }

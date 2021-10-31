@@ -26,17 +26,18 @@
           <v-col md="3">
             <v-card class="review-left">
               <!-- TODO Delete class, items center by class   -->
-              <v-img
+              <!-- <v-img
                 max-width="75%"
                 :src="require(`@/assets/${review.img}.svg`)"
-              ></v-img>
+              ></v-img> -->
+              <v-img :src="require('@/assets/BandPhoto.svg')" max-width="25%" />
 
               <v-card-title class="text-center">
-                {{ review.album }}
+                {{ album }}
               </v-card-title>
 
               <v-card-subtitle>
-                {{ review.band }}
+                {{ review.bandId }}
               </v-card-subtitle>
             </v-card>
           </v-col>
@@ -49,15 +50,17 @@
               <v-spacer></v-spacer>
 
               <v-card-subtitle class="review-text">
-                {{ review.text | truncate(reviewTextLength, "...") }}
+                {{ review.content | truncate(reviewTextLength, "...") }}
               </v-card-subtitle>
-              <v-expansion-panels v-if="review.text.length >= reviewTextLength">
+              <v-expansion-panels
+                v-if="review.content.length >= reviewTextLength"
+              >
                 <v-expansion-panel>
                   <v-expansion-panel-header>
                     Czytaj więcej
                   </v-expansion-panel-header>
                   <v-expansion-panel-content>
-                    {{ review.text | truncateRest(reviewTextLength) }}
+                    {{ review.content | truncateRest(reviewTextLength) }}
                   </v-expansion-panel-content>
                 </v-expansion-panel>
               </v-expansion-panels>
@@ -74,6 +77,7 @@ export default {
   name: "ReviewList",
   props: {
     reviews: Array,
+    album: String,
   },
   data() {
     return {

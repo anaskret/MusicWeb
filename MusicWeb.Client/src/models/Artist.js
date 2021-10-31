@@ -2,7 +2,7 @@ export default class Artist {
   id = null;
   name = "";
   establishmentDate = "";
-  bio = "";
+  description = "";
   isIndividual = false;
   isBand = false;
   bandId = 0;
@@ -17,7 +17,7 @@ export default class Artist {
       this.id = $data.id;
       this.name = $data.name;
       this.establishmentDate = $data.establishmentDate;
-      this.bio = $data.bio;
+      this.description = $data.bio;
       this.isIndividual = $data.isIndividual ? $data.isIndividual : "";
       this.isBand = $data.isBand ? $data.isBand : "";
       this.bandId = $data.bandId;
