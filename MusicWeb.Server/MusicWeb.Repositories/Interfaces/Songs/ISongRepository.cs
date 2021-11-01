@@ -10,5 +10,6 @@ namespace MusicWeb.Repositories.Interfaces.Songs
 {
     public interface ISongRepository : IRepository<Song>
     {
+        Task<Song> GetSongFullDataByIdAsync(int id);
     }
 }

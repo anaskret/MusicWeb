@@ -21,6 +21,9 @@ namespace MusicWeb.Models.Entities
 
         public int AlbumGenreId { get; set; }
         public virtual Genre AlbumGenre { get; set; }
+        public double duration { get; set; }
+        public string description { get; set; }
+        public Boolean isConfirmed { get; set; }
 
         public virtual ICollection<Song> Songs{ get; set; }
         public virtual ICollection<AlbumReview> AlbumReviews{ get; set; }

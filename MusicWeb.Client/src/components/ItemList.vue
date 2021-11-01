@@ -22,10 +22,10 @@
         <div class="mx-auto">
           <v-list>
             <v-list-item-group v-model="show">
-              <v-list-item v-for="(song, index) in songsView" :key="index">
+              <v-list-item v-for="(song, index) in songs" :key="index">
                 <v-list-item-content
                   :style="
-                    index != songsView.length - 1
+                    index != songs.length - 1
                       ? {
                           borderBottom: '1px solid #cbcbf233',
                         }
@@ -45,9 +45,10 @@
                       lg="2"
                       sm="2"
                     >
+                      <!-- :src="require(`@/assets/${song.img}.svg`)" -->
                       <img
-                        :src="require(`@/assets/${song.img}.svg`)"
-                        :alt="song.title"
+                        :src="require('@/assets/BandPhoto.svg')"
+                        :alt="song.name"
                         width="50%"
                       />
                     </v-col>
@@ -56,14 +57,14 @@
                       lg="3"
                       sm="3"
                     >
-                      {{ song.title }}
+                      {{ song.name }}
                     </v-col>
                     <v-col
                       class="d-flex justify-start align-center"
                       lg="3"
                       sm="3"
                     >
-                      <p>{{ song.album }}</p>
+                      <p>{{ album }}</p>
                     </v-col>
                     <v-col
                       class="d-flex justify-center align-center"
@@ -76,7 +77,8 @@
                         size="1x"
                         color="#868263"
                       />
-                      {{ song.rating }}
+                      5.0
+                      <!-- {{ song.rating }} -->
                     </v-col>
                   </v-row>
                 </v-list-item-content>
@@ -94,12 +96,12 @@ export default {
   name: "ItemList",
   props: {
     songs: Array,
+    album: String,
   },
   data() {
     return {
       model: null,
       show: null,
-      songsView: this.songs,
     };
   },
 };

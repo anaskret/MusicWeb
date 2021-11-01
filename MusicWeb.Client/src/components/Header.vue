@@ -12,7 +12,7 @@
             <div class="d-flex">
               <div>
                 <h1 class="text-uppercase font-weight-bold artist-title">
-                  {{ artist.name }}
+                  {{ parent.name }}
                 </h1>
               </div>
               <v-btn
@@ -78,7 +78,7 @@ export default {
     RankSection,
   },
   props: {
-    artist: {
+    parent: {
       type: Object,
       default: () => ({}),
     },

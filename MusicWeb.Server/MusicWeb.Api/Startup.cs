@@ -39,6 +39,7 @@ using MusicWeb.Repositories.Repositories.Ratings;
 using MusicWeb.Repositories.Repositories.Songs;
 using MusicWeb.Repositories.Repositories.Users;
 using MusicWeb.Services.Interfaces;
+using MusicWeb.Services.Interfaces.Albums;
 using MusicWeb.Services.Interfaces.Artists;
 using MusicWeb.Services.Interfaces.Files;
 using MusicWeb.Services.Interfaces.Genres;
@@ -55,6 +56,7 @@ using MusicWeb.Services.Services.Genres;
 using MusicWeb.Services.Services.Identity;
 using MusicWeb.Services.Services.Origins;
 using MusicWeb.Services.Services.Posts;
+using MusicWeb.Services.Services.Songs;
 using MusicWeb.Services.Services.Ratings;
 using MusicWeb.Services.Services.Roles;
 using MusicWeb.Services.Services.Users;
@@ -183,6 +185,8 @@ namespace MusicWeb.Api
             services.AddTransient<IArtistCommentRepository, ArtistCommentRepository>();
             services.AddTransient<IBandRepository, BandRepository>();
 
+            services.AddTransient<ISongRepository, SongRepository>();
+
             services.AddTransient<IChatRepository, ChatRepository>();
             services.AddTransient<IMessageRepository, MessageRepository>();
 
@@ -220,6 +224,9 @@ namespace MusicWeb.Api
             services.AddTransient<IOriginService, OriginService>();
 
             services.AddTransient<IAlbumService, AlbumService>();
+            services.AddTransient<IAlbumReviewService, AlbumReviewService>();
+
+            services.AddTransient<ISongService, SongService>();
 
             services.AddTransient<IIdentityRepository, IdentityRepository>();
             services.AddTransient<IIdentityService, IdentityService>();

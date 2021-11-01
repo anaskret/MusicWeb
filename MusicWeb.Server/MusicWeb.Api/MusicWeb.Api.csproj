@@ -6,7 +6,8 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>C:\Users\an000\source\repos\MusicWeb\MusicWeb.Server\MusicWeb.Api\MusicWeb.Api.xml</DocumentationFile>
+    <WarningLevel>0</WarningLevel>
+    <DocumentationFile>C:\Users\mxnog\Desktop\inzynierka\MusicWeb.Server\MusicWeb.Api\MusicWeb.Api.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
@@ -32,5 +33,21 @@
     <ProjectReference Include="..\MusicWeb.Repositories\MusicWeb.Repositories.csproj" />
     <ProjectReference Include="..\MusicWeb.Services\MusicWeb.Services.csproj" />
   </ItemGroup>
+
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
+    <TypeScriptTarget>ES2016</TypeScriptTarget>
+    <TypeScriptJSXEmit>React</TypeScriptJSXEmit>
+    <TypeScriptModuleKind>AMD</TypeScriptModuleKind>
+    <TypeScriptCompileOnSaveEnabled>True</TypeScriptCompileOnSaveEnabled>
+    <TypeScriptNoImplicitAny>False</TypeScriptNoImplicitAny>
+    <TypeScriptRemoveComments>False</TypeScriptRemoveComments>
+    <TypeScriptOutFile />
+    <TypeScriptOutDir />
+    <TypeScriptGeneratesDeclarations>False</TypeScriptGeneratesDeclarations>
+    <TypeScriptNoEmitOnError>True</TypeScriptNoEmitOnError>
+    <TypeScriptSourceMap>True</TypeScriptSourceMap>
+    <TypeScriptMapRoot />
+    <TypeScriptSourceRoot />
+  </PropertyGroup>
 
 </Project>

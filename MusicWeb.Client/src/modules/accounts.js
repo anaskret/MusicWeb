@@ -1,4 +1,5 @@
 import accountServices from "@/services/accountServices";
+import Account from "@/models/Account";
 
 export default function useAccounts() {
   const loginAccount = async (data) => {
@@ -12,9 +13,18 @@ export default function useAccounts() {
   const registerAccount = async (data) => {
     return await accountServices.register(data);
   };
+
+  const getById = async (id) => {
+    if (id) {
+      return accountServices.getById(id).then((response) => {
+        return new Account(response.data);
+      });
+    }
+  };
   return {
     loginAccount,
     logoutAccount,
     registerAccount,
+    getById,
   };
 }

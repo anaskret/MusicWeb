@@ -174,6 +174,15 @@ namespace MusicWeb.DataAccess.Migrations
                     b.Property<DateTime>("ReleaseDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("duration")
+                        .HasColumnType("float");
+
+                    b.Property<bool>("isConfirmed")
+                        .HasColumnType("bit");
+
                     b.HasKey("Id");
 
                     b.HasIndex("AlbumGenreId");
@@ -201,10 +210,11 @@ namespace MusicWeb.DataAccess.Migrations
                     b.Property<DateTime>("PostDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("Rating")
+                    b.Property<string>("Title")
+                        .IsRequired()
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasDefaultValue(1);
+                        .HasColumnType("nvarchar(max)")
+                        .HasDefaultValue("1");
 
                     b.Property<string>("UserId")
                         .IsRequired()
@@ -410,17 +420,14 @@ namespace MusicWeb.DataAccess.Migrations
                     b.Property<string>("ImagePath")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("IsBand")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsIndividual")
-                        .HasColumnType("bit");
-
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<double>("Popularity")
                         .HasColumnType("float");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
 
                     b.ToTable("ArtistRatingAverage");
                 });
@@ -591,6 +598,9 @@ namespace MusicWeb.DataAccess.Migrations
 
                     b.Property<DateTime>("ReleaseDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<int>("positionOnAlbum")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 

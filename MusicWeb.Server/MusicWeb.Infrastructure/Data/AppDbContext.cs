@@ -90,7 +90,7 @@ namespace MusicWeb.DataAccess.Data
                 .IsRequired()
                 .HasMaxLength(500);
 
-                entity.Property(e => e.Rating)
+                entity.Property(e => e.Title)
                     .IsRequired()
                     .HasDefaultValue(1);
 
