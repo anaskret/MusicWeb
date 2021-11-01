@@ -193,8 +193,6 @@ namespace MusicWeb.Api
             services.AddTransient<IGenreRepository, GenreRepository>();
 
             services.AddTransient<ICountryRepository, CountryRepository>();
-            services.AddTransient<IStateRepository, StateRepository>();
-            services.AddTransient<ICityRepository, CityRepository>();
 
             services.AddTransient<ISongRepository, SongRepository>();
             services.AddTransient<ISongGuestArtistRepository, SongGuestArtistRepository>();

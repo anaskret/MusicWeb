@@ -11,7 +11,7 @@ namespace MusicWeb.Admin.Pages.Artists.Factories.Interfaces
 {
     public interface IArtistModelFactory
     {
-        Task PrepareCreator(List<CountryModel> countries, List<StateModel> states, List<CityModel> cities, List<BandModel> bands);
+        Task PrepareCreator(List<CountryModel> countries, List<BandModel> bands);
         Task PrepareList(List<ArtistModel> list, PagerModel pager);
         Task<EditArtistModel> PrepareEdit(int id); 
     }
