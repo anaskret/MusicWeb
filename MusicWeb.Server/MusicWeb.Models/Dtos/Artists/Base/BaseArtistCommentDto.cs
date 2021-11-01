@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MusicWeb.Models.Dtos.Artists.Create
 {
-    public class CreateArtistCommentDto
+    public class BaseArtistCommentDto
     {
         public string Content { get; set; }
         public DateTime PostDate { get; set; }
