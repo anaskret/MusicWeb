@@ -41,6 +41,8 @@ namespace MusicWeb.Api.Extensions.AutoMapper
 
             CreateMap<ArtistComment, ArtistCommentDto>();
             CreateMap<ArtistCommentDto, ArtistComment>();
+            CreateMap<CreateArtistCommentDto, ArtistComment>();
+            CreateMap<ArtistComment, CreateArtistCommentDto>();
 
             CreateMap<Album, AlbumDto>();
             CreateMap<AlbumDto, Album>();

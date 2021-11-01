@@ -255,11 +255,10 @@ export default {
       if (this.$v.$pendding || this.$v.$error) {
         return;
       }
-      console.log(this.account);
+      this.isLogging = true;
       this.$store.dispatch("auth/register", this.account).then(
         () => {
-          this.isLogging = true;
-          setTimeout(this.redirect, 500);
+          setTimeout(this.redirect, 250);
         },
         (error) => {
           if (

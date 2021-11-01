@@ -1,5 +1,6 @@
 <template>
-  <v-container fluid class="mb-lg-16">
+  <!-- TODO Scroll to page bottom -->
+    <v-container id="container" fluid class="mb-lg-16"> 
     <v-row justify="center" class="pb-lg-2">
       <v-col lg="8">
         <h1 class="display-1 font-weight-bold text-left">Komentarze</h1>
@@ -11,12 +12,12 @@
           <v-list>
             <v-list-item-group v-model="show">
               <v-list-item
-                v-for="(comment, index) in commentsView"
+                v-for="(comment, index) in comments"
                 :key="index"
               >
                 <v-list-item-content
                   :style="
-                    index != commentsView.length - 1
+                    index != comments.length - 1
                       ? {
                           borderBottom: '1px solid #cbcbf233',
                         }
@@ -31,12 +32,8 @@
                       sm="1"
                     >
                       <img
-                        :src="
-                          comment.img == ''
-                            ? require(`@/assets/unknownUser.svg`)
-                            : require(`@/assets/${comment.img}.svg`)
-                        "
-                        :alt="comment.userName"
+                        :src="require(`@/assets/unknownUser.svg`)"
+                        :alt="comment.userId"
                         width="100%"
                       />
                     </v-col>
@@ -52,7 +49,7 @@
                           sm="6"
                         >
                           <h1 class="title">
-                            {{ comment.userName }}
+                            {{ comment.userId }}
                           </h1>
                         </v-col>
                         <v-col
@@ -61,7 +58,7 @@
                           sm="6"
                         >
                           <p>
-                            {{ comment.date }}
+                            {{ comment.postDate }}
                           </p>
                         </v-col>
                         <v-col
@@ -69,7 +66,7 @@
                           lg="12"
                           sm="12"
                         >
-                          {{ comment.text }}
+                          {{ comment.content }}
                         </v-col>
                       </v-row>
                     </v-col>
@@ -81,7 +78,7 @@
         </div>
         <v-form ref="form" v-model="form" class="pt-lg-10">
           <v-textarea
-            v-model="commentPlaceHolder"
+            v-model="comment.content"
             auto-grow
             filled
             color="inherit"
@@ -99,13 +96,8 @@
             width="25%"
             class="text-uppercase"
             :loading="loading"
-            @click="loader = 'loading'"
+            @click="addComment"
             >Dodaj
-            <template v-slot:loader>
-              <span class="custom-loader">
-                <v-icon>mdi-cached</v-icon>
-              </span>
-            </template>
           </v-btn>
           <v-spacer></v-spacer>
           <v-btn text @click="$refs.form.reset()"> Wyczyść </v-btn>
@@ -116,21 +108,30 @@
 </template>
 
 <script>
+import Comment from "@/models/Comment";
+import useComments from "@/modules/comments";
+import moment from "moment";
 export default {
   name: "CommentsList",
   props: {
     comments: Array,
+    artistId: Number,
+    refreshComments: Function
   },
   data() {
     return {
       model: null,
       show: null,
-      commentsView: this.comments,
-      commentPlaceHolder: this.comments[0].text,
       form: false,
-      loader: null,
       loading: false,
+      comment: new Comment(),
     };
+  },
+  methods: {
+    scrollToEnd() {  
+      var container = document.querySelector("#container");
+      container.scrollTop = container.scrollHeight; //TODO Scroll to page bottom
+    },
   },
   watch: {
     loader() {
@@ -142,43 +143,38 @@ export default {
       this.loader = null;
     },
   },
+  setup() {
+    const {postNewComment} = useComments();
+
+    const addComment = function () {
+      this.loading = true;
+      this.comment.postDate = moment.utc().format();
+      this.comment.artistId = this.artistId;
+      this.comment.userId = this.$store.state.auth.userId;
+      if(this.comment.content == null || this.comment.content == ''){
+        this.$emit('show-alert', 'Komentarz nie może być pusty.', 'error');
+        this.loading = false;
+      } else {
+        postNewComment(this.comment).then((response) => {
+          if(response.status === 200){
+            this.$emit('show-alert', 'Komentarz został zamieszczony.', 'success');
+            this.refreshComments();
+            this.comment = new Comment();
+            // this.scrollToEnd(); //TODO Scroll to page bottom
+          } else {
+            this.$emit('show-alert', 'Błąd dodawania komentarza.', 'error');
+          }
+        })
+        .catch((err) => {
+          this.$emit('show-alert', err, 'error');
+        });
+        this.loading = false;
+      }
+    };
+
+    return {
+      addComment
+    };
+  }
 };
 </script>
-<style scoped>
-.custom-loader {
-  animation: loader 1s infinite;
-  display: flex;
-}
-@-moz-keyframes loader {
-  from {
-    transform: rotate(0);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-@-webkit-keyframes loader {
-  from {
-    transform: rotate(0);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-@-o-keyframes loader {
-  from {
-    transform: rotate(0);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-@keyframes loader {
-  from {
-    transform: rotate(0);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-</style>

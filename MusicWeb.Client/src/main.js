@@ -54,6 +54,7 @@ Vue.prototype.$http = axios;
 Vue.use(Vuelidate);
 Vue.use(VueCompositionApi);
 
+moment.locale('pl');
 Vue.prototype.moment = moment;
 
 /** Vue Filters Start */

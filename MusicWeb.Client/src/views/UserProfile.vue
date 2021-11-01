@@ -134,10 +134,10 @@ export default {
     },
   },
   setup() {
-    const { getById } = useAccounts();
+    const { getAccountById } = useAccounts();
 
     const getAccount = function () {
-      getById(localStorage.getItem("user-id")).then((response) => {
+      getAccountById(localStorage.getItem("user-id")).then((response) => {
         this.account = response;
       });
     };

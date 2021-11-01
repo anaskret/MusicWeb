@@ -64,7 +64,7 @@
                       lg="3"
                       sm="3"
                     >
-                      <p>{{ album }}</p>
+                      <p>{{ song.album }}</p>
                     </v-col>
                     <v-col
                       class="d-flex justify-center align-center"
