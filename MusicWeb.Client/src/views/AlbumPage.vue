@@ -8,7 +8,11 @@
 
     <InfoSection :parent="album" :module_name="module_name" />
     <ItemList :songs="album.songs" :album="album.name" />
-    <ReviewList :reviews="album.albumReviews" :album="album.name" />
+    <ReviewList
+      :reviews="album.albumReviews"
+      :album="album.name"
+      :artist="album.artist.name"
+    />
   </div>
 </template>
 
