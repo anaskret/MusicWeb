@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace MusicWeb.Models.Dtos.Songs
 {
-    public class SongDto: BaseSongDto
+    public class CreateSongDto: BaseSongDto
     {
-        public int Id { get; set; }
+        public byte[] ImageBytes { get; set; }
     }
 }

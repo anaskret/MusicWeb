@@ -15,6 +15,7 @@ namespace MusicWeb.Models.Entities
         public DateTime ReleaseDate { get; set; }
         public double Length { get; set; }
         public string ImagePath { get; set; }
+        public int positionOnAlbum { get; set; }
 
         public int AlbumId { get; set; }
         public int ComposerId { get; set; }
