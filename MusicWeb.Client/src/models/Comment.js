@@ -4,7 +4,7 @@ export default class Comment {
   postDate = "";
   artistId = null;
   userId = null;
-  username = '';
+  userName = '';
   constructor($data) {
     if ($data) {
       this.id = $data.id ? $data.id : null;
@@ -12,7 +12,7 @@ export default class Comment {
       this.postDate = $data.postDate;
       this.artistId = $data.artistId;
       this.userId = $data.userId;
-      this.username = $data.username ? $data.username : {};
+      this.userName = $data.userName;
     }
   }
 }

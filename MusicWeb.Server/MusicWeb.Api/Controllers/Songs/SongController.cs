@@ -56,6 +56,21 @@ namespace MusicWeb.Api.Controllers.Songs
             }
         }
 
+        [HttpGet(ApiRoutes.Songs.GetFullData)]
+        public async Task<IActionResult> GetSongsFullDataByIdAsync([FromRoute] int id)
+        {
+            try
+            {
+                var response = await _songService.GetSongFullDataByIdAsync(id);
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return StatusCode(500, ex.Message);
+            }
+        }
+
         [HttpPost(ApiRoutes.Songs.Create)]
         public async Task<IActionResult> CreateSong([FromBody] SongDto dto)
         {

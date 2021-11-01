@@ -43,6 +43,13 @@ namespace MusicWeb.Services.Services.Songs
             return await _songRepository.GetByIdAsync(id);
         }
 
+        public async Task<SongFullDataDto> GetSongFullDataByIdAsync(int id)
+        {
+                var song = await _songRepository.GetSongFullDataByIdAsync(id);
+                return _mapper.Map<SongFullDataDto>(song);
+            
+        }
+
         public async Task UpdateAsync(Song entity)
         {
             await _songRepository.UpdateAsync(entity);

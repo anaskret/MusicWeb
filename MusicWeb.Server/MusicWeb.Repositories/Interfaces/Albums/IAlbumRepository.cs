@@ -11,6 +11,5 @@ namespace MusicWeb.Repositories.Interfaces.Albums
     public interface IAlbumRepository : IRepository<Album>
     {
         Task<Album> GetFullAlbumDataByIdAsync(int id);
-     //   Task<List<Album>> GetAllAsync();
     }
 }

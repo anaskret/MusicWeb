@@ -5,14 +5,53 @@
     ViewData["Title"] = "Log in";
 }
 
-<h1>@ViewData["Title"]</h1>
-<div class="row">
+<body class="login-page my-5 pt-5">
+    <div class="row login-box justify-content-center">
+        <div class="card card-outline card-primary">
+            <div class="card-header text-center">
+                <a href="../../index2.html" class="h1"><b>Music Web</b></a>
+            </div>
+            <div class="card-body">
+                <p class="login-box-msg">Sign in to start your session</p>
+
+                <partial name="_StatusMessage" for="ErrorMessage" />
+                <div asp-validation-summary="All" class="text-danger"></div>
+                <form method="post">
+                    <div class="mb-3">
+                        <div class="input-group">
+                            <input asp-for="Input.UserName" class="form-control" placeholder="UserName">
+                            <div class="input-group-append">
+                                <div class="input-group-text">
+                                    <span class="fas fa-envelope"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <span asp-validation-for="Input.UserName" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3">
+                        <div class="input-group">
+                            <input asp-for="Input.Password" type="password" class="form-control" placeholder="Password">
+                            <div class="input-group-append">
+                                <div class="input-group-text">
+                                    <span class="fas fa-lock"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <span asp-validation-for="Input.Password" class="text-danger"></span>
+                    </div>
+                        <button type="submit" class="btn btn-primary btn-block">Sign In</button>
+                </form>
+            </div>
+            <!-- /.card-body -->
+        </div>
+    </div>
+</body>
+@*<div class="row">
     <div class="col-md-4">
         <section>
             <form id="account" method="post">
                 <h4>Use a local account to log in.</h4>
                 <hr />
-                <div asp-validation-summary="All" class="text-danger"></div>
                 <div class="form-group">
                     <label asp-for="Input.Email"></label>
                     <input asp-for="Input.Email" class="form-control" />
@@ -78,8 +117,4 @@
             }
         </section>
     </div>
-</div>
-
-@section Scripts {
-    <partial name="_ValidationScriptsPartial" />
-}
+</div>*@

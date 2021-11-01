@@ -33,7 +33,7 @@
                     >
                       <img
                         :src="require(`@/assets/unknownUser.svg`)"
-                        :alt="comment.userId"
+                        :alt="comment.userName"
                         width="100%"
                       />
                     </v-col>
@@ -49,7 +49,7 @@
                           sm="6"
                         >
                           <h1 class="title">
-                            {{ comment.userId }}
+                            {{ comment.userName }}
                           </h1>
                         </v-col>
                         <v-col

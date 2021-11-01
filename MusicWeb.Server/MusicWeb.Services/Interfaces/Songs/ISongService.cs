@@ -12,6 +12,7 @@ namespace MusicWeb.Services.Interfaces
     {
         Task<Song> GetByIdAsync(int id);
         Task<List<SongDto>> GetAllAsync();
+        Task<SongFullDataDto> GetSongFullDataByIdAsync(int id);
         Task AddAsync(Song entity);
         Task UpdateAsync(Song entity);
         Task DeleteAsync(int id);

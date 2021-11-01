@@ -10,7 +10,6 @@ namespace MusicWeb.Models.Dtos.Albums.Base
     {
         public string Name { get; set; }
         public DateTime ReleaseDate { get; set; }
-
         public int ArtistId { get; set; }
         public int AlbumGenreId { get; set; }
         public double duration { get; set; }

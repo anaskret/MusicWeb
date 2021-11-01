@@ -39,10 +39,10 @@ namespace MusicWeb.Api.Extensions.AutoMapper
             CreateMap<Artist, ArtistDto>();
             CreateMap<ArtistRatingAverage, ArtistDto>();
 
-            CreateMap<ArtistComment, ArtistCommentDto>();
+            CreateMap<ArtistComment, ArtistCommentDto>()
+                .ForMember(prp => prp.UserName, obj => obj.MapFrom(src => src.User.UserName));
             CreateMap<ArtistCommentDto, ArtistComment>();
-            CreateMap<CreateArtistCommentDto, ArtistComment>();
-            CreateMap<ArtistComment, CreateArtistCommentDto>();
+            CreateMap<BaseArtistCommentDto, ArtistComment>();
 
             CreateMap<Album, AlbumDto>();
             CreateMap<AlbumDto, Album>();
@@ -55,6 +55,10 @@ namespace MusicWeb.Api.Extensions.AutoMapper
 
             CreateMap<Song, SongDto>();
             CreateMap<SongDto, Song>();
+            CreateMap<CreateSongDto, Song>();
+            CreateMap<Song, CreateSongDto>();
+            CreateMap<SongFullDataDto, Song>();
+            CreateMap<Song, SongFullDataDto>();
 
             CreateMap<BandMemberDto, BandMember>();
             CreateMap<BandMember, BandMemberDto>()

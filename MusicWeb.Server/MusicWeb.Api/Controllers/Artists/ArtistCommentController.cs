@@ -16,13 +16,13 @@ namespace MusicWeb.Api.Controllers.Artists
 {
     [ApiController]
     [Authorize]
-    public class ArtistCommentsController : Controller
+    public class ArtistCommentController : Controller
     {
         private readonly IArtistCommentService _artistCommentService;
         private readonly IMapper _mapper;
         private readonly ILogger _logger;
 
-        public ArtistCommentsController(IArtistCommentService artistCommentService, IMapper mapper, ILogger<ArtistCommentsController> logger)
+        public ArtistCommentController(IArtistCommentService artistCommentService, IMapper mapper, ILogger<ArtistCommentController> logger)
         {
             _artistCommentService = artistCommentService;
             _mapper = mapper;
@@ -71,7 +71,7 @@ namespace MusicWeb.Api.Controllers.Artists
         /// Creates a comment
         /// </summary>
         [HttpPost(ApiRoutes.ArtistComments.Create)]
-        public async Task<IActionResult> CreateComment([FromBody] CreateArtistCommentDto dto)
+        public async Task<IActionResult> CreateComment([FromBody] BaseArtistCommentDto dto)
         {
             try
             {

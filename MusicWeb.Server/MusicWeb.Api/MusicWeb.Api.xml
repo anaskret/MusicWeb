@@ -4,27 +4,27 @@
         <name>MusicWeb.Api</name>
     </assembly>
     <members>
-        <member name="M:MusicWeb.Api.Controllers.Artists.ArtistCommentsController.GetArtists(System.Int32)">
+        <member name="M:MusicWeb.Api.Controllers.Artists.ArtistCommentController.GetArtists(System.Int32)">
             <summary>
             Gets all comments for an artist
             </summary>
         </member>
-        <member name="M:MusicWeb.Api.Controllers.Artists.ArtistCommentsController.GetArtist(System.Int32)">
+        <member name="M:MusicWeb.Api.Controllers.Artists.ArtistCommentController.GetArtist(System.Int32)">
             <summary>
             Gets a single comment
             </summary>
         </member>
-        <member name="M:MusicWeb.Api.Controllers.Artists.ArtistCommentsController.CreateComment(MusicWeb.Models.Dtos.Artists.Create.CreateArtistCommentDto)">
+        <member name="M:MusicWeb.Api.Controllers.Artists.ArtistCommentController.CreateComment(MusicWeb.Models.Dtos.Artists.Create.BaseArtistCommentDto)">
             <summary>
             Creates a comment
             </summary>
         </member>
-        <member name="M:MusicWeb.Api.Controllers.Artists.ArtistCommentsController.UpdateComment(MusicWeb.Models.Models.Artists.ArtistCommentDto)">
+        <member name="M:MusicWeb.Api.Controllers.Artists.ArtistCommentController.UpdateComment(MusicWeb.Models.Models.Artists.ArtistCommentDto)">
             <summary>
             Updates a comment
             </summary>
         </member>
-        <member name="M:MusicWeb.Api.Controllers.Artists.ArtistCommentsController.UpdateComment(System.Int32)">
+        <member name="M:MusicWeb.Api.Controllers.Artists.ArtistCommentController.UpdateComment(System.Int32)">
             <summary>
             Deletes a comment
             </summary>
