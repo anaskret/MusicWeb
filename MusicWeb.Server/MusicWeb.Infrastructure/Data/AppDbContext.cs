@@ -92,7 +92,7 @@ namespace MusicWeb.DataAccess.Data
 
                 entity.Property(e => e.Title)
                     .IsRequired()
-                    .HasDefaultValue(1);
+                    .HasDefaultValue("Review");
 
                 entity.Property(e => e.PostDate)
                     .IsRequired();
@@ -272,9 +272,9 @@ namespace MusicWeb.DataAccess.Data
                 .IsRequired()
                 .HasMaxLength(500);
 
-                entity.Property(e => e.Rating)
+                entity.Property(e => e.Title)
                     .IsRequired()
-                    .HasDefaultValue(1);
+                    .HasDefaultValue("Review");
 
                 entity.Property(e => e.PostDate)
                     .IsRequired();
