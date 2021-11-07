@@ -12,7 +12,7 @@
       :componentLinkTitle="component_link_title"
     />
     <item-list :songs="songs" />
-    <comments-list :comments="comments" />
+    <comments-list :comments="comments" :refreshComments="getComments" :artistId="Number(id)" v-on="$listeners" />
   </div>
 </template>
 
@@ -23,6 +23,7 @@ import ItemList from "@/components/ItemList.vue";
 import CommentsList from "@/components/CommentsList.vue";
 import InfoSection from "@/components/InfoSection.vue";
 import useArtists from "@/modules/artists";
+import useComments from "@/modules/comments";
 
 export default {
   name: "ArtistPage",
@@ -56,59 +57,44 @@ export default {
       this.songs = [
         {
           img: "weather",
-          title: "Untochable, pt I",
+          name: "Untochable, pt I",
           album: "Weather Systems",
           rating: "5.0",
         },
         {
           img: "naturaldisaster",
-          title: "Flying",
+          name: "Flying",
           album: "A Natural Disaster",
           rating: "5.0",
         },
         {
           img: "judgement",
-          title: "Pitiless",
+          name: "Pitiless",
           album: "Judgement",
           rating: "5.0",
-        },
-      ];
-    },
-    getComments() {
-      this.comments = [
-        {
-          img: "",
-          userName: "AnathemaLover",
-          date: "11:12 23.04.2020",
-          text: "Jakiś tam przykładowy komentarz użytkownika, który kocha Anathemę, bo przecież każdy człowiek na świecie powinien kochać Anathemę. Anathema plz come back.",
-        },
-        {
-          img: "",
-          userName: "AnathemaLover",
-          date: "11:12 23.04.2020",
-          text: "Jakiś tam przykładowy komentarz użytkownika, który kocha Anathemę, bo przecież każdy człowiek na świecie powinien kochać Anathemę. Anathema plz come back.",
-        },
-        {
-          img: "",
-          userName: "AnathemaLover",
-          date: "11:12 23.04.2020",
-          text: "Jakiś tam przykładowy komentarz użytkownika, który kocha Anathemę, bo przecież każdy człowiek na świecie powinien kochać Anathemę. Anathema plz come back.",
         },
       ];
     },
   },
 
   setup() {
-    const { getById } = useArtists();
+    const { getArtistById } = useArtists();
+    const { getCommentById } = useComments();
 
     const getArtist = function () {
-      getById(this.id).then((response) => {
+      getArtistById(this.id).then((response) => {
         this.artist = response;
+      });
+    };
+    const getComments = function () {
+      getCommentById(this.id).then((response) => {
+        response.forEach(comment => this.comments.push(comment));
       });
     };
 
     return {
       getArtist,
+      getComments
     };
   },
 };

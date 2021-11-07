@@ -6,8 +6,8 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>E:\Priv\MusicWeb\MusicWeb.Server\MusicWeb.Api\MusicWeb.Api.xml</DocumentationFile>
     <WarningLevel>0</WarningLevel>
-    <DocumentationFile>C:\Users\mxnog\Desktop\inzynierka\MusicWeb.Server\MusicWeb.Api\MusicWeb.Api.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>

@@ -64,7 +64,7 @@
                       lg="3"
                       sm="3"
                     >
-                      <p>{{ album }}</p>
+                      <p>{{ song.album }}</p>
                     </v-col>
                     <v-col
                       class="d-flex justify-center align-center"
@@ -106,9 +106,3 @@ export default {
   },
 };
 </script>
-<style scoped>
-p {
-  color: gray;
-  margin: 0;
-}
-</style>

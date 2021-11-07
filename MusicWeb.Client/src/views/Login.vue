@@ -76,6 +76,7 @@ export default {
       message: "",
       errorThrowed: false,
       error: {},
+      sessionExpired: "Sesja wygasła. Zaloguj się ponownie."
     };
   },
   computed: {
@@ -95,6 +96,10 @@ export default {
   created() {
     if (this.loggedIn) {
       this.redirect();
+    }
+    if(this.$store.state.tokenExpired){
+      this.message = this.sessionExpired;
+      this.$store.state.tokenExpired = false;
     }
   },
   validations: {
@@ -158,10 +163,10 @@ export default {
       if (this.$v.$pendding || this.$v.$error) {
         return;
       }
+      this.isLogging = true;
       this.$store.dispatch("auth/login", this.account).then(
         () => {
-          this.isLogging = true;
-          setTimeout(this.redirect, 500);
+          setTimeout(this.redirect, 250);
         },
         (error) => {
           if (

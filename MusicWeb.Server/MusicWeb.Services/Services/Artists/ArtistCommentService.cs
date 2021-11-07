@@ -32,7 +32,7 @@ namespace MusicWeb.Services.Services.Artists
 
         public async Task<IList<ArtistComment>> GetAllByArtistIdAsync(int id)
         {
-            return await _artistCommentRepository.GetAllAsync(entity => entity.Where(prp => prp.ArtistId == id));
+            return await _artistCommentRepository.GetAllAsync(entity => entity.Where(prp => prp.ArtistId == id).Include(prp => prp.User));
         }
 
         public async Task<ArtistComment> GetByIdAsync(int id)
