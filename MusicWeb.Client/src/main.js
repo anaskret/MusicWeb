@@ -65,14 +65,6 @@ Vue.filter("truncate", function (text, length, suffix) {
     return text;
   }
 });
-
-Vue.filter("truncateRest", function (text, length) {
-  if (text.length > length) {
-    return text.substring(length, text.length);
-  } else {
-    return;
-  }
-});
 /** Vue Filters End */
 
 new Vue({

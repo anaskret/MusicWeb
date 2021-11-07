@@ -228,7 +228,7 @@ export default {
       ) {
         !this.$v.account[field].maxLength &&
           errors.push(
-            `Pole nie może być dłuższy niż ${this.$v.account[field].$params.maxLength.max} znaków.`
+            `Pole nie może być dłuższe niż ${this.$v.account[field].$params.maxLength.max} znaków.`
           );
         !this.$v.account[field].minLength &&
           errors.push(
