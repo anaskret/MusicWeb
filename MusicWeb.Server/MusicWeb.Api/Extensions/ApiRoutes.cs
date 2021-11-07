@@ -120,6 +120,9 @@ namespace MusicWeb.Api.Extensions
         {
             public const string GetUserProfile = Root + "/users/{id}";
             public const string GetAll = Root + "/users";
+            public const string UpdatePassword = Root + "/users/password";
+            public const string UpdateNames = Root + "/users/names";
+            public const string UpdateEmail = Root + "/users/email";
         }
 
         public static class UserFavoriteArtists

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using MusicWeb.Api.Extensions;
 using MusicWeb.Models.Dtos.Users;
+using MusicWeb.Models.Identity;
 using MusicWeb.Services.Interfaces.Users;
 using System;
 using System.Collections.Generic;
@@ -53,6 +54,51 @@ namespace MusicWeb.Api.Controllers.Users
             catch(Exception ex)
             {
                 _logger.LogError(ex.Message);
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [HttpPut(ApiRoutes.Users.UpdatePassword)]
+        public async Task<IActionResult> UpdatePasswordAsync([FromBody] UpdatePasswordDto dto)
+        {
+            try
+            {
+                await _userService.UpdatePasswordAsync(dto);
+
+                return Ok();
+            }
+            catch(Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [HttpPut(ApiRoutes.Users.UpdateNames)]
+        public async Task<IActionResult> UpdateAsync([FromBody] UpdateNameDto dto)
+        {
+            try
+            {
+                await _userService.UpdateNameAsync(dto);
+
+                return Ok();
+            }
+            catch(Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [HttpPut(ApiRoutes.Users.UpdateEmail)]
+        public async Task<IActionResult> UpdateAsync([FromBody] UpdateEmailDto dto)
+        {
+            try
+            {
+                await _userService.UpdateEmailAsync(dto);
+
+                return Ok();
+            }
+            catch(Exception ex)
+            {
                 return StatusCode(500, ex.Message);
             }
         }

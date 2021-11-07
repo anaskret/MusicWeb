@@ -15,6 +15,9 @@ namespace MusicWeb.Services.Interfaces.Users
         Task<ApplicationUser> GetUserProfileById(string id);
         Task<IList<ApplicationUser>> GetAllAsync();
         Task<IPagedList<ApplicationUser>> GetAllPagedAsync(string searchString, UserType userType, int pageIndex = 0, int pageSize = int.MaxValue);
+        Task UpdatePasswordAsync(UpdatePasswordDto dto);
+        Task UpdateEmailAsync(UpdateEmailDto dto);
+        Task UpdateNameAsync(UpdateNameDto dto);
         Task DeleteAsync(string id);
     }
 }

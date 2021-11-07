@@ -89,5 +89,42 @@ namespace MusicWeb.Services.Services.Users
             var entity = await _userRepository.GetUserByIdAsync(id);
             return entity;
         }
+
+        public async Task UpdateEmailAsync(UpdateEmailDto dto)
+        {
+            var user = await _userManager.FindByIdAsync(dto.Id);
+            if (user == null)
+                throw new ArgumentException("User not found");
+
+            var checkEmail = await _userManager.FindByEmailAsync(dto.Email);
+            if (checkEmail != null)
+                throw new ArgumentException("User with that email already exists!");
+
+            user.Email = dto.Email;
+            await _userManager.UpdateNormalizedEmailAsync(user);
+        }
+
+        public async Task UpdateNameAsync(UpdateNameDto dto)
+        {
+            var user = await _userManager.FindByIdAsync(dto.Id);
+            if (user == null)
+                throw new ArgumentException("User not found");
+
+            user.FirstName = dto.FirstName;
+            user.LastName = dto.LastName;
+            await _userManager.UpdateAsync(user);
+        }
+
+        public async Task UpdatePasswordAsync(UpdatePasswordDto dto)
+        {
+            var user = await _userManager.FindByIdAsync(dto.Id);
+            if (user == null)
+                throw new ArgumentException("User not found");
+
+            if (!await _userManager.CheckPasswordAsync(user, dto.OldPassword))
+                throw new ArgumentException("Incorrect old password");
+
+            await _userManager.ChangePasswordAsync(user, dto.OldPassword, dto.NewPassword);
+        }
     }
 }
