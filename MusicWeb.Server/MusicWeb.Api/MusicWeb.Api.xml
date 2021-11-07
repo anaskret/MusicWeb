@@ -187,5 +187,25 @@
             Updates a rating for an artist
             </summary>
         </member>
+        <member name="M:MusicWeb.Api.Controllers.Users.UserController.UpdatePasswordAsync(MusicWeb.Models.Dtos.Users.UpdatePasswordDto)">
+            <summary>
+            Updates user password
+            </summary>
+        </member>
+        <member name="M:MusicWeb.Api.Controllers.Users.UserController.UpdateAsync(MusicWeb.Models.Dtos.Users.UpdateNameDto)">
+            <summary>
+            Updates user first and last names
+            </summary>
+        </member>
+        <member name="M:MusicWeb.Api.Controllers.Users.UserController.UpdateAsync(MusicWeb.Models.Dtos.Users.UpdateEmailDto)">
+            <summary>
+            Updates user email
+            </summary>
+        </member>
+        <member name="M:MusicWeb.Api.Controllers.Users.UserController.UpdateArtistImage(MusicWeb.Models.Dtos.Users.UserImageDto)">
+            <summary>
+            Updates user image
+            </summary>
+        </member>
     </members>
 </doc>

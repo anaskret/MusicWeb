@@ -18,6 +18,7 @@ namespace MusicWeb.Services.Interfaces.Users
         Task UpdatePasswordAsync(UpdatePasswordDto dto);
         Task UpdateEmailAsync(UpdateEmailDto dto);
         Task UpdateNameAsync(UpdateNameDto dto);
+        Task UpdateImageAsync(UserImageDto dto);
         Task DeleteAsync(string id);
     }
 }

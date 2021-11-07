@@ -123,6 +123,7 @@ namespace MusicWeb.Api.Extensions
             public const string UpdatePassword = Root + "/users/password";
             public const string UpdateNames = Root + "/users/names";
             public const string UpdateEmail = Root + "/users/email";
+            public const string UpdateImage = Root + "/users/image";
         }
 
         public static class UserFavoriteArtists

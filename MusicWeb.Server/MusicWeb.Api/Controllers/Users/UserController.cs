@@ -58,6 +58,9 @@ namespace MusicWeb.Api.Controllers.Users
             }
         }
 
+        /// <summary>
+        /// Updates user password
+        /// </summary>
         [HttpPut(ApiRoutes.Users.UpdatePassword)]
         public async Task<IActionResult> UpdatePasswordAsync([FromBody] UpdatePasswordDto dto)
         {
@@ -73,6 +76,9 @@ namespace MusicWeb.Api.Controllers.Users
             }
         }
 
+        /// <summary>
+        /// Updates user first and last names
+        /// </summary>
         [HttpPut(ApiRoutes.Users.UpdateNames)]
         public async Task<IActionResult> UpdateAsync([FromBody] UpdateNameDto dto)
         {
@@ -88,6 +94,9 @@ namespace MusicWeb.Api.Controllers.Users
             }
         }
 
+        /// <summary>
+        /// Updates user email
+        /// </summary>
         [HttpPut(ApiRoutes.Users.UpdateEmail)]
         public async Task<IActionResult> UpdateAsync([FromBody] UpdateEmailDto dto)
         {
@@ -99,6 +108,25 @@ namespace MusicWeb.Api.Controllers.Users
             }
             catch(Exception ex)
             {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Updates user image
+        /// </summary>
+        [HttpPut(ApiRoutes.Users.UpdateImage)]
+        public async Task<IActionResult> UpdateArtistImage([FromBody] UserImageDto dto)
+        {
+            try
+            {
+                await _userService.UpdateImageAsync(dto);
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
                 return StatusCode(500, ex.Message);
             }
         }
