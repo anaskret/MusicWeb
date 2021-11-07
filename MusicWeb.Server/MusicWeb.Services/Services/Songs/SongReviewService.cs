@@ -50,6 +50,13 @@ namespace MusicWeb.Services.Services.Songs
                 var entity = await GetByIdAsync(id);
                 await _songReviewRepository.DeleteAsync(entity);
             }
-        }
+
+            public async Task<SongReviewFullDataDto> GetSongReviewFullDataByIdAsync(int id)
+            {
+                var songReview = await _songReviewRepository.GetSongReviewFullDataByIdAsync(id);
+                return _mapper.Map<SongReviewFullDataDto>(songReview);
+
+            }
     }
+}
 

@@ -76,6 +76,7 @@ namespace MusicWeb.Api.Extensions
             public const string Update = Root + "/songreviews";
             public const string GetById = Root + "/songreviews/{id}";
             public const string Delete = Root + "/songreviews/{id}";
+            public const string GetFullData = Root + "/songreviewsdata/{id}";
 
         }
 
