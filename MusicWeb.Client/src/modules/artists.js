@@ -14,11 +14,12 @@ export default function useArtists() {
     pageSize,
     sortType,
     createDateStart,
-    createDateEnd
+    createDateEnd,
+    searchString
   ) {
     if (pageNum > -1 && pageSize && createDateStart && createDateEnd) {
       return artistServices
-        .getPaged(pageNum, pageSize, sortType, createDateStart, createDateEnd)
+        .getPaged(pageNum, pageSize, sortType, createDateStart, createDateEnd, searchString)
         .then((response) => {
           let res = response.data;
           let artists = [];

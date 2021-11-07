@@ -33,10 +33,7 @@
       </v-tabs>
     </template>
     <v-spacer></v-spacer>
-    <v-btn class="mx-2" small fab dark outlined>
-      <font-awesome-icon class="icon" icon="search" color="#white" />
-      <!-- TODO Animated searchbar -->
-    </v-btn>
+    <SearchBar />
     <v-menu
       v-model="drawer"
       :close-on-content-click="false"
@@ -109,6 +106,7 @@
 
 <script>
 import useAccounts from "@/modules/accounts";
+import SearchBar from "@/components/SearchBar";
 export default {
   name: "Navbar",
   data() {
@@ -118,6 +116,9 @@ export default {
       fav: false,
       account: {},
     };
+  },
+  components: {
+    SearchBar
   },
   methods: {
     redirectToProfile() {

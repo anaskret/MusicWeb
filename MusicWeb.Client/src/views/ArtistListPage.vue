@@ -173,10 +173,21 @@ export default {
       isDatePickerTo: false,
       intersectionActive: true,
       show: null,
+      searchString: '',
+      lastSearch: ''
     };
   },
   created() {
     this.setDefaultFilters();
+  },
+  watch: {
+    '$store.state.searchingValue': function() {
+        debugger;
+        this.artists = [];
+        if(!this.artists && this.lastSearch !== this.$store.state.searchingValue && this.$store.state.searchingValue){
+            this.getPagedArtistList('','', true);
+        }
+    }
   },
   computed: {
     isDisabled() {
@@ -252,13 +263,17 @@ export default {
           this.recordsQuantity,
           this.slectedSortType,
           this.parseDate(this.filters.establishmentDateFrom),
-          this.parseDate(this.filters.establishmentDateTo)
+          this.parseDate(this.filters.establishmentDateTo),
+          this.$store.state.searchingValue
         )
           .then((response) => {
             if (response.length > 0) {
+                debugger;
               response.forEach((item) => {
                 return this.artists.push(item);
               });
+            this.lastSearch = this.$store.state.searchingValue;
+            this.$store.state.searchingValue = '';
             } else {
               this.intersectionActive = false;
             }
