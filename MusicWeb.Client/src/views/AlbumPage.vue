@@ -46,6 +46,7 @@ export default {
     const { getAlbumFullData } = useAlbums();
     const getAlbumData = function () {
       getAlbumFullData(this.id).then((response) => {
+        debugger;
         this.album = response;
       });
     };

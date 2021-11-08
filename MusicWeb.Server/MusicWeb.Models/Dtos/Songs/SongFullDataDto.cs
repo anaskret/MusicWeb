@@ -18,11 +18,13 @@ namespace MusicWeb.Models.Dtos.Songs
         public int positionOnAlbum { get; set; }
         public AlbumDto Album { get; set; }
         public ArtistDto Composer { get; set; }
+        public List<SongReviewDto> SongReviews { get; set; }
 
         public SongFullDataDto()
         {
             Album = new AlbumDto();
             Composer = new ArtistDto();
+            SongReviews = new List<SongReviewDto>();
         }
     }
 }

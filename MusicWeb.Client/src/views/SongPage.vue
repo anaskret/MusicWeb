@@ -1,5 +1,6 @@
 <template>
   <div>
+    {{ song }}
     <v-row justify="center">
       <v-col lg="3" sm="6" class="pr-lg-12">
         <div>
@@ -153,13 +154,35 @@
 // import Header from "@/components/Header.vue";
 import CommentsList from "@/components/CommentsList.vue";
 import RankSection from "@/components/RankSection.vue";
-
+import useSongs from "@/modules/songs";
 export default {
   name: "SongPage",
   components: {
     // Header,
     CommentsList,
     RankSection,
+  },
+  data() {
+    return {
+      id: this.$route.params.id,
+      song: {},
+      show_observe_button: false,
+      vote_title: "Oceń piosenkę",
+    };
+  },
+  created() {
+    this.getSongData();
+  },
+  setup() {
+    const { getSongFullData } = useSongs();
+    const getSongData = function () {
+      getSongFullData(this.id).then((response) => {
+        this.song = response;
+      });
+    };
+    return {
+      getSongData,
+    };
   },
 };
 </script>
