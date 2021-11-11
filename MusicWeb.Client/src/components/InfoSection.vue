@@ -12,7 +12,7 @@
           <p>
             Pochodzenie:
             <span
-              >{{ parent.city }} {{ parent.state }},
+              >
               {{ parent.country }}
             </span>
           </p>
@@ -21,7 +21,7 @@
             <span>rock progresywny, art rock, doom metal</span>
           </p>
           <p v-if="parent.isBand && !parent.isIndividual">
-            Członkowie:parent
+            Członkowie:
             <span v-for="(member, index) in parent.members" :key="index">
               {{ member
               }}<span v-if="index != parent.members.length - 1">,</span></span

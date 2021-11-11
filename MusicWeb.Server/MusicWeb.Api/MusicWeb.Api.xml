@@ -63,30 +63,6 @@
                 3 - Popularity Descending &#xA;
             </remarks>
         </member>
-        <member name="M:MusicWeb.Api.Controllers.Artists.ArtistsController.CreateArtist(MusicWeb.Models.Dtos.Artists.Create.CreateArtistDto)">
-            <summary>
-            Creates an artist or a band.
-            </summary>
-            <remarks>
-            To add a band member set Type to Band Member and BandId = SomeBandId &#xA;
-            To add an artist image pass image bytes in ImageBytes, otherwise set the property to an empty string &#xA;
-            </remarks>
-        </member>
-        <member name="M:MusicWeb.Api.Controllers.Artists.ArtistsController.UpdateArtist(MusicWeb.Models.Dtos.Artists.ArtistDto)">
-            <summary>
-            Updates an artist or a band
-            </summary>
-        </member>
-        <member name="M:MusicWeb.Api.Controllers.Artists.ArtistsController.UpdateArtistImage(MusicWeb.Models.Dtos.Artists.ArtistFileUpdateDto)">
-            <summary>
-            Updates artist image
-            </summary>
-        </member>
-        <member name="M:MusicWeb.Api.Controllers.Artists.ArtistsController.DeleteArtist(System.Int32)">
-            <summary>
-            Deletes an artist or a band
-            </summary>
-        </member>
         <member name="M:MusicWeb.Api.Controllers.Genres.GenreController.GetAll">
             <summary>
             Gets all music genres
