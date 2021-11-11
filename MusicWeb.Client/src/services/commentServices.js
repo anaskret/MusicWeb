@@ -3,7 +3,7 @@ export default {
   getById(id) {
     return ApiService.authRequest(`/artistcomments/${id}`, ApiService.get);
   },
-  postNewComment(data){
+  postNewComment(data) {
     return ApiService.authRequest(`/artistcomments`, ApiService.post, data);
-  }
+  },
 };

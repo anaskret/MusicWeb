@@ -77,7 +77,7 @@
             @blur="$v.account.email.$touch()"
           ></v-text-field>
           <v-menu
-            v-model="isDatePicker"
+            v-model="is_date_picker"
             :close-on-content-click="false"
             :nudge-right="40"
             transition="scale-transition"
@@ -102,7 +102,7 @@
             <v-date-picker
               color="#647da1"
               v-model.trim="$v.account.birthdate.$model"
-              @input="isDatePicker = false"
+              @input="is_date_picker = false"
             ></v-date-picker>
           </v-menu>
 
@@ -113,7 +113,7 @@
               type="submit"
               class="md-4"
               :disabled="this.isDisabled"
-              :loading="isLogging"
+              :loading="is_logging"
               width="40%"
             >
               Zarejestruj
@@ -142,10 +142,9 @@ export default {
   data() {
     return {
       account: new Account(),
-      isLogging: false,
+      is_logging: false,
       message: "",
-      errorThrowed: false,
-      isDatePicker: false,
+      is_date_picker: false,
       error: {},
     };
   },
@@ -255,7 +254,7 @@ export default {
       if (this.$v.$pendding || this.$v.$error) {
         return;
       }
-      this.isLogging = true;
+      this.is_logging = true;
       this.$store.dispatch("auth/register", this.account).then(
         () => {
           setTimeout(this.redirect, 250);
@@ -266,7 +265,7 @@ export default {
             error.response.data ==
               "User creation failed! Please check user details and try again."
           ) {
-            this.isLogging = false;
+            this.is_logging = false;
             this.message =
               "Nie udało się utworzyć użytkownika! Sprawdź poprawność danych.";
           } else if (error.response.status == 400) {

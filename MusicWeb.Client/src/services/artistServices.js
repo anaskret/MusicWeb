@@ -3,22 +3,22 @@ export default {
   getById(id) {
     return ApiService.authRequest(`/artistdata/${id}`, ApiService.get);
   },
-  getPaged(pageNum, pageSize, sortType, createDateStart, createDateEnd) {
+  getPaged(page_num, page_size, sort_type, create_date_start, create_date_end) {
     return ApiService.authRequest(
-      `/artists/${pageNum}/${pageSize}/${sortType}/${createDateStart}/${createDateEnd}`,
+      `/artists/${page_num}/${page_size}/${sort_type}/${create_date_start}/${create_date_end}`,
       ApiService.get
     );
   },
   getPagedWithSearchString(
-    pageNum,
-    pageSize,
-    sortType,
-    createDateStart,
-    createDateEnd,
-    searchString
+    page_num,
+    page_size,
+    sort_type,
+    create_date_start,
+    create_date_end,
+    search_string
   ) {
     return ApiService.authRequest(
-      `/artists/${pageNum}/${pageSize}/${sortType}/${createDateStart}/${createDateEnd}/${searchString}`,
+      `/artists/${page_num}/${page_size}/${sort_type}/${create_date_start}/${create_date_end}/${search_string}`,
       ApiService.get
     );
   },

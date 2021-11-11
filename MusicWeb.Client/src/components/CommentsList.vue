@@ -1,6 +1,6 @@
 <template>
   <!-- TODO Scroll to page bottom -->
-    <v-container id="container" fluid class="mb-lg-16"> 
+  <v-container id="container" fluid class="mb-lg-16">
     <v-row justify="center" class="pb-lg-2">
       <v-col lg="8">
         <h1 class="display-1 font-weight-bold text-left">Komentarze</h1>
@@ -11,10 +11,7 @@
         <div class="mx-auto">
           <v-list>
             <v-list-item-group v-model="show">
-              <v-list-item
-                v-for="(comment, index) in comments"
-                :key="index"
-              >
+              <v-list-item v-for="(comment, index) in comments" :key="index">
                 <v-list-item-content
                   :style="
                     index != comments.length - 1
@@ -116,7 +113,7 @@ export default {
   props: {
     comments: Array,
     artistId: Number,
-    refreshComments: Function
+    refreshComments: Function,
   },
   data() {
     return {
@@ -128,7 +125,7 @@ export default {
     };
   },
   methods: {
-    scrollToEnd() {  
+    scrollToEnd() {
       var container = document.querySelector("#container");
       container.scrollTop = container.scrollHeight; //TODO Scroll to page bottom
     },
@@ -144,37 +141,42 @@ export default {
     },
   },
   setup() {
-    const {postNewComment} = useComments();
+    const { postNewComment } = useComments();
 
     const addComment = function () {
       this.loading = true;
       this.comment.postDate = moment.utc().format();
       this.comment.artistId = this.artistId;
       this.comment.userId = this.$store.state.auth.userId;
-      if(this.comment.content == null || this.comment.content == ''){
-        this.$emit('show-alert', 'Komentarz nie może być pusty.', 'error');
+      if (this.comment.content == null || this.comment.content == "") {
+        this.$emit("show-alert", "Komentarz nie może być pusty.", "error");
         this.loading = false;
       } else {
-        postNewComment(this.comment).then((response) => {
-          if(response.status === 200){
-            this.$emit('show-alert', 'Komentarz został zamieszczony.', 'success');
-            this.refreshComments();
-            this.comment = new Comment();
-            // this.scrollToEnd(); //TODO Scroll to page bottom
-          } else {
-            this.$emit('show-alert', 'Błąd dodawania komentarza.', 'error');
-          }
-        })
-        .catch((err) => {
-          this.$emit('show-alert', err, 'error');
-        });
+        postNewComment(this.comment)
+          .then((response) => {
+            if (response.status === 200) {
+              this.$emit(
+                "show-alert",
+                "Komentarz został zamieszczony.",
+                "success"
+              );
+              this.refreshComments();
+              this.comment = new Comment();
+              // this.scrollToEnd(); //TODO Scroll to page bottom
+            } else {
+              this.$emit("show-alert", "Błąd dodawania komentarza.", "error");
+            }
+          })
+          .catch((err) => {
+            this.$emit("show-alert", err, "error");
+          });
         this.loading = false;
       }
     };
 
     return {
-      addComment
+      addComment,
     };
-  }
+  },
 };
 </script>

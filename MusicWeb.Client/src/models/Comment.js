@@ -4,7 +4,7 @@ export default class Comment {
   postDate = "";
   artistId = null;
   userId = null;
-  userName = '';
+  userName = "";
   constructor($data) {
     if ($data) {
       this.id = $data.id ? $data.id : null;

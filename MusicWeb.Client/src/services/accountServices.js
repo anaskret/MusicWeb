@@ -7,7 +7,7 @@ export default {
   logout() {
     localStorage.removeItem("user-token");
     localStorage.removeItem("user-id");
-    router.push({name: 'Login'});
+    router.push({ name: "Login" });
   },
   register(data) {
     return ApiService.authRequest(`/register`, ApiService.post, data);

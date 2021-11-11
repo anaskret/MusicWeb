@@ -7,7 +7,7 @@
     />
 
     <InfoSection :parent="album" :module_name="module_name" />
-    <ItemList :songs="album.songs" :album="album.name" />
+    <ItemList :items="album.songs" :album="album.name" />
     <ReviewList
       :reviews="album.albumReviews"
       :album="album.name"

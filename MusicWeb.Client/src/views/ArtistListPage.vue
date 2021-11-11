@@ -5,7 +5,7 @@
         <div class="mx-auto">
           <div class="d-flex">
             <v-menu
-              v-model="isDatePickerFrom"
+              v-model="is_date_picker_from"
               :close-on-content-click="false"
               :nudge-right="40"
               transition="scale-transition"
@@ -17,24 +17,24 @@
                   class="p-4"
                   label="Filtruj po dacie od"
                   prepend-icon="mdi-calendar"
-                  v-model.trim="$v.filters.establishmentDateFrom.$model"
+                  v-model.trim="$v.filters.establishment_date_from.$model"
                   :error-messages="establishmentDateFromErrors"
                   readonly
                   required
-                  @input="$v.filters.establishmentDateFrom.$touch()"
-                  @blur="$v.filters.establishmentDateFrom.$touch()"
+                  @input="$v.filters.establishment_date_from.$touch()"
+                  @blur="$v.filters.establishment_date_from.$touch()"
                   v-bind="attrs"
                   v-on="on"
                 ></v-text-field>
               </template>
               <v-date-picker
                 color="#647da1"
-                v-model.trim="$v.filters.establishmentDateFrom.$model"
-                @input="isDatePickerFrom = false"
+                v-model.trim="$v.filters.establishment_date_from.$model"
+                @input="is_date_picker_from = false"
               ></v-date-picker>
             </v-menu>
             <v-menu
-              v-model="isDatePickerTo"
+              v-model="is_date_picker_to"
               :close-on-content-click="false"
               :nudge-right="40"
               transition="scale-transition"
@@ -46,25 +46,25 @@
                   class="p-4"
                   label="Filtruj po dacie do"
                   prepend-icon="mdi-calendar"
-                  v-model.trim="$v.filters.establishmentDateTo.$model"
+                  v-model.trim="$v.filters.establishment_date_to.$model"
                   :error-messages="establishmentDateToErrors"
                   readonly
                   required
-                  @input="$v.filters.establishmentDateTo.$touch()"
-                  @blur="$v.filters.establishmentDateTo.$touch()"
+                  @input="$v.filters.establishment_date_to.$touch()"
+                  @blur="$v.filters.establishment_date_to.$touch()"
                   v-bind="attrs"
                   v-on="on"
                 ></v-text-field>
               </template>
               <v-date-picker
                 color="#647da1"
-                v-model.trim="$v.filters.establishmentDateTo.$model"
-                @input="isDatePickerTo = false"
+                v-model.trim="$v.filters.establishment_date_to.$model"
+                @input="is_date_picker_to = false"
               ></v-date-picker>
             </v-menu>
           </div>
           <v-select
-            :items="sortTypes"
+            :items="sort_types"
             label="Sortuj"
             @change="setSelectedType"
             v-model="updateDefaultSortType"
@@ -137,7 +137,7 @@
       </v-col>
     </v-row>
     <div
-      v-if="intersectionActive"
+      v-if="intersection_active"
       v-intersect="{
         handler: getPagedArtistList,
         options: {
@@ -160,18 +160,18 @@ export default {
       artists: [],
       filters: {},
       page: 0,
-      recordsQuantity: 5,
-      defaultSortType: "Alfabetycznie malejąco",
-      sortTypes: [
+      records_quantity: 5,
+      default_sort_type: "Alfabetycznie malejąco",
+      sort_types: [
         "Alfabetycznie malejąco",
         "Alfabetycznie rosnąco",
         "Po popularności malejąco",
         "Po popularności rosnąco",
       ],
-      slectedSortType: 0,
-      isDatePickerFrom: false,
-      isDatePickerTo: false,
-      intersectionActive: true,
+      selected_sort_type: 0,
+      is_date_picker_from: false,
+      is_date_picker_to: false,
+      intersection_active: true,
       show: null,
     };
   },
@@ -183,28 +183,28 @@ export default {
       return this.$v.$invalid;
     },
     establishmentDateFromErrors() {
-      return this.prepareErrorArray("establishmentDateFrom");
+      return this.prepareErrorArray("establishment_date_from");
     },
     establishmentDateToErrors() {
-      return this.prepareErrorArray("establishmentDateTo");
+      return this.prepareErrorArray("establishment_date_to");
     },
-    updateDefaultSortType:{
-      get(){
-        return this.defaultSortType;
+    updateDefaultSortType: {
+      get() {
+        return this.default_sort_type;
       },
-      set(newType){
-        this.defaultSortType = newType;
-        this.slectedSortType = 0;
-      }
-    }
+      set(newType) {
+        this.default_sort_type = newType;
+        this.selected_sort_type = 0;
+      },
+    },
   },
 
   validations: {
     filters: {
-      establishmentDateFrom: {
+      establishment_date_from: {
         required,
       },
-      establishmentDateTo: {
+      establishment_date_to: {
         required,
       },
     },
@@ -225,18 +225,18 @@ export default {
     filterList() {
       this.artists = [];
       this.page = 0;
-      this.intersectionActive = true;
+      this.intersection_active = true;
     },
     setDefaultFilters() {
       (this.filters = {
-        establishmentDateFrom: this.moment("1970-01-01").format("YYYY-MM-DD"),
-        establishmentDateTo: this.moment().add(10, "y").format("YYYY-MM-DD"),
+        establishment_date_from: this.moment("1970-01-01").format("YYYY-MM-DD"),
+        establishment_date_to: this.moment().add(10, "y").format("YYYY-MM-DD"),
       }),
-        this.updateDefaultSortType = "Alfabetycznie malejąco";
-        this.filterList();
+        (this.updateDefaultSortType = "Alfabetycznie malejąco");
+      this.filterList();
     },
     setSelectedType(selectedType) {
-      this.slectedSortType = this.sortTypes.findIndex(
+      this.selected_sort_type = this.sort_types.findIndex(
         (sortType) => sortType == selectedType
       );
     },
@@ -245,14 +245,14 @@ export default {
   setup() {
     const { getPaged } = useArtists();
 
-    const getPagedArtistList = function (entries, observer, isIntersecting) {
-      if (isIntersecting) {
+    const getPagedArtistList = function (entries, observer, is_intersecting) {
+      if (is_intersecting) {
         getPaged(
           this.page,
-          this.recordsQuantity,
-          this.slectedSortType,
-          this.parseDate(this.filters.establishmentDateFrom),
-          this.parseDate(this.filters.establishmentDateTo)
+          this.records_quantity,
+          this.selected_sort_type,
+          this.parseDate(this.filters.establishment_date_from),
+          this.parseDate(this.filters.establishment_date_to)
         )
           .then((response) => {
             if (response.length > 0) {
@@ -260,7 +260,7 @@ export default {
                 return this.artists.push(item);
               });
             } else {
-              this.intersectionActive = false;
+              this.intersection_active = false;
             }
           })
           .catch((err) => {
