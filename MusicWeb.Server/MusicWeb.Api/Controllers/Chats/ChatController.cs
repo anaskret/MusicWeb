@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using MusicWeb.Services.Interfaces.Chats;
 
 namespace MusicWeb.Api.Controllers.Chats
 {

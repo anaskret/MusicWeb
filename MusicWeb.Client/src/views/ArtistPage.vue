@@ -88,6 +88,7 @@ export default {
     };
     const getComments = function () {
       getCommentById(this.id).then((response) => {
+        this.comments = [];
         response.forEach(comment => this.comments.push(comment));
       });
     };
