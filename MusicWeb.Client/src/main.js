@@ -20,7 +20,7 @@ import {
   faPen,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
-import axios from "axios";
+import axios from "@/services/index.js";
 import VueCompositionApi from "@vue/composition-api";
 import moment from "moment";
 
@@ -54,6 +54,7 @@ Vue.prototype.$http = axios;
 Vue.use(Vuelidate);
 Vue.use(VueCompositionApi);
 
+moment.locale('pl');
 Vue.prototype.moment = moment;
 
 /** Vue Filters Start */
@@ -62,14 +63,6 @@ Vue.filter("truncate", function (text, length, suffix) {
     return text.substring(0, length) + suffix;
   } else {
     return text;
-  }
-});
-
-Vue.filter("truncateRest", function (text, length) {
-  if (text.length > length) {
-    return text.substring(length, text.length);
-  } else {
-    return;
   }
 });
 /** Vue Filters End */

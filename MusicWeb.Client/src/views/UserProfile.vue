@@ -11,14 +11,79 @@
             <span class="text-uppercase display-2">
               {{ account.firstname }} {{ account.lastname }}
             </span>
-            <v-btn text>
-              <font-awesome-icon
-                transform="{ rotate: 42 }"
-                class="icon"
-                icon="pen"
-                color="#white"
-              />
-            </v-btn>
+            <v-dialog
+                v-model="editDialog"
+                persistent
+                max-width="600px"
+            >
+                <template v-slot:activator="{ on, attrs }">
+                    <v-btn text v-bind="attrs" v-on="on">
+                        <font-awesome-icon
+                            class="icon"
+                            icon="pen"
+                            color="#white"
+                        />
+                    </v-btn>
+                </template>
+                <v-card class="editDialog">
+                <v-card-title>
+                    <span class="text-h5">Wprowadź nowe dane</span>
+                </v-card-title>
+                <v-card-text>
+                    <v-container>
+                    <v-row>
+                        <v-col
+                        cols="12"
+                        sm="6"
+                        md="6"
+                        >
+                        <v-text-field
+                            class="p-4"
+                            label="Imię"
+                            prepend-icon="mdi-account"
+                            v-model.trim="$v.account.firstname.$model"
+                            :error-messages="firstnameErrors"
+                            :counter="12"
+                            required
+                            @input="$v.account.firstname.$touch()"
+                            @blur="$v.account.firstname.$touch()"
+                        ></v-text-field>
+                        </v-col>
+                        <v-col
+                        cols="12"
+                        sm="6"
+                        md="6"
+                        >
+                        <v-text-field
+                            class="p-4"
+                            label="Nazwisko"
+                            prepend-icon="mdi-account"
+                            v-model.trim="$v.account.lastname.$model"
+                            :error-messages="lastnameErrors"
+                            :counter="20"
+                            required
+                            @input="$v.account.lastname.$touch()"
+                            @blur="$v.account.lastname.$touch()"
+                        ></v-text-field>
+                        </v-col>
+                    </v-row>
+                    </v-container>
+                </v-card-text>
+                <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn
+                    @click="editDialog = false"
+                    >
+                    Anuluj
+                    </v-btn>
+                    <v-btn
+                    @click="editDialog = false"
+                    >
+                    Zapisz
+                    </v-btn>
+                </v-card-actions>
+                </v-card>
+            </v-dialog>
           </h1>
         </div>
       </v-col>
@@ -47,6 +112,8 @@
 import ReviewList from "@/components/ReviewList";
 import ItemCarousel from "../components/ItemCarousel.vue";
 import useAccounts from "@/modules/accounts";
+import Account from "@/models/Account";
+import { required, minLength, maxLength } from "vuelidate/lib/validators";
 export default {
   name: "UserProfile",
   components: {
@@ -55,13 +122,6 @@ export default {
   },
   data() {
     return {
-      stars: [
-        { color: "#868263" },
-        { color: "#868263" },
-        { color: "#868263" },
-        { color: "#868263" },
-        { color: "gray" },
-      ],
       reviews: [],
       artists: [],
       genres: [],
@@ -69,7 +129,8 @@ export default {
       genresTitle: "Ulubione gatunki",
       artistsLinkTitle: "Zobacz wszystko",
       genresLinkTitle: "Zobacz wszystko",
-      account: {},
+      account: new Account(),
+      editDialog: false
     };
   },
   created() {
@@ -77,6 +138,31 @@ export default {
     this.getArtists();
     this.getGenres();
     this.getAccount();
+  },
+  computed: {
+    isDisabled() {
+      return this.$v.$invalid;
+    },
+    firstnameErrors() {
+      return this.prepareErrorArray("firstname");
+    },
+    lastnameErrors() {
+      return this.prepareErrorArray("lastname");
+    },
+  },
+  validations: {
+    account: {
+      firstname: {
+        required,
+        minLength: minLength(3),
+        maxLength: maxLength(12),
+      },
+      lastname: {
+        required,
+        minLength: minLength(3),
+        maxLength: maxLength(20),
+      },
+    },
   },
   methods: {
     getReviews() {
@@ -86,21 +172,21 @@ export default {
           album: "Weather Systems",
           band: "Anathema",
           title: "Dzieło sztuki!",
-          text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec fringilla magna fringilla nisi tristique, vel tempus risus malesuada. Fusce venenatis, orci eget blandit mollis, diam nisl interdum nulla, a convallis purus augue ut odio. Cras urna sapien, faucibus tincidunt placerat non, laoreet nec nunc.",
+          content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec fringilla magna fringilla nisi tristique, vel tempus risus malesuada. Fusce venenatis, orci eget blandit mollis, diam nisl interdum nulla, a convallis purus augue ut odio. Cras urna sapien, faucibus tincidunt placerat non, laoreet nec nunc.",
         },
         {
           img: "werehere",
           album: "We're Here Because We're Here",
           band: "Anathema",
           title: "Dzieło sztuki!",
-          text: "2Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec fringilla magna fringilla nisi tristique, vel tempus risus malesuada. Fusce venenatis, orci eget blandit mollis, diam nisl interdum nulla, a convallis purus augue ut odio. Cras urna sapien, faucibus tincidunt placerat non, laoreet nec nunc. Praesent felis nibh, laoreet et sapien in, tincidunt eleifend tellus. Morbi ante urna, mollis quis eros sed, pulvinar venenatis lacus. Quisque interdum urna molestie porta auctor. Aliquam erat volutpat. Integer in aliquam sem. Quisque varius purus eu eros elementum varius. ",
+          content: "2Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec fringilla magna fringilla nisi tristique, vel tempus risus malesuada. Fusce venenatis, orci eget blandit mollis, diam nisl interdum nulla, a convallis purus augue ut odio. Cras urna sapien, faucibus tincidunt placerat non, laoreet nec nunc. Praesent felis nibh, laoreet et sapien in, tincidunt eleifend tellus. Morbi ante urna, mollis quis eros sed, pulvinar venenatis lacus. Quisque interdum urna molestie porta auctor. Aliquam erat volutpat. Integer in aliquam sem. Quisque varius purus eu eros elementum varius. ",
         },
         {
           img: "naturaldisaster",
           album: "A Natural Disaster",
           band: "Anathema",
           title: "Dzieło sztuki!",
-          text: "3Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec fringilla magna fringilla nisi tristique, vel tempus risus malesuada. Fusce venenatis, orci eget blandit mollis, diam nisl interdum nulla, a convallis purus augue ut odio. Cras urna sapien, faucibus tincidunt placerat non, laoreet nec nunc. Praesent felis nibh, laoreet et sapien in, tincidunt eleifend tellus. Morbi ante urna, mollis quis eros sed, pulvinar venenatis lacus. Quisque interdum urna molestie porta auctor. Aliquam erat volutpat. Integer in aliquam sem. Quisque varius purus eu eros elementum varius. ",
+          content: "3Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec fringilla magna fringilla nisi tristique, vel tempus risus malesuada. Fusce venenatis, orci eget blandit mollis, diam nisl interdum nulla, a convallis purus augue ut odio. Cras urna sapien, faucibus tincidunt placerat non, laoreet nec nunc. Praesent felis nibh, laoreet et sapien in, tincidunt eleifend tellus. Morbi ante urna, mollis quis eros sed, pulvinar venenatis lacus. Quisque interdum urna molestie porta auctor. Aliquam erat volutpat. Integer in aliquam sem. Quisque varius purus eu eros elementum varius. ",
         },
       ];
     },
@@ -132,12 +218,31 @@ export default {
         { img: "BandPhoto", name: "Pop" },
       ];
     },
+    prepareErrorArray(field) {
+      const errors = [];
+      if (!this.$v.account[field].$dirty) return errors;
+      !this.$v.account[field].required && errors.push("Pole jest wymagane.");
+      if (
+        this.$v.account[field].maxLength != undefined &&
+        this.$v.account[field].minLength != undefined
+      ) {
+        !this.$v.account[field].maxLength &&
+          errors.push(
+            `Pole nie może być dłuższe niż ${this.$v.account[field].$params.maxLength.max} znaków.`
+          );
+        !this.$v.account[field].minLength &&
+          errors.push(
+            `Pole musi mieć przynajmniej ${this.$v.account[field].$params.minLength.min} znaków.`
+          );
+      }
+      return errors;
+    },
   },
   setup() {
-    const { getById } = useAccounts();
+    const { getAccountById } = useAccounts();
 
     const getAccount = function () {
-      getById(localStorage.getItem("user-id")).then((response) => {
+      getAccountById(localStorage.getItem("user-id")).then((response) => {
         this.account = response;
       });
     };
@@ -150,9 +255,6 @@ export default {
 </script>
 
 <style scoped>
-p {
-  color: gray;
-}
 p > span {
   color: #ebebf2;
   padding-bottom: 1px;
@@ -170,5 +272,8 @@ p > span {
 }
 .favorites {
   padding: 7%;
+}
+.editDialog{
+    background: #1E1E1E;
 }
 </style>

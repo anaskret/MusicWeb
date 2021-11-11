@@ -1,4 +1,5 @@
 import ApiService from "@/services/apiServices";
+import router from "@/router";
 export default {
   login(data) {
     return ApiService.authRequest(`/login`, ApiService.post, data);
@@ -6,7 +7,7 @@ export default {
   logout() {
     localStorage.removeItem("user-token");
     localStorage.removeItem("user-id");
-    location.reload(true);
+    router.push({name: 'Login'});
   },
   register(data) {
     return ApiService.authRequest(`/register`, ApiService.post, data);

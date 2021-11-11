@@ -228,7 +228,7 @@ export default {
       ) {
         !this.$v.account[field].maxLength &&
           errors.push(
-            `Pole nie może być dłuższy niż ${this.$v.account[field].$params.maxLength.max} znaków.`
+            `Pole nie może być dłuższe niż ${this.$v.account[field].$params.maxLength.max} znaków.`
           );
         !this.$v.account[field].minLength &&
           errors.push(
@@ -255,11 +255,10 @@ export default {
       if (this.$v.$pendding || this.$v.$error) {
         return;
       }
-      console.log(this.account);
+      this.isLogging = true;
       this.$store.dispatch("auth/register", this.account).then(
         () => {
-          this.isLogging = true;
-          setTimeout(this.redirect, 500);
+          setTimeout(this.redirect, 250);
         },
         (error) => {
           if (

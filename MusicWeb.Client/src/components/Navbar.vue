@@ -141,14 +141,14 @@ export default {
     }
   },
   setup() {
-    const { getById } = useAccounts();
+    const { getAccountById } = useAccounts();
 
     const onLogout = function () {
       this.$store.dispatch("auth/logout");
     };
 
     const getAccount = function () {
-      getById(localStorage.getItem("user-id")).then((response) => {
+      getAccountById(localStorage.getItem("user-id")).then((response) => {
         this.account = response;
       });
     };

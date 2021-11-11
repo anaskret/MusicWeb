@@ -14,7 +14,7 @@ export default function useAccounts() {
     return await accountServices.register(data);
   };
 
-  const getById = async (id) => {
+  const getAccountById = async (id) => {
     if (id) {
       return accountServices.getById(id).then((response) => {
         return new Account(response.data);
@@ -25,6 +25,6 @@ export default function useAccounts() {
     loginAccount,
     logoutAccount,
     registerAccount,
-    getById,
+    getAccountById,
   };
 }
