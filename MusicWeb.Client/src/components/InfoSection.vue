@@ -46,9 +46,27 @@
             <span>{{ parent.albumGenre.name }}</span>
           </p>
         </div>
+        <div v-else-if="module_name == 'Song'">
+          <p>
+            Album
+            <span>{{ parent.album.name }} - {{ parent.composer.name }} </span>
+          </p>
+          <p>
+            Data wydania:
+            <span>{{ moment(parent.releaseDate).format("L") }} </span>
+          </p>
+          <p>
+            Czas trwania:
+            <span>{{ parent.duration }} min</span>
+          </p>
+          <p>
+            Pozycja na albumie:
+            <span>{{ parent.positionOnAlbum }}</span>
+          </p>
+        </div>
       </v-col>
       <v-col lg="5">
-        <h1 class="pb-lg-5">Biografia</h1>
+        <h1 class="pb-lg-5">{{ descriptionTitle }}</h1>
         <p class="text-justify">
           {{ parent.description }}
         </p>
@@ -67,6 +85,10 @@ export default {
     },
     module_name: {
       type: String,
+    },
+    descriptionTitle: {
+      type: String,
+      default: "Opis",
     },
   },
   data() {
