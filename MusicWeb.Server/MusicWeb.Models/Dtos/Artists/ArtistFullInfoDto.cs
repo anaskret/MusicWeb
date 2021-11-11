@@ -21,8 +21,6 @@ namespace MusicWeb.Models.Models.Artists
 
         public int? BandId { get; set; }
         public string Country { get; set; }
-        public string State { get; set; }
-        public string City { get; set; }
 
         public List<AlbumDto> Albums { get; set; }
         public List<ArtistCommentDto> ArtistComments { get; set; }

@@ -21,7 +21,7 @@
 <title>MusicWeb - Create Artist</title>
 
 <div class="row">
-    <EditForm Model="Input" OnValidSubmit="OnPostAsync">
+    <EditForm EditContext="editContext" OnValidSubmit="OnPostAsync">
         <div class="panel-hdr text-center mb-3">
             <div class="col-12">
                 <div class="page-title-box d-sm-flex align-items-center justify-content-between">
@@ -127,6 +127,9 @@
                                             <option value="@country.Id">@country.Name</option>
                                         }
                                     </InputSelect>
+                                    <div class="text-danger">
+                                        <ValidationMessage For="() => Input.CountryId" />
+                                    </div>
                                 </div>
                                 @if (Input.Type == ArtistType.BandMember)
                                 {
@@ -161,12 +164,15 @@
     public List<CountryModel> Countries{ get; set; }
     public List<BandModel> Bands { get; set; }
 
+    private EditContext editContext;
+
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
         Input = new ArtistWithUserModel();
         Countries = new List<CountryModel>();
         Bands = new List<BandModel>();
+        editContext = new (Input);
 
         await _artistModelFactory.PrepareCreator(Countries, Bands);
     }
