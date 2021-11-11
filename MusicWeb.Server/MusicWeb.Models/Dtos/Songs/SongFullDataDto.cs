@@ -13,9 +13,10 @@ namespace MusicWeb.Models.Dtos.Songs
         public string Name { get; set; }
         public DateTime ReleaseDate { get; set; }
         public double Length { get; set; }
+        public string Text { get; set; }
         public int AlbumId { get; set; }
         public int ComposerId { get; set; }
-        public int positionOnAlbum { get; set; }
+        public int PositionOnAlbum { get; set; }
         public AlbumDto Album { get; set; }
         public ArtistDto Composer { get; set; }
 
