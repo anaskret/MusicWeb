@@ -13,6 +13,7 @@ namespace MusicWeb.Models.Dtos.Songs.Base
         public double Length { get; set; }
         public int AlbumId { get; set; }
         public int ComposerId { get; set; }
-        public int positionOnAlbum { get; set; }
+        public int PositionOnAlbum { get; set; }
+        public string Text { get; set; }
     }
 }

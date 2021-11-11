@@ -67,6 +67,8 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using MusicWeb.Services.Hubs;
+using System.Threading.Tasks;
+using MusicWeb.Services.Interfaces.Songs;
 
 namespace MusicWeb.Api
 {
@@ -187,6 +189,7 @@ namespace MusicWeb.Api
 
             services.AddTransient<ISongRepository, SongRepository>();
 
+ 
             services.AddTransient<IChatRepository, ChatRepository>();
             services.AddTransient<IMessageRepository, MessageRepository>();
 
@@ -225,6 +228,7 @@ namespace MusicWeb.Api
             services.AddTransient<IAlbumReviewService, AlbumReviewService>();
 
             services.AddTransient<ISongService, SongService>();
+            services.AddTransient<ISongReviewService, SongReviewService>();
 
             services.AddTransient<IIdentityRepository, IdentityRepository>();
             services.AddTransient<IIdentityService, IdentityService>();
