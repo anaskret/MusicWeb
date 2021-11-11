@@ -1,6 +1,5 @@
 <template>
   <div>
-    {{ song }}
     <Header
       :parent="song"
       :show_observe_button="show_observe_button"
@@ -9,7 +8,7 @@
     <InfoSection
       :parent="song"
       :module_name="module_name"
-      :descriptionTitle="descriptionTitle"
+      :descriptionTitle="descriptionTitleg"
     />
     <ReviewList
       :reviews="song.songReviews"

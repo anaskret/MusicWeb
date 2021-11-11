@@ -1,8 +1,9 @@
 export default class Song {
   name = "";
   releaseDate = "";
-  length = "";
+  duration = "";
   positionOnAlbum = "";
+  description = "";
   albumId = "";
   composerId = "";
   album = {};
@@ -13,8 +14,9 @@ export default class Song {
     if ($data) {
       this.name = $data.name;
       this.releaseDate = $data.releaseDate;
-      this.length = $data.length;
+      this.duration = $data.length;
       this.positionOnAlbum = $data.positionOnAlbum;
+      this.description = $data.text;
       this.albumId = $data.albumId;
       this.composerId = $data.composerId;
       this.album = $data.album ? $data.album : {};
