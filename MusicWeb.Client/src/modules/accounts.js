@@ -21,10 +21,15 @@ export default function useAccounts() {
       });
     }
   };
+
+  const updateAccountNames = async (data) => {
+    return await accountServices.updateNames(data);
+  };
   return {
     loginAccount,
     logoutAccount,
     registerAccount,
     getAccountById,
+    updateAccountNames
   };
 }

@@ -56,7 +56,7 @@
                 <v-card-actions>
                   <v-spacer></v-spacer>
                   <v-btn @click="edit_dialog = false"> Anuluj </v-btn>
-                  <v-btn @click="edit_dialog = false"> Zapisz </v-btn>
+                  <v-btn @click="updateNamesDialog"> Zapisz </v-btn>
                 </v-card-actions>
               </v-card>
             </v-dialog>
@@ -216,9 +216,13 @@ export default {
       }
       return errors;
     },
+    updateNamesDialog(){
+      this.edit_dialog = false;
+      this.updateNames();
+    }
   },
   setup() {
-    const { getAccountById } = useAccounts();
+    const { getAccountById, updateAccountNames } = useAccounts();
 
     const getAccount = function () {
       getAccountById(localStorage.getItem("user-id")).then((response) => {
@@ -226,8 +230,29 @@ export default {
       });
     };
 
+    const updateNames = function () {
+      this.account.id = localStorage.getItem("user-id");
+      updateAccountNames(this.account).then(
+        (response) => {
+          if(response.status == 200){
+            this.$emit(
+            "show-alert",
+            "Dane zostały zaktualizowane pomyślnie.",
+            "success"
+            );
+          } else {
+            this.$emit("show-alert", `Nie udało się zaktualizować. Błąd ${response.status}`, "error");
+          }
+        },
+        (error) => {
+          this.$emit("show-alert", `Nie udało się zaktualizować. ${error.response.status} ${error.response.data}`, "error");
+        }
+      );
+    };
+
     return {
       getAccount,
+      updateNames
     };
   },
 };

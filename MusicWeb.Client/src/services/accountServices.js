@@ -15,4 +15,7 @@ export default {
   getById(id) {
     return ApiService.authRequest(`/users/${id}`, ApiService.get);
   },
+  updateNames(data) {
+    return ApiService.authRequest(`/users/names`, ApiService.put, data);
+  },
 };
