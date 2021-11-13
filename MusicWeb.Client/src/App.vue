@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <Navbar />
+    <Navbar @show-alert="showAlert" />
     <v-snackbar v-model="alert_show" :timeout="timeout">
       {{ alert_message }}
 

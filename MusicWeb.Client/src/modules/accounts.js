@@ -25,11 +25,21 @@ export default function useAccounts() {
   const updateAccountNames = async (data) => {
     return await accountServices.updateNames(data);
   };
+
+  const updateAccountPassword = async (data) => {
+    return await accountServices.updatePassword(data);
+  };
+
+  const updateAccountEmail = async (data) => {
+    return await accountServices.updateEmail(data);
+  };
   return {
     loginAccount,
     logoutAccount,
     registerAccount,
     getAccountById,
-    updateAccountNames
+    updateAccountNames,
+    updateAccountPassword,
+    updateAccountEmail
   };
 }

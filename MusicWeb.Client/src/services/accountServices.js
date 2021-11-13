@@ -18,4 +18,10 @@ export default {
   updateNames(data) {
     return ApiService.authRequest(`/users/names`, ApiService.put, data);
   },
+  updatePassword(data) {
+    return ApiService.authRequest(`/users/password`, ApiService.put, data);
+  },
+  updateEmail(data) {
+    return ApiService.authRequest(`/users/email`, ApiService.put, data);
+  },
 };
