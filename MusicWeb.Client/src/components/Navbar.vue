@@ -111,46 +111,46 @@
                   </v-tab>
 
                   <v-tab-item>
-                    <v-card flat class="settingsDialog">    
+                    <v-card flat class="settingsDialog">
                       <v-card-title>
                         <span class="text-h5">Zmień hasło</span>
                       </v-card-title>
                       <v-card-text>
                         <v-container>
-                              <v-row>
-                                <v-col cols="12" md="12">
-                                  <v-text-field
-                                    class="p-4"
-                                    label="Stare Hasło"
-                                    v-model.trim="$v.oldPassword.$model"
-                                    :error-messages="oldPasswordErrors"
-                                    required
-                                    @input="$v.oldPassword.$touch()"
-                                    @blur="$v.oldPassword.$touch()"
-                                  ></v-text-field>
-                                  <v-text-field
-                                    class="p-4"
-                                    label="Nowe Hasło"
-                                    v-model.trim="$v.account.password.$model"
-                                    :error-messages="passwordErrors"
-                                    :counter="25"
-                                    required
-                                    @input="$v.account.password.$touch()"
-                                    @blur="$v.account.password.$touch()"
-                                  ></v-text-field>
-                                  <v-text-field
-                                    class="p-4"
-                                    label="Potwierdź hasło"
-                                    v-model.trim="$v.confirmPassword.$model"
-                                    :error-messages="confirmPasswordErrors"
-                                    :counter="25"
-                                    required
-                                    @input="$v.confirmPassword.$touch()"
-                                    @blur="$v.confirmPassword.$touch()"
-                                  ></v-text-field>
-                                </v-col>
-                              </v-row>
-                            </v-container>
+                          <v-row>
+                            <v-col cols="12" md="12">
+                              <v-text-field
+                                class="p-4"
+                                label="Stare Hasło"
+                                v-model.trim="$v.oldPassword.$model"
+                                :error-messages="oldPasswordErrors"
+                                required
+                                @input="$v.oldPassword.$touch()"
+                                @blur="$v.oldPassword.$touch()"
+                              ></v-text-field>
+                              <v-text-field
+                                class="p-4"
+                                label="Nowe Hasło"
+                                v-model.trim="$v.account.password.$model"
+                                :error-messages="passwordErrors"
+                                :counter="25"
+                                required
+                                @input="$v.account.password.$touch()"
+                                @blur="$v.account.password.$touch()"
+                              ></v-text-field>
+                              <v-text-field
+                                class="p-4"
+                                label="Potwierdź hasło"
+                                v-model.trim="$v.confirmPassword.$model"
+                                :error-messages="confirmPasswordErrors"
+                                :counter="25"
+                                required
+                                @input="$v.confirmPassword.$touch()"
+                                @blur="$v.confirmPassword.$touch()"
+                              ></v-text-field>
+                            </v-col>
+                          </v-row>
+                        </v-container>
                       </v-card-text>
                       <v-card-actions>
                         <v-spacer></v-spacer>
@@ -160,27 +160,27 @@
                     </v-card>
                   </v-tab-item>
                   <v-tab-item>
-                    <v-card flat class="settingsDialog">    
+                    <v-card flat class="settingsDialog">
                       <v-card-title>
                         <span class="text-h5">Zmień maila</span>
                       </v-card-title>
                       <v-card-text>
                         <v-container>
-                              <v-row>
-                                <v-col cols="12" md="12">
-                                  <v-text-field
-                                    class="p-4"
-                                    label="Email"
-                                    v-model.trim="$v.account.email.$model"
-                                    :error-messages="emailErrors"
-                                    :counter="25"
-                                    required
-                                    @input="$v.account.email.$touch()"
-                                    @blur="$v.account.email.$touch()"
-                                  ></v-text-field>
-                                </v-col>
-                              </v-row>
-                            </v-container>
+                          <v-row>
+                            <v-col cols="12" md="12">
+                              <v-text-field
+                                class="p-4"
+                                label="Email"
+                                v-model.trim="$v.account.email.$model"
+                                :error-messages="emailErrors"
+                                :counter="25"
+                                required
+                                @input="$v.account.email.$touch()"
+                                @blur="$v.account.email.$touch()"
+                              ></v-text-field>
+                            </v-col>
+                          </v-row>
+                        </v-container>
                       </v-card-text>
                       <v-card-actions>
                         <v-spacer></v-spacer>
@@ -190,7 +190,7 @@
                     </v-card>
                   </v-tab-item>
                   <v-tab-item>
-                    <v-card flat class="settingsDialog">    
+                    <v-card flat class="settingsDialog">
                       <v-card-title>
                         <span class="text-h5">Zmień zdjęcie</span>
                       </v-card-title>
@@ -240,7 +240,7 @@ import {
   minLength,
   maxLength,
   email,
-  sameAs
+  sameAs,
 } from "vuelidate/lib/validators";
 export default {
   name: "Navbar",
@@ -251,8 +251,8 @@ export default {
       group: null,
       settings_dialog: false,
       account: new Account(),
-      oldPassword: '',
-      confirmPassword: ''
+      oldPassword: "",
+      confirmPassword: "",
     };
   },
   computed: {
@@ -291,10 +291,10 @@ export default {
     },
     confirmPassword: {
       required,
-      sameAsPassword: sameAs(function() {
-            return this.account.password;
-      }) 
-    }
+      sameAsPassword: sameAs(function () {
+        return this.account.password;
+      }),
+    },
   },
   methods: {
     redirectToProfile() {
@@ -306,19 +306,16 @@ export default {
     },
     prepareErrorArray(field) {
       const errors = [];
-      if(field == 'oldPassword'){
+      if (field == "oldPassword") {
         if (!this.$v.oldPassword.$dirty) return errors;
         !this.$v.oldPassword.required && errors.push("Pole jest wymagane.");
-      }
-      else if(field == 'confirmPassword'){
+      } else if (field == "confirmPassword") {
         if (!this.$v.confirmPassword.$dirty) return errors;
         !this.$v.confirmPassword.required && errors.push("Pole jest wymagane.");
-        
+
         if (this.$v.confirmPassword.sameAsPassword != undefined) {
           !this.$v.confirmPassword.sameAsPassword &&
-            errors.push(
-              `Pole musi być takie same jak pole "Hasło".`
-            );
+            errors.push(`Pole musi być takie same jak pole "Hasło".`);
         }
       } else {
         if (!this.$v.account[field].$dirty) return errors;
@@ -345,19 +342,19 @@ export default {
       }
       return errors;
     },
-    updatePasswordDialog(){
+    updatePasswordDialog() {
       this.settings_dialog = false;
       this.updatePassword();
     },
-    updateEmailDialog(){
+    updateEmailDialog() {
       this.settings_dialog = false;
       this.updateEmail();
     },
-    clearSettings(){
+    clearSettings() {
       this.account = new Account();
-      this.oldPassword = '';
-      this.confirmPassword = '';
-    }
+      this.oldPassword = "";
+      this.confirmPassword = "";
+    },
   },
   watch: {
     $route(to, from) {
@@ -372,7 +369,8 @@ export default {
     }
   },
   setup() {
-    const { getAccountById, updateAccountPassword, updateAccountEmail } = useAccounts();
+    const { getAccountById, updateAccountPassword, updateAccountEmail } =
+      useAccounts();
 
     const onLogout = function () {
       this.$store.dispatch("auth/logout");
@@ -391,20 +389,28 @@ export default {
       this.account.confirmPassword = this.confirmPassword;
       updateAccountPassword(this.account).then(
         (response) => {
-          if(response.status == 200){
+          if (response.status == 200) {
             this.$emit(
-            "show-alert",
-            "Dane zostały zaktualizowane pomyślnie.",
-            "success"
+              "show-alert",
+              "Dane zostały zaktualizowane pomyślnie.",
+              "success"
             );
             this.clearSettings();
           } else {
-            this.$emit("show-alert", `Nie udało się zaktualizować. Błąd ${response.status}`, "error");
+            this.$emit(
+              "show-alert",
+              `Nie udało się zaktualizować. Błąd ${response.status}`,
+              "error"
+            );
             this.clearSettings();
           }
         },
         (error) => {
-          this.$emit("show-alert", `Nie udało się zaktualizować. ${error.response.status} ${error.response.data}`, "error");
+          this.$emit(
+            "show-alert",
+            `Nie udało się zaktualizować. ${error.response.status} ${error.response.data}`,
+            "error"
+          );
           this.clearSettings();
         }
       );
@@ -414,20 +420,28 @@ export default {
       this.account.id = this.user_id;
       updateAccountEmail(this.account).then(
         (response) => {
-          if(response.status == 200){
+          if (response.status == 200) {
             this.$emit(
-            "show-alert",
-            "Dane zostały zaktualizowane pomyślnie.",
-            "success"
+              "show-alert",
+              "Dane zostały zaktualizowane pomyślnie.",
+              "success"
             );
             this.clearSettings();
           } else {
-            this.$emit("show-alert", `Nie udało się zaktualizować. Błąd ${response.status}`, "error");
+            this.$emit(
+              "show-alert",
+              `Nie udało się zaktualizować. Błąd ${response.status}`,
+              "error"
+            );
             this.clearSettings();
           }
         },
         (error) => {
-          this.$emit("show-alert", `Nie udało się zaktualizować. ${error.response.status} ${error.response.data}`, "error");
+          this.$emit(
+            "show-alert",
+            `Nie udało się zaktualizować. ${error.response.status} ${error.response.data}`,
+            "error"
+          );
           this.clearSettings();
         }
       );
@@ -437,7 +451,7 @@ export default {
       onLogout,
       getAccount,
       updatePassword,
-      updateEmail
+      updateEmail,
     };
   },
 };
@@ -450,7 +464,7 @@ export default {
 .settingsDialog {
   background: #1e1e1e;
 }
-.tabs{
+.tabs {
   min-height: 300px;
 }
 </style>

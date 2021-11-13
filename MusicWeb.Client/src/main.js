@@ -20,7 +20,7 @@ import {
   faPen,
   faLock,
   faEnvelope,
-  faImage
+  faImage,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import axios from "@/services/index.js";
@@ -41,7 +41,7 @@ const faIcons = [
   faPen,
   faLock,
   faEnvelope,
-  faImage
+  faImage,
 ];
 faIcons.forEach((icon) => library.add(icon));
 

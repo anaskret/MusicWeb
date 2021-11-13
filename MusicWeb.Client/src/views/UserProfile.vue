@@ -216,10 +216,10 @@ export default {
       }
       return errors;
     },
-    updateNamesDialog(){
+    updateNamesDialog() {
       this.edit_dialog = false;
       this.updateNames();
-    }
+    },
   },
   setup() {
     const { getAccountById, updateAccountNames } = useAccounts();
@@ -234,25 +234,33 @@ export default {
       this.account.id = localStorage.getItem("user-id");
       updateAccountNames(this.account).then(
         (response) => {
-          if(response.status == 200){
+          if (response.status == 200) {
             this.$emit(
-            "show-alert",
-            "Dane zostały zaktualizowane pomyślnie.",
-            "success"
+              "show-alert",
+              "Dane zostały zaktualizowane pomyślnie.",
+              "success"
             );
           } else {
-            this.$emit("show-alert", `Nie udało się zaktualizować. Błąd ${response.status}`, "error");
+            this.$emit(
+              "show-alert",
+              `Nie udało się zaktualizować. Błąd ${response.status}`,
+              "error"
+            );
           }
         },
         (error) => {
-          this.$emit("show-alert", `Nie udało się zaktualizować. ${error.response.status} ${error.response.data}`, "error");
+          this.$emit(
+            "show-alert",
+            `Nie udało się zaktualizować. ${error.response.status} ${error.response.data}`,
+            "error"
+          );
         }
       );
     };
 
     return {
       getAccount,
-      updateNames
+      updateNames,
     };
   },
 };

@@ -40,6 +40,6 @@ export default function useAccounts() {
     getAccountById,
     updateAccountNames,
     updateAccountPassword,
-    updateAccountEmail
+    updateAccountEmail,
   };
 }
