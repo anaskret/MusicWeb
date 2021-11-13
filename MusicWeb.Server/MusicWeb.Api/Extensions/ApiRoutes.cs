@@ -177,5 +177,13 @@ namespace MusicWeb.Api.Extensions
             public const string GetById = Root + "/artistratings/{id}";
             public const string GetAll = Root + "/listartistratings/{id}";
         }
+
+        public static class Chats
+        {
+            public const string Create = Root + "/chats";
+            public const string Update = Root + "/chats";
+            public const string Delete = Root + "/chats/{id}";
+            public const string GetUserChats = Root + "/chats/user/{id}";
+        }
     }
 }
