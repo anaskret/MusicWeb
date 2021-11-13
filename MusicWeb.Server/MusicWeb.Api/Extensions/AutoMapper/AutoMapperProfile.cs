@@ -23,6 +23,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MusicWeb.Models.Dtos.Chats.Base;
+using MusicWeb.Models.Dtos.Chats;
 
 namespace MusicWeb.Api.Extensions.AutoMapper
 {
@@ -113,6 +115,12 @@ namespace MusicWeb.Api.Extensions.AutoMapper
             CreateMap<ArtistRating, ArtistRatingDto>();
             CreateMap<ArtistRatingDto, ArtistRating>();
             CreateMap<CreateArtistRatingDto, ArtistRating>();
+
+            CreateMap<BaseChatDto, Chat>();
+            CreateMap<ChatDto, Chat>();
+            CreateMap<Chat, ChatWithUserNamesDto>()
+                .ForMember(prp => prp.UserName, obj => obj.MapFrom(src => src.User.UserName))
+                .ForMember(prp => prp.FriendName, obj => obj.MapFrom(src => src.Friend.UserName));
         }
 
     }
