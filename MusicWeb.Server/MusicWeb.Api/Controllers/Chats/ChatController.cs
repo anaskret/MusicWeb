@@ -56,7 +56,7 @@ namespace MusicWeb.Api.Controllers.Chats
         }
 
         [HttpPut(ApiRoutes.Chats.Update)]
-        public async Task<IActionResult> Create([FromBody] ChatDto chat)
+        public async Task<IActionResult> Update([FromBody] ChatDto chat)
         {
             try
             {
@@ -72,7 +72,7 @@ namespace MusicWeb.Api.Controllers.Chats
         }
 
         [HttpPut(ApiRoutes.Chats.Delete)]
-        public async Task<IActionResult> Create([FromRoute] int id)
+        public async Task<IActionResult> Delete([FromRoute] int id)
         {
             try
             {

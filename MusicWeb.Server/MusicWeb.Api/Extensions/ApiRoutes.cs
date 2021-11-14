@@ -185,5 +185,12 @@ namespace MusicWeb.Api.Extensions
             public const string Delete = Root + "/chats/{id}";
             public const string GetUserChats = Root + "/chats/user/{id}";
         }
+
+        public static class Messages
+        {
+            public const string Create = Root + "/messages";
+            public const string GetPagedByChatId = Root + "/messages/{id}/{page}/{size}";
+            public const string GetMessageById = Root + "/messages/{id}";
+        }
     }
 }

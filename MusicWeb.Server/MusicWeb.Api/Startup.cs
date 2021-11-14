@@ -67,6 +67,9 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using MusicWeb.Services.Hubs;
+using MusicWeb.Services.Interfaces.Hubs;
+using MusicWeb.Services.Interfaces.Chats;
+using MusicWeb.Services.Services.Chats;
 
 namespace MusicWeb.Api
 {
@@ -241,6 +244,9 @@ namespace MusicWeb.Api
             services.AddTransient<IArtistRatingService, ArtistRatingService>();
 
             services.AddTransient<IRolesService, RolesService>();
+
+            services.AddTransient<IChatService, ChatService>();
+            services.AddTransient<IMessageService, MessageService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
