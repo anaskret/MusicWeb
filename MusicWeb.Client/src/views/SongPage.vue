@@ -8,7 +8,7 @@
     <InfoSection
       :parent="song"
       :module_name="module_name"
-      :descriptionTitle="descriptionTitleg"
+      :description_title="description_title"
     />
     <ReviewList
       :reviews="song.songReviews"
@@ -37,7 +37,7 @@ export default {
       show_observe_button: false,
       vote_title: "Oceń piosenkę",
       module_name: "Song",
-      descriptionTitle: "Tekst utworu",
+      description_title: "Tekst utworu",
     };
   },
   created() {

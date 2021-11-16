@@ -6,4 +6,7 @@ export default {
   getSongFullData(id) {
     return ApiService.authRequest(`/songsdata/${id}`, ApiService.get);
   },
+  getSongsByArtistId(artistId) {
+    return ApiService.authRequest(`/artistsongs/${artistId}`, ApiService.get);
+  },
 };

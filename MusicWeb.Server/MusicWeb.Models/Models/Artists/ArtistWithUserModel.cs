@@ -34,10 +34,8 @@ namespace MusicWeb.Models.Models.Artists
 
         public ArtistType Type{ get; set; }
 
+        [Range(1, int.MaxValue, ErrorMessage = "Country is required")]
         public int CountryId { get; set; }
-        public int StateId { get; set; }
-        [Range(1, int.MaxValue, ErrorMessage = "City is required")]
-        public int CityId { get; set; }
 
         public int? BandId { get; set; }
     }

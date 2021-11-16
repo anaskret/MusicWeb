@@ -22,9 +22,9 @@ namespace MusicWeb.Models.Entities.Artists
         public ArtistType Type { get; set; }
 
         public int? BandId { get; set; }
-        public int CityId{ get; set; }
+        public int CountryId{ get; set; }
         public virtual BandMember BandMember { get; set; }
-        public virtual City City{ get; set; }
+        public virtual Country Country { get; set; }
 
         public string UserId { get; set; }
 

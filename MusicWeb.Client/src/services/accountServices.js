@@ -7,12 +7,21 @@ export default {
   logout() {
     localStorage.removeItem("user-token");
     localStorage.removeItem("user-id");
-    router.push({name: 'Login'});
+    router.push({ name: "Login" });
   },
   register(data) {
     return ApiService.authRequest(`/register`, ApiService.post, data);
   },
   getById(id) {
     return ApiService.authRequest(`/users/${id}`, ApiService.get);
+  },
+  updateNames(data) {
+    return ApiService.authRequest(`/users/names`, ApiService.put, data);
+  },
+  updatePassword(data) {
+    return ApiService.authRequest(`/users/password`, ApiService.put, data);
+  },
+  updateEmail(data) {
+    return ApiService.authRequest(`/users/email`, ApiService.put, data);
   },
 };

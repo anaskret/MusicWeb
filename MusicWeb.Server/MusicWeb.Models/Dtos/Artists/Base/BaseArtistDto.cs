@@ -24,7 +24,7 @@ namespace MusicWeb.Models.Dtos.Artists.Base
 
         public int? BandId { get; set; }
 
-        [Required(ErrorMessage = "CityId is required")]
-        public int CityId { get; set; }
+        [Required(ErrorMessage = "CountryId is required")]
+        public int CountryId { get; set; }
     }
 }

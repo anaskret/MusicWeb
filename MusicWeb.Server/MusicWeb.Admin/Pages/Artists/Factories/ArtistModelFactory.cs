@@ -29,22 +29,15 @@ namespace MusicWeb.Admin.Pages.Artists.Factories
             _configuration = configuration;
         }
 
-        public async Task PrepareCreator(List<CountryModel> countries, List<StateModel> states, List<CityModel> cities, List<BandModel> bands)
+        public async Task PrepareCreator(List<CountryModel> countries, List<BandModel> bands)
         {
             countries.AddRange(_mapper.Map<List<CountryModel>>(await _originService.GetAllCountriesAsync()));
-            states.AddRange(_mapper.Map<List<StateModel>>(await _originService.GetAllStatesAsync()));
-            cities.AddRange(_mapper.Map<List<CityModel>>(await _originService.GetAllCitiesAsync()));
             bands.AddRange(_mapper.Map<List<BandModel>>(await _artistService.GetAllBandsAsync()));
         }
 
         public async Task<EditArtistModel> PrepareEdit(int id)
         {
             var model = _mapper.Map<EditArtistModel>(await _artistService.GetByIdAsync(id));
-            var city = await _originService.GetCityByIdAsync(model.CityId);
-            var state = await _originService.GetStateByIdAsync(city.StateId);
-
-            model.StateId = state.Id;
-            model.CountryId = state.CountryId;
 
             return model;
         }

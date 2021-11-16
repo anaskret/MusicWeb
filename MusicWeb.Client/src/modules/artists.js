@@ -10,15 +10,21 @@ export default function useArtists() {
     }
   };
   const getPaged = function (
-    pageNum,
-    pageSize,
-    sortType,
-    createDateStart,
-    createDateEnd
+    page_num,
+    page_size,
+    sort_type,
+    create_date_start,
+    create_date_end
   ) {
-    if (pageNum > -1 && pageSize && createDateStart && createDateEnd) {
+    if (page_num > -1 && page_size && create_date_start && create_date_end) {
       return artistServices
-        .getPaged(pageNum, pageSize, sortType, createDateStart, createDateEnd)
+        .getPaged(
+          page_num,
+          page_size,
+          sort_type,
+          create_date_start,
+          create_date_end
+        )
         .then((response) => {
           let res = response.data;
           let artists = [];

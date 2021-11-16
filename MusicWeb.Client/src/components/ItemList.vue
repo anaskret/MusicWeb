@@ -4,9 +4,9 @@
       <v-col lg="8">
         <!-- TODO : wyśrodkować w pionie -->
         <div class="d-flex flex-row" style="align-items: center">
-          <h1 class="display-1 font-weight-bold text-left">Utwory</h1>
+          <h1 class="display-1 font-weight-bold text-left">{{ list_title }}</h1>
           <p class="pl-lg-16">
-            Wyświetl wszystkie utwory
+            {{ list_link_title }}
             <font-awesome-icon
               class="icon"
               icon="chevron-right"
@@ -22,15 +22,16 @@
         <div class="mx-auto">
           <v-list>
             <v-list-item-group v-model="show">
-              <v-list-item v-for="(song, index) in songs" :key="index">
+              <v-list-item v-for="(item, index) in items" :key="index">
                 <v-list-item-content
                   :style="
-                    index != songs.length - 1
+                    index != items.length - 1
                       ? {
                           borderBottom: '1px solid #cbcbf233',
                         }
                       : ''
                   "
+                  @click="redirectToItem(item.id)"
                 >
                   <v-row>
                     <v-col
@@ -45,10 +46,9 @@
                       lg="2"
                       sm="2"
                     >
-                      <!-- :src="require(`@/assets/${song.img}.svg`)" -->
                       <img
                         :src="require('@/assets/BandPhoto.svg')"
-                        :alt="song.name"
+                        :alt="item.name"
                         width="50%"
                       />
                     </v-col>
@@ -57,14 +57,14 @@
                       lg="3"
                       sm="3"
                     >
-                      {{ song.name }}
+                      {{ item.name }}
                     </v-col>
                     <v-col
                       class="d-flex justify-start align-center"
                       lg="3"
                       sm="3"
                     >
-                      <p>{{ song.album }}</p>
+                      <p>{{ item.album }}</p>
                     </v-col>
                     <v-col
                       class="d-flex justify-center align-center"
@@ -78,7 +78,6 @@
                         color="#868263"
                       />
                       5.0
-                      <!-- {{ song.rating }} -->
                     </v-col>
                   </v-row>
                 </v-list-item-content>
@@ -95,14 +94,20 @@
 export default {
   name: "ItemList",
   props: {
-    songs: Array,
-    album: String,
+    items: Array,
+    list_title: String,
+    list_link_title: String,
   },
   data() {
     return {
       model: null,
       show: null,
     };
+  },
+  methods: {
+    redirectToItem(itemId) {
+      this.$router.push({ name: "SongPage", params: { id: itemId } });
+    },
   },
 };
 </script>

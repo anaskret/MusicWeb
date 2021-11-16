@@ -117,7 +117,7 @@ namespace MusicWeb.Api.Controllers.Artists
                 return StatusCode(500, ex.Message);
             }
         }
-
+/*
         /// <summary>
         /// Creates an artist or a band.
         /// </summary>
@@ -198,6 +198,6 @@ namespace MusicWeb.Api.Controllers.Artists
                 _logger.LogError(ex.Message);
                 return StatusCode(500, ex.Message);
             }
-        }
+        }*/
     }
 }

@@ -31,9 +31,7 @@ namespace MusicWeb.Api.Extensions.AutoMapper
         public AutoMapperProfile()
         {
             CreateMap<Artist, ArtistFullInfoDto>()
-                .ForMember(prp => prp.Country, prop => prop.MapFrom(src => src.City.State.Country.Name))
-                .ForMember(prp => prp.State, prop => prop.MapFrom(src => src.City.State.Name))
-                .ForMember(prp => prp.City, prop => prop.MapFrom(src => src.City.Name));
+                .ForMember(prp => prp.Country, prop => prop.MapFrom(src => src.Country.Name));
             CreateMap<ArtistDto, Artist>();
             CreateMap<CreateArtistDto, Artist>();
             CreateMap<Artist, ArtistDto>();
@@ -76,14 +74,8 @@ namespace MusicWeb.Api.Extensions.AutoMapper
 
             CreateMap<CountryDto, Country>();
             CreateMap<CreateCountryDto, Country>();
-            CreateMap<StateDto, State>();
-            CreateMap<CreateStateDto, State>();
-            CreateMap<CityDto, City>();
-            CreateMap<CreateCityDto, City>();
 
             CreateMap<Country, CountryDto>();
-            CreateMap<State, StateDto>();
-            CreateMap<City, CityDto>();
 
             CreateMap<ApplicationUser, UserDto>();
             CreateMap<UserFavoriteArtist, UserFavoriteDto>()

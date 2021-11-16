@@ -66,6 +66,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using MusicWeb.Services.Hubs;
 using System.Threading.Tasks;
 using MusicWeb.Services.Interfaces.Songs;
 
@@ -167,7 +168,7 @@ namespace MusicWeb.Api
                 c.IncludeXmlComments(xmlPath);
             });
 
-            
+            services.AddSignalR();
 
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddSignalR();
@@ -195,8 +196,6 @@ namespace MusicWeb.Api
             services.AddTransient<IGenreRepository, GenreRepository>();
 
             services.AddTransient<ICountryRepository, CountryRepository>();
-            services.AddTransient<IStateRepository, StateRepository>();
-            services.AddTransient<ICityRepository, CityRepository>();
 
             services.AddTransient<ISongRepository, SongRepository>();
             services.AddTransient<ISongGuestArtistRepository, SongGuestArtistRepository>();
@@ -279,6 +278,8 @@ namespace MusicWeb.Api
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHub<FriendsHub>("/friendshub");
+                endpoints.MapHub<UserHub>("/userhub");
             });
         }
     }

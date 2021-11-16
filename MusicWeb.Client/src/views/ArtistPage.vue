@@ -5,14 +5,27 @@
       :show_observe_button="show_observe_button"
       :vote_title="vote_title"
     />
-    <InfoSection :parent="artist" :module_name="module_name" />
+    <InfoSection
+      :parent="artist"
+      :module_name="module_name"
+      :description_title="description_title"
+    />
     <item-carousel
       :items="artist.albums"
-      :componentTitle="component_title"
-      :componentLinkTitle="component_link_title"
+      :component_title="component_title"
+      :component_link_title="component_link_title"
     />
-    <item-list :songs="songs" />
-    <comments-list :comments="comments" :refreshComments="getComments" :artistId="Number(id)" v-on="$listeners" />
+    <item-list
+      :items="songs"
+      :list_title="list_title"
+      :list_link_title="list_link_title"
+    />
+    <comments-list
+      :comments="comments"
+      :refreshComments="getComments"
+      :artistId="Number(id)"
+      v-on="$listeners"
+    />
   </div>
 </template>
 
@@ -24,6 +37,7 @@ import CommentsList from "@/components/CommentsList.vue";
 import InfoSection from "@/components/InfoSection.vue";
 import useArtists from "@/modules/artists";
 import useComments from "@/modules/comments";
+import useSongs from "@/modules/songs";
 
 export default {
   name: "ArtistPage",
@@ -42,9 +56,12 @@ export default {
       comments: [],
       component_title: "Dyskografia",
       component_link_title: "Wyświetl pełną dyskografię",
+      list_title: "Utwory",
+      list_link_title: "Wyświetl wszystkie utwory",
       show_observe_button: true,
       vote_title: "Oceń artystę:",
       module_name: "Artist",
+      description_title: "Biografia",
     };
   },
   created() {
@@ -52,34 +69,11 @@ export default {
     this.getSongs();
     this.getComments();
   },
-  methods: {
-    getSongs() {
-      this.songs = [
-        {
-          img: "weather",
-          name: "Untochable, pt I",
-          album: "Weather Systems",
-          rating: "5.0",
-        },
-        {
-          img: "naturaldisaster",
-          name: "Flying",
-          album: "A Natural Disaster",
-          rating: "5.0",
-        },
-        {
-          img: "judgement",
-          name: "Pitiless",
-          album: "Judgement",
-          rating: "5.0",
-        },
-      ];
-    },
-  },
 
   setup() {
     const { getArtistById } = useArtists();
     const { getCommentById } = useComments();
+    const { getSongsByArtistId } = useSongs();
 
     const getArtist = function () {
       getArtistById(this.id).then((response) => {
@@ -88,13 +82,21 @@ export default {
     };
     const getComments = function () {
       getCommentById(this.id).then((response) => {
-        response.forEach(comment => this.comments.push(comment));
+        this.comments = [];
+        response.forEach((comment) => this.comments.push(comment));
+      });
+    };
+    const getSongs = function () {
+      getSongsByArtistId(this.id).then((response) => {
+        this.songs = [];
+        response.forEach((song) => this.songs.push(song));
       });
     };
 
     return {
       getArtist,
-      getComments
+      getComments,
+      getSongs,
     };
   },
 };

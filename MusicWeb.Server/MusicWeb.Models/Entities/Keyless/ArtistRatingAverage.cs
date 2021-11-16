@@ -17,7 +17,7 @@ namespace MusicWeb.Models.Entities.Keyless
         public ArtistType Type { get; set; }
 
         public int? BandId { get; set; }
-        public int CityId { get; set; }
+        public int CountryId { get; set; }
         public double Popularity { get; set; }
     }
 }

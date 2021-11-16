@@ -131,6 +131,10 @@ namespace MusicWeb.Api.Extensions
         {
             public const string GetUserProfile = Root + "/users/{id}";
             public const string GetAll = Root + "/users";
+            public const string UpdatePassword = Root + "/users/password";
+            public const string UpdateNames = Root + "/users/names";
+            public const string UpdateEmail = Root + "/users/email";
+            public const string UpdateImage = Root + "/users/image";
         }
 
         public static class UserFavoriteArtists
@@ -160,7 +164,7 @@ namespace MusicWeb.Api.Extensions
         public static class UserFriends
         {
             public const string Create = Root + "/userfriends";
-            public const string Update = Root + "/userfriends";
+            public const string AcceptRequest = Root + "/userfriends/acceptrequest";
             public const string Delete = Root + "/userfriends/{id}";
             public const string GetById = Root + "/userfriends/{id}";
             public const string GetAll = Root + "/userfriendsbyuserId/{userId}";

@@ -1,7 +1,10 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.SignalR;
 using MusicWeb.Models.Dtos.Users;
 using MusicWeb.Models.Entities;
 using MusicWeb.Repositories.Interfaces.Users;
+using MusicWeb.Services.Hubs;
+using MusicWeb.Services.Interfaces.Hubs;
 using MusicWeb.Services.Interfaces.Users;
 using System;
 using System.Collections.Generic;
@@ -15,11 +18,22 @@ namespace MusicWeb.Services.Services.Users
     {
         private readonly IUserFriendRepository _userFriendRepository;
         private readonly IMapper _mapper;
+        private readonly IHubContext<FriendsHub, IFriendsHub> _hubContext;
 
-        public UserFriendService(IUserFriendRepository userFriendRepository, IMapper mapper)
+        public UserFriendService(IUserFriendRepository userFriendRepository, 
+            IMapper mapper, 
+            IHubContext<FriendsHub, IFriendsHub> hubContext)
         {
             _userFriendRepository = userFriendRepository;
             _mapper = mapper;
+            _hubContext = hubContext;
+        }
+
+        public async Task CreateNewRequestAsync(UserFriend entity)
+        {
+            await CreateAsync(entity);
+
+            await _hubContext.Clients.Group(entity.FriendId).SendFriendRequest(entity.UserId, entity.FriendId);
         }
 
         public async Task CreateAsync(UserFriend entity)
@@ -52,6 +66,26 @@ namespace MusicWeb.Services.Services.Users
         public async Task<UserFriend> GetByIdAsync(int id)
         {
             return await _userFriendRepository.GetByIdAsync(id);
+        }
+
+        public async Task<UserFriend> GetSingleByUserIdAndFriendIdAsync(string userId, string friendId)
+        {
+            return await _userFriendRepository.GetSingleAsync(prp => string.Equals(prp.UserId, userId) && string.Equals(prp.FriendId, friendId));
+        }
+
+        public async Task AcceptFriendRequestAsync(UserFriend entity)
+        {
+            var sender = await GetSingleByUserIdAndFriendIdAsync(entity.FriendId, entity.UserId);
+            if (sender == null)
+                throw new ArgumentException("UserFriendRequest with this userId and friendId doesn't exist");
+
+            sender.IsAccepted = true;
+            entity.IsAccepted = true;
+
+            await UpdateAsync(sender);
+            await CreateAsync(entity);
+
+            await _hubContext.Clients.Group(entity.FriendId).FriendRequestAccepted(entity.FriendId, entity.UserId);
         }
 
         public async Task UpdateAsync(UserFriend entity)
