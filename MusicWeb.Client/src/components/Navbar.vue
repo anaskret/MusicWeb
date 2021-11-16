@@ -466,6 +466,6 @@ export default {
   background: #1e1e1e;
 }
 .tabs {
-  min-height: 300px;
+  min-height: 365px;
 }
 </style>
