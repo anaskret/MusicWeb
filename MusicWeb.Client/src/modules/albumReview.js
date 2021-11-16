@@ -1,7 +1,7 @@
 import albumReviewServices from "@/services/albumReviewServices";
 import AlbumReview from "@/models/AlbumReview";
 
-export default function useComments() {
+export default function useAlbumReviews() {
   const getAll = () => {
     return albumReviewServices.getAll().then((response) => {
       return response.data;

@@ -14,13 +14,43 @@
             />
           </p>
         </v-card>
-        <v-btn
-          outlined
-          color="grey"
-          height="30px"
-          class="text-uppercase align-self-center"
-          >Napisz recenzję
-        </v-btn>
+
+        <!--  -->
+        <div class="text-center">
+          <v-dialog v-model="dialog" width="500">
+            <template v-slot:activator="{ on, attrs }">
+              <v-btn
+                outlined
+                color="grey"
+                height="30px"
+                class="text-uppercase align-self-center"
+                v-bind="attrs"
+                v-on="on"
+              >
+                Napisz recenzję
+              </v-btn>
+            </template>
+
+            <form id="reviewForm" @submit="addReview" action="/albums">
+              <v-card style="background-color: gray">
+                <v-card-title>Napisz recenzję</v-card-title>
+                <div>
+                  <v-text-field
+                    label="Tytuł"
+                    name="title"
+                    v-model="albumReview.title"
+                  />
+                  <v-textarea label="Treść" name="content" v-name="content" />
+                </div>
+                <v-card-actions>
+                  <v-spacer></v-spacer>
+                  <v-btn color="primary" type="submit" text> I accept </v-btn>
+                </v-card-actions>
+              </v-card>
+            </form>
+          </v-dialog>
+        </div>
+        <!--  -->
       </v-col>
     </v-row>
     <v-row justify="center">
@@ -86,6 +116,8 @@
 </template>
 
 <script>
+import AlbumReview from "@/models/AlbumReview";
+// import albumReviewService from "@/services/albumReviewServices";
 export default {
   name: "ReviewList",
   props: {
@@ -97,6 +129,10 @@ export default {
     return {
       showMore: false,
       reviewTextLength: 305,
+      albumReview: new AlbumReview(),
+      error: {},
+      dialog: false,
+      user_id: localStorage.getItem("user-id"),
     };
   },
 };
