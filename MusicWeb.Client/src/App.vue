@@ -1,22 +1,19 @@
 <template>
   <v-app>
-    <Navbar />
-    <v-snackbar
-        v-model="alertShow"
-        :timeout="timeout"
-      >
-        {{ alertMessage }}
-  
-        <template v-slot:action="{ attrs }">
-          <v-btn
-            :color="alertType"
-            text
-            v-bind="attrs"
-            @click="alertShow = false"
-          >
-            Zamknij
-          </v-btn>
-        </template>
+    <Navbar @show-alert="showAlert" />
+    <v-snackbar v-model="alert_show" :timeout="timeout">
+      {{ alert_message }}
+
+      <template v-slot:action="{ attrs }">
+        <v-btn
+          :color="alert_type"
+          text
+          v-bind="attrs"
+          @click="alert_show = false"
+        >
+          Zamknij
+        </v-btn>
+      </template>
     </v-snackbar>
     <v-main>
       <router-view @show-alert="showAlert" />
@@ -30,18 +27,18 @@ export default {
   name: "App",
   data() {
     return {
-      alertMessage: '',
-      alertShow: false,
+      alert_message: "",
+      alert_show: false,
       timeout: 2500,
-      alertType: ''
+      alert_type: "",
     };
   },
   methods: {
-    showAlert(message, type){
-      this.alertShow = true;
-      this.alertMessage = message;
-      this.alertType = type;
-    }
+    showAlert(message, type) {
+      this.alert_show = true;
+      this.alert_message = message;
+      this.alert_type = type;
+    },
   },
   components: {
     Navbar,

@@ -3,17 +3,24 @@ export default {
   getById(id) {
     return ApiService.authRequest(`/artistdata/${id}`, ApiService.get);
   },
-  getPaged(pageNum, pageSize, sortType, createDateStart, createDateEnd, searchString) {
-    if(searchString == '' || searchString == null){
-        return ApiService.authRequest(
-            `/artists/${pageNum}/${pageSize}/${sortType}/${createDateStart}/${createDateEnd}`,
-            ApiService.get
-            );
+  getPaged(
+    page_num,
+    page_size,
+    sort_type,
+    create_date_start,
+    create_date_end,
+    search_string
+  ) {
+    if (search_string == "" || search_string == null) {
+      return ApiService.authRequest(
+        `/artists/${page_num}/${page_size}/${sort_type}/${create_date_start}/${create_date_end}`,
+        ApiService.get
+      );
     } else {
-        return ApiService.authRequest(
-            `/artists/${pageNum}/${pageSize}/${sortType}/${createDateStart}/${createDateEnd}/${searchString}`,
-            ApiService.get
-            );
+      return ApiService.authRequest(
+        `/artists/${page_num}/${page_size}/${sort_type}/${create_date_start}/${create_date_end}/${search_string}`,
+        ApiService.get
+      );
     }
   },
 };

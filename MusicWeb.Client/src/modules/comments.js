@@ -17,12 +17,12 @@ export default function useComments() {
     }
   };
   const postNewComment = function (data) {
-    if(data){
+    if (data) {
       return commentServices.postNewComment(data);
     }
-  }
+  };
   return {
     getCommentById,
-    postNewComment
+    postNewComment,
   };
 }

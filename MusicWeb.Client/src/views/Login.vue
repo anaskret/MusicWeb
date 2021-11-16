@@ -48,7 +48,7 @@
               type="submit"
               class="md-4"
               :disabled="this.isDisabled"
-              :loading="isLogging"
+              :loading="is_logging"
               width="40%"
             >
               Zaloguj się
@@ -72,11 +72,10 @@ export default {
   data() {
     return {
       account: new Account(),
-      isLogging: false,
+      is_logging: false,
       message: "",
-      errorThrowed: false,
       error: {},
-      sessionExpired: "Sesja wygasła. Zaloguj się ponownie."
+      session_expired: "Sesja wygasła. Zaloguj się ponownie.",
     };
   },
   computed: {
@@ -97,8 +96,8 @@ export default {
     if (this.loggedIn) {
       this.redirect();
     }
-    if(this.$store.state.tokenExpired){
-      this.message = this.sessionExpired;
+    if (this.$store.state.tokenExpired) {
+      this.message = this.session_expired;
       this.$store.state.tokenExpired = false;
     }
   },
@@ -163,7 +162,7 @@ export default {
       if (this.$v.$pendding || this.$v.$error) {
         return;
       }
-      this.isLogging = true;
+      this.is_logging = true;
       this.$store.dispatch("auth/login", this.account).then(
         () => {
           setTimeout(this.redirect, 250);
@@ -173,7 +172,7 @@ export default {
             error.response.status == 500 &&
             error.response.data == "Wrong username/password"
           ) {
-            this.isLogging = false;
+            this.is_logging = false;
             this.message = "Niepoprawny login lub hasło!";
           }
         }

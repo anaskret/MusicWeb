@@ -66,7 +66,18 @@ namespace MusicWeb.Api.Extensions
             public const string Update = Root + "/songs";
             public const string GetById = Root + "/songs/{id}";
             public const string Delete = Root + "/songs/{id}";
-            public const string GetFullData = Root + " /songsdata/{id}";
+            public const string GetFullData = Root + "/songsdata/{id}";
+        }
+
+        public static class SongReviews
+        {
+            public const string Create = Root + "/songreviews";
+            public const string GetAll = Root + "/songreviews";
+            public const string Update = Root + "/songreviews";
+            public const string GetById = Root + "/songreviews/{id}";
+            public const string Delete = Root + "/songreviews/{id}";
+            public const string GetFullData = Root + "/songreviewsdata/{id}";
+
         }
 
         public static class Genres
@@ -120,6 +131,10 @@ namespace MusicWeb.Api.Extensions
         {
             public const string GetUserProfile = Root + "/users/{id}";
             public const string GetAll = Root + "/users";
+            public const string UpdatePassword = Root + "/users/password";
+            public const string UpdateNames = Root + "/users/names";
+            public const string UpdateEmail = Root + "/users/email";
+            public const string UpdateImage = Root + "/users/image";
         }
 
         public static class UserFavoriteArtists
@@ -149,7 +164,7 @@ namespace MusicWeb.Api.Extensions
         public static class UserFriends
         {
             public const string Create = Root + "/userfriends";
-            public const string Update = Root + "/userfriends";
+            public const string AcceptRequest = Root + "/userfriends/acceptrequest";
             public const string Delete = Root + "/userfriends/{id}";
             public const string GetById = Root + "/userfriends/{id}";
             public const string GetAll = Root + "/userfriendsbyuserId/{userId}";

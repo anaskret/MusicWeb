@@ -11,17 +11,19 @@
           </p>
           <p>
             Pochodzenie:
-            <span
-              >{{ parent.city }} {{ parent.state }},
+            <span>
               {{ parent.country }}
             </span>
           </p>
           <p>
             Gatunek muzyczny:
-            <span>rock progresywny, art rock, doom metal</span>
+            <span v-for="(genre, index) in parent.genres" :key="index">
+              {{ genre
+              }}<span v-if="index != parent.genres.length - 1">,</span></span
+            >
           </p>
-          <p v-if="parent.isBand && !parent.isIndividual">
-            Członkowie:parent
+          <p v-if="parent.bandId == null">
+            Członkowie:
             <span v-for="(member, index) in parent.members" :key="index">
               {{ member
               }}<span v-if="index != parent.members.length - 1">,</span></span
@@ -46,9 +48,27 @@
             <span>{{ parent.albumGenre.name }}</span>
           </p>
         </div>
+        <div v-else-if="module_name == 'Song'">
+          <p>
+            Album
+            <span>{{ parent.album.name }} - {{ parent.composer.name }} </span>
+          </p>
+          <p>
+            Data wydania:
+            <span>{{ moment(parent.releaseDate).format("L") }} </span>
+          </p>
+          <p>
+            Czas trwania:
+            <span>{{ parent.duration }} min</span>
+          </p>
+          <p>
+            Pozycja na albumie:
+            <span>{{ parent.positionOnAlbum }}</span>
+          </p>
+        </div>
       </v-col>
       <v-col lg="5">
-        <h1 class="pb-lg-5">Biografia</h1>
+        <h1 class="pb-lg-5">{{ description_title }}</h1>
         <p class="text-justify">
           {{ parent.description }}
         </p>
@@ -67,6 +87,10 @@ export default {
     },
     module_name: {
       type: String,
+    },
+    description_title: {
+      type: String,
+      default: "Opis",
     },
   },
   data() {

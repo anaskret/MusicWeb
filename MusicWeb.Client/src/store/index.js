@@ -9,6 +9,6 @@ export default new Vuex.Store({
   modules: { auth },
   state: {
     tokenExpired: false,
-    searchingValue: ''
+    searchingValue: "",
   },
 });

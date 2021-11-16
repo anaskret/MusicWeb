@@ -7,6 +7,7 @@ using MusicWeb.Repositories.Interfaces.Base;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -167,6 +168,13 @@ namespace MusicWeb.Repositories.Repositories.Base
         {
             var keyValues = new object[] { id };
             return await _dbContext.Set<TEntity>().FindAsync(keyValues);
+        }
+
+        public async Task<TEntity> GetSingleAsync(Expression<Func<TEntity, bool>> predicate)
+        {
+            IQueryable<TEntity> query = _dbContext.Set<TEntity>();
+
+            return await query.Where(predicate).FirstOrDefaultAsync();
         }
 
         public async Task<TEntity> GetByIdNoTrackingAsync(int id)

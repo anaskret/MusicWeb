@@ -5,10 +5,10 @@
         <!-- TODO : wyśrodkować w pionie -->
         <div class="d-flex flex-row" style="align-items: center">
           <h1 class="display-1 font-weight-bold text-left">
-            {{ componentTitle }}
+            {{ component_title }}
           </h1>
           <p class="pl-lg-16">
-            {{ componentLinkTitle }}
+            {{ component_link_title }}
             <font-awesome-icon
               class="icon"
               icon="chevron-right"
@@ -20,9 +20,9 @@
       </v-col>
     </v-row>
     <v-row justify="center">
-      <v-col lg="9">
+      <v-col lg="12">
         <v-sheet class="mx-auto">
-          <v-slide-group class="px-4" show-arrows center>
+          <v-slide-group class="px-4" show-arrows="true" center>
             <v-slide-item v-for="(item, index) in items" :key="index">
               <v-hover v-slot="{ hover }">
                 <v-card>
@@ -33,6 +33,7 @@
                     width="200"
                     :elevation="hover ? 12 : 2"
                     :class="{ 'on-hover': hover }"
+                    @click="redirectToItem(item.id)"
                   >
                     <div class="read-more-icon">
                       <v-btn
@@ -69,14 +70,19 @@ export default {
   name: "ItemCarousel",
   props: {
     items: Array,
-    componentTitle: String,
-    componentLinkTitle: String,
+    component_title: String,
+    component_link_title: String,
   },
   data() {
     return {
       show: null,
       transparent: "rgba(255, 255, 255, 0)",
     };
+  },
+  methods: {
+    redirectToItem(itemId) {
+      this.$router.push({ name: "AlbumPage", params: { id: itemId } });
+    },
   },
 };
 </script>

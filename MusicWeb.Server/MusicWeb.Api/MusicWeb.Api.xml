@@ -63,30 +63,6 @@
                 3 - Popularity Descending &#xA;
             </remarks>
         </member>
-        <member name="M:MusicWeb.Api.Controllers.Artists.ArtistsController.CreateArtist(MusicWeb.Models.Dtos.Artists.Create.CreateArtistDto)">
-            <summary>
-            Creates an artist or a band.
-            </summary>
-            <remarks>
-            To add a band member set Type to Band Member and BandId = SomeBandId &#xA;
-            To add an artist image pass image bytes in ImageBytes, otherwise set the property to an empty string &#xA;
-            </remarks>
-        </member>
-        <member name="M:MusicWeb.Api.Controllers.Artists.ArtistsController.UpdateArtist(MusicWeb.Models.Dtos.Artists.ArtistDto)">
-            <summary>
-            Updates an artist or a band
-            </summary>
-        </member>
-        <member name="M:MusicWeb.Api.Controllers.Artists.ArtistsController.UpdateArtistImage(MusicWeb.Models.Dtos.Artists.ArtistFileUpdateDto)">
-            <summary>
-            Updates artist image
-            </summary>
-        </member>
-        <member name="M:MusicWeb.Api.Controllers.Artists.ArtistsController.DeleteArtist(System.Int32)">
-            <summary>
-            Deletes an artist or a band
-            </summary>
-        </member>
         <member name="M:MusicWeb.Api.Controllers.Genres.GenreController.GetAll">
             <summary>
             Gets all music genres
@@ -122,11 +98,6 @@
             Gets a single country
             </summary>
         </member>
-        <member name="M:MusicWeb.Api.Controllers.Origins.OriginsController.GetCountryStates(System.Int32)">
-            <summary>
-            Gets all states in a country
-            </summary>
-        </member>
         <member name="M:MusicWeb.Api.Controllers.Origins.OriginsController.CreateCountry(MusicWeb.Models.Dtos.Origins.CountryDto)">
             <summary>
             Creates a country
@@ -140,61 +111,6 @@
         <member name="M:MusicWeb.Api.Controllers.Origins.OriginsController.DeleteCountry(System.Int32)">
             <summary>
             Deletes a country with all its states and citites
-            </summary>
-        </member>
-        <member name="M:MusicWeb.Api.Controllers.Origins.OriginsController.GetAllStates">
-            <summary>
-            Gets all states
-            </summary>
-        </member>
-        <member name="M:MusicWeb.Api.Controllers.Origins.OriginsController.GetStateById(System.Int32)">
-            <summary>
-            Gets a single state
-            </summary>
-        </member>
-        <member name="M:MusicWeb.Api.Controllers.Origins.OriginsController.GetStateCities(System.Int32)">
-            <summary>
-            Gets all cities in a state
-            </summary>
-        </member>
-        <member name="M:MusicWeb.Api.Controllers.Origins.OriginsController.CreateState(MusicWeb.Models.Dtos.Origins.StateDto)">
-            <summary>
-            Create a state
-            </summary>
-        </member>
-        <member name="M:MusicWeb.Api.Controllers.Origins.OriginsController.UpdateState(MusicWeb.Models.Dtos.Origins.StateDto)">
-            <summary>
-            Updates a state
-            </summary>
-        </member>
-        <member name="M:MusicWeb.Api.Controllers.Origins.OriginsController.DeleteState(System.Int32)">
-            <summary>
-            Deletes a state with all its cities
-            </summary>
-        </member>
-        <member name="M:MusicWeb.Api.Controllers.Origins.OriginsController.GetAllCities">
-            <summary>
-            Gets all cities
-            </summary>
-        </member>
-        <member name="M:MusicWeb.Api.Controllers.Origins.OriginsController.GetCityById(System.Int32)">
-            <summary>
-            Gets a single city
-            </summary>
-        </member>
-        <member name="M:MusicWeb.Api.Controllers.Origins.OriginsController.CreateCity(MusicWeb.Models.Dtos.Origins.CityDto)">
-            <summary>
-            Creates a city
-            </summary>
-        </member>
-        <member name="M:MusicWeb.Api.Controllers.Origins.OriginsController.UpdateCity(MusicWeb.Models.Dtos.Origins.CityDto)">
-            <summary>
-            Updates a city
-            </summary>
-        </member>
-        <member name="M:MusicWeb.Api.Controllers.Origins.OriginsController.DeleteCity(System.Int32)">
-            <summary>
-            Deletes a city
             </summary>
         </member>
         <member name="M:MusicWeb.Api.Controllers.Posts.PostController.GetUserPosts(System.String)">
@@ -246,6 +162,35 @@
             <summary>
             Updates a rating for an artist
             </summary>
+        </member>
+        <member name="M:MusicWeb.Api.Controllers.Users.UserController.UpdatePasswordAsync(MusicWeb.Models.Dtos.Users.UpdatePasswordDto)">
+            <summary>
+            Updates user password
+            </summary>
+        </member>
+        <member name="M:MusicWeb.Api.Controllers.Users.UserController.UpdateAsync(MusicWeb.Models.Dtos.Users.UpdateNameDto)">
+            <summary>
+            Updates user first and last names
+            </summary>
+        </member>
+        <member name="M:MusicWeb.Api.Controllers.Users.UserController.UpdateAsync(MusicWeb.Models.Dtos.Users.UpdateEmailDto)">
+            <summary>
+            Updates user email
+            </summary>
+        </member>
+        <member name="M:MusicWeb.Api.Controllers.Users.UserController.UpdateArtistImage(MusicWeb.Models.Dtos.Users.UserImageDto)">
+            <summary>
+            Updates user image
+            </summary>
+        </member>
+        <member name="M:MusicWeb.Api.Controllers.Users.UserFriendController.AcceptRequest(MusicWeb.Models.Dtos.Users.UserFriendDto)">
+            <summary>
+            Accepts Friend Request.
+            </summary>
+            <remarks>
+            UserId = User accepting the request &#xA;
+            FriendId = User sending the request
+            </remarks>
         </member>
     </members>
 </doc>

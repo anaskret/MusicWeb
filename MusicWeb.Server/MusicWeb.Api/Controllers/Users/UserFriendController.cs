@@ -58,13 +58,20 @@ namespace MusicWeb.Api.Controllers.Users
             }
         }
 
-        [HttpPut(ApiRoutes.UserFriends.Update)]
-        public async Task<IActionResult> Update([FromBody] UserFriendDto model)
+        /// <summary>
+        /// Accepts Friend Request.
+        /// </summary>
+        /// <remarks>
+        /// UserId = User accepting the request &#xA;
+        /// FriendId = User sending the request
+        /// </remarks>
+        [HttpPost(ApiRoutes.UserFriends.AcceptRequest)]
+        public async Task<IActionResult> AcceptRequest([FromBody] UserFriendDto model)
         {
             try
             {
                 var entity = _mapper.Map<UserFriend>(model);
-                await _userFriendService.UpdateAsync(entity);
+                await _userFriendService.AcceptFriendRequestAsync(entity);
                 return Ok();
             }
             catch (Exception ex)

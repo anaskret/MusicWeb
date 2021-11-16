@@ -82,32 +82,6 @@
                                         }
                                     </InputSelect>
                                 </div>
-                                @if (Input.CountryId > 0)
-                                {
-                                    <div class="mb-4 row form-group">
-                                        <label class="col-md-2 col-form-label text-muted">State</label>
-                                        <InputSelect @bind-Value="Input.StateId" class="form-select">
-                                            <option value="0">Select</option>
-                                            @foreach (var state in States.Where(prp => prp.CountryId == Input.CountryId).ToList())
-                                                {
-                                                <option value="@state.Id">@state.Name</option>
-                                                }
-                                        </InputSelect>
-                                    </div>
-                                }
-                                @if (Input.StateId > 0)
-                                {
-                                    <div class="mb-4 row form-group">
-                                        <label class="col-md-2 col-form-label text-muted">City</label>
-                                        <InputSelect @bind-Value="Input.CityId" class="form-select">
-                                            <option value="0">Select</option>
-                                            @foreach (var city in Cities.Where(prp => prp.StateId == Input.StateId).ToList())
-                                                {
-                                                <option value="@city.Id">@city.Name</option>
-                                                }
-                                        </InputSelect>
-                                    </div>
-                                }
                                 @if (Input.Type == ArtistType.BandMember)
                                 {
                                     <div class="mb-3 row form-group">
@@ -139,8 +113,6 @@
     public StatusMessageComponent StatusMessage { get; set; }
 
     public List<CountryModel> Countries { get; set; }
-    public List<StateModel> States { get; set; }
-    public List<CityModel> Cities { get; set; }
     public List<BandModel> Bands { get; set; }
 
     protected override async Task OnInitializedAsync()
@@ -148,11 +120,9 @@
         await base.OnInitializedAsync();
         Input = new EditArtistModel();
         Countries = new List<CountryModel>();
-        States = new List<StateModel>();
-        Cities = new List<CityModel>();
         Bands = new List<BandModel>();
 
-        await _artistModelFactory.PrepareCreator(Countries, States, Cities, Bands);
+        await _artistModelFactory.PrepareCreator(Countries, Bands);
         Input = await _artistModelFactory.PrepareEdit(Id);
     }
 

@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -25,6 +26,7 @@ namespace MusicWeb.Repositories.Interfaces.Base
         Task DeleteRangeAsync(List<TEntity> entities);
 
         Task<TEntity> GetByIdAsync(int id);
+        Task<TEntity> GetSingleAsync(Expression<Func<TEntity, bool>> predicate);
         Task<TEntity> GetByIdNoTrackingAsync(int id);
     }
 }

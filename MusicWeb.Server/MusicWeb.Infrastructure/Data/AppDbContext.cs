@@ -32,8 +32,6 @@ namespace MusicWeb.DataAccess.Data
         public DbSet<Genre> Genre { get; set; }
 
         public DbSet<Country> Country{ get; set; }
-        public DbSet<State> State{ get; set; }
-        public DbSet<City> City{ get; set; }
 
         public DbSet<Song> Song{ get; set; }
         public DbSet<SongGuestArtist> SongGuestArtist{ get; set; }
@@ -92,7 +90,7 @@ namespace MusicWeb.DataAccess.Data
 
                 entity.Property(e => e.Title)
                     .IsRequired()
-                    .HasDefaultValue(1);
+                    .HasDefaultValue("Review");
 
                 entity.Property(e => e.PostDate)
                     .IsRequired();
@@ -138,9 +136,9 @@ namespace MusicWeb.DataAccess.Data
                     .WithOne(a => a.Member)
                     .HasForeignKey<Artist>(e => e.BandId);
 
-                entity.HasOne(e => e.City)
+                entity.HasOne(e => e.Country)
                     .WithMany(a => a.Artists)
-                    .HasForeignKey(e => e.CityId)
+                    .HasForeignKey(e => e.CountryId)
                     .OnDelete(DeleteBehavior.Restrict)
                     .IsRequired();
 
@@ -272,9 +270,9 @@ namespace MusicWeb.DataAccess.Data
                 .IsRequired()
                 .HasMaxLength(500);
 
-                entity.Property(e => e.Rating)
+                entity.Property(e => e.Title)
                     .IsRequired()
-                    .HasDefaultValue(1);
+                    .HasDefaultValue("Review");
 
                 entity.Property(e => e.PostDate)
                     .IsRequired();

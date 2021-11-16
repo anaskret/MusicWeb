@@ -11,6 +11,7 @@ export default class Artist {
   city = "";
   albums = [];
   members = [];
+  genres = [];
 
   constructor($data) {
     if ($data) {
@@ -28,6 +29,7 @@ export default class Artist {
       this.members = $data.members
         ? $data.members.map((member) => member.name)
         : [];
+      this.genres = $data.genres ? $data.genres.map((genre) => genre.name) : [];
     }
   }
 }

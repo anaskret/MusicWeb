@@ -12,18 +12,18 @@ const ApiService = {
     console.log(axios.defaults);
   },
 
-  config(configs, queryParams) {
+  config(configs, query_params) {
     const config = {
       ...configs,
       params: {
-        ...queryParams,
+        ...query_params,
       },
     };
     return config;
   },
 
-  get(resource, queryParams, configs) {
-    return axios.get(resource, ApiService.config(configs, queryParams));
+  get(resource, query_params, configs) {
+    return axios.get(resource, ApiService.config(configs, query_params));
   },
   post(resource, data, configs) {
     return axios.post(resource, data, ApiService.config(configs));
@@ -35,9 +35,9 @@ const ApiService = {
     return axios.delete(resource, ApiService.config());
   },
 
-  authRequest(route, method, paramOrData, configs) {
+  authRequest(route, method, param_or_data, configs) {
     return new Promise((resolve, reject) => {
-      method(route, paramOrData, configs)
+      method(route, param_or_data, configs)
         .then((response) => {
           resolve(response);
         })

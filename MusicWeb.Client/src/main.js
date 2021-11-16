@@ -18,6 +18,9 @@ import {
   faCaretDown,
   faChevronCircleRight,
   faPen,
+  faLock,
+  faEnvelope,
+  faImage,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import axios from "@/services/index.js";
@@ -36,6 +39,9 @@ const faIcons = [
   faCaretDown,
   faChevronCircleRight,
   faPen,
+  faLock,
+  faEnvelope,
+  faImage,
 ];
 faIcons.forEach((icon) => library.add(icon));
 
@@ -54,7 +60,7 @@ Vue.prototype.$http = axios;
 Vue.use(Vuelidate);
 Vue.use(VueCompositionApi);
 
-moment.locale('pl');
+moment.locale("pl");
 Vue.prototype.moment = moment;
 
 /** Vue Filters Start */

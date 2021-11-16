@@ -24,8 +24,6 @@ namespace MusicWeb.Admin.Extenstions.AutoMapper
             CreateMap<EditUserModel, ApplicationUser>();
 
             CreateMap<Country, CountryModel>();
-            CreateMap<State, StateModel>();
-            CreateMap<City, CityModel>();
 
             CreateMap<Artist, BandModel>();
             CreateMap<Artist, ArtistModel>();

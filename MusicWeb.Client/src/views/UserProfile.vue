@@ -11,78 +11,54 @@
             <span class="text-uppercase display-2">
               {{ account.firstname }} {{ account.lastname }}
             </span>
-            <v-dialog
-                v-model="editDialog"
-                persistent
-                max-width="600px"
-            >
-                <template v-slot:activator="{ on, attrs }">
-                    <v-btn text v-bind="attrs" v-on="on">
-                        <font-awesome-icon
-                            class="icon"
-                            icon="pen"
-                            color="#white"
-                        />
-                    </v-btn>
-                </template>
-                <v-card class="editDialog">
+            <v-dialog v-model="edit_dialog" persistent max-width="600px">
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn text v-bind="attrs" v-on="on">
+                  <font-awesome-icon class="icon" icon="pen" color="#white" />
+                </v-btn>
+              </template>
+              <v-card class="editDialog">
                 <v-card-title>
-                    <span class="text-h5">Wprowadź nowe dane</span>
+                  <span class="text-h5">Wprowadź nowe dane</span>
                 </v-card-title>
                 <v-card-text>
-                    <v-container>
+                  <v-container>
                     <v-row>
-                        <v-col
-                        cols="12"
-                        sm="6"
-                        md="6"
-                        >
+                      <v-col cols="12" sm="6" md="6">
                         <v-text-field
-                            class="p-4"
-                            label="Imię"
-                            prepend-icon="mdi-account"
-                            v-model.trim="$v.account.firstname.$model"
-                            :error-messages="firstnameErrors"
-                            :counter="12"
-                            required
-                            @input="$v.account.firstname.$touch()"
-                            @blur="$v.account.firstname.$touch()"
+                          class="p-4"
+                          label="Imię"
+                          prepend-icon="mdi-account"
+                          v-model.trim="$v.account.firstname.$model"
+                          :error-messages="firstnameErrors"
+                          :counter="12"
+                          required
+                          @input="$v.account.firstname.$touch()"
+                          @blur="$v.account.firstname.$touch()"
                         ></v-text-field>
-                        </v-col>
-                        <v-col
-                        cols="12"
-                        sm="6"
-                        md="6"
-                        >
+                      </v-col>
+                      <v-col cols="12" sm="6" md="6">
                         <v-text-field
-                            class="p-4"
-                            label="Nazwisko"
-                            prepend-icon="mdi-account"
-                            v-model.trim="$v.account.lastname.$model"
-                            :error-messages="lastnameErrors"
-                            :counter="20"
-                            required
-                            @input="$v.account.lastname.$touch()"
-                            @blur="$v.account.lastname.$touch()"
+                          class="p-4"
+                          label="Nazwisko"
+                          prepend-icon="mdi-account"
+                          v-model.trim="$v.account.lastname.$model"
+                          :error-messages="lastnameErrors"
+                          :counter="20"
+                          required
+                          @input="$v.account.lastname.$touch()"
+                          @blur="$v.account.lastname.$touch()"
                         ></v-text-field>
-                        </v-col>
+                      </v-col>
                     </v-row>
-                    </v-container>
+                  </v-container>
                 </v-card-text>
                 <v-card-actions>
-                    <v-spacer></v-spacer>
-                    <v-btn
-                    @click="editDialog = false"
-                    >
-                    Anuluj
-                    </v-btn>
-                    <v-btn
-                    @click="editDialog = false"
-                    >
-                    Zapisz
-                    </v-btn>
+                  <v-spacer></v-spacer>
+                  <v-btn @click="edit_dialog = false"> Anuluj </v-btn>
+                  <v-btn @click="updateNamesDialog"> Zapisz </v-btn>
                 </v-card-actions>
-                </v-card>
+              </v-card>
             </v-dialog>
           </h1>
         </div>
@@ -93,15 +69,15 @@
       <v-col md="10">
         <item-carousel
           :items="artists"
-          :componentTitle="artistsTitle"
-          :componentLinkTitle="artistsLinkTitle"
+          :component_title="artists_title"
+          :component_link_title="artists_link_title"
         />
       </v-col>
       <v-col md="10">
         <item-carousel
           :items="genres"
-          :componentTitle="genresTitle"
-          :componentLinkTitle="genresLinkTitle"
+          :component_title="genres_title"
+          :component_link_title="genres_link_title"
         />
       </v-col>
     </v-row>
@@ -125,12 +101,12 @@ export default {
       reviews: [],
       artists: [],
       genres: [],
-      artistsTitle: "Ulubieni artyści",
-      genresTitle: "Ulubione gatunki",
-      artistsLinkTitle: "Zobacz wszystko",
-      genresLinkTitle: "Zobacz wszystko",
+      artists_title: "Ulubieni artyści",
+      genres_title: "Ulubione gatunki",
+      artists_link_title: "Zobacz wszystko",
+      genres_link_title: "Zobacz wszystko",
       account: new Account(),
-      editDialog: false
+      edit_dialog: false,
     };
   },
   created() {
@@ -172,21 +148,24 @@ export default {
           album: "Weather Systems",
           band: "Anathema",
           title: "Dzieło sztuki!",
-          content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec fringilla magna fringilla nisi tristique, vel tempus risus malesuada. Fusce venenatis, orci eget blandit mollis, diam nisl interdum nulla, a convallis purus augue ut odio. Cras urna sapien, faucibus tincidunt placerat non, laoreet nec nunc.",
+          content:
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec fringilla magna fringilla nisi tristique, vel tempus risus malesuada. Fusce venenatis, orci eget blandit mollis, diam nisl interdum nulla, a convallis purus augue ut odio. Cras urna sapien, faucibus tincidunt placerat non, laoreet nec nunc.",
         },
         {
           img: "werehere",
           album: "We're Here Because We're Here",
           band: "Anathema",
           title: "Dzieło sztuki!",
-          content: "2Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec fringilla magna fringilla nisi tristique, vel tempus risus malesuada. Fusce venenatis, orci eget blandit mollis, diam nisl interdum nulla, a convallis purus augue ut odio. Cras urna sapien, faucibus tincidunt placerat non, laoreet nec nunc. Praesent felis nibh, laoreet et sapien in, tincidunt eleifend tellus. Morbi ante urna, mollis quis eros sed, pulvinar venenatis lacus. Quisque interdum urna molestie porta auctor. Aliquam erat volutpat. Integer in aliquam sem. Quisque varius purus eu eros elementum varius. ",
+          content:
+            "2Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec fringilla magna fringilla nisi tristique, vel tempus risus malesuada. Fusce venenatis, orci eget blandit mollis, diam nisl interdum nulla, a convallis purus augue ut odio. Cras urna sapien, faucibus tincidunt placerat non, laoreet nec nunc. Praesent felis nibh, laoreet et sapien in, tincidunt eleifend tellus. Morbi ante urna, mollis quis eros sed, pulvinar venenatis lacus. Quisque interdum urna molestie porta auctor. Aliquam erat volutpat. Integer in aliquam sem. Quisque varius purus eu eros elementum varius. ",
         },
         {
           img: "naturaldisaster",
           album: "A Natural Disaster",
           band: "Anathema",
           title: "Dzieło sztuki!",
-          content: "3Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec fringilla magna fringilla nisi tristique, vel tempus risus malesuada. Fusce venenatis, orci eget blandit mollis, diam nisl interdum nulla, a convallis purus augue ut odio. Cras urna sapien, faucibus tincidunt placerat non, laoreet nec nunc. Praesent felis nibh, laoreet et sapien in, tincidunt eleifend tellus. Morbi ante urna, mollis quis eros sed, pulvinar venenatis lacus. Quisque interdum urna molestie porta auctor. Aliquam erat volutpat. Integer in aliquam sem. Quisque varius purus eu eros elementum varius. ",
+          content:
+            "3Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec fringilla magna fringilla nisi tristique, vel tempus risus malesuada. Fusce venenatis, orci eget blandit mollis, diam nisl interdum nulla, a convallis purus augue ut odio. Cras urna sapien, faucibus tincidunt placerat non, laoreet nec nunc. Praesent felis nibh, laoreet et sapien in, tincidunt eleifend tellus. Morbi ante urna, mollis quis eros sed, pulvinar venenatis lacus. Quisque interdum urna molestie porta auctor. Aliquam erat volutpat. Integer in aliquam sem. Quisque varius purus eu eros elementum varius. ",
         },
       ];
     },
@@ -237,9 +216,13 @@ export default {
       }
       return errors;
     },
+    updateNamesDialog() {
+      this.edit_dialog = false;
+      this.updateNames();
+    },
   },
   setup() {
-    const { getAccountById } = useAccounts();
+    const { getAccountById, updateAccountNames } = useAccounts();
 
     const getAccount = function () {
       getAccountById(localStorage.getItem("user-id")).then((response) => {
@@ -247,8 +230,37 @@ export default {
       });
     };
 
+    const updateNames = function () {
+      this.account.id = localStorage.getItem("user-id");
+      updateAccountNames(this.account).then(
+        (response) => {
+          if (response.status == 200) {
+            this.$emit(
+              "show-alert",
+              "Dane zostały zaktualizowane pomyślnie.",
+              "success"
+            );
+          } else {
+            this.$emit(
+              "show-alert",
+              `Nie udało się zaktualizować. Błąd ${response.status}`,
+              "error"
+            );
+          }
+        },
+        (error) => {
+          this.$emit(
+            "show-alert",
+            `Nie udało się zaktualizować. ${error.response.status} ${error.response.data}`,
+            "error"
+          );
+        }
+      );
+    };
+
     return {
       getAccount,
+      updateNames,
     };
   },
 };
@@ -273,7 +285,7 @@ p > span {
 .favorites {
   padding: 7%;
 }
-.editDialog{
-    background: #1E1E1E;
+.editDialog {
+  background: #1e1e1e;
 }
 </style>
