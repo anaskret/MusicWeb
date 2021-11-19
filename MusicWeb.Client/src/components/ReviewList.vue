@@ -1,8 +1,9 @@
 <template>
   <v-container fluid>
+    {{ reviews }}
     <v-row justify="center" class="pb-lg-2">
       <v-col lg="8" class="d-flex flex-row justify-space-between">
-        <v-card class="d-flex flex-row" style="align-items: center">
+        <div class="d-flex flex-row" style="align-items: center">
           <h1 class="display-1 font-weight-bold text-left">Recenzje</h1>
           <p class="pl-lg-16">
             Wyświetl wszystkie recenzje
@@ -13,7 +14,7 @@
               color="gray"
             />
           </p>
-        </v-card>
+        </div>
 
         <!--  -->
         <div class="text-center">
@@ -32,7 +33,7 @@
             </template>
 
             <form id="reviewForm" @submit.prevent="addReviewDialog">
-              <v-card style="background-color: gray">
+              <div style="background-color: gray">
                 <v-card-title>Napisz recenzję</v-card-title>
                 <div>
                   <v-text-field label="Tytuł" v-model="albumReview.title" />
@@ -42,7 +43,7 @@
                   <v-spacer></v-spacer>
                   <v-btn color="primary" type="submit" text> I accept </v-btn>
                 </v-card-actions>
-              </v-card>
+              </div>
             </form>
           </v-dialog>
         </div>
@@ -57,7 +58,7 @@
           class="underline pb-5"
         >
           <v-col lg="2">
-            <v-card class="review-left">
+            <div class="review-left">
               <!-- TODO Delete class, items center by class   -->
               <!-- <v-img
                 max-width="75%"
@@ -68,7 +69,7 @@
               <p>{{ moment(review.postDate).format("L") }}</p>
 
               <!-- <v-card-title class="text-center"> UserName </v-card-title> -->
-            </v-card>
+            </div>
           </v-col>
           <v-col md="10">
             <v-card>
@@ -114,6 +115,7 @@
 <script>
 import AlbumReview from "@/models/AlbumReview";
 import useAlbumReviews from "@/modules/albumReviews";
+import moment from "moment";
 export default {
   name: "ReviewList",
   props: {
@@ -141,9 +143,10 @@ export default {
     const { addReview } = useAlbumReviews();
 
     const addNewReview = function () {
-      this.albumReview.userId = this.user_id;
+      // this.albumReview.userId = this.user_id;
+      this.albumReview.userId = this.$store.state.auth.userId;
       this.albumReview.albumId = this.$route.params.id;
-      this.albumReview.postDate = "2021-11-16T18:56:27.444";
+      this.albumReview.postDate = moment.utc().format();
       delete this.albumReview.album;
       delete this.albumReview.user;
       addReview(this.albumReview).then(
