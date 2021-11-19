@@ -1,5 +1,4 @@
 import albumReviewServices from "@/services/albumReviewServices";
-import AlbumReview from "@/models/AlbumReview";
 
 export default function useAlbumReviews() {
   const getAll = () => {

@@ -31,16 +31,12 @@
               </v-btn>
             </template>
 
-            <form id="reviewForm" @submit="addReview" action="/albums">
+            <form id="reviewForm" @submit.prevent="addReviewDialog">
               <v-card style="background-color: gray">
                 <v-card-title>Napisz recenzję</v-card-title>
                 <div>
-                  <v-text-field
-                    label="Tytuł"
-                    name="title"
-                    v-model="albumReview.title"
-                  />
-                  <v-textarea label="Treść" name="content" v-name="content" />
+                  <v-text-field label="Tytuł" v-model="albumReview.title" />
+                  <v-textarea label="Treść" v-model="albumReview.content" />
                 </div>
                 <v-card-actions>
                   <v-spacer></v-spacer>
@@ -117,7 +113,7 @@
 
 <script>
 import AlbumReview from "@/models/AlbumReview";
-// import albumReviewService from "@/services/albumReviewServices";
+import useAlbumReviews from "@/modules/albumReviews";
 export default {
   name: "ReviewList",
   props: {
@@ -133,6 +129,47 @@ export default {
       error: {},
       dialog: false,
       user_id: localStorage.getItem("user-id"),
+    };
+  },
+  methods: {
+    addReviewDialog() {
+      this.dialog = false;
+      this.addNewReview();
+    },
+  },
+  setup() {
+    const { addReview } = useAlbumReviews();
+
+    const addNewReview = function () {
+      this.albumReview.userId = this.user_id;
+      this.albumReview.albumId = this.$route.params.id;
+      this.albumReview.postDate = "2021-11-16T18:56:27.444";
+      delete this.albumReview.album;
+      delete this.albumReview.user;
+      addReview(this.albumReview).then(
+        (response) => {
+          if (response.status == 200) {
+            this.$emit("show-alert", "Recenzja została dodana.", "success");
+          } else {
+            this.$emit(
+              "show-alert",
+              `Nie udało się dodać recenzji. Błąd ${response.status}`,
+              "error"
+            );
+          }
+        },
+        (error) => {
+          this.$emit(
+            "show-alert",
+            `Nie udało się dodać recenzji. ${error.response.status} ${error.response.data}`,
+            "error"
+          );
+        }
+      );
+    };
+
+    return {
+      addNewReview,
     };
   },
 };

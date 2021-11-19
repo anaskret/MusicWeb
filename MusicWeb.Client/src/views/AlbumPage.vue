@@ -12,6 +12,7 @@
       :reviews="album.albumReviews"
       :album="album.name"
       :artist="album.artist.name"
+      v-on="$listeners"
     />
   </div>
 </template>

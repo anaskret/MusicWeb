@@ -1,4 +1,4 @@
-export default class albumReview {
+export default class AlbumReview {
   title = "";
   content = "";
   postDate = "";
