@@ -7,7 +7,7 @@
     />
 
     <InfoSection :parent="album" :module_name="module_name" />
-    <ItemList :items="album.songs" :album="album.name" />
+    <ItemList :items="album.songs" :album="album.name" :list_title="list_title" :list_link_title="list_link_title" />
     <ReviewList
       :reviews="reviews_desc"
       :refreshComments="getAlbumData"
@@ -40,6 +40,8 @@ export default {
       vote_title: "Oceń album",
       module_name: "Album",
       reviews_desc: {},
+      list_title: "Utwory",
+      list_link_title: "Wyświetl wszystkie utwory",
     };
   },
   methods: {

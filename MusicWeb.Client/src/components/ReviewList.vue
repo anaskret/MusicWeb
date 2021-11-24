@@ -1,6 +1,5 @@
 <template>
   <v-container fluid>
-    {{ reviews }}
     <v-row justify="center" class="pb-lg-2">
       <v-col lg="8" class="d-flex flex-row justify-space-between">
         <div class="d-flex flex-row" style="align-items: center">
@@ -18,7 +17,7 @@
 
         <!--  -->
         <div class="text-center">
-          <v-dialog v-model="dialog" width="500">
+          <v-dialog v-model="dialog" width="70vw" height="90vh">
             <template v-slot:activator="{ on, attrs }">
               <v-btn
                 outlined
@@ -33,17 +32,19 @@
             </template>
 
             <form id="reviewForm" @submit.prevent="addReviewDialog">
-              <div style="background-color: gray">
-                <v-card-title>Napisz recenzję</v-card-title>
+              <v-card style="background-color: #1e1e1e" class="px-16" height="90vh">
+                <v-card-title class="px-0 pt-8 pb-4">Add review</v-card-title>
                 <div>
-                  <v-text-field label="Tytuł" v-model="albumReview.title" />
-                  <v-textarea label="Treść" v-model="albumReview.content" />
+                  <v-text-field label="Title" class="pb-1" v-model="albumReview.title" color="white" />
+                  <v-textarea outlined label="Review" rows="13" v-model="albumReview.content" color="white" />
                 </div>
                 <v-card-actions>
-                  <v-spacer></v-spacer>
-                  <v-btn color="primary" type="submit" text> I accept </v-btn>
+                  <!-- <v-spacer></v-spacer> -->
+                  <v-btn color="grey"
+                height="30px"
+                class="text-uppercase align-self-center pa-3" type="submit" outlined>Add</v-btn>
                 </v-card-actions>
-              </div>
+              </v-card>
             </form>
           </v-dialog>
         </div>
@@ -65,7 +66,7 @@
                 :src="require(`@/assets/${review.img}.svg`)"
               ></v-img> -->
               <v-img :src="require('@/assets/BandPhoto.svg')" max-width="60%" />
-              <v-card-subtitle>UserName</v-card-subtitle>
+              <v-card-subtitle color="white">UserName</v-card-subtitle>
               <p>{{ moment(review.postDate).format("L") }}</p>
 
               <!-- <v-card-title class="text-center"> UserName </v-card-title> -->
@@ -76,7 +77,7 @@
               <v-card-title class="headline review-title px-0 pt-2 pb-5">
                 {{ review.title }}
               </v-card-title>
-              <v-card-subtitle class="px-0 font-italic">
+              <v-card-subtitle class="px-0">
                 {{ album }} - {{ artist }}
               </v-card-subtitle>
 
@@ -151,11 +152,18 @@ export default {
       this.albumReview.postDate = moment.utc().format();
       delete this.albumReview.album;
       delete this.albumReview.user;
+      if (this.albumReview.title == null || this.albumReview.title == "" || this.albumReview.content == null || this.albumReview.content == "")
+      {
+        this.$emit("show-alert", "Title or review cannot be empty.", "error");
+        this.dialog = true;
+      }
+     else 
+     {
       addReview(this.albumReview).then(
         (response) => {
           if (response.status == 200) {
             this.refreshComments();
-            this.$emit("show-alert", "Recenzja została dodana.", "success");
+            this.$emit("show-alert", "Review added.", "success");
           } else {
             this.$emit(
               "show-alert",
@@ -172,6 +180,7 @@ export default {
           );
         }
       );
+    }
     };
     return {
       addNewReview,
