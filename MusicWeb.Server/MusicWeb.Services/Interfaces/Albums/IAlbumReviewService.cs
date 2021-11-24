@@ -15,5 +15,6 @@ namespace MusicWeb.Services.Interfaces.Albums
         Task AddAsync(AlbumReview entity);
         Task UpdateAsync(AlbumReview entity);
         Task DeleteAsync(int id);
+        Task<AlbumReviewFullDataDto> GetAlbumReviewFullDataByIdAsync(int id);
     }
 }
