@@ -105,6 +105,7 @@ namespace MusicWeb.Api.Extensions.AutoMapper
             CreateMap<Post, PostDto>();
             CreateMap<PostDto, Post>();
             CreateMap<CreatePostDto, Post>();
+            CreateMap<UserAndArtistPost, GetPostDto>();
 
             CreateMap<ArtistRating, ArtistRatingDto>();
             CreateMap<ArtistRatingDto, ArtistRating>();

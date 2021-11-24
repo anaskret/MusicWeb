@@ -50,6 +50,7 @@ namespace MusicWeb.DataAccess.Data
 
         //Keyless
         public DbSet<ArtistRatingAverage> ArtistRatingAverage { get; set; }
+        public DbSet<UserAndArtistPost> UserAndArtistPost { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -415,6 +416,11 @@ namespace MusicWeb.DataAccess.Data
             });
 
             modelBuilder.Entity<ArtistRatingAverage>(entity =>
+            {
+                entity.HasNoKey();
+            });
+
+            modelBuilder.Entity<UserAndArtistPost>(entity =>
             {
                 entity.HasNoKey();
             });

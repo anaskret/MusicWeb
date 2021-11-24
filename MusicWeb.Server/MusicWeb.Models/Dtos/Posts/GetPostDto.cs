@@ -8,8 +8,9 @@ namespace MusicWeb.Models.Dtos.Posts
 {
     public class GetPostDto : PostDto
     {
-        public string PosterName { get; set; }
-        public string ArtistName { get; set; }
-        public string AlbumName { get; set; }
+        public string UserName { get; set; }
+        public int ArtistId { get; set; }
+        public string Artist { get; set; }
+        public string Album { get; set; }
     }
 }
