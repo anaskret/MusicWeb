@@ -16,7 +16,7 @@ import useArtists from "@/modules/artists";
 import InfiniteScrollList from "@/components/InfiniteScrollList";
 
 export default {
-  name: "ArtistListPage",
+  name: "Activities",
   components: {
     InfiniteScrollList,
   },
@@ -37,9 +37,9 @@ export default {
         selected_sort_type: 0,
       },
       intersection_active: true,
-      redirect_module_name: "ArtistPage",
+      redirect_module_name: "",
       last_search: "",
-      module_name: "ArtistList",
+      module_name: "Activities",
     };
   },
   watch: {

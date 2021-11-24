@@ -10,17 +10,17 @@
       :module_name="module_name"
       :description_title="description_title"
     />
-    <item-carousel
+    <ItemCarousel
       :items="artist.albums"
       :component_title="component_title"
       :component_link_title="component_link_title"
     />
-    <item-list
+    <ItemList
       :items="songs"
       :list_title="list_title"
       :list_link_title="list_link_title"
     />
-    <comments-list
+    <CommentsList
       :comments="comments"
       :refreshComments="getComments"
       :artistId="Number(id)"

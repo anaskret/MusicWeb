@@ -20,16 +20,10 @@
     </div>
     <v-spacer></v-spacer>
     <template v-slot:extension>
-      <v-tabs class="d-flex justify-center">
-        <v-tab color="#white" @click="redirectToArtistList">
-          Baza
-          <font-awesome-icon class="icon" icon="caret-down" color="#white"
-        /></v-tab>
-        <v-tab>
-          Ranking
-          <font-awesome-icon class="icon" icon="caret-down" color="#white"
-        /></v-tab>
-        <v-tab>Aktywność</v-tab>
+      <v-tabs class="d-flex justify-center" v-model="active_tab">
+        <v-tab v-for="tab of tabs" :key="tab.id" @click="tab.method">
+          {{ tab.name }}
+        </v-tab>
       </v-tabs>
     </template>
     <v-spacer></v-spacer>
@@ -254,6 +248,12 @@ export default {
       account: new Account(),
       oldPassword: "",
       confirmPassword: "",
+      active_tab: 0,
+      tabs: [
+        { id: 0, name: "Base", method: this.redirectToArtistList },
+        { id: 1, name: "Ranking", method: this.redirectToRankList },
+        { id: 2, name: "Activities", method: this.redirectToActivities },
+      ],
     };
   },
   computed: {
@@ -304,6 +304,12 @@ export default {
     },
     redirectToArtistList() {
       this.$router.push({ name: "ArtistListPage" });
+    },
+    redirectToActivities() {
+      this.$router.push({ name: "Activities" });
+    },
+    redirectToRankList() {
+      this.$router.push({ name: "RankListPage" });
     },
     prepareErrorArray(field) {
       const errors = [];
@@ -361,6 +367,11 @@ export default {
     $route(to, from) {
       if (from.path === "/" && to.path === "/artists") {
         this.getAccount();
+      }
+      if (to.path === "/activities") {
+        this.active_tab = 2;
+      } else if (to.path === "/artists") {
+        this.active_tab = 0;
       }
     },
   },

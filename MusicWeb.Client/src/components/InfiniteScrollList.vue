@@ -3,84 +3,97 @@
     <v-row justify="center">
       <v-col lg="8">
         <div class="mx-auto">
-          <div class="d-flex">
-            <v-menu
-              v-model="is_date_picker_from"
-              :close-on-content-click="false"
-              :nudge-right="40"
-              transition="scale-transition"
-              offset-y
-              min-width="auto"
-            >
-              <template v-slot:activator="{ on, attrs }">
-                <v-text-field
-                  class="p-4"
-                  label="Filtruj po dacie od"
-                  prepend-icon="mdi-calendar"
+          <div v-if="module_name != 'Activities'">
+            <div class="d-flex">
+              <v-menu
+                v-model="is_date_picker_from"
+                :close-on-content-click="false"
+                :nudge-right="40"
+                transition="scale-transition"
+                offset-y
+                min-width="auto"
+              >
+                <template v-slot:activator="{ on, attrs }">
+                  <v-text-field
+                    class="p-4"
+                    label="Filtruj po dacie od"
+                    prepend-icon="mdi-calendar"
+                    v-model.trim="$v.filters.establishment_date_from.$model"
+                    :error-messages="establishmentDateFromErrors"
+                    readonly
+                    required
+                    @input="$v.filters.establishment_date_from.$touch()"
+                    @blur="$v.filters.establishment_date_from.$touch()"
+                    v-bind="attrs"
+                    v-on="on"
+                  ></v-text-field>
+                </template>
+                <v-date-picker
+                  color="#647da1"
                   v-model.trim="$v.filters.establishment_date_from.$model"
-                  :error-messages="establishmentDateFromErrors"
-                  readonly
-                  required
-                  @input="$v.filters.establishment_date_from.$touch()"
-                  @blur="$v.filters.establishment_date_from.$touch()"
-                  v-bind="attrs"
-                  v-on="on"
-                ></v-text-field>
-              </template>
-              <v-date-picker
-                color="#647da1"
-                v-model.trim="$v.filters.establishment_date_from.$model"
-                @input="is_date_picker_from = false"
-              ></v-date-picker>
-            </v-menu>
-            <v-menu
-              v-model="is_date_picker_to"
-              :close-on-content-click="false"
-              :nudge-right="40"
-              transition="scale-transition"
-              offset-y
-              min-width="auto"
-            >
-              <template v-slot:activator="{ on, attrs }">
-                <v-text-field
-                  class="p-4"
-                  label="Filtruj po dacie do"
-                  prepend-icon="mdi-calendar"
+                  @input="is_date_picker_from = false"
+                ></v-date-picker>
+              </v-menu>
+              <v-menu
+                v-model="is_date_picker_to"
+                :close-on-content-click="false"
+                :nudge-right="40"
+                transition="scale-transition"
+                offset-y
+                min-width="auto"
+              >
+                <template v-slot:activator="{ on, attrs }">
+                  <v-text-field
+                    class="p-4"
+                    label="Filtruj po dacie do"
+                    prepend-icon="mdi-calendar"
+                    v-model.trim="$v.filters.establishment_date_to.$model"
+                    :error-messages="establishmentDateToErrors"
+                    readonly
+                    required
+                    @input="$v.filters.establishment_date_to.$touch()"
+                    @blur="$v.filters.establishment_date_to.$touch()"
+                    v-bind="attrs"
+                    v-on="on"
+                  ></v-text-field>
+                </template>
+                <v-date-picker
+                  color="#647da1"
                   v-model.trim="$v.filters.establishment_date_to.$model"
-                  :error-messages="establishmentDateToErrors"
-                  readonly
-                  required
-                  @input="$v.filters.establishment_date_to.$touch()"
-                  @blur="$v.filters.establishment_date_to.$touch()"
+                  @input="is_date_picker_to = false"
+                ></v-date-picker>
+              </v-menu>
+            </div>
+            <v-select
+              :items="scroll_settings.sort_types"
+              label="Sortuj"
+              @change="setSelectedType"
+              v-model="updateDefaultSortType"
+            >
+              <template v-slot:item="{ item, attrs, on }">
+                <v-list-item
                   v-bind="attrs"
                   v-on="on"
-                ></v-text-field>
+                  style="background: #0d1117"
+                >
+                  <v-list-item-title
+                    :id="attrs['aria-labelledby']"
+                    v-text="item"
+                  ></v-list-item-title>
+                </v-list-item>
               </template>
-              <v-date-picker
-                color="#647da1"
-                v-model.trim="$v.filters.establishment_date_to.$model"
-                @input="is_date_picker_to = false"
-              ></v-date-picker>
-            </v-menu>
+            </v-select>
+            <v-btn @click="setDefaultFilters">Domyślne</v-btn>
+            <v-btn @click="filterList">Filtruj/Sortuj</v-btn>
           </div>
-          <v-select
-            :items="scroll_settings.sort_types"
-            label="Sortuj"
-            @change="setSelectedType"
-            v-model="updateDefaultSortType"
-          >
-            <template v-slot:item="{ item, attrs, on }">
-              <v-list-item v-bind="attrs" v-on="on" style="background: #0d1117">
-                <v-list-item-title
-                  :id="attrs['aria-labelledby']"
-                  v-text="item"
-                ></v-list-item-title>
+          <v-list v-if="module_name == 'Activities'" >
+              <v-list-item v-for="(item, index) in items" :key="index">
+                <v-list-item-content>
+                  <InfiniteScrolItem :item="item" :page_name="module_name" />
+                </v-list-item-content>
               </v-list-item>
-            </template>
-          </v-select>
-          <v-btn @click="setDefaultFilters">Domyślne</v-btn>
-          <v-btn @click="filterList">Filtruj/Sortuj</v-btn>
-          <v-list>
+          </v-list>
+          <v-list v-else>
             <v-list-item-group v-model="show_list">
               <v-list-item v-for="(item, index) in items" :key="index">
                 <v-list-item-content
@@ -92,43 +105,11 @@
                       : ''
                   "
                 >
-                  <v-card @click="redirectToItem(item.id)">
-                    <div class="d-flex flex-no-wrap justify-space-between">
-                      <div>
-                        <v-card-title
-                          class="text-h5"
-                          v-text="item.name"
-                        ></v-card-title>
-
-                        <v-card-subtitle
-                          ><p>
-                            {{ moment(item.establishmentDate).format("L") }}
-                          </p></v-card-subtitle
-                        >
-
-                        <v-card-actions>
-                          <v-btn
-                            class="ml-2 mt-3"
-                            fab
-                            icon
-                            height="40px"
-                            right
-                            width="40px"
-                          >
-                            <font-awesome-icon
-                              class="icon"
-                              icon="chevron-right"
-                              size="2x"
-                            />
-                          </v-btn>
-                        </v-card-actions>
-                      </div>
-
-                      <v-avatar class="ma-3" size="125" tile>
-                        <v-img :src="require(`@/assets/judgement.svg`)"></v-img>
-                      </v-avatar>
-                    </div>
-                  </v-card>
+                  <InfiniteScrolItem
+                    :item="item"
+                    :page_name="module_name"
+                    :redirect_module_name="redirect_module_name"
+                  />
                 </v-list-item-content>
               </v-list-item>
             </v-list-item-group>
@@ -150,6 +131,7 @@
 
 <script>
 import { required } from "vuelidate/lib/validators";
+import InfiniteScrolItem from "@/components/InfiniteScrolItem";
 export default {
   name: "InfiniteScrollList",
   data() {
@@ -167,6 +149,10 @@ export default {
     filterList: Function,
     intersection_active: Boolean,
     redirect_module_name: String,
+    module_name: String,
+  },
+  components: {
+    InfiniteScrolItem,
   },
   computed: {
     isDisabled() {
@@ -213,12 +199,6 @@ export default {
         this.scroll_settings.sort_types.findIndex(
           (sortType) => sortType == selectedType
         );
-    },
-    redirectToItem(itemId) {
-      this.$router.push({
-        name: `${this.redirect_module_name}`,
-        params: { id: itemId },
-      });
     },
     setDefaultFilters() {
       (this.filters = {

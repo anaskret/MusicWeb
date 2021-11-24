@@ -67,14 +67,14 @@
         <ReviewList :reviews="reviews" />
       </v-col>
       <v-col md="10">
-        <item-carousel
+        <ItemCarousel
           :items="artists"
           :component_title="artists_title"
           :component_link_title="artists_link_title"
         />
       </v-col>
       <v-col md="10">
-        <item-carousel
+        <ItemCarousel
           :items="genres"
           :component_title="genres_title"
           :component_link_title="genres_link_title"
