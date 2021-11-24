@@ -120,6 +120,7 @@ export default {
   name: "ReviewList",
   props: {
     reviews: Array,
+    refreshComments: Function,
     album: String,
     artist: String,
   },
@@ -137,9 +138,10 @@ export default {
     addReviewDialog() {
       this.dialog = false;
       this.addNewReview();
-    },
+    },   
   },
   setup() {
+    
     const { addReview } = useAlbumReviews();
 
     const addNewReview = function () {
@@ -152,6 +154,7 @@ export default {
       addReview(this.albumReview).then(
         (response) => {
           if (response.status == 200) {
+            this.refreshComments();
             this.$emit("show-alert", "Recenzja została dodana.", "success");
           } else {
             this.$emit(
@@ -170,11 +173,11 @@ export default {
         }
       );
     };
-
     return {
       addNewReview,
     };
-  },
+  }, 
+
 };
 </script>
 <style scoped>
