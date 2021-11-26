@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using MusicWeb.Models.Dtos.Albums;
 using MusicWeb.Models.Entities;
 using MusicWeb.Repositories.Interfaces.Albums;
@@ -30,7 +31,8 @@ namespace MusicWeb.Services.Services.Albums
 
         public async Task<List<AlbumReviewDto>> GetAllAsync()
         {
-            return _mapper.Map<List<AlbumReviewDto>>(await _albumReviewRepository.GetAllAsync());
+            return _mapper.Map<List<AlbumReviewDto>>(await _albumReviewRepository.GetAllAsync(entity => entity.Include(prp => prp.User)
+            .Include(prp => prp.Album)));
         }
 
         public async Task AddAsync(AlbumReview entity)
