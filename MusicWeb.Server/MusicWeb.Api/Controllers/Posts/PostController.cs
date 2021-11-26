@@ -32,11 +32,13 @@ namespace MusicWeb.Api.Controllers.Posts
         /// WIP
         /// </summary>
         [HttpGet(ApiRoutes.Posts.GetUserPosts)]
-        public async Task<IActionResult> GetUserPosts([FromRoute] string userId)
+        public async Task<IActionResult> GetUserPosts([FromRoute] string userId, [FromRoute] int page, [FromRoute] int pageSize)
         {
             try
             {
-                var models = await _postService.GetUserPostsAsync(userId);
+                var entities = await _postService.GetUserPostsAsync(userId, page, pageSize);
+                var models = _mapper.Map<List<GetPostDto>>(entities);
+
                 return Ok(models);
             }
             catch (Exception ex)

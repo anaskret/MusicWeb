@@ -111,6 +111,7 @@ namespace MusicWeb.Api.Extensions.AutoMapper
             CreateMap<Post, PostDto>();
             CreateMap<PostDto, Post>();
             CreateMap<CreatePostDto, Post>();
+            CreateMap<UserAndArtistPost, GetPostDto>();
 
             CreateMap<ArtistRating, ArtistRatingDto>();
             CreateMap<ArtistRatingDto, ArtistRating>();
@@ -121,6 +122,9 @@ namespace MusicWeb.Api.Extensions.AutoMapper
             CreateMap<Chat, ChatWithUserNamesDto>()
                 .ForMember(prp => prp.UserName, obj => obj.MapFrom(src => src.User.UserName))
                 .ForMember(prp => prp.FriendName, obj => obj.MapFrom(src => src.Friend.UserName));
+
+            CreateMap<Message, MessageDto>()
+                .ForMember(prp => prp.SenderName, obj => obj.MapFrom(src => src.Sender != null ? src.Sender.UserName : ""));
         }
 
     }

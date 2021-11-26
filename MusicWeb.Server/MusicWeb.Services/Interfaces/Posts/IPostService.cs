@@ -1,4 +1,5 @@
 ﻿using MusicWeb.Models.Dtos.Posts;
+using MusicWeb.Models.Entities.Keyless;
 using MusicWeb.Models.Entities.Posts;
 using System;
 using System.Collections.Generic;
@@ -15,6 +16,6 @@ namespace MusicWeb.Services.Interfaces.Posts
         Task DeleteAsync(int id);
         Task<Post> GetByIdAsync(int id);
         Task<IList<Post>> GetAllAsync();
-        Task<List<GetPostDto>> GetUserPostsAsync(string userId);
+        Task<List<UserAndArtistPost>> GetUserPostsAsync(string userId, int page, int pageSize);
     }
 }

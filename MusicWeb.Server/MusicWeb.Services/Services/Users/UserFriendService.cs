@@ -60,7 +60,7 @@ namespace MusicWeb.Services.Services.Users
 
         public async Task<IList<UserFriend>> GetAllByUserIdAsync(string userId)
         {
-            return await _userFriendRepository.GetAllAsync(entity => entity.Where(prp => string.Equals(prp.UserId, userId) || string.Equals(prp.FriendId, userId)));
+            return await _userFriendRepository.GetAllAsync(entity => entity.Where(prp => string.Equals(prp.UserId, userId)));
         }
 
         public async Task<UserFriend> GetByIdAsync(int id)

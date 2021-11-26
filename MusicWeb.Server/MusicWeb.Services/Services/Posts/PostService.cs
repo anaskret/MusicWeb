@@ -1,4 +1,5 @@
 ﻿using MusicWeb.Models.Dtos.Posts;
+using MusicWeb.Models.Entities.Keyless;
 using MusicWeb.Models.Entities.Posts;
 using MusicWeb.Repositories.Interfaces.Posts;
 using MusicWeb.Services.Interfaces.Posts;
@@ -40,9 +41,9 @@ namespace MusicWeb.Services.Services.Posts
             return await _postRepository.GetByIdAsync(id);
         }
 
-        public async Task<List<GetPostDto>> GetUserPostsAsync(string userId)
+        public async Task<List<UserAndArtistPost>> GetUserPostsAsync(string userId, int page, int pageSize)
         {
-            return await _postRepository.GetPostForUserAsync(userId);
+            return await _postRepository.GetPostForUserAsync(userId, page, pageSize);
         }
 
         public async Task UpdateAsync(Post entity)

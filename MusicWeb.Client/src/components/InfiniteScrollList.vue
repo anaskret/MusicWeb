@@ -86,12 +86,12 @@
             <v-btn @click="setDefaultFilters">Domyślne</v-btn>
             <v-btn @click="filterList">Filtruj/Sortuj</v-btn>
           </div>
-          <v-list v-if="module_name == 'Activities'" >
-              <v-list-item v-for="(item, index) in items" :key="index">
-                <v-list-item-content>
-                  <InfiniteScrolItem :item="item" :page_name="module_name" />
-                </v-list-item-content>
-              </v-list-item>
+          <v-list v-if="module_name == 'Activities'">
+            <v-list-item v-for="(item, index) in items" :key="index">
+              <v-list-item-content>
+                <InfiniteScrolItem :item="item" :page_name="module_name" />
+              </v-list-item-content>
+            </v-list-item>
           </v-list>
           <v-list v-else>
             <v-list-item-group v-model="show_list">

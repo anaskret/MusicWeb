@@ -1,7 +1,7 @@
 <template>
   <div>
     <div v-if="page_name == 'ArtistList'">
-      <v-card @click="redirectToItem(item.id)" >
+      <v-card @click="redirectToItem(item.id)">
         <div class="d-flex flex-no-wrap justify-space-between">
           <div>
             <v-card-title class="text-h5" v-text="item.name"></v-card-title>
@@ -39,97 +39,103 @@
     <div v-else-if="page_name == 'Activities'">
       <v-card>
         <v-row class="pl-2 d-flex justify-space-between">
-            <v-col lg="4" sm="4" class="top-section">
-                <v-row>
-                    <v-col lg="2" sm="2">
-                        <div>
-                            <v-img :src="require('@/assets/BandPhoto.svg')" contain />
-                        </div>
-                    </v-col>
-                    <v-col lg="10" sm="10">
-                        <v-card-subtitle>
-                            <p class="text-center">
-                                (User) follows (Artist)
-                            </p>
-                        </v-card-subtitle>
-                    </v-col>
-                </v-row>
-            </v-col>
-            <v-col lg="2" sm="2">
+          <v-col lg="4" sm="4" class="top-section">
+            <v-row>
+              <v-col lg="2" sm="2">
+                <div>
+                  <v-img :src="require('@/assets/BandPhoto.svg')" contain />
+                </div>
+              </v-col>
+              <v-col lg="10" sm="10">
                 <v-card-subtitle>
-                    <p class="text-center">
-                        {{time_from_addition}}
-                    </p>
-              </v-card-subtitle>
-            </v-col>
+                  <p class="text-center">(User) follows (Artist)</p>
+                </v-card-subtitle>
+              </v-col>
+            </v-row>
+          </v-col>
+          <v-col lg="2" sm="2">
+            <v-card-subtitle>
+              <p class="text-center">
+                {{ time_from_addition }}
+              </p>
+            </v-card-subtitle>
+          </v-col>
         </v-row>
         <v-row class="pl-2 d-flex justify-space-between">
-            <v-col lg="4" sm="4">
-                <v-row>
-                    <v-col lg="6" sm="6">
-                        <div>
-                            <v-img :src="require('@/assets/naturaldisaster.svg')" contain />
-                        </div>
-                    </v-col>
-                    <v-col lg="6" sm="6">
-                        <v-card-title justify="center" class="text-h5" v-text="item.name"></v-card-title>
-                        <v-card-subtitle>
-                            <p class="text-left">
-                                {{ moment(item.establishmentDate).format("YYYY") }}
-                            </p>
-                            <p class="text-left">
-                                Genre 
-                            </p>
-                        </v-card-subtitle>
-                    </v-col>
-                </v-row>
-            </v-col>
-            <v-col lg="3" sm="3">
-                <div class="ratings">
-                    <font-awesome-icon
-                    class="icon pr-2"
-                    v-for="(star, index) in stars"
-                    :key="index"
-                    icon="star"
-                    size="2x"
-                    :color="star.color"
-                    ></font-awesome-icon>
+          <v-col lg="4" sm="4">
+            <v-row>
+              <v-col lg="6" sm="6">
+                <div>
+                  <v-img
+                    :src="require('@/assets/naturaldisaster.svg')"
+                    contain
+                  />
                 </div>
-                <div class="ratings px-5">
-                    <p class="ratings-thumbs">200</p>
-                    <font-awesome-icon
-                    class="icon pr-2"
-                    icon="thumbs-up"
-                    size="2x"
-                    ></font-awesome-icon>
-                </div>
-            </v-col>
+              </v-col>
+              <v-col lg="6" sm="6">
+                <v-card-title
+                  justify="center"
+                  class="text-h5"
+                  v-text="item.name"
+                ></v-card-title>
+                <v-card-subtitle>
+                  <p class="text-left">
+                    {{ moment(item.establishmentDate).format("YYYY") }}
+                  </p>
+                  <p class="text-left">Genre</p>
+                </v-card-subtitle>
+              </v-col>
+            </v-row>
+          </v-col>
+          <v-col lg="3" sm="3">
+            <div class="ratings">
+              <font-awesome-icon
+                class="icon pr-2"
+                v-for="(star, index) in stars"
+                :key="index"
+                icon="star"
+                size="2x"
+                :color="star.color"
+              ></font-awesome-icon>
+            </div>
+            <div class="ratings px-5">
+              <p class="ratings-thumbs">200</p>
+              <font-awesome-icon
+                class="icon pr-2"
+                icon="thumbs-up"
+                size="2x"
+              ></font-awesome-icon>
+            </div>
+          </v-col>
         </v-row>
         <v-row class="pl-2 d-flex justify-space-between">
-            <v-col lg="2" sm="2">
-                <v-btn>
-                    <font-awesome-icon
-                    class="icon pr-2"
-                    icon="thumbs-up"
-                    size="2x"
-                    outlined
-                    fab
-                    ></font-awesome-icon>
-                </v-btn>
-                <v-btn>Comm</v-btn>
-            </v-col>
-            <v-col lg="2" sm="2">
-                <v-expansion-panels enabled>
-                    <v-expansion-panel>
-                        <v-expansion-panel-header>
-                            2 comments
-                        </v-expansion-panel-header>
-                        <v-expansion-panel-content>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                        </v-expansion-panel-content>
-                    </v-expansion-panel>
-                </v-expansion-panels>
-            </v-col>
+          <v-col lg="2" sm="2">
+            <v-btn>
+              <font-awesome-icon
+                class="icon pr-2"
+                icon="thumbs-up"
+                size="2x"
+                outlined
+                fab
+              ></font-awesome-icon>
+            </v-btn>
+            <v-btn>Comm</v-btn>
+          </v-col>
+          <v-col lg="2" sm="2">
+            <v-expansion-panels enabled>
+              <v-expansion-panel>
+                <v-expansion-panel-header>
+                  2 comments
+                </v-expansion-panel-header>
+                <v-expansion-panel-content>
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
+                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                  Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                  laboris nisi ut aliquip ex ea commodo consequat.
+                </v-expansion-panel-content>
+              </v-expansion-panel>
+            </v-expansion-panels>
+          </v-col>
         </v-row>
       </v-card>
     </div>
@@ -141,14 +147,14 @@ export default {
   name: "InfiniteScrolItem",
   data() {
     return {
-        time_from_addition: 0,
-        stars: [
-            { color: "white" },
-            { color: "white" },
-            { color: "white" },
-            { color: "white" },
-            { color: "gray" },
-        ],
+      time_from_addition: 0,
+      stars: [
+        { color: "white" },
+        { color: "white" },
+        { color: "white" },
+        { color: "white" },
+        { color: "gray" },
+      ],
     };
   },
   props: {
@@ -157,7 +163,7 @@ export default {
     redirect_module_name: String,
   },
   created() {
-      this.prepareDate()
+    this.prepareDate();
   },
   methods: {
     redirectToItem(itemId) {
@@ -166,56 +172,60 @@ export default {
         params: { id: itemId },
       });
     },
-    calculateAdditionTime(){
-        let now_date = this.moment();
-        let post_date = this.moment(this.item.establishmentDate);
-        let duration = this.moment.duration(now_date.diff(post_date));
-        duration = duration._data;
-        let result = "";
-        if(duration.years){
-            result = this.setTimeDuration(duration.years, "year", duration.days);
-        } else if(duration.days > 0){
-            result = this.setTimeDuration(duration.days, "day", duration.hours);
-        } else if(duration.hours > 0){
-            result = this.setTimeDuration(duration.hours, "hour", duration.minutes);
-        } else if(duration.minutes > 0){
-            result = this.setTimeDuration(duration.minutes, "minute", duration.seconds);
-        } 
+    calculateAdditionTime() {
+      let now_date = this.moment();
+      let post_date = this.moment(this.item.establishmentDate);
+      let duration = this.moment.duration(now_date.diff(post_date));
+      duration = duration._data;
+      let result = "";
+      if (duration.years) {
+        result = this.setTimeDuration(duration.years, "year", duration.days);
+      } else if (duration.days > 0) {
+        result = this.setTimeDuration(duration.days, "day", duration.hours);
+      } else if (duration.hours > 0) {
+        result = this.setTimeDuration(duration.hours, "hour", duration.minutes);
+      } else if (duration.minutes > 0) {
+        result = this.setTimeDuration(
+          duration.minutes,
+          "minute",
+          duration.seconds
+        );
+      }
 
-        return result ? `${result} ago` : 'now';
+      return result ? `${result} ago` : "now";
     },
-    setTimeDuration(timestamp, timestamp_name, next_timestamp){
-        let result = `${timestamp} ${timestamp_name}s`
-        if(timestamp == 1){
-            result = `one ${timestamp_name}`
-        } else if(next_timestamp && timestamp == 1){
-            result = `over one ${timestamp_name}`
-        } else if(next_timestamp && timestamp != 1){
-            result = `over ${timestamp} ${timestamp_name}s`
-        }
-        return result;
+    setTimeDuration(timestamp, timestamp_name, next_timestamp) {
+      let result = `${timestamp} ${timestamp_name}s`;
+      if (timestamp == 1) {
+        result = `one ${timestamp_name}`;
+      } else if (next_timestamp && timestamp == 1) {
+        result = `over one ${timestamp_name}`;
+      } else if (next_timestamp && timestamp != 1) {
+        result = `over ${timestamp} ${timestamp_name}s`;
+      }
+      return result;
     },
-    prepareDate(){
-        this.time_from_addition = this.calculateAdditionTime();
-    }
+    prepareDate() {
+      this.time_from_addition = this.calculateAdditionTime();
+    },
   },
 };
 </script>
 
 <style scoped>
-.ratings{
-    display: flex;
-    justify-content: end;
-    align-items: center;
+.ratings {
+  display: flex;
+  justify-content: end;
+  align-items: center;
 }
-.ratings-thumbs{
-    display: flex;
-    align-items: center;
-    margin-bottom: 0;
-    margin-top: 5%;
-    margin-right: 4%;
+.ratings-thumbs {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0;
+  margin-top: 5%;
+  margin-right: 4%;
 }
-.top-section{
-    padding-bottom: 0;
+.top-section {
+  padding-bottom: 0;
 }
 </style>

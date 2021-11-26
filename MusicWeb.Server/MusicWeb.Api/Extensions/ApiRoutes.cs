@@ -177,7 +177,7 @@ namespace MusicWeb.Api.Extensions
             public const string Delete = Root + "/posts/{id}";
             public const string GetById = Root + "/posts/{id}";
             public const string GetAll = Root + "/posts";
-            public const string GetUserPosts = Root + "/userposts/{userId}";
+            public const string GetUserPosts = Root + "/userposts/{userId}/{page}/{pageSize}";
         }
 
         public static class ArtistRatings
@@ -195,6 +195,13 @@ namespace MusicWeb.Api.Extensions
             public const string Update = Root + "/chats";
             public const string Delete = Root + "/chats/{id}";
             public const string GetUserChats = Root + "/chats/user/{id}";
+        }
+
+        public static class Messages
+        {
+            public const string Create = Root + "/messages";
+            public const string GetPagedByChatId = Root + "/messages/{id}/{page}/{size}";
+            public const string GetMessageById = Root + "/messages/{id}";
         }
     }
 }
