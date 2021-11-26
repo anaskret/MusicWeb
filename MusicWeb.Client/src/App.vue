@@ -18,11 +18,13 @@
     <v-main>
       <router-view @show-alert="showAlert" />
     </v-main>
+    <Chat />
   </v-app>
 </template>
 
 <script>
 import Navbar from "@/components/Navbar";
+import Chat from "@/components/Chat";
 export default {
   name: "App",
   data() {
@@ -42,6 +44,7 @@ export default {
   },
   components: {
     Navbar,
+    Chat
   },
 };
 </script>
