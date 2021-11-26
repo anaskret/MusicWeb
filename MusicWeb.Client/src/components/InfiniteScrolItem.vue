@@ -39,32 +39,36 @@
     <div v-else-if="page_name == 'Activities'">
       <v-card>
         <v-row class="pl-2 d-flex justify-space-between">
-          <v-col lg="4" sm="4" class="top-section">
-            <v-row>
+          <v-col lg="8" sm="8">
+            <v-row align="center">
               <v-col lg="2" sm="2">
                 <div>
-                  <v-img :src="require('@/assets/BandPhoto.svg')" contain />
+                  <v-img
+                    :src="require('@/assets/BandPhoto.svg')"
+                    contain
+                    class="pl-8"
+                  />
                 </div>
               </v-col>
-              <v-col lg="10" sm="10">
+              <v-col lg="9" sm="9">
                 <v-card-subtitle>
-                  <p class="text-center">(User) follows (Artist)</p>
+                  <p class="text-left">(User) follows (Artist)</p>
                 </v-card-subtitle>
               </v-col>
             </v-row>
           </v-col>
-          <v-col lg="2" sm="2">
+          <v-col lg="3" sm="3">
             <v-card-subtitle>
-              <p class="text-center">
+              <p class="text-right">
                 {{ time_from_addition }}
               </p>
             </v-card-subtitle>
           </v-col>
         </v-row>
         <v-row class="pl-2 d-flex justify-space-between">
-          <v-col lg="4" sm="4">
+          <v-col lg="8" sm="8">
             <v-row>
-              <v-col lg="6" sm="6">
+              <v-col lg="4" sm="4">
                 <div>
                   <v-img
                     :src="require('@/assets/naturaldisaster.svg')"
@@ -72,7 +76,7 @@
                   />
                 </div>
               </v-col>
-              <v-col lg="6" sm="6">
+              <v-col lg="8" sm="8">
                 <v-card-title
                   justify="center"
                   class="text-h5"
@@ -87,8 +91,8 @@
               </v-col>
             </v-row>
           </v-col>
-          <v-col lg="3" sm="3">
-            <div class="ratings">
+          <v-col lg="4" sm="4">
+            <div class="ratings pt-4">
               <font-awesome-icon
                 class="icon pr-2"
                 v-for="(star, index) in stars"
@@ -98,44 +102,58 @@
                 :color="star.color"
               ></font-awesome-icon>
             </div>
-            <div class="ratings px-5">
+            <div class="ratings pt-4">
               <p class="ratings-thumbs">200</p>
               <font-awesome-icon
-                class="icon pr-2"
+                class="icon pa-1"
                 icon="thumbs-up"
                 size="2x"
               ></font-awesome-icon>
             </div>
           </v-col>
         </v-row>
-        <v-row class="pl-2 d-flex justify-space-between">
-          <v-col lg="2" sm="2">
-            <v-btn>
-              <font-awesome-icon
-                class="icon pr-2"
-                icon="thumbs-up"
-                size="2x"
-                outlined
-                fab
-              ></font-awesome-icon>
-            </v-btn>
-            <v-btn>Comm</v-btn>
-          </v-col>
-          <v-col lg="2" sm="2">
-            <v-expansion-panels enabled>
-              <v-expansion-panel>
-                <v-expansion-panel-header>
-                  2 comments
-                </v-expansion-panel-header>
-                <v-expansion-panel-content>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                  Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                  laboris nisi ut aliquip ex ea commodo consequat.
-                </v-expansion-panel-content>
-              </v-expansion-panel>
-            </v-expansion-panels>
-          </v-col>
+        <v-row class="pl-5">
+          <v-expansion-panels enabled>
+            <v-expansion-panel>
+              <v-row class="d-flex justify-space-between">
+                <v-col lg="3" sm="3" class="pt-4">
+                  <v-btn>
+                    <font-awesome-icon
+                      class="icon pa-1"
+                      icon="thumbs-up"
+                      size="2x"
+                      outlined
+                      fab
+                    ></font-awesome-icon>
+                  </v-btn>
+                  <v-btn>
+                    <font-awesome-icon
+                      class="icon pa-1"
+                      icon="comment"
+                      size="2x"
+                      outlined
+                      fab
+                    ></font-awesome-icon>
+                  </v-btn>
+                </v-col>
+                <v-col lg="3" sm="3">
+                  <v-expansion-panel-header hide-actions class="justify-end">
+                    2 comments
+                  </v-expansion-panel-header>
+                </v-col>
+              </v-row>
+              <v-row>
+                <v-col lg="12">
+                  <v-expansion-panel-content>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
+                    do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                    Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                    laboris nisi ut aliquip ex ea commodo consequat.
+                  </v-expansion-panel-content>
+                </v-col>
+              </v-row>
+            </v-expansion-panel>
+          </v-expansion-panels>
         </v-row>
       </v-card>
     </div>
@@ -225,7 +243,10 @@ export default {
   margin-top: 5%;
   margin-right: 4%;
 }
-.top-section {
-  padding-bottom: 0;
+p {
+  margin-bottom: 0;
+}
+.v-expansion-panel::before{
+  box-shadow: none;
 }
 </style>

@@ -250,9 +250,9 @@ export default {
       confirmPassword: "",
       active_tab: 0,
       tabs: [
-        { id: 0, name: "Base", method: this.redirectToArtistList },
+        { id: 0, name: "Activities", method: this.redirectToActivities },
         { id: 1, name: "Ranking", method: this.redirectToRankList },
-        { id: 2, name: "Activities", method: this.redirectToActivities },
+        { id: 2, name: "Base", method: this.redirectToArtistList },
       ],
     };
   },
@@ -369,9 +369,9 @@ export default {
         this.getAccount();
       }
       if (to.path === "/activities") {
-        this.active_tab = 2;
-      } else if (to.path === "/artists") {
         this.active_tab = 0;
+      } else if (to.path === "/artists") {
+        this.active_tab = 2;
       }
     },
   },

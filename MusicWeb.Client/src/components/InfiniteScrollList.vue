@@ -87,7 +87,11 @@
             <v-btn @click="filterList">Filtruj/Sortuj</v-btn>
           </div>
           <v-list v-if="module_name == 'Activities'">
-            <v-list-item v-for="(item, index) in items" :key="index">
+            <v-list-item
+              class="item"
+              v-for="(item, index) in items"
+              :key="index"
+            >
               <v-list-item-content>
                 <InfiniteScrolItem :item="item" :page_name="module_name" />
               </v-list-item-content>
@@ -211,3 +215,11 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+.item {
+  background: lighten(#0d1117, 2%);
+  border-radius: 2%;
+  margin-bottom: 3%;
+}
+</style>
