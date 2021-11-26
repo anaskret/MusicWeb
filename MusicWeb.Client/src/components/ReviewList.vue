@@ -163,6 +163,8 @@ export default {
         (response) => {
           if (response.status == 200) {
             this.refreshComments();
+            this.albumReview.title = null;
+            this.albumReview.content = null;
             this.$emit("show-alert", "Review added.", "success");
           } else {
             this.$emit(
