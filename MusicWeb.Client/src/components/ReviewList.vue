@@ -1,6 +1,8 @@
 <template>
   <v-container fluid>
     <v-row justify="center" class="pb-lg-2">
+      
+
       <v-col lg="8" class="d-flex flex-row justify-space-between">
         <div class="d-flex flex-row" style="align-items: center">
           <h1 class="display-1 font-weight-bold text-left">Recenzje</h1>
@@ -66,14 +68,14 @@
                 :src="require(`@/assets/${review.img}.svg`)"
               ></v-img> -->
               <v-img :src="require('@/assets/BandPhoto.svg')" max-width="60%" />
-              <v-card-subtitle color="white">UserName</v-card-subtitle>
+              <v-card-subtitle color="white">{{review.userName}}</v-card-subtitle>
               <p>{{ moment(review.postDate).format("L") }}</p>
 
               <!-- <v-card-title class="text-center"> UserName </v-card-title> -->
             </div>
           </v-col>
           <v-col md="10">
-            <v-card>
+            <div>
               <v-card-title class="headline review-title px-0 pt-2 pb-5">
                 {{ review.title }}
               </v-card-title>
@@ -93,19 +95,8 @@
                 class="text-uppercase align-self-center mt-5"
                 >Czytaj dalej
               </v-btn>
-              <!-- <v-expansion-panels
-                v-if="review.content.length >= reviewTextLength"
-              >
-                <v-expansion-panel>
-                  <v-expansion-panel-header>
-                    Czytaj więcej
-                  </v-expansion-panel-header>
-                  <v-expansion-panel-content>
-                    {{ review.content | truncateRest(reviewTextLength) }}
-                  </v-expansion-panel-content>
-                </v-expansion-panel>
-              </v-expansion-panels> -->
-            </v-card>
+              
+            </div>
           </v-col>
         </v-row>
       </v-col>
