@@ -36,7 +36,7 @@ export default {
         selected_sort_type: 0,
       },
       intersection_active: true,
-      redirect_module_name: "ArtistPage"
+      redirect_module_name: "ArtistPage",
     };
   },
   methods: {

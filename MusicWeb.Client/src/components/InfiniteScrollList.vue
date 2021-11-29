@@ -166,7 +166,7 @@ export default {
     getPagedItemList: Function,
     filterList: Function,
     intersection_active: Boolean,
-    redirect_module_name: String
+    redirect_module_name: String,
   },
   computed: {
     isDisabled() {
@@ -215,7 +215,10 @@ export default {
         );
     },
     redirectToItem(itemId) {
-      this.$router.push({ name: `${this.redirect_module_name}`, params: { id: itemId } });
+      this.$router.push({
+        name: `${this.redirect_module_name}`,
+        params: { id: itemId },
+      });
     },
     setDefaultFilters() {
       (this.filters = {

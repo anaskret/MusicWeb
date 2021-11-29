@@ -6,4 +6,7 @@ export default {
   addReview(data) {
     return ApiService.authRequest(`/albumreviews`, ApiService.post, data);
   },
+  getAlbumReviewFullData(id) {
+    return ApiService.authRequest(`/albumreviewsdata/${id}`, ApiService.get);
+  },
 };

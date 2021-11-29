@@ -7,7 +7,12 @@
     />
 
     <InfoSection :parent="album" :module_name="module_name" />
-    <ItemList :items="album.songs" :album="album.name" :list_title="list_title" :list_link_title="list_link_title" />
+    <ItemList
+      :items="album.songs"
+      :album="album.name"
+      :list_title="list_title"
+      :list_link_title="list_link_title"
+    />
     <ReviewList
       :reviews="reviews_desc"
       :refreshComments="getAlbumData"
@@ -45,11 +50,9 @@ export default {
     };
   },
   methods: {
-
     prepareReviews() {
-      this.reviews_desc = this.album.albumReviews.reverse().slice(0,3);
-    }
-
+      this.reviews_desc = this.album.albumReviews.reverse().slice(0, 3);
+    },
   },
   created() {
     this.getAlbumData();
