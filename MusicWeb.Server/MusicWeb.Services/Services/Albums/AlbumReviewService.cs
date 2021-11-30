@@ -27,12 +27,14 @@ namespace MusicWeb.Services.Services.Albums
         public async Task<AlbumReview> GetByIdAsync(int id)
         {
             return await _albumReviewRepository.GetByIdAsync(id);
+           
         }
 
         public async Task<List<AlbumReviewDto>> GetAllAsync()
         {
             return _mapper.Map<List<AlbumReviewDto>>(await _albumReviewRepository.GetAllAsync(entity => entity.Include(prp => prp.User)
-            .Include(prp => prp.Album)));
+            .Include(prp => prp.Album)
+            .ThenInclude(prp => prp.Artist)));
         }
 
         public async Task AddAsync(AlbumReview entity)
@@ -52,10 +54,10 @@ namespace MusicWeb.Services.Services.Albums
             await _albumReviewRepository.DeleteAsync(entity);
         }
 
-        public async Task<AlbumReviewFullDataDto> GetAlbumReviewFullDataByIdAsync(int id)
+        public async Task<AlbumReviewDto> GetAlbumReviewFullDataByIdAsync(int id)
         {
-            var songReview = await _albumReviewRepository.GetAlbumReviewFullDataByIdAsync(id);
-            return _mapper.Map<AlbumReviewFullDataDto>(songReview);
+            var albumReview = await _albumReviewRepository.GetAlbumReviewFullDataByIdAsync(id);
+            return _mapper.Map<AlbumReviewDto>(albumReview);
 
         }
     }
