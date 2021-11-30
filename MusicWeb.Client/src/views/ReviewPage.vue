@@ -1,5 +1,6 @@
 <template>
   <v-container fluid>
+    {{ review}}
     <v-row justify="center" class="pt-10">
       <v-col lg="2">
          <div class="d-flex justify-content-center">
@@ -13,10 +14,10 @@
       <v-col lg="6">
         <div>
           <h1 class="display-1 font-weight-bold text-left">{{ review.title }}</h1>
-          <p>Posted 20 hours ago</p>
+          <p>{{review.userName}} at {{ review.postDate }}</p>
         </div>
         <div>
-          <p>Weather Systems - Anathema</p>
+          <p>{{ review.album.name }} - {{ review.artist }}</p>
         </div>
         <div class="pt-10">
           <p>

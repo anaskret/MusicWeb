@@ -14,7 +14,12 @@ namespace MusicWeb.Models.Dtos.Albums
         public DateTime PostDate { get; set; }
         public int AlbumId { get; set; }
         public string UserName { get; set; }
-        public string AlbumName { get; set; }
+        public AlbumDto Album { get; set; }
         public string Artist { get; set; }
+
+        public AlbumReviewFullDataDto()
+        {
+            Album = new AlbumDto();
+        }
     }
 }
