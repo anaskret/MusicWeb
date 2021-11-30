@@ -114,7 +114,7 @@ namespace MusicWeb.Services.Services.Users
             if (dto.ImageBytes.Length == 0)
                 throw new ArgumentException("File is empty");
 
-            _fileService.DeleteFile(Path.GetFileName(dto.ImagePath), FilePathConsts.UserPath);
+            _fileService.DeleteFile(dto.ImagePath, FilePathConsts.UserPath);
             var filePath = await _fileService.UploadFile(dto.ImageBytes, FilePathConsts.UserPath);
 
             var user = await _userManager.FindByIdAsync(dto.UserId);
