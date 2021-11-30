@@ -33,6 +33,10 @@ export default function useAccounts() {
   const updateAccountEmail = async (data) => {
     return await accountServices.updateEmail(data);
   };
+
+  const updateAccountImage = async (data) => {
+    return await accountServices.updateImage(data);
+  };
   return {
     loginAccount,
     logoutAccount,
@@ -41,5 +45,6 @@ export default function useAccounts() {
     updateAccountNames,
     updateAccountPassword,
     updateAccountEmail,
+    updateAccountImage
   };
 }

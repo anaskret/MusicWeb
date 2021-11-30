@@ -24,4 +24,7 @@ export default {
   updateEmail(data) {
     return ApiService.authRequest(`/users/email`, ApiService.put, data);
   },
+  updateImage(data) {
+    return ApiService.authRequest(`/users/image`, ApiService.put, data);
+  },
 };

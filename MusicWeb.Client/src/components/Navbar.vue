@@ -186,12 +186,34 @@
                         <span class="text-h5">Zmień zdjęcie</span>
                       </v-card-title>
                       <v-card-text>
-                        <!-- TODO Image Upload -->
+                        <!-- <v-container>
+                            <v-row>
+                                <v-col cols="12" md="12">
+                                    <v-text-field
+                                    class="p-4"
+                                    label="Email"
+                                    v-model.trim="$v.account.email.$model"
+                                    :error-messages="emailErrors"
+                                    :counter="25"
+                                    required
+                                    @input="$v.account.email.$touch()"
+                                    @blur="$v.account.email.$touch()"
+                                    ></v-text-field>
+                                </v-col>
+                            </v-row>
+                        </v-container> -->
+                        <div class="uploader">
+                                <v-file-input
+                                label="File input"
+                                prepend-icon="mdi-camera"
+                                @change="fileChange"
+                                ></v-file-input>
+                        </div>
                       </v-card-text>
                       <v-card-actions>
                         <v-spacer></v-spacer>
                         <v-btn @click="settings_dialog = false"> Anuluj </v-btn>
-                        <v-btn @click="settings_dialog = false"> Zapisz </v-btn>
+                        <v-btn @click="updateImageDialog"> Upload </v-btn>
                       </v-card-actions>
                     </v-card>
                   </v-tab-item>
@@ -254,6 +276,8 @@ export default {
         { id: 1, name: "Ranking", method: this.redirectToRankList },
         { id: 2, name: "Base", method: this.redirectToArtistList },
       ],
+      files: new FormData(),
+      file: {}
     };
   },
   computed: {
@@ -357,6 +381,35 @@ export default {
       this.settings_dialog = false;
       this.updateEmail();
     },
+    updateImageDialog() {
+      this.settings_dialog = false;
+      this.updateImage();
+    },
+    fileChange(file) {
+        debugger;
+        if(file != null && file != ''){
+            this.getBase64(file).then(res => {
+                let start = res.search(',');
+                this.file.imageBytes = res.substr(start + 1,res.length);
+            });
+        }
+    },
+    getBase64(file) {
+      return new Promise(function (resolve, reject) {
+        let reader = new FileReader();
+        let imgResult = "";
+        reader.readAsDataURL(file);
+        reader.onload = function () {
+          imgResult = reader.result;
+        };
+        reader.onerror = function (error) {
+          reject(error);
+        };
+        reader.onloadend = function () {
+          resolve(imgResult);
+        };
+      });
+    },
     clearSettings() {
       this.account = new Account();
       this.oldPassword = "";
@@ -381,7 +434,7 @@ export default {
     }
   },
   setup() {
-    const { getAccountById, updateAccountPassword, updateAccountEmail } =
+    const { getAccountById, updateAccountPassword, updateAccountEmail, updateAccountImage } =
       useAccounts();
 
     const onLogout = function () {
@@ -458,12 +511,47 @@ export default {
         }
       );
     };
+    
+    const updateImage = function () {
+        debugger;
+        this.file.userid = this.user_id;
+        console.log(this.file.imageBytes)
+        this.file.imagePath = "/Users/";
+      updateAccountImage(this.file).then(
+        (response) => {
+          if (response.status == 200) {
+            this.$emit(
+              "show-alert",
+              "Dane zostały zaktualizowane pomyślnie.",
+              "success"
+            );
+            this.clearSettings();
+          } else {
+            this.$emit(
+              "show-alert",
+              `Nie udało się zaktualizować. Błąd ${response.status}`,
+              "error"
+            );
+            this.clearSettings();
+          }
+        },
+        (error) => {
+          this.$emit(
+            "show-alert",
+            `Nie udało się zaktualizować. ${error.response.status} ${error.response.data}`,
+            "error"
+          );
+          this.clearSettings();
+        }
+      );
+    };
 
     return {
       onLogout,
       getAccount,
       updatePassword,
       updateEmail,
+    updateImage
     };
   },
 };
