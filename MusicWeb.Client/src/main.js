@@ -57,8 +57,7 @@ axios.defaults.headers.common["Authorization"] = localStorage.getItem(
 )
   ? "Bearer " + localStorage.getItem("user-token")
   : "";
-const url = "http://localhost:5000";
-ApiService.init(url, `${url}/api`);
+ApiService.init(store.state.serverUrl, `${store.state.serverUrl}/api`);
 Vue.prototype.$http = axios;
 
 Vue.use(Vuelidate);

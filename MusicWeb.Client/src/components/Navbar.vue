@@ -53,7 +53,8 @@
         <v-list>
           <v-list-item>
             <v-list-item-avatar>
-              <img src="@/assets/admin.jpg" alt="John" />
+              <img v-if="account.imagePath" :src="`${this.$store.state.serverUrl}/${account.imagePath}`" :alt="`${account.firstname}`" />
+              <img v-else src="@/assets/defaut_user.png" :alt="`${account.firstname}`" />
             </v-list-item-avatar>
 
             <v-list-item-content>
@@ -203,11 +204,11 @@
                             </v-row>
                         </v-container> -->
                         <div class="uploader">
-                                <v-file-input
-                                label="File input"
-                                prepend-icon="mdi-camera"
-                                @change="fileChange"
-                                ></v-file-input>
+                            <v-file-input
+                            label="File input"
+                            prepend-icon="mdi-camera"
+                            @change="fileChange"
+                            ></v-file-input>
                         </div>
                       </v-card-text>
                       <v-card-actions>
@@ -386,7 +387,6 @@ export default {
       this.updateImage();
     },
     fileChange(file) {
-        debugger;
         if(file != null && file != ''){
             this.getBase64(file).then(res => {
                 let start = res.search(',');
@@ -513,9 +513,7 @@ export default {
     };
     
     const updateImage = function () {
-        debugger;
         this.file.userid = this.user_id;
-        console.log(this.file.imageBytes)
         this.file.imagePath = "/Users/";
       updateAccountImage(this.file).then(
         (response) => {
@@ -526,6 +524,7 @@ export default {
               "success"
             );
             this.clearSettings();
+            this.$router.go();
           } else {
             this.$emit(
               "show-alert",

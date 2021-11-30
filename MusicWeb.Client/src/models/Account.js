@@ -5,7 +5,7 @@ export default class account {
   lastname = "";
   email = "";
   birthdate = "";
-  image = "";
+  imagePath = "";
   userFavoriteAlbums = [];
   userFavoriteArtists = [];
   userFavoriteSongs = [];
@@ -18,7 +18,7 @@ export default class account {
       this.lastname = $data.lastName;
       this.email = $data.email;
       this.birthdate = $data.birthDate;
-      this.image = $data.image;
+      this.imagePath = $data.imagePath;
       this.userFavoriteAlbums = $data.userFavoriteAlbums;
       this.userFavoriteArtists = $data.userFavoriteArtists;
       this.userFavoriteSongs = $data.userFavoriteSongs;
