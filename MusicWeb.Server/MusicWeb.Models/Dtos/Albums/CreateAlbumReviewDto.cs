@@ -14,5 +14,8 @@ namespace MusicWeb.Models.Dtos.Albums.Create
         public DateTime PostDate { get; set; }
         public int AlbumId { get; set; }
         public string UserId { get; set; }
+        public string UserName { get; set; }
+        public string AlbumName { get; set; }
+        public string Artist { get; set; }
     }
 }

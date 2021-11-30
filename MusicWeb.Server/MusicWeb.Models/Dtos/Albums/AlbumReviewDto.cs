@@ -12,5 +12,6 @@ namespace MusicWeb.Models.Dtos.Albums
         public int Id { get; set; }
         public string UserName { get; set; }
         public string AlbumName { get; set; }
+        public string Artist { get; set; }
     }
 }
