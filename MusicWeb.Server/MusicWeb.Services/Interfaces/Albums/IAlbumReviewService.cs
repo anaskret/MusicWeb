@@ -11,10 +11,10 @@ namespace MusicWeb.Services.Interfaces.Albums
     public interface IAlbumReviewService
     {
         Task<AlbumReview> GetByIdAsync(int id);
-        Task<List<AlbumReviewDto>> GetAllAsync();
+        Task<List<AlbumReviewFullDataDto>> GetAllAsync();
         Task AddAsync(AlbumReview entity);
         Task UpdateAsync(AlbumReview entity);
         Task DeleteAsync(int id);
-        Task<AlbumReviewDto> GetAlbumReviewFullDataByIdAsync(int id);
+        Task<AlbumReviewFullDataDto> GetAlbumReviewFullDataByIdAsync(int id);
     }
 }
