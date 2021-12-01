@@ -1,6 +1,6 @@
 <template>
   <v-container fluid>
-    {{ review}}
+    <!-- {{ review}} -->
     <v-row justify="center" class="pt-10">
       <v-col lg="2">
          <div class="d-flex justify-content-center">
