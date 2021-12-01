@@ -27,4 +27,14 @@ export default {
   updateImage(data) {
     return ApiService.authRequest(`/users/image`, ApiService.put, data);
   },
+  getPaged(
+    user_id,
+    page_num,
+    page_size
+  ) {
+    return ApiService.authRequest(
+    `/userposts/${user_id}/${page_num}/${page_size}`,
+    ApiService.get
+    );
+  },
 };

@@ -1,5 +1,6 @@
 import accountServices from "@/services/accountServices";
 import Account from "@/models/Account";
+import Post from "@/models/Post";
 
 export default function useAccounts() {
   const loginAccount = async (data) => {
@@ -37,6 +38,29 @@ export default function useAccounts() {
   const updateAccountImage = async (data) => {
     return await accountServices.updateImage(data);
   };
+
+  const getPaged = function (
+    user_id,
+    page_num,
+    page_size
+  ) {
+    if (page_num > -1 && page_size) {
+      return accountServices
+        .getPaged(
+            user_id,
+            page_num,
+            page_size
+        )
+        .then((response) => {
+          let res = response.data;
+          let posts = [];
+          res.forEach((post) => {
+            posts.push(new Post(post));
+          });
+          return posts;
+        });
+    }
+  };
   return {
     loginAccount,
     logoutAccount,
@@ -45,6 +69,7 @@ export default function useAccounts() {
     updateAccountNames,
     updateAccountPassword,
     updateAccountEmail,
-    updateAccountImage
+    updateAccountImage,
+    getPaged
   };
 }
