@@ -17,6 +17,7 @@
       :artist="song.composer.name"
       :album="song.album.name"
       v-on="$listeners"
+      :redirect_module_name="redirect_module_name"
     />
   </div>
 </template>
@@ -40,6 +41,7 @@ export default {
       show_observe_button: false,
       vote_title: "Oceń piosenkę",
       module_name: "Song",
+      redirect_module_name: "SongReviewPage",
       description_title: "Tekst utworu",
       reviews_desc: {},
     };

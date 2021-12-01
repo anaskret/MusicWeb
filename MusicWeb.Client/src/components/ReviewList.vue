@@ -1,5 +1,6 @@
 <template>
   <v-container fluid>
+    {{redirect_module_name}}
     <v-row justify="center" class="pb-lg-2">
       <v-col lg="8" class="d-flex flex-row justify-space-between">
         <div class="d-flex flex-row" style="align-items: center">
@@ -143,6 +144,7 @@ export default {
     album: String,
     artist: String,
     module_name: String,
+    redirect_module_name: String,
   },
   data() {
     return {
@@ -153,7 +155,6 @@ export default {
       error: {},
       dialog: false,
       user_id: localStorage.getItem("user-id"),
-      redirect_module_name: "ReviewPage",
     };
   },
   methods: {
@@ -171,7 +172,8 @@ export default {
     redirectToItem(itemId) {
       this.$router.push({
         name: `${this.redirect_module_name}`,
-        params: { id: itemId },
+        params: { id: itemId,
+        module_name: this.module_name },
       });
     },
   },

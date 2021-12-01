@@ -1,6 +1,5 @@
 <template>
   <v-container fluid>
-    <!-- {{ review}} -->
     <v-row justify="center" class="pt-10">
       <v-col lg="2">
         <div class="d-flex justify-content-center">
@@ -15,7 +14,7 @@
           <p>{{ review.userName }} at {{ review.postDate }}</p>
         </div>
         <div>
-          <p>{{ review.album.name }} - {{ review.artist }}</p>
+          <!-- <p>{{ review.album.name }} - {{ review.artist }}</p> -->
         </div>
         <div class="pt-10">
           <p>
@@ -82,6 +81,7 @@
 
 <script>
 import useAlbumReviews from "@/modules/albumReviews";
+import useSongReviews from "@/modules/songReviews";
 export default {
   name: "ReviewPage",
   components: {},
@@ -89,11 +89,20 @@ export default {
     return {
       id: this.$route.params.id,
       review: {},
+      module_name: this.$route.name,
+      
     };
   },
   methods: {},
   created() {
-    this.getAlbumReview();
+    if (this.module_name == "AlbumReviewPage")
+    {
+      this.getAlbumReview();
+    }
+    else if (this.module_name == "SongReviewPage")
+    {
+      this.getSongReview();
+    }
   },
   setup() {
     // const { getAlbumFullData } = useAlbums();
@@ -104,13 +113,22 @@ export default {
     //   });
     // };
     const { getAlbumReviewFullData } = useAlbumReviews();
+    const {getSongReviewFullData} = useSongReviews();
+
     const getAlbumReview = function () {
       getAlbumReviewFullData(this.id).then((response) => {
         this.review = response;
       });
     };
+
+    const getSongReview = function () {
+      getSongReviewFullData(this.id).then((response) =>{
+        this.review = response;
+      });
+    };
     return {
       getAlbumReview,
+      getSongReview,
     };
   },
 };

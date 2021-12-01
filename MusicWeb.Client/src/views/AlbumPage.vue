@@ -20,6 +20,7 @@
       :artist="album.artist.name"
       :module_name="module_name"
       v-on="$listeners"
+      :redirect_module_name="redirect_module_name"
     />
   </div>
 </template>
@@ -48,6 +49,7 @@ export default {
       reviews_desc: {},
       list_title: "Utwory",
       list_link_title: "Wyświetl wszystkie utwory",
+      redirect_module_name: "AlbumReviewPage",
     };
   },
   methods: {
