@@ -7,7 +7,7 @@ export default function useSongReviews() {
       return response.data;
     });
   };
-  const addReview = function (data) {
+  const addSongReview = function (data) {
     if (data) {
       return songReviewServices.addReview(data);
     }
@@ -21,7 +21,7 @@ export default function useSongReviews() {
   };
   return {
     getAll,
-    addReview,
+    addSongReview,
     getSongReviewFullData,
   };
 }

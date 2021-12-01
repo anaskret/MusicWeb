@@ -1,5 +1,6 @@
 <template>
   <div>
+    {{reviews_desc }}
     <Header
       :parent="song"
       :show_observe_button="show_observe_button"
@@ -11,9 +12,11 @@
       :description_title="description_title"
     />
     <ReviewList
-      :reviews="song.songReviews"
+      :reviews="reviews_desc"
+      :refreshComments="getSongData"
       :artist="song.composer.name"
       :album="song.album.name"
+      v-on="$listeners"
     />
   </div>
 </template>
@@ -38,7 +41,13 @@ export default {
       vote_title: "Oceń piosenkę",
       module_name: "Song",
       description_title: "Tekst utworu",
+      reviews_desc: {},
     };
+  },
+  methods: {
+    prepareReviews() {
+      this.reviews_desc = this.song.songReviews.reverse().slice(0, 3);
+    },
   },
   created() {
     this.getSongData();
@@ -48,6 +57,7 @@ export default {
     const getSongData = function () {
       getSongFullData(this.id).then((response) => {
         this.song = response;
+        this.prepareReviews();
       });
     };
     return {
