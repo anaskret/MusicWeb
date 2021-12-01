@@ -7,9 +7,9 @@ export default function useAlbumReviews() {
       return response.data;
     });
   };
-  const addReview = function (data) {
+  const addAlbumReview = function (data) {
     if (data) {
-      return albumReviewServices.addReview(data);
+      return albumReviewServices.addAlbumReview(data);
     }
   };
   const getAlbumReviewFullData = function (id) {
@@ -21,7 +21,7 @@ export default function useAlbumReviews() {
   };
   return {
     getAll,
-    addReview,
+    addAlbumReview,
     getAlbumReviewFullData,
   };
 }

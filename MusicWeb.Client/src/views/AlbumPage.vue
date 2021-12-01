@@ -18,6 +18,7 @@
       :refreshComments="getAlbumData"
       :album="album.name"
       :artist="album.artist.name"
+      :module_name="module_name"
       v-on="$listeners"
     />
   </div>
