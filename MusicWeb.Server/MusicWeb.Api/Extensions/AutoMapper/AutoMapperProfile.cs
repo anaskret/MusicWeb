@@ -54,14 +54,13 @@ namespace MusicWeb.Api.Extensions.AutoMapper
             CreateMap<AlbumFullDataDto, Album>();
 
             CreateMap<AlbumReview, AlbumReviewDto>()
-                .ForMember(prp => prp.UserName, obj => obj.MapFrom(src => src.User.FirstName));
+                .ForMember(prp => prp.UserName, obj => obj.MapFrom(src => src.User.UserName));
             CreateMap<AlbumReviewDto, AlbumReview>();
             CreateMap<CreateAlbumReviewDto, AlbumReview>();
             CreateMap<AlbumReviewFullDataDto, AlbumReview>();
             CreateMap<AlbumReview, AlbumReviewFullDataDto>()
                 .ForMember(prp => prp.UserName, obj => obj.MapFrom(src => src.User.UserName))
                 .ForMember(prp => prp.Artist, obj => obj.MapFrom(src => src.Album.Artist.Name));
-            CreateMap<AlbumReview, AlbumReviewDto>();
 
             CreateMap<Song, SongDto>();
             CreateMap<SongDto, Song>();
