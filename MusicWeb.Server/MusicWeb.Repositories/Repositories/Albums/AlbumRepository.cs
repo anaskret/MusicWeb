@@ -22,6 +22,7 @@ namespace MusicWeb.Repositories.Repositories.Albums
             var entity = await _dbContext.Album
                 .Include(songs => songs.Songs)
                 .Include(reviews => reviews.AlbumReviews)
+                .ThenInclude(user => user.User)
                 .Include(artist => artist.Artist)
                 .Include(genre => genre.AlbumGenre)
                 .FirstOrDefaultAsync(prp => prp.Id == id);

@@ -46,6 +46,11 @@ const routes = [
     name: "Activities",
     component: () => import("@/views/Activities.vue"),
   },
+  {
+    path: "/review/:id",
+    name: "ReviewPage",
+    component: () => import("@/views/ReviewPage"),
+  },
 ];
 
 const router = new VueRouter({

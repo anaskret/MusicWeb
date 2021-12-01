@@ -7,11 +7,18 @@
     />
 
     <InfoSection :parent="album" :module_name="module_name" />
-    <ItemList :items="album.songs" :album="album.name" />
+    <ItemList
+      :items="album.songs"
+      :album="album.name"
+      :list_title="list_title"
+      :list_link_title="list_link_title"
+    />
     <ReviewList
-      :reviews="album.albumReviews"
+      :reviews="reviews_desc"
+      :refreshComments="getAlbumData"
       :album="album.name"
       :artist="album.artist.name"
+      v-on="$listeners"
     />
   </div>
 </template>
@@ -37,7 +44,15 @@ export default {
       show_observe_button: false,
       vote_title: "Oceń album",
       module_name: "Album",
+      reviews_desc: {},
+      list_title: "Utwory",
+      list_link_title: "Wyświetl wszystkie utwory",
     };
+  },
+  methods: {
+    prepareReviews() {
+      this.reviews_desc = this.album.albumReviews.reverse().slice(0, 3);
+    },
   },
   created() {
     this.getAlbumData();
@@ -47,6 +62,7 @@ export default {
     const getAlbumData = function () {
       getAlbumFullData(this.id).then((response) => {
         this.album = response;
+        this.prepareReviews();
       });
     };
     return {

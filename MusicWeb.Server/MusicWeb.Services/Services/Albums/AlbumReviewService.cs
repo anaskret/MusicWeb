@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using MusicWeb.Models.Dtos.Albums;
 using MusicWeb.Models.Entities;
 using MusicWeb.Repositories.Interfaces.Albums;
@@ -26,11 +27,14 @@ namespace MusicWeb.Services.Services.Albums
         public async Task<AlbumReview> GetByIdAsync(int id)
         {
             return await _albumReviewRepository.GetByIdAsync(id);
+           
         }
 
-        public async Task<List<AlbumReviewDto>> GetAllAsync()
+        public async Task<List<AlbumReviewFullDataDto>> GetAllAsync()
         {
-            return _mapper.Map<List<AlbumReviewDto>>(await _albumReviewRepository.GetAllAsync());
+            return _mapper.Map<List<AlbumReviewFullDataDto>>(await _albumReviewRepository.GetAllAsync(entity => entity.Include(prp => prp.User)
+            .Include(prp => prp.Album)
+            .ThenInclude(prp => prp.Artist)));
         }
 
         public async Task AddAsync(AlbumReview entity)
@@ -48,6 +52,13 @@ namespace MusicWeb.Services.Services.Albums
         {
             var entity = await GetByIdAsync(id);
             await _albumReviewRepository.DeleteAsync(entity);
+        }
+
+        public async Task<AlbumReviewFullDataDto> GetAlbumReviewFullDataByIdAsync(int id)
+        {
+            var albumReview = await _albumReviewRepository.GetAlbumReviewFullDataByIdAsync(id);
+            return _mapper.Map<AlbumReviewFullDataDto>(albumReview);
+
         }
     }
 }

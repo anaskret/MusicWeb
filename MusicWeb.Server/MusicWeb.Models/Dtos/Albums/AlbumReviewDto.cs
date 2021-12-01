@@ -10,5 +10,6 @@ namespace MusicWeb.Models.Dtos.Albums
     public class AlbumReviewDto : CreateAlbumReviewDto
     {
         public int Id { get; set; }
+
     }
 }
