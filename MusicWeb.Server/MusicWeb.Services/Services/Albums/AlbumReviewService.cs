@@ -32,9 +32,10 @@ namespace MusicWeb.Services.Services.Albums
 
         public async Task<List<AlbumReviewFullDataDto>> GetAllAsync()
         {
-            return _mapper.Map<List<AlbumReviewFullDataDto>>(await _albumReviewRepository.GetAllAsync(entity => entity.Include(prp => prp.User)
-            .Include(prp => prp.Album)
-            .ThenInclude(prp => prp.Artist)));
+            return _mapper.Map<List<AlbumReviewFullDataDto>>(await _albumReviewRepository.GetAllAsync(entity => entity
+            .Include(user => user.User)
+            .Include(album => album.Album)
+            .ThenInclude(artist => artist.Artist)));
         }
 
         public async Task AddAsync(AlbumReview entity)

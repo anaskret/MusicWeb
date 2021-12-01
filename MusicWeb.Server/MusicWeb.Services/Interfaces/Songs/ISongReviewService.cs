@@ -11,7 +11,7 @@ namespace MusicWeb.Services.Interfaces.Songs
     public interface ISongReviewService
     {
         Task<SongReview> GetByIdAsync(int id);
-        Task<List<SongReviewDto>> GetAllAsync();
+        Task<List<SongReviewFullDataDto>> GetAllAsync();
         Task AddAsync(SongReview entity);
         Task UpdateAsync(SongReview entity);
         Task DeleteAsync(int id);

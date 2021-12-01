@@ -14,11 +14,12 @@ namespace MusicWeb.Models.Dtos.Songs
         public DateTime PostDate { get; set; }
         public int SongId { get; set; }
         public string UserId { get; set; }
-        public ApplicationUser User{ get; set; }
+        public string UserName { get; set; }
         public SongDto Song { get; set; }
+        public string AlbumName { get; set; }
+        public string ArtistName { get; set; }
         public SongReviewFullDataDto()
         {
-            var User = new ApplicationUser();
             var Songs = new SongDto();
         }
     }
