@@ -23,6 +23,7 @@ namespace MusicWeb.Repositories.Repositories.Songs
                 .Include(album => album.Album)
                 .Include(composer => composer.Composer)
                 .Include(songReviews => songReviews.SongReviews)
+                .ThenInclude(user => user.User)
                 .FirstOrDefaultAsync(prp => prp.Id == id);
             return entity;
         }
