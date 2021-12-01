@@ -45,6 +45,6 @@ export default function useAccounts() {
     updateAccountNames,
     updateAccountPassword,
     updateAccountEmail,
-    updateAccountImage
+    updateAccountImage,
   };
 }

@@ -45,7 +45,7 @@ const faIcons = [
   faEnvelope,
   faImage,
   faThumbsUp,
-  faComment
+  faComment,
 ];
 faIcons.forEach((icon) => library.add(icon));
 

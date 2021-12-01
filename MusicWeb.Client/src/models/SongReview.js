@@ -1,22 +1,24 @@
-export default class AlbumReview {
+export default class SongReview {
   title = "";
   content = "";
   postDate = "";
-  albumId = "";
+  songId = "";
   userId = "";
-  album = {};
+  song = {};
   userName = "";
-  artist = "";
+  albumName = "";
+  artistName = "";
   constructor($data) {
     if ($data) {
       this.title = $data.title;
       this.content = $data.content;
       this.postDate = $data.postDate;
-      this.albumId = $data.albumId;
+      this.songId = $data.songId;
       this.userId = $data.userId;
-      this.album = $data.album ? $data.album : {};
+      this.song = $data.song ? $data.song : {};
       this.userName = $data.userName;
-      this.artist = $data.artist;
+      this.albumName = $data.albumName;
+      this.artistName = $data.artistName;
     }
   }
 }

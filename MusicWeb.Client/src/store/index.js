@@ -10,6 +10,6 @@ export default new Vuex.Store({
   state: {
     tokenExpired: false,
     searchingValue: "",
-    serverUrl: "http://localhost:5000"
+    serverUrl: "http://localhost:5000",
   },
 });

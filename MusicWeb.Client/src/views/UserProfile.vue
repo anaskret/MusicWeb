@@ -2,10 +2,20 @@
   <v-container fluid class="py-16 d-flex justify-center">
     <v-row justify="center">
       <v-col md="2" sm="6">
-          <v-avatar size="280">
-            <v-img v-if="account.imagePath" :src="`${this.$store.state.serverUrl}/${account.imagePath}`" :alt="`${account.firstname}`" class="rounded-circle" />
-            <v-img v-else src="@/assets/defaut_user.png" :alt="`${account.firstname}`" class="rounded-circle" />
-          </v-avatar>
+        <v-avatar size="280">
+          <v-img
+            v-if="account.imagePath"
+            :src="`${this.$store.state.serverUrl}/${account.imagePath}`"
+            :alt="`${account.firstname}`"
+            class="rounded-circle"
+          />
+          <v-img
+            v-else
+            src="@/assets/defaut_user.png"
+            :alt="`${account.firstname}`"
+            class="rounded-circle"
+          />
+        </v-avatar>
       </v-col>
       <v-col md="4" sm="9">
         <div class="profile-header">
