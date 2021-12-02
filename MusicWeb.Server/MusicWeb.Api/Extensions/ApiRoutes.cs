@@ -138,6 +138,14 @@ namespace MusicWeb.Api.Extensions
             public const string UpdateImage = Root + "/users/image";
         }
 
+        public static class UserObservedArtists
+        {
+            public const string Create = Root + "/userobservedartists";
+            public const string GetAll = Root + "/userobservedartistsbyuser/{id}";
+            public const string GetById = Root + "/userobservedartists/{id}";
+            public const string Delete = Root + "/userobservedartists/{id}";
+        }
+
         public static class UserFavoriteArtists
         {
             public const string Create = Root + "/userfavoriteartists";

@@ -3,10 +3,12 @@ using MusicWeb.Models.Dtos.Albums;
 using MusicWeb.Models.Dtos.Artists;
 using MusicWeb.Models.Entities;
 using MusicWeb.Models.Entities.Artists;
+using MusicWeb.Models.Entities.Posts;
 using MusicWeb.Repositories.Interfaces.Albums;
 using MusicWeb.Repositories.Interfaces.Artists;
 using MusicWeb.Services.Interfaces;
 using MusicWeb.Services.Interfaces.Artists;
+using MusicWeb.Services.Interfaces.Posts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,12 +21,15 @@ namespace MusicWeb.Services.Services.Albums
     {
         private readonly IAlbumRepository _albumRepository;
         private readonly IMapper _mapper;
+        private readonly IPostService _postService;
 
-
-        public AlbumService(IAlbumRepository albumRepository, IMapper mapper)
+        public AlbumService(IAlbumRepository albumRepository, 
+                            IMapper mapper, 
+                            IPostService postService)
         {
             _albumRepository = albumRepository;
             _mapper = mapper;
+            _postService = postService;
         }
 
         public async Task<Album> GetByIdAsync(int id)
@@ -40,6 +45,8 @@ namespace MusicWeb.Services.Services.Albums
         public async Task AddAsync(Album entity)
         {
             await _albumRepository.AddAsync(entity);
+
+            await _postService.AddAsync(new Post { AlbumId = entity.Id, ArtistPosterId = entity.ArtistId, CreateDate = DateTime.Now });
         }
 
         public async Task UpdateAsync(Album entity)
