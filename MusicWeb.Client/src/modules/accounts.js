@@ -62,9 +62,15 @@ export default function useAccounts() {
     }
   };
   
-  const addAccountPost= function (data) {
+  const addAccountPost = function (data) {
     if (data) {
       return accountServices.addPost(data);
+    }
+  };
+
+  const userWatchArtist = function (data) {
+    if (data) {
+      return accountServices.watchArtist(data);
     }
   };
   return {
@@ -77,6 +83,7 @@ export default function useAccounts() {
     updateAccountEmail,
     updateAccountImage,
     getPaged,
-    addAccountPost
+    addAccountPost,
+    userWatchArtist
   };
 }

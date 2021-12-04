@@ -21,7 +21,8 @@
                 height="30px"
                 v-if="show_observe_button"
                 class="text-uppercase align-self-center ml-md-16"
-                >Obserwuj
+                @click="watchArtist"
+                >Watch
               </v-btn>
             </div>
           </v-col>
@@ -71,6 +72,8 @@
 
 <script>
 import RankSection from "@/components/RankSection.vue";
+import moment from "moment";
+import useAccounts from "@/modules/accounts";
 
 export default {
   name: "Header",
@@ -99,6 +102,42 @@ export default {
         { color: "#868263" },
         { color: "gray" },
       ],
+      watch_artist: {
+        favoriteDate: moment.utc().format(),
+        userId: this.$store.state.auth.userId
+      }
+    };
+  },
+  setup() {
+    const { userWatchArtist } = useAccounts();
+
+    const watchArtist = function () {
+      this.watch_artist.favoriteId = this.parent.id;
+      this.watch_artist.name = this.parent.name;
+      userWatchArtist(this.watch_artist).then(
+        (response) => {
+          if (response.status == 200) {
+            // TODO change button to observed, get userobservedartist
+            this.$emit("show-alert", `You're now watching ${this.parent.name}.`, "success");
+          } else {
+            this.$emit(
+              "show-alert",
+              `Something went wrong. Error ${response.status}`,
+              "error"
+            );
+          }
+        },
+        (error) => {
+          this.$emit(
+            "show-alert",
+            `Something went wrong. ${error.response.status} ${error.response.data}`,
+            "error"
+          );
+        }
+      );
+    };
+    return {
+      watchArtist,
     };
   },
 };

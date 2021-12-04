@@ -4,6 +4,7 @@
       :parent="artist"
       :show_observe_button="show_observe_button"
       :vote_title="vote_title"
+      v-on="$listeners"
     />
     <InfoSection
       :parent="artist"

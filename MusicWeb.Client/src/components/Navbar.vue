@@ -11,11 +11,12 @@
     <div class="d-flex align-center">
       <v-img
         alt="MusicWeb"
-        class="shrink"
+        class="shrink link-to-item"
         contain
         src="@/assets/logo-navbar.png"
         transition="scale-transition"
         width="150"
+        @click="redirectToActivities"
       />
     </div>
     <v-spacer></v-spacer>

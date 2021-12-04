@@ -71,7 +71,9 @@
               <v-col lg="4" sm="4">
                 <div>
                   <v-img
+                    class="link-to-item"
                     :src="require('@/assets/naturaldisaster.svg')"
+                    @click="redirectToItem(item.albumId, 'Album')"
                     contain
                   />
                 </div>
@@ -336,8 +338,5 @@ p {
 }
 .v-expansion-panel::before{
   box-shadow: none;
-}
-.link-to-item{
-  cursor: pointer;
 }
 </style>

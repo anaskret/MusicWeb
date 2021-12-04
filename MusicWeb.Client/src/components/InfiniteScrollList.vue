@@ -97,6 +97,7 @@
                     color="white"
                     v-bind="attrs"
                     v-on="on"
+                    readonly
                     @click="focusTextarea"
                   />
                   <!-- <v-btn
@@ -296,6 +297,7 @@ export default {
             if (response.status == 200) {
               this.getPagedItemList();
               this.post.text = null;
+              this.new_post_dialog = false;
               this.$emit("show-alert", "Post added.", "success");
             } else {
               this.$emit(

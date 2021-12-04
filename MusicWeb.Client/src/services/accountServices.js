@@ -40,4 +40,7 @@ export default {
   addPost(data) {
     return ApiService.authRequest(`/posts`, ApiService.post, data);
   },
+  watchArtist(data) {
+    return ApiService.authRequest(`/userobservedartists`, ApiService.post, data);
+  },
 };
