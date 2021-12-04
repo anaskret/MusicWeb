@@ -61,6 +61,12 @@ export default function useAccounts() {
         });
     }
   };
+  
+  const addAccountPost= function (data) {
+    if (data) {
+      return accountServices.addPost(data);
+    }
+  };
   return {
     loginAccount,
     logoutAccount,
@@ -70,6 +76,7 @@ export default function useAccounts() {
     updateAccountPassword,
     updateAccountEmail,
     updateAccountImage,
-    getPaged
+    getPaged,
+    addAccountPost
   };
 }

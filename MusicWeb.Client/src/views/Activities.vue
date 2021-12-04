@@ -8,6 +8,7 @@
     @set-filters="setFilters"
     :redirect_module_name="redirect_module_name"
     :module_name="module_name"
+    v-on="$listeners"
   />
 </template>
 

@@ -7,8 +7,8 @@ export default class Post {
     text = "";
     createDate = "";
     posterId = null;
-    artistPosterId = null;
-    albumId = null;
+    artistPosterId = '';
+    albumId = '';
   
     constructor($data) {
       if ($data) {

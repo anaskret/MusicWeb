@@ -37,4 +37,7 @@ export default {
     ApiService.get
     );
   },
+  addPost(data) {
+    return ApiService.authRequest(`/posts`, ApiService.post, data);
+  },
 };
