@@ -141,7 +141,7 @@ namespace MusicWeb.Api.Extensions
         public static class UserObservedArtists
         {
             public const string Create = Root + "/userobservedartists";
-            public const string GetAll = Root + "/userobservedartistsbyuser/{id}";
+            public const string GetAll = Root + "/userobservedartistsbyuser/{userId}";
             public const string GetById = Root + "/userobservedartists/{id}";
             public const string Delete = Root + "/userobservedartists/{id}";
         }
