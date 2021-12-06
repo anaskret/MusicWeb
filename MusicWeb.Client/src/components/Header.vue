@@ -49,15 +49,19 @@
               <p>{{ vote_title }}</p>
               <div class="d-flex flex-row">
                 <font-awesome-icon
-                  class="icon pr-2"
+                  class="star icon pr-2"
                   v-for="(star, index) in stars"
                   :key="index"
                   icon="star"
                   size="2x"
                   :color="star.color"
+                  v-on:click="vote"
+                  v-on:mouseover="countStars"
+                  :id="'star_' + index" :value="star.value"
+              
                 ></font-awesome-icon>
                 <div class="align-center">
-                  <span class="feature-text">4.0</span>
+                  <span class="feature-text" id="rating">0.0</span>
                 </div>
               </div>
             </div>
@@ -71,6 +75,8 @@
 
 <script>
 import RankSection from "@/components/RankSection.vue";
+import useAlbumRatings from "@/modules/albumRatings.js";
+import AlbumRating from "@/models/AlbumRating.js";
 
 export default {
   name: "Header",
@@ -93,13 +99,84 @@ export default {
   data() {
     return {
       stars: [
-        { color: "#868263" },
-        { color: "#868263" },
-        { color: "#868263" },
-        { color: "#868263" },
-        { color: "gray" },
+        { color: "gray", value:1 },
+        { color: "gray", value:2 },
+        { color: "gray", value:3 },
+        { color: "gray", value:4 },
+        { color: "gray", value:5 },
       ],
+      albumRating: new AlbumRating(),
     };
+  },
+  setup() {
+    const { addAlbumRating } = useAlbumRatings();
+
+      const addNewAlbumRating = function (ratingId) {
+      this.albumRating.userId = this.$store.state.auth.userId;
+      this.albumRating.albumId = this.$route.params.id;
+      this.albumRating.rating = ratingId;
+      console.log(this.albumRating);
+      
+        addAlbumRating(this.albumRating).then(
+          (response) => {
+            if (response.status == 200) {
+              console.log('ok');
+            
+              this.$emit("show-alert", "Review added.", "success");
+            } else {
+              this.$emit(
+                "show-alert",
+                `Nie udało się dodać recenzji. Błąd ${response.status}`,
+                "error"
+              );
+            }
+          },
+          (error) => {
+            this.$emit(
+              "show-alert",
+              `Nie udało się dodać recenzji. ${error.response.status} ${error.response.data}`,
+              "error"
+            );
+          }
+        );
+      }
+    
+
+    return {
+      addNewAlbumRating,
+    };
+  },
+  methods: {
+    vote: function(event)
+    {
+      console.log(event.currentTarget.getAttribute("value"));
+      this.addNewAlbumRating(event.currentTarget.getAttribute("value"));
+    },
+
+    colorStars: function(value)
+    {
+      let stars = document.querySelectorAll(".star");
+      stars.forEach(star => {
+        if (star.getAttribute("value") <= value)
+        {
+          star.classList.add("activeStar");
+        }
+        else
+        {
+          star.classList.remove("activeStar");
+        }
+      });
+    },
+
+    countStars: function(event)
+    {
+      let value = event.currentTarget.getAttribute("value");
+      let rating = document.querySelector("#rating");
+      rating.innerText = value + ".0";
+      // event.currentTarget.classList.add("activeStar");
+      this.colorStars(value);
+    }
+
   },
 };
 </script>
@@ -123,4 +200,12 @@ p {
 .feature-text {
   font-size: 1rem;
 }
+.star {
+  cursor: pointer;
+}
+
+.activeStar {
+  color: #868263;
+}
+
 </style>
