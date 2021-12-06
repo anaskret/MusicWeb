@@ -250,6 +250,9 @@ namespace MusicWeb.Api
             services.AddTransient<IAlbumRatingRepository, AlbumRatingRepository>();
             services.AddTransient<IAlbumRatingService, AlbumRatingService>();
 
+            services.AddTransient<ISongRatingRepository, SongRatingRepository>();
+            services.AddTransient<ISongRatingService, SongRatingService>();
+
             services.AddTransient<IRolesService, RolesService>();
 
             services.AddTransient<IChatService, ChatService>();

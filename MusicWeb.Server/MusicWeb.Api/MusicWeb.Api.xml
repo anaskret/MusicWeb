@@ -183,6 +183,26 @@
             Updates a rating for an artist
             </summary>
         </member>
+        <member name="M:MusicWeb.Api.Controllers.Ratings.SongRatingController.GetById(System.Int32)">
+            <summary>
+            Gets a single rating
+            </summary>
+        </member>
+        <member name="M:MusicWeb.Api.Controllers.Ratings.SongRatingController.GetAllForSong(System.Int32)">
+            <summary>
+            Gets all ratings for an song
+            </summary>
+        </member>
+        <member name="M:MusicWeb.Api.Controllers.Ratings.SongRatingController.CreateSong(MusicWeb.Models.Dtos.Ratings.CreateSongRatingDto)">
+            <summary>
+            Creates an song rating
+            </summary>
+        </member>
+        <member name="M:MusicWeb.Api.Controllers.Ratings.SongRatingController.UpdateSong(MusicWeb.Models.Dtos.Ratings.SongRatingDto)">
+            <summary>
+            Updates a rating for an song
+            </summary>
+        </member>
         <member name="M:MusicWeb.Api.Controllers.Users.UserController.UpdatePasswordAsync(MusicWeb.Models.Dtos.Users.UpdatePasswordDto)">
             <summary>
             Updates user password

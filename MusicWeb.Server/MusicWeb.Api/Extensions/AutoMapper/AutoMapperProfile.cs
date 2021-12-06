@@ -132,7 +132,11 @@ namespace MusicWeb.Api.Extensions.AutoMapper
 
             CreateMap<AlbumRating, AlbumRatingDto>();
             CreateMap<AlbumRatingDto, AlbumRating>();
-            CreateMap<CreateAlbumRatingDto, AlbumRating>();
+            CreateMap<CreateAlbumRatingDto, AlbumRating>();            
+            
+            CreateMap<SongRating, SongRatingDto>();
+            CreateMap<SongRatingDto, SongRating>();
+            CreateMap<CreateSongRatingDto, SongRating>();
 
             CreateMap<BaseChatDto, Chat>();
             CreateMap<ChatDto, Chat>();

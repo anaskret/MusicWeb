@@ -435,6 +435,25 @@ namespace MusicWeb.DataAccess.Data
 */
             });
 
+            modelBuilder.Entity<SongRating>(entity =>
+            {
+                entity.Property(e => e.Rating)
+                .IsRequired(true);
+                /*
+                                entity.HasOne(e => e.Album)
+                                .WithMany(p => p.AlbumRatings)
+                                .HasForeignKey(e => e.AlbumId)
+                                .OnDelete(DeleteBehavior.Restrict)
+                                .IsRequired(true);
+
+                                entity.HasOne(e => e.User)
+                                .WithMany(p => p.AlbumRatings)
+                                .HasForeignKey(e => e.UserId)
+                                .OnDelete(DeleteBehavior.Restrict)
+                                .IsRequired(true);
+                */
+            });
+
             modelBuilder.Entity<ArtistRatingAverage>(entity =>
             {
                 entity.HasNoKey();
