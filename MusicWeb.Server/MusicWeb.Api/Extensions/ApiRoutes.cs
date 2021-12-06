@@ -190,6 +190,15 @@ namespace MusicWeb.Api.Extensions
             public const string GetAll = Root + "/listartistratings/{id}";
         }
 
+        public static class AlbumRatings
+        {
+            public const string Create = Root + "/albumratings";
+            public const string Update = Root + "/albumratings";
+            public const string Delete = Root + "/albumratings/{id}";
+            public const string GetById = Root + "/albumratings/{id}";
+            public const string GetAll = Root + "/listalbumratings/{id}";
+        }
+
         public static class Chats
         {
             public const string Create = Root + "/chats";

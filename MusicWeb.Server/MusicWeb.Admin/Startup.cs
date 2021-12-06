@@ -167,6 +167,9 @@ namespace MusicWeb.Admin
             services.AddTransient<IArtistRatingRepository, ArtistRatingRepository>();
             services.AddTransient<IArtistRatingService, ArtistRatingService>();
 
+            services.AddTransient<IAlbumRatingRepository, AlbumRatingRepository>();
+            services.AddTransient<IAlbumRatingService, AlbumRatingService>();
+
             services.AddTransient<IRolesService, RolesService>();
 
             services.AddTransient<IFileService, FileService>();

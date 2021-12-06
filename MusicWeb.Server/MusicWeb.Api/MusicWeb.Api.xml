@@ -143,6 +143,26 @@
             Deletes a post
             </summary>
         </member>
+        <member name="M:MusicWeb.Api.Controllers.Ratings.AlbumRatingController.GetById(System.Int32)">
+            <summary>
+            Gets a single rating
+            </summary>
+        </member>
+        <member name="M:MusicWeb.Api.Controllers.Ratings.AlbumRatingController.GetAllForAlbum(System.Int32)">
+            <summary>
+            Gets all ratings for an album
+            </summary>
+        </member>
+        <member name="M:MusicWeb.Api.Controllers.Ratings.AlbumRatingController.CreateAlbum(MusicWeb.Models.Dtos.Ratings.CreateAlbumRatingDto)">
+            <summary>
+            Creates an album rating
+            </summary>
+        </member>
+        <member name="M:MusicWeb.Api.Controllers.Ratings.AlbumRatingController.UpdateAlbum(MusicWeb.Models.Dtos.Ratings.AlbumRatingDto)">
+            <summary>
+            Updates a rating for an album
+            </summary>
+        </member>
         <member name="M:MusicWeb.Api.Controllers.Ratings.ArtistRatingController.GetById(System.Int32)">
             <summary>
             Gets a single rating
