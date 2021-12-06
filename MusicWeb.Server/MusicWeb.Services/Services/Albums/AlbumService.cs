@@ -56,10 +56,6 @@ namespace MusicWeb.Services.Services.Albums
         public async Task<AlbumFullDataDto> GetFullAlbumDataByIdAsync(int id)
         {
             var album = await _albumRepository.GetFullAlbumDataByIdAsync(id);
-            var test2 = album.AlbumReviews.ToList()[0];
-            var test = _mapper.Map<AlbumReviewDto>(test2);
-            var test3 = album.AlbumReviews.ToList();
-            var test4 = _mapper.Map<List<AlbumReviewDto>>(test3);
             return _mapper.Map<AlbumFullDataDto>(album);
         }
     }

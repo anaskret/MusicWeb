@@ -1,6 +1,5 @@
 <template>
   <v-container fluid>
-    {{redirect_module_name}}
     <v-row justify="center" class="pb-lg-2">
       <v-col lg="8" class="d-flex flex-row justify-space-between">
         <div class="d-flex flex-row" style="align-items: center">
@@ -225,8 +224,6 @@ export default {
       this.albumReview.postDate = moment.utc().format();
       delete this.albumReview.album;
       delete this.albumReview.user;
-      console.log(this.albumReview.title);
-      console.log(this.albumReview.content);
       if (
         this.albumReview.title == null ||
         this.albumReview.title == "" ||

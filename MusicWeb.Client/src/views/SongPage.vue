@@ -1,6 +1,5 @@
 <template>
   <div>
-    {{reviews_desc }}
     <Header
       :parent="song"
       :show_observe_button="show_observe_button"
