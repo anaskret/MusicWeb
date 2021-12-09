@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MusicWeb.DataAccess.Data;
 
 namespace MusicWeb.DataAccess.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211209193400_PostLikesAndComments")]
+    partial class PostLikesAndComments
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -522,9 +524,6 @@ namespace MusicWeb.DataAccess.Migrations
                     b.Property<string>("Text")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("UserObservedArtistId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.HasIndex("AlbumId");
@@ -532,8 +531,6 @@ namespace MusicWeb.DataAccess.Migrations
                     b.HasIndex("ArtistPosterId");
 
                     b.HasIndex("PosterId");
-
-                    b.HasIndex("UserObservedArtistId");
 
                     b.ToTable("Post");
                 });
@@ -1135,7 +1132,7 @@ namespace MusicWeb.DataAccess.Migrations
                         .HasForeignKey("AlbumId")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("MusicWeb.Models.Entities.Artists.Artist", "PosterArtist")
+                    b.HasOne("MusicWeb.Models.Entities.UserObservedArtist", "PosterArtist")
                         .WithMany("Posts")
                         .HasForeignKey("ArtistPosterId")
                         .OnDelete(DeleteBehavior.Restrict);
@@ -1145,10 +1142,6 @@ namespace MusicWeb.DataAccess.Migrations
                         .HasForeignKey("PosterId")
                         .HasPrincipalKey("FriendId")
                         .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("MusicWeb.Models.Entities.UserObservedArtist", null)
-                        .WithMany("Posts")
-                        .HasForeignKey("UserObservedArtistId");
 
                     b.Navigation("Album");
 
@@ -1390,8 +1383,6 @@ namespace MusicWeb.DataAccess.Migrations
                     b.Navigation("Band");
 
                     b.Navigation("BandMember");
-
-                    b.Navigation("Posts");
 
                     b.Navigation("SongGuestArtists");
 

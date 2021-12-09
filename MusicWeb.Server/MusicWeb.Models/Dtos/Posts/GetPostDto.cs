@@ -12,5 +12,9 @@ namespace MusicWeb.Models.Dtos.Posts
         public int ArtistId { get; set; }
         public string Artist { get; set; }
         public string Album { get; set; }
+        public string Image { get; set; }
+        public string AlbumImage { get; set; }
+        public bool IsLiked { get; set; }
+        public int TotalLikes { get; set; }
     }
 }

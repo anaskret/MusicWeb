@@ -29,6 +29,6 @@ namespace MusicWeb.Models.Entities
         public virtual ICollection<AlbumReview> AlbumReviews{ get; set; }
         public virtual ICollection<UserFavoriteAlbum> UserFavoriteAlbums{ get; set; }
         public virtual ICollection<ArtistsOnTheAlbum> ArtistsOnTheAlbums{ get; set; }
-        //public virtual ICollection<Post> Posts { get; set; }
+        public virtual ICollection<Post> Posts { get; set; }
     }
 }

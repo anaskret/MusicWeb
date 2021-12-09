@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MusicWeb.Models.Dtos.Users
+namespace MusicWeb.Models.Dtos.Posts
 {
-    public class UserFriendDto
+    public class GetPostCommentDto : PostCommentDto
     {
-        public string FriendName { get; set; }
+        public string UserName { get; set; }
     }
 }

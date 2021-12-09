@@ -94,6 +94,7 @@ namespace MusicWeb.Api.Extensions.AutoMapper
             CreateMap<UserFriend, UserFriendDto>()
                 .ForMember(prp => prp.FriendName, prop => prop.MapFrom(src => src.Friend.UserName));
             CreateMap<UserFriendDto, UserFriend>();
+            CreateMap<CreateUserFriendDto, UserFriend>();
 
             CreateMap<UserFavoriteDto, UserFavoriteArtist>()
                 .ForMember(prp => prp.ArtistId, prop => prop.MapFrom(src => src.FavoriteId));
@@ -108,6 +109,10 @@ namespace MusicWeb.Api.Extensions.AutoMapper
             CreateMap<PostDto, Post>();
             CreateMap<CreatePostDto, Post>();
             CreateMap<UserAndArtistPost, GetPostDto>();
+            CreateMap<PostComment, GetPostCommentDto>()
+                .ForMember(prp => prp.UserName, obj => obj.MapFrom(src => src.User.UserName));
+            CreateMap<CreatePostCommentDto, PostComment>();
+            CreateMap<PostCommentDto, PostComment>();
 
             CreateMap<ArtistRating, ArtistRatingDto>();
             CreateMap<ArtistRatingDto, ArtistRating>();

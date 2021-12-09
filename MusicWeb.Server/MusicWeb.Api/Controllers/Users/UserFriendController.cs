@@ -43,7 +43,7 @@ namespace MusicWeb.Api.Controllers.Users
         }
 
         [HttpPost(ApiRoutes.UserFriends.Create)]
-        public async Task<IActionResult> Create([FromBody] UserFriendDto model)
+        public async Task<IActionResult> Create([FromBody] CreateUserFriendDto model)
         {
             try
             {
@@ -66,7 +66,7 @@ namespace MusicWeb.Api.Controllers.Users
         /// FriendId = User sending the request
         /// </remarks>
         [HttpPost(ApiRoutes.UserFriends.AcceptRequest)]
-        public async Task<IActionResult> AcceptRequest([FromBody] UserFriendDto model)
+        public async Task<IActionResult> AcceptRequest([FromBody] CreateUserFriendDto model)
         {
             try
             {

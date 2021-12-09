@@ -189,6 +189,21 @@ namespace MusicWeb.Api.Extensions
             public const string GetUserPosts = Root + "/userposts/{userId}/{page}/{pageSize}";
         }
 
+        public static class PostLikes
+        {
+            public const string Create = Root + "/postlikes/{userId}/{postId}";
+            public const string Delete = Root + "/postlikes/{userId}/{postId}";
+        }
+        
+
+        public static class PostComments
+        {
+            public const string Create = Root + "/postcomments";
+            public const string Update = Root + "/postcomments";
+            public const string Delete = Root + "/postcomments/{id}";
+            public const string GetAllByPostId = Root + "/post/postcomments/{postId}";
+        }
+
         public static class ArtistRatings
         {
             public const string Create = Root + "/artistratings";

@@ -47,6 +47,8 @@ namespace MusicWeb.DataAccess.Data
         public DbSet<Message> Message{ get; set; }
 
         public DbSet<Post> Post{ get; set; }
+        public DbSet<PostLike> PostLike{ get; set; }
+        public DbSet<PostComment> PostComment{ get; set; }
 
         //Keyless
         public DbSet<ArtistRatingAverage> ArtistRatingAverage { get; set; }
@@ -384,17 +386,46 @@ namespace MusicWeb.DataAccess.Data
                 .WithMany(p => p.Posts)
                 .HasPrincipalKey(p => p.FriendId)
                 .HasForeignKey(e => e.PosterId)
+                .IsRequired(false)
                 .OnDelete(DeleteBehavior.Restrict);
 
-                /* entity.HasOne(e => e.PosterArtist)
-                 .WithMany(p => p.Posts)
-                 .HasForeignKey(e => e.ArtistPosterId)
-                 .OnDelete(DeleteBehavior.Restrict);
+                entity.HasOne(e => e.PosterArtist)
+                .WithMany(p => p.Posts)
+                .HasForeignKey(e => e.ArtistPosterId)
+                .IsRequired(false)
+                .OnDelete(DeleteBehavior.Restrict);
 
-                 entity.HasOne(e => e.Album)
-                 .WithMany(p => p.Posts)
-                 .HasForeignKey(e => e.AlbumId)
-                 .OnDelete(DeleteBehavior.Restrict);*/
+                entity.HasOne(e => e.Album)
+                .WithMany(p => p.Posts)
+                .HasForeignKey(e => e.AlbumId)
+                .IsRequired(false)
+                .OnDelete(DeleteBehavior.Restrict);
+            });
+
+            modelBuilder.Entity<PostLike>(entity =>
+            {
+                entity.HasOne(e => e.Post)
+                .WithMany(p => p.PostLikes)
+                .HasForeignKey(e => e.PostId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+                entity.HasOne(e => e.User)
+                .WithMany(p => p.PostLikes)
+                .HasForeignKey(e => e.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
+            });
+
+            modelBuilder.Entity<PostComment>(entity =>
+            {
+                entity.HasOne(e => e.Post)
+                .WithMany(p => p.PostComments)
+                .HasForeignKey(e => e.PostId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+                entity.HasOne(e => e.User)
+                .WithMany(p => p.PostComments)
+                .HasForeignKey(e => e.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
             });
 
             modelBuilder.Entity<ArtistRating>(entity =>
@@ -415,6 +446,7 @@ namespace MusicWeb.DataAccess.Data
                 .IsRequired(true);
             });
 
+            //keyless
             modelBuilder.Entity<ArtistRatingAverage>(entity =>
             {
                 entity.HasNoKey();

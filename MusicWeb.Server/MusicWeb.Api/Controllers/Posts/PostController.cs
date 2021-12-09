@@ -21,7 +21,7 @@ namespace MusicWeb.Api.Controllers.Posts
         private readonly IMapper _mapper;
         private readonly ILogger _logger;
 
-        public PostController(IPostService postService, IMapper mapper, ILogger logger)
+        public PostController(IPostService postService, IMapper mapper, ILogger<PostController> logger)
         {
             _postService = postService;
             _mapper = mapper;

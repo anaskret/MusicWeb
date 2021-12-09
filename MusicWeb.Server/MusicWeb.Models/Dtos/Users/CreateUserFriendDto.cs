@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace MusicWeb.Models.Dtos.Users
 {
-    public class UserFriendDto
+    public class CreateUserFriendDto
     {
-        public string FriendName { get; set; }
+        public string UserId { get; set; }
+        public string FriendId { get; set; }
     }
 }

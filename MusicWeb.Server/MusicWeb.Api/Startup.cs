@@ -241,6 +241,10 @@ namespace MusicWeb.Api
 
             services.AddTransient<IPostRepository, PostRepository>();
             services.AddTransient<IPostService, PostService>();
+            services.AddTransient<IPostLikeRepository, PostLikeRepository>();
+            services.AddTransient<IPostLikeService, PostLikeService>();
+            services.AddTransient<IPostCommentRepository, PostCommentRepository>();
+            services.AddTransient<IPostCommentService, PostCommentService>();
 
             services.AddTransient<IFileService, FileService>();
 
@@ -251,6 +255,7 @@ namespace MusicWeb.Api
 
             services.AddTransient<IChatService, ChatService>();
             services.AddTransient<IMessageService, MessageService>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

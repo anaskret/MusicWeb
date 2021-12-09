@@ -1,6 +1,7 @@
 ﻿using MusicWeb.Models.Entities.Artists;
 using MusicWeb.Models.Entities.Base;
 using MusicWeb.Models.Entities.Origins;
+using MusicWeb.Models.Entities.Posts;
 using MusicWeb.Models.Entities.Ratings;
 using MusicWeb.Models.Enums;
 using MusicWeb.Models.Identity;
@@ -38,6 +39,7 @@ namespace MusicWeb.Models.Entities.Artists
         public virtual ICollection<ArtistsOnTheAlbum> ArtistsOnTheAlbums{ get; set; }
         public virtual ICollection<BandMember> Band { get; set; }
         public virtual ICollection<ArtistRating> ArtistRatings { get; set; }
+        public virtual ICollection<Post> Posts{ get; set; }
 
     }
 }
