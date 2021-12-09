@@ -47,7 +47,7 @@
             </div>
             <div class="ml-lg-16">
               <p>{{ vote_title }}</p>
-              <div class="d-flex flex-row">
+              <div class="d-flex flex-row starConteiner" @mouseleave="getDefaultStars">
                 <font-awesome-icon
                   class="star icon pr-2"
                   v-for="(star, index) in stars"
@@ -57,6 +57,7 @@
                   :color="star.color"
                   @click="vote"
                   @mouseover="countStars"
+                  
                   :id="'star_' + index" :value="star.value"
               
                 ></font-awesome-icon>
@@ -215,6 +216,11 @@ export default {
       let rating = document.querySelector("#rating");
       rating.innerText = value + ".0";
       this.colorStars(value);
+    },
+
+    getDefaultStars: function()
+    {
+      console.log("get default");
     }
 
   },
