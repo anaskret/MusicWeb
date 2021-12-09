@@ -55,8 +55,8 @@
                   icon="star"
                   size="2x"
                   :color="star.color"
-                  v-on:click="vote"
-                  v-on:mouseover="countStars"
+                  @click="vote"
+                  @mouseover="countStars"
                   :id="'star_' + index" :value="star.value"
               
                 ></font-awesome-icon>
@@ -77,6 +77,8 @@
 import RankSection from "@/components/RankSection.vue";
 import useAlbumRatings from "@/modules/albumRatings.js";
 import AlbumRating from "@/models/AlbumRating.js";
+import useSongRatings from "@/modules/songRatings.js";
+import SongRating from "@/models/AlbumRating.js";
 
 export default {
   name: "Header",
@@ -95,6 +97,9 @@ export default {
     vote_title: {
       type: String,
     },
+    module_name: {
+      type: String,
+    }
   },
   data() {
     return {
@@ -106,21 +111,50 @@ export default {
         { color: "gray", value:5 },
       ],
       albumRating: new AlbumRating(),
+      songRating: new SongRating()
     };
   },
   setup() {
+    
     const { addAlbumRating } = useAlbumRatings();
+    const { addSongRating } = useSongRatings();
 
       const addNewAlbumRating = function (ratingId) {
       this.albumRating.userId = this.$store.state.auth.userId;
       this.albumRating.albumId = this.$route.params.id;
       this.albumRating.rating = ratingId;
-      console.log(this.albumRating);
       
         addAlbumRating(this.albumRating).then(
           (response) => {
             if (response.status == 200) {
-              console.log('ok');
+            
+              this.$emit("show-alert", "Review added.", "success");
+            } else {
+              this.$emit(
+                "show-alert",
+                `Nie udało się dodać recenzji. Błąd ${response.status}`,
+                "error"
+              );
+            }
+          },
+          (error) => {
+            this.$emit(
+              "show-alert",
+              `Nie udało się dodać recenzji. ${error.response.status} ${error.response.data}`,
+              "error"
+            );
+          }
+        );
+      }
+
+      const addNewSongRating = function (ratingId) {
+      this.songRating.userId = this.$store.state.auth.userId;
+      this.songRating.songId = this.$route.params.id;
+      this.songRating.rating = ratingId;
+      
+        addSongRating(this.songRating).then(
+          (response) => {
+            if (response.status == 200) {
             
               this.$emit("show-alert", "Review added.", "success");
             } else {
@@ -144,13 +178,20 @@ export default {
 
     return {
       addNewAlbumRating,
+      addNewSongRating
     };
   },
   methods: {
     vote: function(event)
     {
-      console.log(event.currentTarget.getAttribute("value"));
-      this.addNewAlbumRating(event.currentTarget.getAttribute("value"));
+      if (this.module_name == "Album")
+      {
+        this.addNewAlbumRating(event.currentTarget.getAttribute("value"));
+      }
+      else if (this.module_name == "Song")
+      {
+        this.addNewSongRating(event.currentTarget.getAttribute("value"));
+      }
     },
 
     colorStars: function(value)
@@ -173,7 +214,6 @@ export default {
       let value = event.currentTarget.getAttribute("value");
       let rating = document.querySelector("#rating");
       rating.innerText = value + ".0";
-      // event.currentTarget.classList.add("activeStar");
       this.colorStars(value);
     }
 

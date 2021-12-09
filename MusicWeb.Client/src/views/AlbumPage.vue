@@ -4,6 +4,7 @@
       :parent="album"
       :show_observe_button="show_observe_button"
       :vote_title="vote_title"
+      :module_name="module_name"
     />
 
     <InfoSection :parent="album" :module_name="module_name" />
@@ -31,6 +32,7 @@ import ItemList from "@/components/ItemList.vue";
 import InfoSection from "@/components/InfoSection.vue";
 import ReviewList from "@/components/ReviewList.vue";
 import useAlbums from "@/modules/albums";
+
 export default {
   name: "AlbumPage",
   components: {

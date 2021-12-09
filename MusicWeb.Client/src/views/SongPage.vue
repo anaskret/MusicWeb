@@ -4,6 +4,7 @@
       :parent="song"
       :show_observe_button="show_observe_button"
       :vote_title="vote_title"
+      :module_name="module_name"
     />
     <InfoSection
       :parent="song"
