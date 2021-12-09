@@ -44,7 +44,6 @@ export default {
   },
   watch: {
     "$store.state.searchingValue": function () {
-      debugger;
       if (
         this.last_search !== this.$store.state.searchingValue &&
         this.$store.state.searchingValue

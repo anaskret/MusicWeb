@@ -19,7 +19,7 @@ export const auth = {
           localStorage.setItem("user-id", response.data.userId);
           axios.defaults.headers.common["Authorization"] =
             "Bearer " + localStorage.getItem("user-token");
-          commit("loginSuccess", response.data.token);
+          commit("loginSuccess", response.data);
           return Promise.resolve(response);
         },
         (error) => {
@@ -30,6 +30,7 @@ export const auth = {
     },
     logout({ commit }) {
       commit("logout");
+      localStorage.clear()
       return logoutAccount();
     },
     register({ commit }, user) {
@@ -46,13 +47,15 @@ export const auth = {
     },
   },
   mutations: {
-    loginSuccess(state, token) {
+    loginSuccess(state, data) {
       state.status.loggedIn = true;
-      state.token = token;
+      state.token = data.token;
+      state.userId = data.userId;
     },
     loginFailure(state) {
       state.status.loggedIn = false;
       state.token = null;
+      state.userId = null;
     },
     logout(state) {
       state.status.loggedIn = false;

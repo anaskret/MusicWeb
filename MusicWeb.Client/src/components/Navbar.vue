@@ -188,22 +188,6 @@
                         <span class="text-h5">Zmień zdjęcie</span>
                       </v-card-title>
                       <v-card-text>
-                        <!-- <v-container>
-                            <v-row>
-                                <v-col cols="12" md="12">
-                                    <v-text-field
-                                    class="p-4"
-                                    label="Email"
-                                    v-model.trim="$v.account.email.$model"
-                                    :error-messages="emailErrors"
-                                    :counter="25"
-                                    required
-                                    @input="$v.account.email.$touch()"
-                                    @blur="$v.account.email.$touch()"
-                                    ></v-text-field>
-                                </v-col>
-                            </v-row>
-                        </v-container> -->
                         <div class="uploader">
                             <v-file-input
                             label="File input"
@@ -265,11 +249,11 @@ export default {
   },
   data() {
     return {
-      user_id: localStorage.getItem("user-id"),
       drawer: null,
       group: null,
       settings_dialog: false,
       account: new Account(),
+      current_account: new Account(),
       oldPassword: "",
       confirmPassword: "",
       active_tab: 0,
@@ -412,14 +396,16 @@ export default {
       });
     },
     clearSettings() {
-      this.account = new Account();
+      this.account = this.current_account;
+      this.account.password = "";
       this.oldPassword = "";
       this.confirmPassword = "";
+      this.$v.$touch();
     },
   },
   watch: {
     $route(to, from) {
-      if (from.path === "/" && to.path === "/artists") {
+      if (from.path === "/" && to.path === "/activities") {
         this.getAccount();
       }
       if (to.path === "/activities") {
@@ -443,13 +429,15 @@ export default {
     };
 
     const getAccount = function () {
-      getAccountById(this.user_id).then((response) => {
+      getAccountById(this.$store.state.auth.userId).then((response) => {
+        this.clearSettings();
         this.account = response;
+        this.current_account = response;
       });
     };
 
     const updatePassword = function () {
-      this.account.id = this.user_id;
+      this.account.id = this.$store.state.auth.userId;
       this.account.oldPassword = this.oldPassword;
       this.account.newPassword = this.account.password;
       this.account.confirmPassword = this.confirmPassword;
@@ -458,14 +446,14 @@ export default {
           if (response.status == 200) {
             this.$emit(
               "show-alert",
-              "Dane zostały zaktualizowane pomyślnie.",
+              "Data updated successfuly.",
               "success"
             );
             this.clearSettings();
           } else {
             this.$emit(
               "show-alert",
-              `Nie udało się zaktualizować. Błąd ${response.status}`,
+              `Something went wrong. Error ${response.status}`,
               "error"
             );
             this.clearSettings();
@@ -474,7 +462,7 @@ export default {
         (error) => {
           this.$emit(
             "show-alert",
-            `Nie udało się zaktualizować. ${error.response.status} ${error.response.data}`,
+            `Something went wrong. ${error.response.status} ${error.response.data}`,
             "error"
           );
           this.clearSettings();
@@ -483,20 +471,20 @@ export default {
     };
 
     const updateEmail = function () {
-      this.account.id = this.user_id;
+      this.account.id = this.$store.state.auth.userId;
       updateAccountEmail(this.account).then(
         (response) => {
           if (response.status == 200) {
             this.$emit(
               "show-alert",
-              "Dane zostały zaktualizowane pomyślnie.",
+              "Data updated successfuly.",
               "success"
             );
             this.clearSettings();
           } else {
             this.$emit(
               "show-alert",
-              `Nie udało się zaktualizować. Błąd ${response.status}`,
+              `Something went wrong. Error ${response.status}`,
               "error"
             );
             this.clearSettings();
@@ -505,7 +493,7 @@ export default {
         (error) => {
           this.$emit(
             "show-alert",
-            `Nie udało się zaktualizować. ${error.response.status} ${error.response.data}`,
+            `Something went wrong. ${error.response.status} ${error.response.data}`,
             "error"
           );
           this.clearSettings();
@@ -514,14 +502,14 @@ export default {
     };
     
     const updateImage = function () {
-        this.file.userid = this.user_id;
+        this.file.userid = this.$store.state.auth.userId;
         this.file.imagePath = "/Users/";
       updateAccountImage(this.file).then(
         (response) => {
           if (response.status == 200) {
             this.$emit(
               "show-alert",
-              "Dane zostały zaktualizowane pomyślnie.",
+              "Data updated successfuly.",
               "success"
             );
             this.clearSettings();
@@ -529,7 +517,7 @@ export default {
           } else {
             this.$emit(
               "show-alert",
-              `Nie udało się zaktualizować. Błąd ${response.status}`,
+              `Something went wrong. Error ${response.status}`,
               "error"
             );
             this.clearSettings();
@@ -538,7 +526,7 @@ export default {
         (error) => {
           this.$emit(
             "show-alert",
-            `Nie udało się zaktualizować. ${error.response.status} ${error.response.data}`,
+            `Something went wrong. ${error.response.status} ${error.response.data}`,
             "error"
           );
           this.clearSettings();

@@ -274,7 +274,6 @@ export default {
       this.updateDefaultSortType = "Alfabetycznie malejąco";
     },
     focusTextarea(){
-      debugger;
       this.$refs.textarea.$el.focus();
     }
   },
