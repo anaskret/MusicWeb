@@ -1,4 +1,5 @@
-﻿using MusicWeb.DataAccess.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using MusicWeb.DataAccess.Data;
 using MusicWeb.Models.Entities.Ratings;
 using MusicWeb.Repositories.Interfaces.Ratings;
 using MusicWeb.Repositories.Repositories.Base;
@@ -14,6 +15,17 @@ namespace MusicWeb.Repositories.Repositories.Ratings
     {
         public AlbumRatingRepository(AppDbContext dbContext) : base(dbContext)
         {
+        }
+
+
+        public async Task<IList<AlbumRating>> GetUserRating(int id, string userId)
+        {
+                var entities = await _dbContext.AlbumRating
+                    .Include(album => album.Album)
+                    .Include(user => user.User)
+                    .ToListAsync();
+                return entities;
+            
         }
     }
 }

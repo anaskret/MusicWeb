@@ -45,6 +45,7 @@ namespace MusicWeb.Api.Extensions.AutoMapper
             CreateMap<BaseArtistCommentDto, ArtistComment>();
 
             CreateMap<Album, AlbumDto>();
+            //    .ForMember(prp => prp.Rating, obj => obj.MapFrom(src => src.AlbumRatings));
             CreateMap<AlbumDto, Album>();
             CreateMap<CreateAlbumDto, Album>();
             CreateMap<Album, CreateAlbumDto>();

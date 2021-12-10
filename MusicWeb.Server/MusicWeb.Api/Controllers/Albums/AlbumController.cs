@@ -124,5 +124,6 @@ namespace MusicWeb.Api.Controllers.Albums
                 return StatusCode(500, ex.Message);
             }
         }
+
     }
 }

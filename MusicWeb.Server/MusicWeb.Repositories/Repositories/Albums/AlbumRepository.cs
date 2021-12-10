@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MusicWeb.DataAccess.Data;
+using MusicWeb.Models.Dtos.Albums;
 using MusicWeb.Models.Entities;
 using MusicWeb.Repositories.Interfaces.Albums;
 using MusicWeb.Repositories.Repositories.Base;
@@ -16,7 +17,7 @@ namespace MusicWeb.Repositories.Repositories.Albums
         public AlbumRepository(AppDbContext dbContext) : base(dbContext)
         {
         }
-
+        
         public async Task<Album> GetFullAlbumDataByIdAsync(int id)
         {
             var entity = await _dbContext.Album
@@ -28,5 +29,6 @@ namespace MusicWeb.Repositories.Repositories.Albums
                 .FirstOrDefaultAsync(prp => prp.Id == id);
             return entity;
         }
+       
     }
 }

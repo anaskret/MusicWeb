@@ -53,5 +53,11 @@ namespace MusicWeb.Services.Services.Ratings
         {
             await _albumRatingRepository.UpdateAsync(entity);
         }
+
+        public async Task<AlbumRating> GetUserRating(int id, string userId)
+        {
+            var entity = await _albumRatingRepository.GetSingleAsync(prp => string.Equals(prp.UserId, userId) && string.Equals(prp.AlbumId, id));
+            return entity;
+        }
     }
 }

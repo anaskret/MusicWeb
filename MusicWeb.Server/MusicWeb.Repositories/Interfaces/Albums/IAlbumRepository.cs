@@ -1,4 +1,5 @@
-﻿using MusicWeb.Models.Entities;
+﻿using MusicWeb.Models.Dtos.Albums;
+using MusicWeb.Models.Entities;
 using MusicWeb.Repositories.Interfaces.Base;
 using System;
 using System.Collections.Generic;

@@ -22,31 +22,32 @@ namespace MusicWeb.DataAccess.Data
         }
 
         public DbSet<Album> Album { get; set; }
-        public DbSet<AlbumReview> AlbumReview{ get; set; }
-        public DbSet<ArtistsOnTheAlbum> ArtistsOnTheAlbum{ get; set; }
+        public DbSet<AlbumReview> AlbumReview { get; set; }
+        public DbSet<ArtistsOnTheAlbum> ArtistsOnTheAlbum { get; set; }
 
-        public DbSet<Artist> Artist{ get; set; }
-        public DbSet<ArtistComment> ArtistComment{ get; set; }
-        public DbSet<BandMember> BandMember{ get; set; }
+        public DbSet<Artist> Artist { get; set; }
+        public DbSet<ArtistComment> ArtistComment { get; set; }
+        public DbSet<BandMember> BandMember { get; set; }
 
         public DbSet<Genre> Genre { get; set; }
 
-        public DbSet<Country> Country{ get; set; }
+        public DbSet<Country> Country { get; set; }
 
-        public DbSet<Song> Song{ get; set; }
-        public DbSet<SongGuestArtist> SongGuestArtist{ get; set; }
-        public DbSet<SongReview> SongReview{ get; set; }
+        public DbSet<Song> Song { get; set; }
+        public DbSet<SongGuestArtist> SongGuestArtist { get; set; }
+        public DbSet<SongReview> SongReview { get; set; }
 
-        public DbSet<UserFavoriteAlbum> UserFavoriteAlbum{ get; set; }
-        public DbSet<UserFavoriteArtist> UserFavoriteArtist{ get; set; }
-        public DbSet<UserFavoriteSong> UserFavoriteSong{ get; set; }
-        public DbSet<UserFriend> UserFriend{ get; set; }
-        public DbSet<UserObservedArtist> UserObservedArtist{ get; set; }
+        public DbSet<UserFavoriteAlbum> UserFavoriteAlbum { get; set; }
+        public DbSet<UserFavoriteArtist> UserFavoriteArtist { get; set; }
+        public DbSet<UserFavoriteSong> UserFavoriteSong { get; set; }
+        public DbSet<UserFriend> UserFriend { get; set; }
+        public DbSet<UserObservedArtist> UserObservedArtist { get; set; }
 
-        public DbSet<Chat> Chat{ get; set; }
-        public DbSet<Message> Message{ get; set; }
+        public DbSet<Chat> Chat { get; set; }
+        public DbSet<Message> Message { get; set; }
 
-        public DbSet<Post> Post{ get; set; }
+        public DbSet<Post> Post { get; set; }
+        public DbSet<AlbumRating> AlbumRating { get; set; }
 
         //Keyless
         public DbSet<ArtistRatingAverage> ArtistRatingAverage { get; set; }
@@ -420,7 +421,7 @@ namespace MusicWeb.DataAccess.Data
             {
                 entity.Property(e => e.Rating)
                 .IsRequired(true);
-/*
+
                 entity.HasOne(e => e.Album)
                 .WithMany(p => p.AlbumRatings)
                 .HasForeignKey(e => e.AlbumId)
@@ -432,7 +433,6 @@ namespace MusicWeb.DataAccess.Data
                 .HasForeignKey(e => e.UserId)
                 .OnDelete(DeleteBehavior.Restrict)
                 .IsRequired(true);
-*/
             });
 
             modelBuilder.Entity<SongRating>(entity =>

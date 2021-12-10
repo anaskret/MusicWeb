@@ -34,5 +34,7 @@ namespace MusicWeb.Models.Identity
         public virtual ICollection<UserFriend> UserFriends{ get; set; }
         public virtual ICollection<UserFriend> FriendUsers{ get; set; }
         public virtual ICollection<ArtistRating> ArtistRatings { get; set; }
+        public virtual ICollection<AlbumRating> AlbumRatings { get; set; }
+        public virtual ICollection<SongRating> SongRatings { get; set; }
     }
 }

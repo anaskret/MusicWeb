@@ -8,6 +8,6 @@ namespace MusicWeb.Models.Dtos.Ratings
 {
     public class AlbumRatingDto : CreateAlbumRatingDto
     {
-        public int id { get; set; }
+        public int Id { get; set; }
     }
 }

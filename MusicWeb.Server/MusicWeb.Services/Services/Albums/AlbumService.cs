@@ -58,5 +58,7 @@ namespace MusicWeb.Services.Services.Albums
             var album = await _albumRepository.GetFullAlbumDataByIdAsync(id);
             return _mapper.Map<AlbumFullDataDto>(album);
         }
+
+
     }
 }

@@ -104,5 +104,21 @@ namespace MusicWeb.Api.Controllers.Ratings
                     return StatusCode(500, ex.Message);
                 }
             }
+        
+        [HttpGet(ApiRoutes.AlbumRatings.GetUserRating)]
+        public async Task<IActionResult> GetUserRating([FromRoute] int id, string userId)
+        {
+            try
+            {
+                var response = _mapper.Map<AlbumRatingDto>(await _albumRatingService.GetUserRating(id, userId));
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return StatusCode(500, ex.Message);
+            }
         }
+        
+    }
 }
