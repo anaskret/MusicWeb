@@ -112,12 +112,15 @@ export default {
         { color: "gray", value:5 },
       ],
       albumRating: new AlbumRating(),
-      songRating: new SongRating()
+      songRating: new SongRating(),
+      id: this.$route.params.id, 
+      user_id: localStorage.getItem("user-id"), 
+      album_rating: null,
     };
   },
   setup() {
     
-    const { addAlbumRating } = useAlbumRatings();
+    const { addAlbumRating, getUserRating } = useAlbumRatings();
     const { addSongRating } = useSongRatings();
 
       const addNewAlbumRating = function (ratingId) {
@@ -175,11 +178,22 @@ export default {
           }
         );
       }
+
+      const getAlbumUserRating = function () {
+        getUserRating(this.id, this.user_id).then((response) => {
+          
+    debugger;
+          this.albumRating = response;
+          this.getDefaultStars(this.albumRating.rating);
+          
+      });
+    };
     
 
     return {
       addNewAlbumRating,
-      addNewSongRating
+      addNewSongRating, 
+      getAlbumUserRating
     };
   },
   methods: {
@@ -211,19 +225,29 @@ export default {
     },
 
     countStars: function(event)
-    {
-      let value = event.currentTarget.getAttribute("value");
+    { 
+      let value;
+      if (event) {
+        value = event.currentTarget.getAttribute("value");
+      }
+      else {
+        value = this.albumRating.rating;
+      }
       let rating = document.querySelector("#rating");
       rating.innerText = value + ".0";
       this.colorStars(value);
     },
 
-    getDefaultStars: function()
+    getDefaultStars: function(rating)
     {
-      console.log("get default");
+      this.colorStars(rating);
+      this.countStars();
     }
 
   },
+  created() {
+    this.getAlbumUserRating();
+  }
 };
 </script>
 
