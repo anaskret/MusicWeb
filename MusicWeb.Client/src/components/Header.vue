@@ -152,10 +152,7 @@ export default {
       }
 
       const updateAlbumUserRating = function (ratingId) {
-      // this.albumRating.userId = this.$store.state.auth.userId;
-      // this.albumRating.albumId = this.$route.params.id;
       this.albumRating.rating = ratingId;
-      debugger;
         updateUserRating(this.albumRating).then(
           (response) => {
             if (response.status == 200) {
@@ -212,8 +209,6 @@ export default {
 
       const getAlbumUserRating = function () {
         getUserRating(this.id, this.user_id).then((response) => {
-          
-    debugger;
           this.albumRating = response;
           this.getDefaultStars(this.albumRating.rating);
           
