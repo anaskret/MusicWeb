@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.SignalR;
+using Microsoft.EntityFrameworkCore;
 using MusicWeb.Models.Dtos.Users;
 using MusicWeb.Models.Entities;
 using MusicWeb.Repositories.Interfaces.Users;
@@ -60,7 +61,7 @@ namespace MusicWeb.Services.Services.Users
 
         public async Task<IList<UserFriend>> GetAllByUserIdAsync(string userId)
         {
-            return await _userFriendRepository.GetAllAsync(entity => entity.Where(prp => string.Equals(prp.UserId, userId)));
+            return await _userFriendRepository.GetAllAsync(entity => entity.Where(prp => string.Equals(prp.UserId, userId)).Include(prp => prp.Friend));
         }
 
         public async Task<UserFriend> GetByIdAsync(int id)
@@ -70,7 +71,7 @@ namespace MusicWeb.Services.Services.Users
 
         public async Task<UserFriend> GetSingleByUserIdAndFriendIdAsync(string userId, string friendId)
         {
-            return await _userFriendRepository.GetSingleAsync(prp => string.Equals(prp.UserId, userId) && string.Equals(prp.FriendId, friendId));
+            return await _userFriendRepository.GetUserFriendByIdsWithFriendDataAsync(userId, friendId);
         }
 
         public async Task AcceptFriendRequestAsync(UserFriend entity)

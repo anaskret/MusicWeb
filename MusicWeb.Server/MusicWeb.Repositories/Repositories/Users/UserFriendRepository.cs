@@ -1,4 +1,5 @@
-﻿using MusicWeb.DataAccess.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using MusicWeb.DataAccess.Data;
 using MusicWeb.Models.Entities;
 using MusicWeb.Repositories.Interfaces.Users;
 using MusicWeb.Repositories.Repositories.Base;
@@ -14,6 +15,12 @@ namespace MusicWeb.Repositories.Repositories.Users
     {
         public UserFriendRepository(AppDbContext dbContext) : base(dbContext)
         {
+        }
+
+        public async Task<UserFriend> GetUserFriendByIdsWithFriendDataAsync(string userId, string friendId)
+        {
+            return await _dbContext.UserFriend.Include(prp => prp.Friend)
+                                              .FirstOrDefaultAsync(prp => string.Equals(prp.FriendId, friendId) && string.Equals(prp.UserId, userId));
         }
     }
 }
