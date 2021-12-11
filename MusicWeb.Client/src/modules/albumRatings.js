@@ -13,8 +13,15 @@ export default function useAlbumRatings() {
       });
     }
   };
+
+  const updateUserRating = function (data) {
+    if (data) {
+      return albumRatingServices.updateUserRating(data);
+    }
+  };
   return {
     addAlbumRating,
     getUserRating,
+    updateUserRating,
   };
 }

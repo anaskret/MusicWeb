@@ -11,4 +11,7 @@ export default {
       userId
     );
   },
+  updateUserRating(data) {
+    return ApiService.authRequest(`/albumratings`, ApiService.put, data);
+  },
 };

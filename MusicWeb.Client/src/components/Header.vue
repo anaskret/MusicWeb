@@ -1,5 +1,6 @@
 <template>
   <v-container fluid class="py-16">
+    {{albumRating}}
     <v-row justify="center">
       <v-col lg="3" sm="6" class="pr-lg-12">
         <div>
@@ -115,12 +116,11 @@ export default {
       songRating: new SongRating(),
       id: this.$route.params.id, 
       user_id: localStorage.getItem("user-id"), 
-      album_rating: null,
     };
   },
   setup() {
     
-    const { addAlbumRating, getUserRating } = useAlbumRatings();
+    const { addAlbumRating, getUserRating, updateUserRating } = useAlbumRatings();
     const { addSongRating } = useSongRatings();
 
       const addNewAlbumRating = function (ratingId) {
@@ -150,6 +150,37 @@ export default {
           }
         );
       }
+
+      const updateAlbumUserRating = function (ratingId) {
+      // this.albumRating.userId = this.$store.state.auth.userId;
+      // this.albumRating.albumId = this.$route.params.id;
+      this.albumRating.rating = ratingId;
+      debugger;
+        updateUserRating(this.albumRating).then(
+          (response) => {
+            if (response.status == 200) {
+            
+              this.$emit("show-alert", "Review added.", "success");
+            } else {
+              this.$emit(
+                "show-alert",
+                `Nie udało się dodać recenzji. Błąd ${response.status}`,
+                "error"
+              );
+            }
+          },
+          (error) => {
+            this.$emit(
+              "show-alert",
+              `Nie udało się dodać recenzji. ${error.response.status} ${error.response.data}`,
+              "error"
+            );
+          }
+        );
+      }
+
+
+      
 
       const addNewSongRating = function (ratingId) {
       this.songRating.userId = this.$store.state.auth.userId;
@@ -193,19 +224,28 @@ export default {
     return {
       addNewAlbumRating,
       addNewSongRating, 
-      getAlbumUserRating
+      getAlbumUserRating,
+      updateAlbumUserRating,
     };
   },
   methods: {
     vote: function(event)
     {
+      let ratingId = event.currentTarget.getAttribute("value");
       if (this.module_name == "Album")
       {
-        this.addNewAlbumRating(event.currentTarget.getAttribute("value"));
+        if (this.albumRating != null)
+        {
+          this.updateAlbumUserRating(ratingId);
+        }
+        else 
+        {
+          this.addNewAlbumRating(ratingId);
+        }
       }
       else if (this.module_name == "Song")
       {
-        this.addNewSongRating(event.currentTarget.getAttribute("value"));
+        this.addNewSongRating(ratingId);
       }
     },
 

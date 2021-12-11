@@ -4,6 +4,7 @@ export default class AlbumRating {
   user = {};
   albumId = "";
   album = {};
+  id = "";
   constructor($data) {
     if ($data) {
       this.rating = $data.rating;
@@ -11,6 +12,7 @@ export default class AlbumRating {
       this.user = $data.user ? $data.user : null;
       this.albumId = $data.albumId;
       this.album = $data.album ? $data.album : null;
+      this.id = $data.id;
     }
   }
 }
