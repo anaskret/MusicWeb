@@ -50,7 +50,7 @@ namespace MusicWeb.Api.Controllers.Albums
         {
             try
             {
-                var response = await _albumService.GetAllAsync();
+                var response = _mapper.Map<List<AlbumDto>>(await _albumService.GetAllAsync());
                 return Ok(response);
             }
             catch (Exception ex)
@@ -76,7 +76,7 @@ namespace MusicWeb.Api.Controllers.Albums
         }
 
         [HttpPost(ApiRoutes.Albums.Create)]
-        public async Task<IActionResult> CreateAlbum([FromBody] AlbumDto dto)
+        public async Task<IActionResult> CreateAlbum([FromBody] CreateAlbumDto dto)
         {
             try
             {

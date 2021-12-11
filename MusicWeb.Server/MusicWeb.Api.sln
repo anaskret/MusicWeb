@@ -15,7 +15,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MusicWeb.Services", "MusicW
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MusicWeb.Admin", "MusicWeb.Admin\MusicWeb.Admin.csproj", "{D1C1D42F-DB09-49F6-AF45-AD4E09257C9D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MusicWeb.Tests", "MusicWeb.Tests\MusicWeb.Tests.csproj", "{9E03F4C3-A058-4FB0-8CEF-522F0419D727}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MusicWeb.Tests", "MusicWeb.Tests\MusicWeb.Tests.csproj", "{9E03F4C3-A058-4FB0-8CEF-522F0419D727}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

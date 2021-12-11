@@ -12,6 +12,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using MusicWeb.Admin.Areas.Identity;
 using MusicWeb.Admin.Middleware;
+using MusicWeb.Admin.Pages.Albums.Factories;
+using MusicWeb.Admin.Pages.Albums.Factories.Interfaces;
 using MusicWeb.Admin.Pages.Artists.Factories;
 using MusicWeb.Admin.Pages.Artists.Factories.Interfaces;
 using MusicWeb.Admin.Pages.Settings.Factories;
@@ -59,6 +61,7 @@ using MusicWeb.Services.Services.Origins;
 using MusicWeb.Services.Services.Posts;
 using MusicWeb.Services.Services.Ratings;
 using MusicWeb.Services.Services.Roles;
+using MusicWeb.Services.Services.Songs;
 using MusicWeb.Services.Services.Users;
 using System;
 using System.Collections.Generic;
@@ -129,6 +132,8 @@ namespace MusicWeb.Admin
 
             services.AddTransient<ICountryRepository, CountryRepository>();
 
+            services.AddTransient<ISongService, SongService>();
+
             services.AddTransient<ISongRepository, SongRepository>();
             services.AddTransient<ISongGuestArtistRepository, SongGuestArtistRepository>();
             services.AddTransient<ISongReviewRepository, SongReviewRepository>();
@@ -172,6 +177,8 @@ namespace MusicWeb.Admin
             services.AddTransient<IFileService, FileService>();
 
             services.AddTransient<IArtistModelFactory, ArtistModelFactory>();
+
+            services.AddTransient<IAlbumFactory, AlbumFactory>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

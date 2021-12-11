@@ -170,9 +170,9 @@ namespace MusicWeb.Services.Services.Artists
             var userByUserName = await _userManager.FindByNameAsync(model.UserName);
 
             if (userByEmail != null)
-                throw new ArgumentException("User with given email already exists!");
+                throw new ArgumentException("Error User with given email already exists!");
             if (userByUserName != null)
-                throw new ArgumentException("User with given username already exists!");
+                throw new ArgumentException("Error User with given username already exists!");
 
             var artistEntity = _mapper.Map<Artist>(model);
 

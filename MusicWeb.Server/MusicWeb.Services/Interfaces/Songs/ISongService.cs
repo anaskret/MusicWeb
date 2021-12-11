@@ -11,11 +11,11 @@ namespace MusicWeb.Services.Interfaces
     public interface ISongService
     {
         Task<Song> GetByIdAsync(int id);
-        Task<List<SongDto>> GetAllAsync();
+        Task<List<Song>> GetAllAsync();
         Task<SongFullDataDto> GetSongFullDataByIdAsync(int id);
         Task AddAsync(Song entity);
         Task UpdateAsync(Song entity);
         Task DeleteAsync(int id);
-
+        Task<List<Song>> GetSongsByAlbumIdAsync(int albumId);
     }
 }

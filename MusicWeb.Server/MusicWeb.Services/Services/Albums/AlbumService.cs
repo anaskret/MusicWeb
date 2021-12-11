@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using MusicWeb.Models.Dtos.Albums;
 using MusicWeb.Models.Dtos.Artists;
 using MusicWeb.Models.Entities;
@@ -37,9 +38,16 @@ namespace MusicWeb.Services.Services.Albums
             return await _albumRepository.GetByIdAsync(id);
         }
 
-        public async Task<List<AlbumDto>> GetAllAsync()
+        public async Task<List<Album>> GetAllAsync()
         {
-            return _mapper.Map<List<AlbumDto>>(await _albumRepository.GetAllAsync());
+            var entites = await _albumRepository.GetAllAsync(obj => obj.Where(prp => prp.IsConfirmed));
+            return entites.ToList();
+        }
+
+        public async Task<List<Album>> GetAllUnconfirmedAsync()
+        {
+            var entites = await _albumRepository.GetAllAsync(obj => obj.Where(prp => !prp.IsConfirmed).Include(prp => prp.Artist).Include(prp => prp.AlbumGenre));
+            return entites.ToList();
         }
 
         public async Task AddAsync(Album entity)
@@ -60,10 +68,24 @@ namespace MusicWeb.Services.Services.Albums
             await _albumRepository.DeleteAsync(entity);
         }
 
+        public async Task ConfirmAlbumAsync(int id)
+        {
+            var entity = await GetByIdAsync(id);
+            entity.IsConfirmed = true;
+
+            await _albumRepository.DeleteAsync(entity);
+        }
+
         public async Task<AlbumFullDataDto> GetFullAlbumDataByIdAsync(int id)
         {
             var album = await _albumRepository.GetFullAlbumDataByIdAsync(id);
             return _mapper.Map<AlbumFullDataDto>(album);
+        }
+
+        public async Task<List<Album>> GetUnconfirmedAlbumsAsync()
+        {
+            var entities = await _albumRepository.GetAllAsync(obj => obj.Where(prp => prp.IsConfirmed));
+            return entities.ToList();
         }
     }
 }

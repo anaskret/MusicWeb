@@ -46,7 +46,7 @@ namespace MusicWeb.Api.Controllers.Songs
         {
             try
             {
-                var response = await _songService.GetAllAsync();
+                var response = _mapper.Map<List<SongDto>>(await _songService.GetAllAsync());
                 return Ok(response);
             }
             catch (Exception ex)
