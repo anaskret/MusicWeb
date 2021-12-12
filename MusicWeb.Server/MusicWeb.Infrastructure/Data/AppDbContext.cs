@@ -53,6 +53,7 @@ namespace MusicWeb.DataAccess.Data
         public DbSet<ArtistRatingAverage> ArtistRatingAverage { get; set; }
         public DbSet<AlbumRatingAverage> AlbumRatingAverage { get; set; }
         public DbSet<UserAndArtistPost> UserAndArtistPost { get; set; }
+        public DbSet<TopSongsWithRating> TopSongsWithRating { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -440,19 +441,6 @@ namespace MusicWeb.DataAccess.Data
             {
                 entity.Property(e => e.Rating)
                 .IsRequired(true);
-                /*
-                                entity.HasOne(e => e.Album)
-                                .WithMany(p => p.AlbumRatings)
-                                .HasForeignKey(e => e.AlbumId)
-                                .OnDelete(DeleteBehavior.Restrict)
-                                .IsRequired(true);
-
-                                entity.HasOne(e => e.User)
-                                .WithMany(p => p.AlbumRatings)
-                                .HasForeignKey(e => e.UserId)
-                                .OnDelete(DeleteBehavior.Restrict)
-                                .IsRequired(true);
-                */
             });
 
             modelBuilder.Entity<ArtistRatingAverage>(entity =>
@@ -466,6 +454,11 @@ namespace MusicWeb.DataAccess.Data
             });
 
             modelBuilder.Entity<UserAndArtistPost>(entity =>
+            {
+                entity.HasNoKey();
+            });
+
+            modelBuilder.Entity<TopSongsWithRating>(entity =>
             {
                 entity.HasNoKey();
             });
