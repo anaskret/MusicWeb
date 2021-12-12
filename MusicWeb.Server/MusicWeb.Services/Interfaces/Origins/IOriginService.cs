@@ -11,6 +11,7 @@ namespace MusicWeb.Services.Interfaces.Origins
     public interface IOriginService
     {
         Task AddCountryAsync(Country entity);
+        Task AddCountriesRangeAsync(List<Country> entities);
         Task UpdateCountryAsync(Country entity);
         Task DeleteCountryAsync(int id);
         Task<Country> GetCountryByIdAsync(int id);

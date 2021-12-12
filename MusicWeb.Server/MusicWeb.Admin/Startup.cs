@@ -43,6 +43,7 @@ using MusicWeb.Repositories.Repositories.Ratings;
 using MusicWeb.Repositories.Repositories.Songs;
 using MusicWeb.Repositories.Repositories.Users;
 using MusicWeb.Services.Interfaces;
+using MusicWeb.Services.Interfaces.ApiIntegration;
 using MusicWeb.Services.Interfaces.Artists;
 using MusicWeb.Services.Interfaces.Files;
 using MusicWeb.Services.Interfaces.Genres;
@@ -53,6 +54,7 @@ using MusicWeb.Services.Interfaces.Ratings;
 using MusicWeb.Services.Interfaces.Roles;
 using MusicWeb.Services.Interfaces.Users;
 using MusicWeb.Services.Services.Albums;
+using MusicWeb.Services.Services.ApiIntegration;
 using MusicWeb.Services.Services.Artists;
 using MusicWeb.Services.Services.Files;
 using MusicWeb.Services.Services.Genres;
@@ -179,6 +181,8 @@ namespace MusicWeb.Admin
             services.AddTransient<IArtistModelFactory, ArtistModelFactory>();
 
             services.AddTransient<IAlbumFactory, AlbumFactory>();
+
+            services.AddTransient<IApiIntegrationService, ApiIntegrationService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

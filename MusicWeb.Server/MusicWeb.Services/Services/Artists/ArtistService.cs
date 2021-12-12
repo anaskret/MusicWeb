@@ -35,33 +35,18 @@ namespace MusicWeb.Services.Services.Artists
         private readonly IMapper _mapper;
         private readonly IFileService _fileService;
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly IAlbumService _albumService;
-        private readonly IArtistCommentService _artistCommentService;
-        private readonly IArtistRatingService _artistRatingService;
-        private readonly IUserFavoriteArtistService _userFavoriteArtistService;
-        private readonly IUserObservedArtistService _userObserverArtistService;
 
         public ArtistService(IArtistRepository artistRepository,
             IMapper mapper,
             IBandService bandService,
             IFileService fileService,
-            UserManager<ApplicationUser> userManager,
-            IAlbumService albumService,
-            IArtistCommentService artistCommentService,
-            IArtistRatingService artistRatingService, 
-            IUserFavoriteArtistService userFavoriteArtistService, 
-            IUserObservedArtistService userObserverArtistService)
+            UserManager<ApplicationUser> userManager)
         {
             _artistRepository = artistRepository;
             _mapper = mapper;
             _bandService = bandService;
             _fileService = fileService;
             _userManager = userManager;
-            _albumService = albumService;
-            _artistCommentService = artistCommentService;
-            _artistRatingService = artistRatingService;
-            _userFavoriteArtistService = userFavoriteArtistService;
-            _userObserverArtistService = userObserverArtistService;
         }
 
         public async Task<Artist> GetByIdAsync(int id)
