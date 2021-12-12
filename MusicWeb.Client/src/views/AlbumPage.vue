@@ -15,7 +15,6 @@
       :list_title="list_title"
       :list_link_title="list_link_title"
     />
-    {{album.artist.name}}
     <ReviewList
       :reviews="reviews_desc"
       :refreshComments="getAlbumData"
@@ -83,9 +82,7 @@ export default {
       });
     };
     const getAlbumRating = function () {
-      debugger;
       getAlbumRatingAverage(this.id).then((response) => {
-      debugger;
         this.$set(this.album, 'rating', response.rating);
         this.$set(this.album, 'ratingsCount', response.ratingsCount);
         console.log(this.album);

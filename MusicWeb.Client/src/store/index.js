@@ -15,14 +15,18 @@ export default new Vuex.Store({
   },
   mutations: {
     setAlbum(state, album) {
-      debugger;
       state.album = album;
+    },
+    setSong(state, song) {
+      state.song = song;
     },
   },
   getters: {
     album(state) {
-      debugger;
       return state.album;
+    },
+    song(state) {
+      return state.song;
     },
   },
 });

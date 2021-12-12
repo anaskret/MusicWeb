@@ -5,6 +5,7 @@
       :show_observe_button="show_observe_button"
       :vote_title="vote_title"
       :module_name="module_name"
+      
     />
     <InfoSection
       :parent="song"
@@ -27,6 +28,7 @@ import Header from "@/components/Header.vue";
 import useSongs from "@/modules/songs";
 import ReviewList from "../components/ReviewList.vue";
 import InfoSection from "../components/InfoSection.vue";
+import {mapMutations} from 'vuex';
 export default {
   name: "SongPage",
   components: {
@@ -46,7 +48,15 @@ export default {
       reviews_desc: {},
     };
   },
+   watch: {
+    song() {
+      this.setSong(this.song);
+    }
+  },
   methods: {
+        ...mapMutations([
+      'setSong'
+    ]),
     prepareReviews() {
       this.reviews_desc = this.song.songReviews.reverse().slice(0, 3);
     },
@@ -55,15 +65,26 @@ export default {
     this.getSongData();
   },
   setup() {
-    const { getSongFullData } = useSongs();
+    const { getSongFullData, getSongRatingAverage } = useSongs();
     const getSongData = function () {
       getSongFullData(this.id).then((response) => {
         this.song = response;
         this.prepareReviews();
+        this.getSongRating();
       });
     };
+    const getSongRating = function () {
+      debugger;
+      getSongRatingAverage(this.id).then((response) => {
+        debugger;
+        console.log(response);
+        this.$set(this.song, 'rating', response.rating);
+        this.$set(this.song, 'ratingsCount', response.ratingsCount);
+      })
+    }
     return {
       getSongData,
+      getSongRating
     };
   },
 };

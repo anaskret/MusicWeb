@@ -9,4 +9,7 @@ export default {
   getSongsByArtistId(artistId) {
     return ApiService.authRequest(`/artistsongs/${artistId}`, ApiService.get);
   },
+  getSongRatingAverage(id) {
+    return ApiService.authRequest(`songaveragerating/${id}`, ApiService.get);
+  },
 };

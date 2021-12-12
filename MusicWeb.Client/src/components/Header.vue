@@ -120,7 +120,7 @@ export default {
   setup() {
     
     const { addAlbumRating, getUserRating, updateUserRating } = useAlbumRatings();
-    const { addSongRating } = useSongRatings();
+    const { addSongRating, getSongUserRating, updateSongUserRating } = useSongRatings();
 
       const addNewAlbumRating = function (ratingId) {
       this.albumRating.userId = this.$store.state.auth.userId;
@@ -153,6 +153,35 @@ export default {
       const updateAlbumUserRating = function (ratingId) {
       this.albumRating.rating = ratingId;
         updateUserRating(this.albumRating).then(
+          (response) => {
+            if (response.status == 200) {
+              this.$emit("getRating");
+              this.$emit("show-alert", "Review added.", "success");
+              
+            } else {
+              this.$emit(
+                "show-alert",
+                `Nie udało się dodać recenzji. Błąd ${response.status}`,
+                "error"
+              );
+            }
+          },
+          (error) => {
+            this.$emit(
+              "show-alert",
+              `Nie udało się dodać recenzji. ${error.response.status} ${error.response.data}`,
+              "error"
+            );
+          }
+        );
+      }
+
+
+      
+
+    const updateSongRating = function (ratingId) {
+      this.songRating.rating = ratingId;
+        updateSongUserRating(this.songRating).then(
           (response) => {
             if (response.status == 200) {
               this.$emit("getRating");
@@ -213,6 +242,13 @@ export default {
           this.getDefaultStars(this.albumRating.rating);
           
       });
+    };      
+    const getSongRating = function () {
+        getSongUserRating(this.id, this.user_id).then((response) => {
+         this.songRating = response;
+          this.getDefaultStars(this.songRating.rating);
+          
+      });
     };
     
 
@@ -221,13 +257,14 @@ export default {
       addNewSongRating, 
       getAlbumUserRating,
       updateAlbumUserRating,
+      getSongRating,
+      updateSongRating
     };
   },
   methods: {
     vote: function(event)
     {
       let ratingId = event.currentTarget.getAttribute("value");
-      debugger;
       
       if (this.module_name == "Album")
       {
@@ -242,7 +279,14 @@ export default {
       }
       else if (this.module_name == "Song")
       {
-        this.addNewSongRating(ratingId);
+        if (this.songRating != null)
+        {
+          this.updateSongRating(ratingId);
+        }
+        else 
+        {
+          this.addNewSongRating(ratingId);
+        }
       }
     },
 
@@ -267,8 +311,12 @@ export default {
       if (event) {
         value = event.currentTarget.getAttribute("value");
       }
-      else {
+      else if (this.module_name == "Album"){
         value = this.albumRating.rating;
+      }
+      else if (this.module_name == "Song")
+      {
+        value = this.songRating.rating;
       }
       let rating = document.querySelector("#rating");
       rating.innerText = value + ".0";
@@ -283,7 +331,14 @@ export default {
 
   },
   created() {
-    this.getAlbumUserRating();
+    if (this.module_name == "Album")
+    {
+      this.getAlbumUserRating();
+    }
+    else if (this.module_name == "Song")
+    {
+      this.getSongRating();
+    }
   }
 };
 </script>

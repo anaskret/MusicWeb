@@ -9,6 +9,8 @@ export default class Song {
   album = {};
   composer = {};
   songReviews = [];
+  rating = "";
+  ratingsCount = "";
 
   constructor($data) {
     if ($data) {
@@ -22,6 +24,8 @@ export default class Song {
       this.album = $data.album ? $data.album : {};
       this.composer = $data.composer ? $data.composer : {};
       this.songReviews = $data.songReviews ? $data.songReviews : [];
+      this.rating = $data.rating;
+      this.ratingsCount = $data.ratingsCount;
     }
   }
 }

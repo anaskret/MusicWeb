@@ -26,9 +26,17 @@ export default function useSongs() {
       });
     }
   };
+  const getSongRatingAverage = function (id) {
+    if (id) {
+      return songServices.getSongRatingAverage(id).then((response) => {
+        return new Song(response.data);
+      });
+    }
+  };
   return {
     getAll,
     getSongFullData,
     getSongsByArtistId,
+    getSongRatingAverage,
   };
 }

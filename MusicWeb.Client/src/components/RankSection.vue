@@ -4,11 +4,11 @@
       <v-col>
         <div class="d-flex flex-row justify-space-center">
           <v-card outlined width="30%" class="py-3 mr-5" height="20%">
-            <p class="d-flex justify-center rank-number">{{ album.rating }}</p>
+            <p class="d-flex justify-center rank-number">{{ song.rating }}</p>
             <p class="justify-center d-flex rank-caption">Średnia ocen</p>
           </v-card>
           <v-card outlined width="30%" class="py-3 mr-5">
-            <p class="d-flex justify-center rank-number">{{ album.ratingsCount }}</p>
+            <p class="d-flex justify-center rank-number">{{ song.ratingsCount }}</p>
             <p class="d-flex justify-center rank-caption">Ilość ocen</p>
           </v-card>
           <v-card outlined width="30%" class="py-3">
@@ -27,7 +27,8 @@ export default {
   name: "RankSection",
   computed:{
     ...mapGetters([
-      'album'
+      'album',
+      'song'
     ]),
   }
 }
