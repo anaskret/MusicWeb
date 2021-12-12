@@ -44,6 +44,21 @@ namespace MusicWeb.Api.Controllers.Albums
             }
         }
 
+        [HttpGet(ApiRoutes.Albums.GetAlbumRatingAverage)]
+        public async Task<IActionResult> GetAlbumRatingAverage([FromRoute] int id)
+        {
+            try
+            {
+                var response = await _albumService.GetAlbumRatingAverage(id);
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return StatusCode(500, ex.Message);
+            }
+        }
+
 
         [HttpGet(ApiRoutes.Albums.GetAll)]
         public async Task<IActionResult> GetFullAlbumData()

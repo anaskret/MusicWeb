@@ -1,5 +1,6 @@
 ﻿using MusicWeb.Models.Dtos.Albums;
 using MusicWeb.Models.Entities;
+using MusicWeb.Models.Entities.Keyless;
 using MusicWeb.Repositories.Interfaces.Base;
 using System;
 using System.Collections.Generic;
@@ -12,5 +13,6 @@ namespace MusicWeb.Repositories.Interfaces.Albums
     public interface IAlbumRepository : IRepository<Album>
     {
         Task<Album> GetFullAlbumDataByIdAsync(int id);
+        Task<AlbumRatingAverage> GetAlbumAverageRating(int id);
     }
 }
