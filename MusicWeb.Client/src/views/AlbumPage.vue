@@ -5,9 +5,10 @@
       :show_observe_button="show_observe_button"
       :vote_title="vote_title"
       :module_name="module_name"
+      @getRating="getAlbumRating"
     />
 
-    <InfoSection :parent="album" :module_name="module_name" />
+    <InfoSection :parent="album" :module_name="module_name"/>
     <ItemList
       :items="album.songs"
       :album="album.name"
@@ -33,6 +34,7 @@ import ItemList from "@/components/ItemList.vue";
 import InfoSection from "@/components/InfoSection.vue";
 import ReviewList from "@/components/ReviewList.vue";
 import useAlbums from "@/modules/albums";
+import {mapMutations} from 'vuex';
 
 export default {
   name: "AlbumPage",
@@ -55,7 +57,15 @@ export default {
       redirect_module_name: "AlbumReviewPage",
     };
   },
+  watch: {
+    album() {
+      this.setAlbum(this.album);
+    }
+  },
   methods: {
+    ...mapMutations([
+      'setAlbum'
+    ]),
     prepareReviews() {
       this.reviews_desc = this.album.albumReviews.reverse().slice(0, 3);
     },
@@ -64,15 +74,26 @@ export default {
     this.getAlbumData();
   },
   setup() {
-    const { getAlbumFullData } = useAlbums();
+    const { getAlbumFullData, getAlbumRatingAverage } = useAlbums();
     const getAlbumData = function () {
       getAlbumFullData(this.id).then((response) => {
         this.album = response;
         this.prepareReviews();
+        this.getAlbumRating();
       });
     };
+    const getAlbumRating = function () {
+      debugger;
+      getAlbumRatingAverage(this.id).then((response) => {
+      debugger;
+        this.$set(this.album, 'rating', response.rating);
+        this.$set(this.album, 'ratingsCount', response.ratingsCount);
+        console.log(this.album);
+      })
+    }
     return {
       getAlbumData,
+      getAlbumRating
     };
   },
 };

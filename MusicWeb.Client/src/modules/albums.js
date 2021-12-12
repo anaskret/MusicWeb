@@ -14,8 +14,16 @@ export default function useAlbums() {
       });
     }
   };
+  const getAlbumRatingAverage = function (id) {
+    if (id) {
+      return albumServices.getAlbumRatingAverage(id).then((response) => {
+        return new Album(response.data);
+      });
+    }
+  };
   return {
     getAll,
     getAlbumFullData,
+    getAlbumRatingAverage,
   };
 }

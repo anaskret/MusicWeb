@@ -6,4 +6,7 @@ export default {
   getAlbumFullData(id) {
     return ApiService.authRequest(`/albumsdata/${id}`, ApiService.get);
   },
+  getAlbumRatingAverage(id) {
+    return ApiService.authRequest(`albumaveragerating/${id}`, ApiService.get);
+  },
 };

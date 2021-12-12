@@ -79,7 +79,7 @@
 
 <script>
 export default {
-  name: "Header",
+  name: "InfoSection",
   props: {
     parent: {
       type: Object,

@@ -1,6 +1,5 @@
 <template>
   <v-container fluid class="py-16">
-    {{albumRating}}
     <v-row justify="center">
       <v-col lg="3" sm="6" class="pr-lg-12">
         <div>
@@ -101,7 +100,7 @@ export default {
     },
     module_name: {
       type: String,
-    }
+    }, 
   },
   data() {
     return {
@@ -131,7 +130,7 @@ export default {
         addAlbumRating(this.albumRating).then(
           (response) => {
             if (response.status == 200) {
-            
+              this.$emit("getRating");
               this.$emit("show-alert", "Review added.", "success");
             } else {
               this.$emit(
@@ -156,8 +155,9 @@ export default {
         updateUserRating(this.albumRating).then(
           (response) => {
             if (response.status == 200) {
-            
+              this.$emit("getRating");
               this.$emit("show-alert", "Review added.", "success");
+              
             } else {
               this.$emit(
                 "show-alert",
@@ -187,7 +187,7 @@ export default {
         addSongRating(this.songRating).then(
           (response) => {
             if (response.status == 200) {
-            
+              this.$emit("getRating");
               this.$emit("show-alert", "Review added.", "success");
             } else {
               this.$emit(
@@ -227,6 +227,8 @@ export default {
     vote: function(event)
     {
       let ratingId = event.currentTarget.getAttribute("value");
+      debugger;
+      
       if (this.module_name == "Album")
       {
         if (this.albumRating != null)

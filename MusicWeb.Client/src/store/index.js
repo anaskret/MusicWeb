@@ -11,5 +11,18 @@ export default new Vuex.Store({
     tokenExpired: false,
     searchingValue: "",
     serverUrl: "http://localhost:5000",
+    album: {},
+  },
+  mutations: {
+    setAlbum(state, album) {
+      debugger;
+      state.album = album;
+    },
+  },
+  getters: {
+    album(state) {
+      debugger;
+      return state.album;
+    },
   },
 });
