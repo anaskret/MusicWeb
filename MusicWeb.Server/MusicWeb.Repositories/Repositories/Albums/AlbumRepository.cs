@@ -26,7 +26,7 @@ namespace MusicWeb.Repositories.Repositories.Albums
             FROM Album T0
             LEFT JOIN(SELECT AlbumId, AVG(Cast(Rating as float)) as Rating, COUNT(Rating) as RatingsCount FROM AlbumRating GROUP BY AlbumId) T1 ON T1.AlbumId = T0.Id";
             var query = _dbContext.AlbumRatingAverage.FromSqlRaw(sql);
-            var entity = await query.FirstOrDefaultAsync();
+            var entity = await query.FirstOrDefaultAsync(prp => prp.Id == id);
             return entity;
         }
 

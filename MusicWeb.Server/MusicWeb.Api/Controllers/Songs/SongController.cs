@@ -121,6 +121,20 @@ namespace MusicWeb.Api.Controllers.Songs
             }
         }
 
+        [HttpGet(ApiRoutes.Songs.GetSongRatingAverage)]
+        public async Task<IActionResult> GetSongRatingAverage([FromRoute] int id)
+        {
+            try
+            {
+                var response = await _songService.GetSongRatingAverage(id);
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return StatusCode(500, ex.Message);
+            }
+        }
 
     }
 }

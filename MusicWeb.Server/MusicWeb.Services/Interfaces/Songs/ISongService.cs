@@ -1,5 +1,6 @@
 ﻿using MusicWeb.Models.Dtos.Songs;
 using MusicWeb.Models.Entities;
+using MusicWeb.Models.Entities.Keyless;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +17,7 @@ namespace MusicWeb.Services.Interfaces
         Task AddAsync(Song entity);
         Task UpdateAsync(Song entity);
         Task DeleteAsync(int id);
+        Task<SongRatingAverage> GetSongRatingAverage(int id);
 
     }
 }

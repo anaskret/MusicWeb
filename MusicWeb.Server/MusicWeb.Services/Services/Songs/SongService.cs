@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using MusicWeb.Models.Dtos.Songs;
 using MusicWeb.Models.Entities;
+using MusicWeb.Models.Entities.Keyless;
 using MusicWeb.Repositories.Interfaces.Songs;
 using MusicWeb.Services.Interfaces;
 using System;
@@ -53,6 +54,11 @@ namespace MusicWeb.Services.Services.Songs
         public async Task UpdateAsync(Song entity)
         {
             await _songRepository.UpdateAsync(entity);
+        }
+
+        public async Task<SongRatingAverage> GetSongRatingAverage(int id)
+        {
+            return _mapper.Map<SongRatingAverage>(await _songRepository.GetSongAverageRating(id));
         }
     }
 }

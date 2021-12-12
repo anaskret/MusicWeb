@@ -71,6 +71,7 @@ namespace MusicWeb.Api.Extensions
             public const string GetById = Root + "/songs/{id}";
             public const string Delete = Root + "/songs/{id}";
             public const string GetFullData = Root + "/songsdata/{id}";
+            public const string GetSongRatingAverage = Root + "/songaveragerating/{id}";
         }
 
         public static class SongReviews
