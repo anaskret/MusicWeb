@@ -5,6 +5,7 @@
       :show_observe_button="show_observe_button"
       :vote_title="vote_title"
       :module_name="module_name"
+      @getRating="getSongRating"
       
     />
     <InfoSection
@@ -74,9 +75,7 @@ export default {
       });
     };
     const getSongRating = function () {
-      debugger;
       getSongRatingAverage(this.id).then((response) => {
-        debugger;
         console.log(response);
         this.$set(this.song, 'rating', response.rating);
         this.$set(this.song, 'ratingsCount', response.ratingsCount);

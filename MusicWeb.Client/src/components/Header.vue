@@ -68,7 +68,7 @@
             </div>
           </v-col>
         </v-row>
-        <RankSection />
+        <RankSection :module_name="module_name"/>
       </v-col>
     </v-row>
   </v-container>
