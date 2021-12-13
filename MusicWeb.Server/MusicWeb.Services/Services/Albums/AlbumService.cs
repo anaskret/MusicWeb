@@ -4,6 +4,8 @@ using MusicWeb.Models.Dtos.Artists;
 using MusicWeb.Models.Entities;
 using MusicWeb.Models.Entities.Artists;
 using MusicWeb.Models.Entities.Keyless;
+using MusicWeb.Models.Enums;
+using MusicWeb.Repositories.Extensions.Pagination.Interfaces;
 using MusicWeb.Repositories.Interfaces.Albums;
 using MusicWeb.Repositories.Interfaces.Artists;
 using MusicWeb.Services.Interfaces;
@@ -64,6 +66,24 @@ namespace MusicWeb.Services.Services.Albums
         {
             return _mapper.Map<AlbumRatingAverage>(await _albumRepository.GetAlbumAverageRating(id));
         }
+        public async Task<List<AlbumRatingAverage>> GetPagedAsync(SortType sortType, DateTime startDate, DateTime endDate, int pageNum = 0, int pageSize = int.MaxValue, string searchString = "")
+        {
+            var response = await _albumRepository.GetAlbumsPagedAsync(sortType, startDate, endDate, pageNum, pageSize, searchString);
+            return response;
+        }
+
+        public async Task<IPagedList<Album>> GetIPagedAsync(string searchString, int pageNum = 0, int pageSize = int.MaxValue)
+        {
+            return await _albumRepository.GetAllPagedAsync(query =>
+            {
+                if (!string.IsNullOrEmpty(searchString))
+                    query = query.Where(prp => prp.Name.Contains(searchString));
+
+                return query.OrderByDescending(prp => prp.Name);
+            });
+        }
+
+
 
 
     }

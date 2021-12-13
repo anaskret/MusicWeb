@@ -48,7 +48,11 @@ namespace MusicWeb.Api.Extensions
             public const string Delete = Root + "/albums/{id}";
             public const string GetFullData = Root + "/albumsdata/{id}";
             public const string GetAlbumRatingAverage = Root + "/albumaveragerating/{id}";
-            
+            public const string GetAllPagedSearchString = Root + "/albums/{pageNum}/{pageSize}/{sortType}/{createDateStart}/{createDateEnd}/{searchString}";
+            public const string GetAllPaged = Root + "/albums/{pageNum}/{pageSize}/{sortType}/{createDateStart}/{createDateEnd}";
+
+
+
         }
 
         public static class AlbumReviews
