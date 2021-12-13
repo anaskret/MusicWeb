@@ -9,4 +9,24 @@ export default {
   getAlbumRatingAverage(id) {
     return ApiService.authRequest(`albumaveragerating/${id}`, ApiService.get);
   },
+  getPaged(
+    page_num,
+    page_size,
+    sort_type,
+    create_date_start,
+    create_date_end,
+    search_string
+  ) {
+    if (search_string == "" || search_string == null) {
+      return ApiService.authRequest(
+        `/albums/${page_num}/${page_size}/${sort_type}/${create_date_start}/${create_date_end}`,
+        ApiService.get
+      );
+    } else {
+      return ApiService.authRequest(
+        `/albums/${page_num}/${page_size}/${sort_type}/${create_date_start}/${create_date_end}/${search_string}`,
+        ApiService.get
+      );
+    }
+  },
 };
