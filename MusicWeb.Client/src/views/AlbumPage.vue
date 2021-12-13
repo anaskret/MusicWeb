@@ -85,7 +85,6 @@ export default {
       getAlbumRatingAverage(this.id).then((response) => {
         this.$set(this.album, 'rating', response.rating);
         this.$set(this.album, 'ratingsCount', response.ratingsCount);
-        console.log(this.album);
       })
     }
     return {

@@ -73,7 +73,6 @@ export default {
 
     const getPagedAlbumList = function (entries, observer, is_intersecting) {
       if (is_intersecting) {
-        console.log(this.parseDate(this.filters.release_date_to));
         getPaged(
           this.scroll_settings.page,
           this.scroll_settings.records_quantity,
@@ -82,12 +81,9 @@ export default {
           // this.parseDate(this.filters.release_date_from),
           this.parseDate(this.filters.release_date_to),
           this.$store.state.searchingValue
-          // 0, 10, 0, '1990-12-13T16:26:14.374Z', '2021-12-13T16:26:14.374Z', ""
         )
           .then((response) => {
-            debugger;
             if (response.length > 0) {
-              console.log(response);
               response.forEach((item) => {
                 return this.albums.push(item);
               });
