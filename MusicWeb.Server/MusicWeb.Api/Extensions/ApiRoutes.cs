@@ -51,8 +51,6 @@ namespace MusicWeb.Api.Extensions
             public const string GetAllPagedSearchString = Root + "/albums/{pageNum}/{pageSize}/{sortType}/{createDateStart}/{createDateEnd}/{searchString}";
             public const string GetAllPaged = Root + "/albums/{pageNum}/{pageSize}/{sortType}/{createDateStart}/{createDateEnd}";
 
-
-
         }
 
         public static class AlbumReviews
@@ -76,6 +74,9 @@ namespace MusicWeb.Api.Extensions
             public const string Delete = Root + "/songs/{id}";
             public const string GetFullData = Root + "/songsdata/{id}";
             public const string GetSongRatingAverage = Root + "/songaveragerating/{id}";
+            public const string GetAllPagedSearchString = Root + "/songs/{pageNum}/{pageSize}/{sortType}/{createDateStart}/{createDateEnd}/{searchString}";
+            public const string GetAllPaged = Root + "/songs/{pageNum}/{pageSize}/{sortType}/{createDateStart}/{createDateEnd}";
+
         }
 
         public static class SongReviews
