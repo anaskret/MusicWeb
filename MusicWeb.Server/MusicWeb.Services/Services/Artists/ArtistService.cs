@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using MusicWeb.Models.Constants;
 using MusicWeb.Models.Dtos.Artists;
 using MusicWeb.Models.Dtos.Genres;
+using MusicWeb.Models.Dtos.Songs;
 using MusicWeb.Models.Entities;
 using MusicWeb.Models.Entities.Artists;
 using MusicWeb.Models.Entities.Keyless;
@@ -35,18 +36,21 @@ namespace MusicWeb.Services.Services.Artists
         private readonly IMapper _mapper;
         private readonly IFileService _fileService;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly ISongService _songService;
 
         public ArtistService(IArtistRepository artistRepository,
-            IMapper mapper,
-            IBandService bandService,
-            IFileService fileService,
-            UserManager<ApplicationUser> userManager)
+                             IMapper mapper,
+                             IBandService bandService,
+                             IFileService fileService,
+                             UserManager<ApplicationUser> userManager, 
+                             ISongService songService)
         {
             _artistRepository = artistRepository;
             _mapper = mapper;
             _bandService = bandService;
             _fileService = fileService;
             _userManager = userManager;
+            _songService = songService;
         }
 
         public async Task<Artist> GetByIdAsync(int id)
@@ -96,6 +100,8 @@ namespace MusicWeb.Services.Services.Artists
                 var band = await _bandService.GetBandMembersAsync(mappedEntity.Id);
                 mappedEntity.Members = _mapper.Map<List<BandMemberDto>>(band);
             }
+
+            mappedEntity.Songs.AddRange(_mapper.Map<List<SongWithRatingDto>>(await _songService.GetTopSongsWithRatingAsync(id)));
 
             return mappedEntity;
         }

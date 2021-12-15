@@ -4,7 +4,7 @@ using MusicWeb.Models.Dtos.Albums;
 using MusicWeb.Models.Dtos.Artists;
 using MusicWeb.Models.Entities;
 using MusicWeb.Models.Entities.Artists;
-using MusicWeb.Models.Entities.Posts;
+using MusicWeb.Models.Entities.Keyless;
 using MusicWeb.Repositories.Interfaces.Albums;
 using MusicWeb.Repositories.Interfaces.Artists;
 using MusicWeb.Services.Interfaces;
@@ -87,5 +87,12 @@ namespace MusicWeb.Services.Services.Albums
             var entities = await _albumRepository.GetAllAsync(obj => obj.Where(prp => prp.IsConfirmed));
             return entities.ToList();
         }
+
+        public async Task<AlbumRatingAverage> GetAlbumRatingAverage(int id)
+        {
+            return _mapper.Map<AlbumRatingAverage>(await _albumRepository.GetAlbumAverageRating(id));
+        }
+
+
     }
 }

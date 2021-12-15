@@ -4,7 +4,6 @@ export default class AlbumReview {
   postDate = "";
   albumId = "";
   userId = "";
-  albumId = "";
   album = {};
   userName = "";
   artist = "";

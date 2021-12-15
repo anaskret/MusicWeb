@@ -9,5 +9,7 @@ namespace MusicWeb.Models.Dtos.Songs
     public class SongReviewDto : CreateSongReviewDto
     {
         public int Id { get; set; }
+        public string UserName { get; set; }
+
     }
 }

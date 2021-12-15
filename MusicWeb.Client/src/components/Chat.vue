@@ -11,15 +11,13 @@
   </div>
 </template>
 <script>
-  export default {
-    name: "Chat",
-    setup() {
-      
-    },
-  }
+export default {
+  name: "Chat",
+  setup() {},
+};
 </script>
 <style scoped>
-.background{
+.background {
   display: flex;
   position: sticky;
   bottom: 1rem;
@@ -27,7 +25,7 @@
   justify-content: flex-end;
   align-items: flex-start;
 }
-.chat-btn{
+.chat-btn {
   margin-right: 1rem;
 }
 </style>

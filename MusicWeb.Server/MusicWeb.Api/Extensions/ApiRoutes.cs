@@ -47,6 +47,8 @@ namespace MusicWeb.Api.Extensions
             public const string GetById = Root + "/albums/{id}";
             public const string Delete = Root + "/albums/{id}";
             public const string GetFullData = Root + "/albumsdata/{id}";
+            public const string GetAlbumRatingAverage = Root + "/albumsrating/{id}";
+            
         }
 
         public static class AlbumReviews
@@ -57,6 +59,7 @@ namespace MusicWeb.Api.Extensions
             public const string GetById = Root + "/albumreviews/{id}";
             public const string Delete = Root + "/albumreviews/{id}";
             public const string GetFullData = Root + "/albumreviewsdata/{id}";
+
         }
 
 
@@ -211,6 +214,27 @@ namespace MusicWeb.Api.Extensions
             public const string Delete = Root + "/artistratings/{id}";
             public const string GetById = Root + "/artistratings/{id}";
             public const string GetAll = Root + "/listartistratings/{id}";
+        }
+
+        public static class AlbumRatings
+        {
+            public const string Create = Root + "/albumratings";
+            public const string Update = Root + "/albumratings";
+            public const string Delete = Root + "/albumratings/{id}";
+            public const string GetById = Root + "/albumratings/{id}";
+            public const string GetAll = Root + "/listalbumratings/{id}";
+            public const string GetUserRating = Root + "/albumratings/{id}/user/{userId}";
+        }
+
+        public static class SongRatings
+        {
+            public const string Create = Root + "/songratings";
+            public const string Update = Root + "/songratings";
+            public const string Delete = Root + "/songratings/{id}";
+            public const string GetById = Root + "/songratings/{id}";
+            public const string GetAll = Root + "/listsongratings/{id}";
+            public const string GetUserRating = Root + "/songratings/{id}/user/{userId}";
+
         }
 
         public static class Chats

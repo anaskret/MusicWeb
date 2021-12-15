@@ -37,7 +37,7 @@
                 height="90vh"
               >
                 <v-card-title class="px-0 pt-8 pb-4">Add review</v-card-title>
-                <div>
+                <div v-if="module_name == 'Album'">
                   <v-text-field
                     label="Title"
                     class="pb-1"
@@ -49,6 +49,21 @@
                     label="Review"
                     rows="13"
                     v-model="albumReview.content"
+                    color="white"
+                  />
+                </div>
+                <div v-else>
+                  <v-text-field
+                    label="Title"
+                    class="pb-1"
+                    v-model="songReview.title"
+                    color="white"
+                  />
+                  <v-textarea
+                    outlined
+                    label="Review"
+                    rows="13"
+                    v-model="songReview.content"
                     color="white"
                   />
                 </div>
@@ -117,6 +132,8 @@
 <script>
 import AlbumReview from "@/models/AlbumReview";
 import useAlbumReviews from "@/modules/albumReviews";
+import SongReview from "@/models/SongReview";
+import useSongReviews from "@/modules/songReviews";
 import moment from "moment";
 export default {
   name: "ReviewList",
@@ -125,34 +142,83 @@ export default {
     refreshComments: Function,
     album: String,
     artist: String,
+    module_name: String,
+    redirect_module_name: String,
   },
   data() {
     return {
       showMore: false,
       reviewTextLength: 305,
       albumReview: new AlbumReview(),
+      songReview: new SongReview(),
       error: {},
       dialog: false,
       user_id: localStorage.getItem("user-id"),
-      redirect_module_name: "ReviewPage",
     };
   },
   methods: {
     addReviewDialog() {
       this.dialog = false;
-      this.addNewReview();
+      if (this.module_name == "Album")
+      {
+        this.addNewAlbumReview();
+      } 
+      else
+      {
+        this.addNewSongReview();
+      }
     },
     redirectToItem(itemId) {
       this.$router.push({
         name: `${this.redirect_module_name}`,
-        params: { id: itemId },
+        params: { id: itemId,
+        module_name: this.module_name },
       });
     },
   },
   setup() {
-    const { addReview } = useAlbumReviews();
+      const { addSongReview } = useSongReviews();
+      const { addAlbumReview } = useAlbumReviews();
 
-    const addNewReview = function () {
+      const addNewSongReview = function () {
+      this.songReview.userId = this.$store.state.auth.userId;
+      this.songReview.songId = this.$route.params.id;
+      this.songReview.postDate = moment.utc().format();
+      if (
+        this.songReview.title == null ||
+        this.songReview.title == "" ||
+        this.songReview.content == null ||
+        this.songReview.content == ""
+      ) {
+        this.$emit("show-alert", "Title or review cannot be empty.", "error");
+        this.dialog = true;
+      } else {
+        addSongReview(this.songReview).then(
+          (response) => {
+            if (response.status == 200) {
+              this.refreshComments();
+              this.songReview.title = null;
+              this.songReview.content = null;
+              this.$emit("show-alert", "Review added.", "success");
+            } else {
+              this.$emit(
+                "show-alert",
+                `Nie udało się dodać recenzji. Błąd ${response.status}`,
+                "error"
+              );
+            }
+          },
+          (error) => {
+            this.$emit(
+              "show-alert",
+              `Nie udało się dodać recenzji. ${error.response.status} ${error.response.data}`,
+              "error"
+            );
+          }
+        );
+      }
+    };
+      const addNewAlbumReview = function () {
       this.albumReview.userId = this.$store.state.auth.userId;
       this.albumReview.albumId = this.$route.params.id;
       this.albumReview.postDate = moment.utc().format();
@@ -167,7 +233,7 @@ export default {
         this.$emit("show-alert", "Title or review cannot be empty.", "error");
         this.dialog = true;
       } else {
-        addReview(this.albumReview).then(
+        addAlbumReview(this.albumReview).then(
           (response) => {
             if (response.status == 200) {
               this.refreshComments();
@@ -193,8 +259,12 @@ export default {
       }
     };
     return {
-      addNewReview,
+      addNewSongReview,
+      addNewAlbumReview,
     };
+    // const { addReview } = useAlbumReviews();
+
+  
   },
 };
 </script>

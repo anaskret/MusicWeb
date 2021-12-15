@@ -4,6 +4,7 @@
       :parent="album"
       :show_observe_button="show_observe_button"
       :vote_title="vote_title"
+      :module_name="module_name"
     />
 
     <InfoSection :parent="album" :module_name="module_name" />
@@ -13,12 +14,15 @@
       :list_title="list_title"
       :list_link_title="list_link_title"
     />
+    {{album.artist.name}}
     <ReviewList
       :reviews="reviews_desc"
       :refreshComments="getAlbumData"
       :album="album.name"
       :artist="album.artist.name"
+      :module_name="module_name"
       v-on="$listeners"
+      :redirect_module_name="redirect_module_name"
     />
   </div>
 </template>
@@ -29,6 +33,7 @@ import ItemList from "@/components/ItemList.vue";
 import InfoSection from "@/components/InfoSection.vue";
 import ReviewList from "@/components/ReviewList.vue";
 import useAlbums from "@/modules/albums";
+
 export default {
   name: "AlbumPage",
   components: {
@@ -47,6 +52,7 @@ export default {
       reviews_desc: {},
       list_title: "Utwory",
       list_link_title: "Wyświetl wszystkie utwory",
+      redirect_module_name: "AlbumReviewPage",
     };
   },
   methods: {

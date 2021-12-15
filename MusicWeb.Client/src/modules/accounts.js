@@ -70,6 +70,9 @@ export default function useAccounts() {
     updateAccountPassword,
     updateAccountEmail,
     updateAccountImage,
+<<<<<<< HEAD
     getPaged
+=======
+>>>>>>> features/api/artistpagetopsongs
   };
 }

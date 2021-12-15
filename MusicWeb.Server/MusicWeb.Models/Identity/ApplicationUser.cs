@@ -37,5 +37,7 @@ namespace MusicWeb.Models.Identity
         public virtual ICollection<ArtistRating> ArtistRatings { get; set; }
         public virtual ICollection<PostLike> PostLikes { get; set; }
         public virtual ICollection<PostComment> PostComments { get; set; }
+        public virtual ICollection<AlbumRating> AlbumRatings { get; set; }
+        public virtual ICollection<SongRating> SongRatings { get; set; }
     }
 }

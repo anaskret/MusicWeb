@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using MusicWeb.Models.Dtos.Songs;
 using MusicWeb.Models.Entities;
+using MusicWeb.Models.Entities.Keyless;
 using MusicWeb.Repositories.Interfaces.Songs;
 using MusicWeb.Services.Interfaces;
 using System;
@@ -48,6 +49,11 @@ namespace MusicWeb.Services.Services.Songs
         {
             var song = await _songRepository.GetSongFullDataByIdAsync(id);
             return _mapper.Map<SongFullDataDto>(song);
+        }
+
+        public async Task<List<TopSongsWithRating>> GetTopSongsWithRatingAsync(int artistId)
+        {
+            return await _songRepository.GetTopSongsWithRatingsAsync(artistId);
         }
 
         public async Task UpdateAsync(Song entity)

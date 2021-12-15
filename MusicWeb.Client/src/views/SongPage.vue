@@ -4,6 +4,7 @@
       :parent="song"
       :show_observe_button="show_observe_button"
       :vote_title="vote_title"
+      :module_name="module_name"
     />
     <InfoSection
       :parent="song"
@@ -11,9 +12,12 @@
       :description_title="description_title"
     />
     <ReviewList
-      :reviews="song.songReviews"
+      :reviews="reviews_desc"
+      :refreshComments="getSongData"
       :artist="song.composer.name"
       :album="song.album.name"
+      v-on="$listeners"
+      :redirect_module_name="redirect_module_name"
     />
   </div>
 </template>
@@ -37,8 +41,15 @@ export default {
       show_observe_button: false,
       vote_title: "Oceń piosenkę",
       module_name: "Song",
+      redirect_module_name: "SongReviewPage",
       description_title: "Tekst utworu",
+      reviews_desc: {},
     };
+  },
+  methods: {
+    prepareReviews() {
+      this.reviews_desc = this.song.songReviews.reverse().slice(0, 3);
+    },
   },
   created() {
     this.getSongData();
@@ -48,6 +59,7 @@ export default {
     const getSongData = function () {
       getSongFullData(this.id).then((response) => {
         this.song = response;
+        this.prepareReviews();
       });
     };
     return {

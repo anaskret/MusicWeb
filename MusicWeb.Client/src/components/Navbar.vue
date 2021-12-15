@@ -53,8 +53,16 @@
         <v-list>
           <v-list-item>
             <v-list-item-avatar>
-              <img v-if="account.imagePath" :src="`${this.$store.state.serverUrl}/${account.imagePath}`" :alt="`${account.firstname}`" />
-              <img v-else src="@/assets/defaut_user.png" :alt="`${account.firstname}`" />
+              <img
+                v-if="account.imagePath"
+                :src="`${this.$store.state.serverUrl}/${account.imagePath}`"
+                :alt="`${account.firstname}`"
+              />
+              <img
+                v-else
+                src="@/assets/defaut_user.png"
+                :alt="`${account.firstname}`"
+              />
             </v-list-item-avatar>
 
             <v-list-item-content>
@@ -204,11 +212,11 @@
                             </v-row>
                         </v-container> -->
                         <div class="uploader">
-                            <v-file-input
+                          <v-file-input
                             label="File input"
                             prepend-icon="mdi-camera"
                             @change="fileChange"
-                            ></v-file-input>
+                          ></v-file-input>
                         </div>
                       </v-card-text>
                       <v-card-actions>
@@ -278,7 +286,7 @@ export default {
         { id: 2, name: "Base", method: this.redirectToArtistList },
       ],
       files: new FormData(),
-      file: {}
+      file: {},
     };
   },
   computed: {
@@ -387,12 +395,12 @@ export default {
       this.updateImage();
     },
     fileChange(file) {
-        if(file != null && file != ''){
-            this.getBase64(file).then(res => {
-                let start = res.search(',');
-                this.file.imageBytes = res.substr(start + 1,res.length);
-            });
-        }
+      if (file != null && file != "") {
+        this.getBase64(file).then((res) => {
+          let start = res.search(",");
+          this.file.imageBytes = res.substr(start + 1, res.length);
+        });
+      }
     },
     getBase64(file) {
       return new Promise(function (resolve, reject) {
@@ -434,8 +442,12 @@ export default {
     }
   },
   setup() {
-    const { getAccountById, updateAccountPassword, updateAccountEmail, updateAccountImage } =
-      useAccounts();
+    const {
+      getAccountById,
+      updateAccountPassword,
+      updateAccountEmail,
+      updateAccountImage,
+    } = useAccounts();
 
     const onLogout = function () {
       this.$store.dispatch("auth/logout");
@@ -511,10 +523,10 @@ export default {
         }
       );
     };
-    
+
     const updateImage = function () {
-        this.file.userid = this.user_id;
-        this.file.imagePath = "/Users/";
+      this.file.userid = this.user_id;
+      this.file.imagePath = "/Users/";
       updateAccountImage(this.file).then(
         (response) => {
           if (response.status == 200) {
@@ -550,7 +562,7 @@ export default {
       getAccount,
       updatePassword,
       updateEmail,
-    updateImage
+      updateImage,
     };
   },
 };

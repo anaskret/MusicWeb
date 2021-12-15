@@ -146,9 +146,9 @@
                 <v-col lg="12">
                   <v-expansion-panel-content>
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                    do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                    Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                    laboris nisi ut aliquip ex ea commodo consequat.
+                    do eiusmod tempor incididunt ut labore et dolore magna
+                    aliqua. Ut enim ad minim veniam, quis nostrud exercitation
+                    ullamco laboris nisi ut aliquip ex ea commodo consequat.
                   </v-expansion-panel-content>
                 </v-col>
               </v-row>
@@ -329,7 +329,7 @@ export default {
 p {
   margin-bottom: 0;
 }
-.v-expansion-panel::before{
+.v-expansion-panel::before {
   box-shadow: none;
 }
 </style>
