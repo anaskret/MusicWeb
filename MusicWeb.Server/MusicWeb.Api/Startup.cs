@@ -174,7 +174,6 @@ namespace MusicWeb.Api
             services.AddSignalR();
 
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-            services.AddSignalR();
 
             var serviceProvider = services.BuildServiceProvider();
             var logger = serviceProvider.GetService<ILogger<ApplicationLogger>>();
@@ -297,6 +296,7 @@ namespace MusicWeb.Api
                 endpoints.MapControllers();
                 endpoints.MapHub<FriendsHub>("/friendshub");
                 endpoints.MapHub<UserHub>("/userhub");
+                endpoints.MapHub<MessageHub>("/messagehub");
             });
         }
     }

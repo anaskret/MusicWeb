@@ -45,9 +45,9 @@ namespace MusicWeb.Api.Controllers.Chats
             try
             {
                 var entity = _mapper.Map<Chat>(chat);
-                await _chatService.AddChat(entity);
+                var chatId = await _chatService.AddChat(entity);
 
-                return Ok();
+                return Ok(chatId);
             }
             catch (Exception ex)
             {

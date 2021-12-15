@@ -138,7 +138,7 @@
     {
         try
         {
-            await _albumService.DeleteAsync(id);
+            await _albumService.ConfirmAlbumAsync(id);
             List.Remove(List.FirstOrDefault(prp => prp.Id == id));
             StatusMessage.Show("Album confirmed successfuly");
             StateHasChanged();

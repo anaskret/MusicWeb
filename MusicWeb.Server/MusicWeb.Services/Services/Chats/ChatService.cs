@@ -19,13 +19,14 @@ namespace MusicWeb.Services.Services.Chats
             _chatRepository = chatRepository;
         }
 
-        public async Task AddChat(Chat entity)
+        public async Task<int> AddChat(Chat entity)
         {
             var doesExist = await GetByUserIdsAsync(entity.UserId, entity.FriendId);
             if (doesExist != null)
                 throw new ArgumentException("Chat already exists!");
 
             await _chatRepository.AddAsync(entity);
+            return entity.Id;
         }
 
         public async Task DeleteChat(int id)

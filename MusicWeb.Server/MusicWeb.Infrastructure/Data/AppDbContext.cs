@@ -49,7 +49,6 @@ namespace MusicWeb.DataAccess.Data
         public DbSet<Post> Post{ get; set; }
         public DbSet<PostLike> PostLike{ get; set; }
         public DbSet<PostComment> PostComment{ get; set; }
-        public DbSet<Post> Post { get; set; }
         public DbSet<AlbumRating> AlbumRating { get; set; }
 
         //Keyless

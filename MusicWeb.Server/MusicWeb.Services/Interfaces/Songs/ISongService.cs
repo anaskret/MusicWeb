@@ -18,6 +18,7 @@ namespace MusicWeb.Services.Interfaces
         Task AddAsync(Song entity);
         Task UpdateAsync(Song entity);
         Task DeleteAsync(int id);
+        Task DeleteRangeAsync(List<Song> entities);
         Task<List<Song>> GetSongsByAlbumIdAsync(int albumId);
     }
 }

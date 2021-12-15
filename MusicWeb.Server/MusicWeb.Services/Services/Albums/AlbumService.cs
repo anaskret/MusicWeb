@@ -5,6 +5,7 @@ using MusicWeb.Models.Dtos.Artists;
 using MusicWeb.Models.Entities;
 using MusicWeb.Models.Entities.Artists;
 using MusicWeb.Models.Entities.Keyless;
+using MusicWeb.Models.Entities.Posts;
 using MusicWeb.Repositories.Interfaces.Albums;
 using MusicWeb.Repositories.Interfaces.Artists;
 using MusicWeb.Services.Interfaces;
@@ -23,24 +24,27 @@ namespace MusicWeb.Services.Services.Albums
         private readonly IAlbumRepository _albumRepository;
         private readonly IMapper _mapper;
         private readonly IPostService _postService;
+        private readonly ISongService _songService;
 
-        public AlbumService(IAlbumRepository albumRepository, 
-                            IMapper mapper, 
-                            IPostService postService)
+        public AlbumService(IAlbumRepository albumRepository,
+                            IMapper mapper,
+                            IPostService postService, 
+                            ISongService songService)
         {
             _albumRepository = albumRepository;
             _mapper = mapper;
             _postService = postService;
+            _songService = songService;
         }
 
         public async Task<Album> GetByIdAsync(int id)
         {
-            return await _albumRepository.GetByIdAsync(id);
+            return await _albumRepository.GetByIdNoTrackingAsync(id);
         }
 
         public async Task<List<Album>> GetAllAsync()
         {
-            var entites = await _albumRepository.GetAllAsync(obj => obj.Where(prp => prp.IsConfirmed));
+            var entites = await _albumRepository.GetAllAsync(obj => obj.Where(prp => prp.IsConfirmed).AsNoTracking());
             return entites.ToList();
         }
 
@@ -64,6 +68,9 @@ namespace MusicWeb.Services.Services.Albums
 
         public async Task DeleteAsync(int id)
         {
+            var songEntities = await _songService.GetSongsByAlbumIdAsync(id);
+            await _songService.DeleteRangeAsync(songEntities);
+
             var entity = await GetByIdAsync(id);
             await _albumRepository.DeleteAsync(entity);
         }

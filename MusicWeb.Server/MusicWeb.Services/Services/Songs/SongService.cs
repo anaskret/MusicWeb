@@ -66,5 +66,10 @@ namespace MusicWeb.Services.Services.Songs
             var entities = await _songRepository.GetAllAsync(obj => obj.Where(prp => prp.AlbumId == albumId));
             return entities.ToList();
         }
+
+        public async Task DeleteRangeAsync(List<Song> entities)
+        {
+            await _songRepository.DeleteRangeAsync(entities);
+        }
     }
 }

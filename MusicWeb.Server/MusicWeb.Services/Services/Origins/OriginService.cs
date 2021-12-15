@@ -25,11 +25,6 @@ namespace MusicWeb.Services.Services.Origins
             await _countryRepository.AddAsync(entity);
         }
 
-        public async Task AddCountriesRangeAsync(List<Country> entities)
-        {
-            await _countryRepository.AddRangeAsync(entities);
-        }
-
         public async Task UpdateCountryAsync(Country entity)
         {
             await _countryRepository.UpdateAsync(entity);
@@ -51,7 +46,12 @@ namespace MusicWeb.Services.Services.Origins
 
         public async Task<IList<Country>> GetAllCountriesAsync()
         {
-            return await _countryRepository.GetAllAsync(obj => obj.OrderBy(prp => prp.Name));
+            return await _countryRepository.GetAllAsync();
+        }
+
+        public async Task AddCountriesRangeAsync(List<Country> entities)
+        {
+            await _countryRepository.AddRangeAsync(entities);
         }
     }
 }
