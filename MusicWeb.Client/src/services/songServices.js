@@ -12,4 +12,24 @@ export default {
   getSongRatingAverage(id) {
     return ApiService.authRequest(`songaveragerating/${id}`, ApiService.get);
   },
+  getPaged(
+    page_num,
+    page_size,
+    sort_type,
+    create_date_start,
+    create_date_end,
+    search_string
+  ) {
+    if (search_string == "" || search_string == null) {
+      return ApiService.authRequest(
+        `/songs/${page_num}/${page_size}/${sort_type}/${create_date_start}/${create_date_end}`,
+        ApiService.get
+      );
+    } else {
+      return ApiService.authRequest(
+        `/songs/${page_num}/${page_size}/${sort_type}/${create_date_start}/${create_date_end}/${search_string}`,
+        ApiService.get
+      );
+    }
+  },
 };

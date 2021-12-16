@@ -1,4 +1,5 @@
 export default class Song {
+  id = null;
   name = "";
   releaseDate = "";
   duration = "";
@@ -14,6 +15,7 @@ export default class Song {
 
   constructor($data) {
     if ($data) {
+      this.id = $data.id;
       this.name = $data.name;
       this.releaseDate = $data.releaseDate;
       this.duration = $data.length;

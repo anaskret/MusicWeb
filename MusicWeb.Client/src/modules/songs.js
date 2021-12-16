@@ -33,10 +33,39 @@ export default function useSongs() {
       });
     }
   };
+  const getPaged = function (
+    page_num,
+    page_size,
+    sort_type,
+    create_date_start,
+    create_date_end,
+    search_string
+  ) {
+    if (page_num > -1 && page_size && create_date_start && create_date_end) {
+      return songServices
+        .getPaged(
+          page_num,
+          page_size,
+          sort_type,
+          create_date_start,
+          create_date_end,
+          search_string
+        )
+        .then((response) => {
+          let res = response.data;
+          let songs = [];
+          res.forEach((song) => {
+            songs.push(new Song(song));
+          });
+          return songs;
+        });
+    }
+  };
   return {
     getAll,
     getSongFullData,
     getSongsByArtistId,
     getSongRatingAverage,
+    getPaged,
   };
 }
