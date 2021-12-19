@@ -71,9 +71,15 @@ namespace MusicWeb.Services.Services.Albums
             return _mapper.Map<List<AlbumReviewRating>>(response);
         }
 
-        public Task<IPagedList<AlbumReview>> GetIPagedAsync(string searchString, int pageNum = 0, int pageSize = int.MaxValue)
+        public async Task<IPagedList<AlbumReview>> GetIPagedAsync(string searchString, int pageNum = 0, int pageSize = int.MaxValue)
         {
-            throw new NotImplementedException();
+            return await _albumReviewRepository.GetAllPagedAsync(query =>
+            {
+                if (!string.IsNullOrEmpty(searchString))
+                    query = query.Where(prp => prp.Title.Contains(searchString));
+
+                return query.OrderByDescending(prp => prp.Title);
+            });
         }
     }
 }

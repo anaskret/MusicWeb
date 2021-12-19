@@ -143,7 +143,7 @@ namespace MusicWeb.Api.Controllers.Albums
         {
             try
             {
-                var response = _mapper.Map<List<AlbumReview>>(await _albumReviewService.GetPagedAsync(sortType, createDateStart, createDateEnd, pageNum, pageSize));
+                var response = _mapper.Map<List<AlbumReviewDto>>(await _albumReviewService.GetPagedAsync(sortType, createDateStart, createDateEnd, pageNum, pageSize));
                 return Ok(response);
             }
             catch (Exception ex)
