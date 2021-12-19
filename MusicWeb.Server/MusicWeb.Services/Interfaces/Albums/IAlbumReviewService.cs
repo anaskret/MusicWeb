@@ -5,6 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MusicWeb.Models.Dtos.Albums;
+using MusicWeb.Repositories.Extensions.Pagination.Interfaces;
+using MusicWeb.Models.Enums;
+using MusicWeb.Models.Entities.Keyless;
 
 namespace MusicWeb.Services.Interfaces.Albums
 {
@@ -16,5 +19,7 @@ namespace MusicWeb.Services.Interfaces.Albums
         Task UpdateAsync(AlbumReview entity);
         Task DeleteAsync(int id);
         Task<AlbumReviewFullDataDto> GetAlbumReviewFullDataByIdAsync(int id);
+        Task<List<AlbumReviewRating>> GetPagedAsync(SortType sortType, DateTime startDate, DateTime endDate, int pageNum = 0, int pageSize = 15, string searchString = "");
+        Task<IPagedList<AlbumReview>> GetIPagedAsync(string searchString, int pageNum = 0, int pageSize = int.MaxValue);
     }
 }
