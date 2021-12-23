@@ -1,4 +1,5 @@
 ﻿using MusicWeb.Models.Entities.Base;
+using MusicWeb.Models.Entities.Ratings;
 using MusicWeb.Models.Identity;
 using System;
 using System.Collections.Generic;
@@ -18,7 +19,8 @@ namespace MusicWeb.Models.Entities
         public string UserId { get; set; }
 
         public virtual Album Album { get; set; }
-        public virtual ApplicationUser User{ get; set; }
+        public virtual ApplicationUser User { get; set; }
+        public virtual AlbumRating Rating { get; set; }
 
     }
 }
