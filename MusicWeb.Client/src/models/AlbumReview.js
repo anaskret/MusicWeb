@@ -8,6 +8,7 @@ export default class AlbumReview {
   album = {};
   userName = "";
   artist = "";
+  rating = "";
   constructor($data) {
     if ($data) {
       this.id = $data.id;
@@ -19,6 +20,7 @@ export default class AlbumReview {
       this.album = $data.album ? $data.album : {};
       this.userName = $data.userName;
       this.artist = $data.artist;
+      this.rating = $data.rating;
     }
   }
 }

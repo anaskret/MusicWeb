@@ -193,6 +193,42 @@
         </div>
       </v-card>
     </div>
+        <div v-if="page_name == 'AlbumReviewList'">
+            <v-card @click="redirectToItem(item.id)">
+        <div class="d-flex flex-no-wrap justify-space-between">
+          <div>
+            <v-card-title class="text-h5" v-text="item.title"></v-card-title>
+
+            <v-card-subtitle
+              ><p>
+                {{ moment(item.postDate).format("L") }}
+              </p></v-card-subtitle
+            >
+
+            <v-card-actions>
+              <v-btn
+                class="ml-2 mt-3"
+                fab
+                icon
+                height="40px"
+                right
+                width="40px"
+              >
+                <font-awesome-icon
+                  class="icon"
+                  icon="chevron-right"
+                  size="2x"
+                />
+              </v-btn>
+            </v-card-actions>
+          </div>
+
+          <v-avatar class="ma-3" size="125" tile>
+            <v-img :src="require(`@/assets/judgement.svg`)"></v-img>
+          </v-avatar>
+        </div>
+      </v-card>
+    </div>
   </div>
 </template>
 
