@@ -63,6 +63,9 @@ namespace MusicWeb.Api.Extensions
             public const string GetById = Root + "/albumreviews/{id}";
             public const string Delete = Root + "/albumreviews/{id}";
             public const string GetFullData = Root + "/albumreviewsdata/{id}";
+            public const string GetAllPagedWithRating = Root + "/albumreviews/{pageNum}/{pageSize}/{sortType}/{createDateStart}/{createDateEnd}/{searchString}";
+            public const string GetAllPaged = Root + "/albumreviews/{pageNum}/{pageSize}/{sortType}/{createDateStart}/{createDateEnd}";
+
 
         }
 

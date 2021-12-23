@@ -52,6 +52,7 @@ namespace MusicWeb.DataAccess.Data
         //Keyless
         public DbSet<ArtistRatingAverage> ArtistRatingAverage { get; set; }
         public DbSet<AlbumRatingAverage> AlbumRatingAverage { get; set; }
+        public DbSet<AlbumReviewRating> AlbumReviewRating { get; set; }
         public DbSet<SongRatingAverage> SongRatingAverage{ get; set; }
         public DbSet<UserAndArtistPost> UserAndArtistPost { get; set; }
 
@@ -462,6 +463,11 @@ namespace MusicWeb.DataAccess.Data
             });
 
             modelBuilder.Entity<AlbumRatingAverage>(entity =>
+            {
+                entity.HasNoKey();
+            });
+
+            modelBuilder.Entity<AlbumReviewRating>(entity =>
             {
                 entity.HasNoKey();
             });
