@@ -30,7 +30,7 @@ namespace MusicWeb.Repositories.Repositories.Albums
             return entity;
         }
 
-        public async Task<List<AlbumReviewRating>> GetAlbumsPagedAsync(SortType sortType, DateTime startDate, DateTime endDate, int pageNum = 0, int pageSize = 15, string searchString = "")
+        public async Task<List<AlbumReviewRating>> GetAlbumsPagedAsync(SortType sortType, DateTime startDate, DateTime endDate, int pageNum = 0, int pageSize = 15)
         {
 
             var sql = @$"SELECT AlbumReview.Id, AlbumReview.Title, AlbumReview.Content, AlbumReview.PostDate, AlbumReview.AlbumId, AlbumReview.UserId, AlbumRating.Rating as Rating FROM AlbumReview
@@ -38,9 +38,6 @@ namespace MusicWeb.Repositories.Repositories.Albums
             ON AlbumReview.AlbumId = AlbumRating.AlbumId AND AlbumReview.UserId = AlbumRating.UserId";
 
             var query = _dbContext.AlbumReviewRating.FromSqlRaw(sql);
-
-            if (!string.IsNullOrEmpty(searchString))
-                query = query.Where(prp => prp.Title.Contains(searchString));
 
             query = query.Where(prp => prp.PostDate >= startDate && prp.PostDate <= endDate);
             switch (sortType)

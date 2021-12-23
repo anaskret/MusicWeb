@@ -123,12 +123,12 @@ namespace MusicWeb.Api.Controllers.Albums
         }
 
        
-        [HttpGet(ApiRoutes.AlbumReviews.GetAllPagedSearchString)]
-        public async Task<IActionResult> GetAllPagedSearchString([FromRoute] int pageNum, [FromRoute] int pageSize, [FromRoute] SortType sortType, [FromRoute] DateTime createDateStart, [FromRoute] DateTime createDateEnd, [FromRoute] string searchString = "")
+        [HttpGet(ApiRoutes.AlbumReviews.GetAllPagedWithRating)]
+        public async Task<IActionResult> GetAllPagedWithRating([FromRoute] int pageNum, [FromRoute] int pageSize, [FromRoute] SortType sortType, [FromRoute] DateTime createDateStart, [FromRoute] DateTime createDateEnd)
         {
             try
             {
-                var response = await _albumReviewService.GetPagedAsync(sortType, createDateStart, createDateEnd, pageNum, pageSize, searchString);
+                var response = await _albumReviewService.GetPagedAsync(sortType, createDateStart, createDateEnd, pageNum, pageSize);
                 return Ok(response);
             }
             catch (Exception ex)

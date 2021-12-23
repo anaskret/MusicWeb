@@ -65,18 +65,16 @@ namespace MusicWeb.Services.Services.Albums
 
         }
 
-        public async Task<List<AlbumReviewRating>> GetPagedAsync(SortType sortType, DateTime startDate, DateTime endDate, int pageNum = 0, int pageSize = int.MaxValue, string searchString = "")
+        public async Task<List<AlbumReviewRating>> GetPagedAsync(SortType sortType, DateTime startDate, DateTime endDate, int pageNum = 0, int pageSize = int.MaxValue)
         {
-            var response = await _albumReviewRepository.GetAlbumsPagedAsync(sortType, startDate, endDate, pageNum, pageSize, searchString);
+            var response = await _albumReviewRepository.GetAlbumsPagedAsync(sortType, startDate, endDate, pageNum, pageSize);
             return _mapper.Map<List<AlbumReviewRating>>(response);
         }
 
-        public async Task<IPagedList<AlbumReview>> GetIPagedAsync(string searchString, int pageNum = 0, int pageSize = int.MaxValue)
+        public async Task<IPagedList<AlbumReview>> GetIPagedAsync(int pageNum = 0, int pageSize = int.MaxValue)
         {
             return await _albumReviewRepository.GetAllPagedAsync(query =>
             {
-                if (!string.IsNullOrEmpty(searchString))
-                    query = query.Where(prp => prp.Title.Contains(searchString));
 
                 return query.OrderByDescending(prp => prp.Title);
             });

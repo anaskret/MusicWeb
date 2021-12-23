@@ -19,7 +19,7 @@ namespace MusicWeb.Services.Interfaces.Albums
         Task UpdateAsync(AlbumReview entity);
         Task DeleteAsync(int id);
         Task<AlbumReviewFullDataDto> GetAlbumReviewFullDataByIdAsync(int id);
-        Task<List<AlbumReviewRating>> GetPagedAsync(SortType sortType, DateTime startDate, DateTime endDate, int pageNum = 0, int pageSize = 15, string searchString = "");
-        Task<IPagedList<AlbumReview>> GetIPagedAsync(string searchString, int pageNum = 0, int pageSize = int.MaxValue);
+        Task<List<AlbumReviewRating>> GetPagedAsync(SortType sortType, DateTime startDate, DateTime endDate, int pageNum = 0, int pageSize = 15);
+        Task<IPagedList<AlbumReview>> GetIPagedAsync(int pageNum = 0, int pageSize = int.MaxValue);
     }
 }
