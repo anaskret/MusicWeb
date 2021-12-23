@@ -1,4 +1,5 @@
 export default class AlbumReview {
+  id = "";
   title = "";
   content = "";
   postDate = "";
@@ -9,6 +10,7 @@ export default class AlbumReview {
   artist = "";
   constructor($data) {
     if ($data) {
+      this.id = $data.id;
       this.title = $data.title;
       this.content = $data.content;
       this.postDate = $data.postDate;
