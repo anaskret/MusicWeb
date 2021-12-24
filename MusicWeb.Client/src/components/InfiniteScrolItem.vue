@@ -193,7 +193,7 @@
         </div>
       </v-card>
     </div>
-        <div v-if="page_name == 'AlbumReviewList'">
+        <div v-if="page_name == 'AlbumReviewList' || page_name == 'SongReviewList'">
             <v-card @click="redirectToItem(item.id)">
         <div class="d-flex flex-no-wrap justify-space-between">
           <div>

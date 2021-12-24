@@ -9,4 +9,10 @@ export default {
   getSongReviewFullData(id) {
     return ApiService.authRequest(`/songreviewsdata/${id}`, ApiService.get);
   },
+  getPaged(page_num, page_size, sort_type, create_date_start, create_date_end) {
+    return ApiService.authRequest(
+      `/songreviews/${page_num}/${page_size}/${sort_type}/${create_date_start}/${create_date_end}`,
+      ApiService.get
+    );
+  },
 };
