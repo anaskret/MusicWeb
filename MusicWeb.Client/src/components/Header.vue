@@ -1,5 +1,6 @@
 <template>
   <v-container fluid class="py-16">
+    {{parent}}
     <v-row justify="center">
       <v-col lg="3" sm="6" class="pr-lg-12">
         <div>
@@ -31,7 +32,7 @@
             <div>
               <p>Dodaj do ulubionych</p>
               <div class="d-flex flex-row">
-                <div align-content="center" class="mr-lg-3">
+                <div align-content="center" class="mr-lg-3" @click="addToFavorite">
                   <font-awesome-icon
                     class="icon"
                     icon="heart"
@@ -40,7 +41,7 @@
                   ></font-awesome-icon>
                 </div>
                 <div align-items="center" class="align-center">
-                  <span class="feature-text pr-1">199 osób </span> dodało do
+                  <span class="feature-text pr-1">{{parent.favoriteCount }} osób </span> dodało do
                   ulubionych
                 </div>
               </div>
@@ -327,6 +328,11 @@ export default {
     {
       this.colorStars(rating);
       this.countStars();
+    },
+
+    addToFavorite: function()
+    {
+      
     }
 
   },
