@@ -34,7 +34,7 @@
               <div class="d-flex flex-row">
                 <div align-content="center" class="mr-lg-3" @click="addToFavorite">
                   <font-awesome-icon
-                    class="icon"
+                    class="heart icon"
                     icon="heart"
                     size="2x"
                     color="#865e61"
@@ -332,7 +332,7 @@ export default {
 
     addToFavorite: function()
     {
-      
+
     }
 
   },
