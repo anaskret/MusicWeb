@@ -12,8 +12,8 @@ namespace MusicWeb.Models.Dtos.Albums.Base
         public DateTime ReleaseDate { get; set; }
         public int ArtistId { get; set; }
         public int AlbumGenreId { get; set; }
-        public double duration { get; set; }
-        public string description { get; set; }
-        public Boolean isConfirmed { get; set; }
+        public double Duration { get; set; }
+        public string Description { get; set; }
+        public Boolean IsConfirmed { get; set; }
     }
 }

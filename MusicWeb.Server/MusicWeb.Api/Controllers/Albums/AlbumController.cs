@@ -162,7 +162,7 @@ namespace MusicWeb.Api.Controllers.Albums
         {
             try
             {
-                var response = _mapper.Map<List<AlbumDto>>(await _albumService.GetPagedAsync(sortType, createDateStart, createDateEnd, pageNum, pageSize));
+                var response = await _albumService.GetPagedAsync(sortType, createDateStart, createDateEnd, pageNum, pageSize);
                 return Ok(response);
             }
             catch (Exception ex)
