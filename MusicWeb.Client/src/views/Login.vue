@@ -75,7 +75,8 @@ export default {
       is_logging: false,
       message: "",
       error: {},
-      session_expired: "Sesja wygasła. Zaloguj się ponownie.",
+      session_expired: "Session expired. Please login again.",
+      connection_not_found: "Connection cannot be established.",
     };
   },
   computed: {
@@ -99,6 +100,9 @@ export default {
     if (this.$store.state.tokenExpired) {
       this.message = this.session_expired;
       this.$store.state.tokenExpired = false;
+    } else if (this.$store.state.connectionError) {
+      this.message = this.connection_not_found;
+      this.$store.state.connectionError = false;
     }
   },
   validations: {

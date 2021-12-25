@@ -27,20 +27,20 @@ export default {
   updateImage(data) {
     return ApiService.authRequest(`/users/image`, ApiService.put, data);
   },
-  getPaged(
-    user_id,
-    page_num,
-    page_size
-  ) {
+  getPaged(user_id, page_num, page_size) {
     return ApiService.authRequest(
-    `/userposts/${user_id}/${page_num}/${page_size}`,
-    ApiService.get
+      `/userposts/${user_id}/${page_num}/${page_size}`,
+      ApiService.get
     );
   },
   addPost(data) {
     return ApiService.authRequest(`/posts`, ApiService.post, data);
   },
   watchArtist(data) {
-    return ApiService.authRequest(`/userobservedartists`, ApiService.post, data);
+    return ApiService.authRequest(
+      `/userobservedartists`,
+      ApiService.post,
+      data
+    );
   },
 };

@@ -286,6 +286,7 @@ namespace MusicWeb.Api
                 endpoints.MapControllers();
                 endpoints.MapHub<FriendsHub>("/friendshub");
                 endpoints.MapHub<UserHub>("/userhub");
+                endpoints.MapHub<MessageHub>("/messagehub");
             });
         }
     }

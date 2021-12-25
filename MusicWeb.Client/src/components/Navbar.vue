@@ -54,8 +54,16 @@
         <v-list>
           <v-list-item>
             <v-list-item-avatar>
-              <img v-if="account.imagePath" :src="`${this.$store.state.serverUrl}/${account.imagePath}`" :alt="`${account.firstname}`" />
-              <img v-else src="@/assets/defaut_user.png" :alt="`${account.firstname}`" />
+              <img
+                v-if="account.imagePath"
+                :src="`${server_url}/${account.imagePath}`"
+                :alt="`${account.firstname}`"
+              />
+              <img
+                v-else
+                src="@/assets/defaut_user.png"
+                :alt="`${account.firstname}`"
+              />
             </v-list-item-avatar>
 
             <v-list-item-content>
@@ -189,11 +197,11 @@
                       </v-card-title>
                       <v-card-text>
                         <div class="uploader">
-                            <v-file-input
+                          <v-file-input
                             label="File input"
                             prepend-icon="mdi-camera"
                             @change="fileChange"
-                            ></v-file-input>
+                          ></v-file-input>
                         </div>
                       </v-card-text>
                       <v-card-actions>
@@ -234,7 +242,7 @@
 <script>
 import useAccounts from "@/modules/accounts";
 import SearchBar from "@/components/SearchBar";
-import Account from "@/models/Account";
+import { mapGetters } from "vuex";
 import {
   required,
   minLength,
@@ -242,6 +250,7 @@ import {
   email,
   sameAs,
 } from "vuelidate/lib/validators";
+import { mapMutations } from "vuex";
 export default {
   name: "Navbar",
   components: {
@@ -252,8 +261,6 @@ export default {
       drawer: null,
       group: null,
       settings_dialog: false,
-      account: new Account(),
-      current_account: new Account(),
       oldPassword: "",
       confirmPassword: "",
       active_tab: 0,
@@ -263,10 +270,14 @@ export default {
         { id: 2, name: "Base", method: this.redirectToArtistList },
       ],
       files: new FormData(),
-      file: {}
+      file: {},
     };
   },
   computed: {
+    ...mapGetters({
+      account: "current_user",
+      server_url: "server_url",
+    }),
     isDisabled() {
       return this.$v.$invalid;
     },
@@ -308,6 +319,7 @@ export default {
     },
   },
   methods: {
+    ...mapMutations(["setCurrentUser"]),
     redirectToProfile() {
       this.drawer = !this.drawer;
       this.$router.push({ name: "UserProfile" });
@@ -372,12 +384,12 @@ export default {
       this.updateImage();
     },
     fileChange(file) {
-        if(file != null && file != ''){
-            this.getBase64(file).then(res => {
-                let start = res.search(',');
-                this.file.imageBytes = res.substr(start + 1,res.length);
-            });
-        }
+      if (file != null && file != "") {
+        this.getBase64(file).then((res) => {
+          let start = res.search(",");
+          this.file.imageBytes = res.substr(start + 1, res.length);
+        });
+      }
     },
     getBase64(file) {
       return new Promise(function (resolve, reject) {
@@ -396,7 +408,7 @@ export default {
       });
     },
     clearSettings() {
-      this.account = this.current_account;
+      this.account = this.$store.state.current_user;
       this.account.password = "";
       this.oldPassword = "";
       this.confirmPassword = "";
@@ -406,7 +418,7 @@ export default {
   watch: {
     $route(to, from) {
       if (from.path === "/" && to.path === "/activities") {
-        this.getAccount();
+        this.setCurrentUser();
       }
       if (to.path === "/activities") {
         this.active_tab = 0;
@@ -415,25 +427,12 @@ export default {
       }
     },
   },
-  created() {
-    if (!["Login", "Register"].includes(this.$route.name)) {
-      this.getAccount();
-    }
-  },
   setup() {
-    const { getAccountById, updateAccountPassword, updateAccountEmail, updateAccountImage } =
+    const { updateAccountPassword, updateAccountEmail, updateAccountImage } =
       useAccounts();
 
     const onLogout = function () {
       this.$store.dispatch("auth/logout");
-    };
-
-    const getAccount = function () {
-      getAccountById(this.$store.state.auth.userId).then((response) => {
-        this.clearSettings();
-        this.account = response;
-        this.current_account = response;
-      });
     };
 
     const updatePassword = function () {
@@ -444,11 +443,7 @@ export default {
       updateAccountPassword(this.account).then(
         (response) => {
           if (response.status == 200) {
-            this.$emit(
-              "show-alert",
-              "Data updated successfuly.",
-              "success"
-            );
+            this.$emit("show-alert", "Data updated successfuly.", "success");
             this.clearSettings();
           } else {
             this.$emit(
@@ -475,11 +470,7 @@ export default {
       updateAccountEmail(this.account).then(
         (response) => {
           if (response.status == 200) {
-            this.$emit(
-              "show-alert",
-              "Data updated successfuly.",
-              "success"
-            );
+            this.$emit("show-alert", "Data updated successfuly.", "success");
             this.clearSettings();
           } else {
             this.$emit(
@@ -500,18 +491,14 @@ export default {
         }
       );
     };
-    
+
     const updateImage = function () {
-        this.file.userid = this.$store.state.auth.userId;
-        this.file.imagePath = "/Users/";
+      this.file.userid = this.$store.state.auth.userId;
+      this.file.imagePath = "/Users/";
       updateAccountImage(this.file).then(
         (response) => {
           if (response.status == 200) {
-            this.$emit(
-              "show-alert",
-              "Data updated successfuly.",
-              "success"
-            );
+            this.$emit("show-alert", "Data updated successfuly.", "success");
             this.clearSettings();
             this.$router.go();
           } else {
@@ -536,10 +523,9 @@ export default {
 
     return {
       onLogout,
-      getAccount,
       updatePassword,
       updateEmail,
-    updateImage
+      updateImage,
     };
   },
 };

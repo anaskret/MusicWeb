@@ -1,5 +1,6 @@
 import useAccounts from "@/modules/accounts";
 import axios from "axios";
+import Vue from "vue";
 
 const { loginAccount, logoutAccount, registerAccount } = useAccounts();
 const token = localStorage.getItem("user-token");
@@ -30,7 +31,7 @@ export const auth = {
     },
     logout({ commit }) {
       commit("logout");
-      localStorage.clear()
+      localStorage.clear();
       return logoutAccount();
     },
     register({ commit }, user) {
@@ -51,6 +52,8 @@ export const auth = {
       state.status.loggedIn = true;
       state.token = data.token;
       state.userId = data.userId;
+      this.commit("setCurrentUser");
+      Vue.prototype.$userHub.subscribeUserGroup(state.userId);
     },
     loginFailure(state) {
       state.status.loggedIn = false;

@@ -100,23 +100,10 @@
                     readonly
                     @click="focusTextarea"
                   />
-                  <!-- <v-btn
-                    outlined
-                    color="grey"
-                    height="30px"
-                    class="text-uppercase align-self-center"
-                    v-bind="attrs"
-                    v-on="on"
-                  >
-                    Add Post
-                  </v-btn> -->
                 </template>
 
                 <form id="newPostForm" @submit.prevent="addPost">
-                  <v-card
-                    style="background-color: #1e1e1e"
-                    class="px-16"
-                  >
+                  <v-card style="background-color: #1e1e1e" class="px-16">
                     <v-card-title class="px-0 pt-8 pb-4">Add Post</v-card-title>
                     <div>
                       <v-textarea
@@ -204,7 +191,7 @@ export default {
       is_date_picker_to: false,
       show_list: null,
       new_post_dialog: false,
-      post: new Post()
+      post: new Post(),
     };
   },
   props: {
@@ -273,21 +260,18 @@ export default {
         this.$emit("set-filters", this.filters);
       this.updateDefaultSortType = "Alfabetycznie malejąco";
     },
-    focusTextarea(){
+    focusTextarea() {
       this.$refs.textarea.$el.focus();
-    }
+    },
   },
-  
+
   setup() {
     const { addAccountPost } = useAccounts();
 
     const addPost = function () {
       this.post.createDate = moment.utc().format();
       this.post.posterId = this.$store.state.auth.userId;
-      if (
-        this.post.text == null ||
-        this.post.text == ""
-      ) {
+      if (this.post.text == null || this.post.text == "") {
         this.$emit("show-alert", "Post cannot be empty.", "error");
         this.new_post_dialog = true;
       } else {

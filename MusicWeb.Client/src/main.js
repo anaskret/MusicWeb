@@ -23,11 +23,18 @@ import {
   faImage,
   faThumbsUp,
   faComment,
+  faPaperPlane,
+  faCheck,
+  faTimes,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import axios from "@/services/index.js";
 import VueCompositionApi from "@vue/composition-api";
 import moment from "moment";
+import userHub from "./plugins/userHub";
+import messageHub from "./plugins/messageHub";
+import friendsHub from "./plugins/friendsHub";
+import VueExpandableImage from "vue-expandable-image";
 
 const faIcons = [
   faHeart,
@@ -45,7 +52,10 @@ const faIcons = [
   faEnvelope,
   faImage,
   faThumbsUp,
-  faComment
+  faComment,
+  faPaperPlane,
+  faCheck,
+  faTimes,
 ];
 faIcons.forEach((icon) => library.add(icon));
 
@@ -62,6 +72,10 @@ Vue.prototype.$http = axios;
 
 Vue.use(Vuelidate);
 Vue.use(VueCompositionApi);
+Vue.use(userHub);
+Vue.use(messageHub);
+Vue.use(friendsHub);
+Vue.use(VueExpandableImage);
 
 moment.locale("pl");
 Vue.prototype.moment = moment;

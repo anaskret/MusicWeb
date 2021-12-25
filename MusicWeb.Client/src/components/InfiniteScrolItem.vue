@@ -36,7 +36,14 @@
         </div>
       </v-card>
     </div>
-    <div v-else-if="page_name == 'Activities' && (item.artist != null || item.album != null) && item.userName == null && item.posterId == null">
+    <div
+      v-else-if="
+        page_name == 'Activities' &&
+        (item.artist != null || item.album != null) &&
+        item.userName == null &&
+        item.posterId == null
+      "
+    >
       <v-card>
         <v-row class="pl-2 d-flex justify-space-between">
           <v-col lg="8" sm="8">
@@ -52,7 +59,14 @@
               </v-col>
               <v-col lg="9" sm="9">
                 <v-card-subtitle>
-                  <p class="text-left"><span class="link-to-item" @click="redirectToItem(item.artistId, 'Artist')">{{item.artist}}</span> posted the new album</p>
+                  <p class="text-left">
+                    <span
+                      class="link-to-item"
+                      @click="redirectToItem(item.artistId, 'Artist')"
+                      >{{ item.artist }}</span
+                    >
+                    posted the new album
+                  </p>
                 </v-card-subtitle>
               </v-col>
             </v-row>
@@ -81,7 +95,7 @@
               <v-col lg="8" sm="8">
                 <v-card-title
                   justify="center"
-                  class="text-h5  link-to-item"
+                  class="text-h5 link-to-item"
                   v-text="item.album"
                   @click="redirectToItem(item.albumId, 'Album')"
                 ></v-card-title>
@@ -149,9 +163,9 @@
                 <v-col lg="12">
                   <v-expansion-panel-content>
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                    do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                    Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                    laboris nisi ut aliquip ex ea commodo consequat.
+                    do eiusmod tempor incididunt ut labore et dolore magna
+                    aliqua. Ut enim ad minim veniam, quis nostrud exercitation
+                    ullamco laboris nisi ut aliquip ex ea commodo consequat.
                   </v-expansion-panel-content>
                 </v-col>
               </v-row>
@@ -160,7 +174,11 @@
         </v-row>
       </v-card>
     </div>
-    <div v-else-if="page_name == 'Activities' && item.artist == null && item.album == null">
+    <div
+      v-else-if="
+        page_name == 'Activities' && item.artist == null && item.album == null
+      "
+    >
       <v-card>
         <v-row class="pl-2 d-flex justify-space-between">
           <v-col lg="8" sm="8">
@@ -176,7 +194,7 @@
               </v-col>
               <v-col lg="9" sm="9">
                 <v-card-subtitle>
-                  <p class="text-left">{{item.userName}}</p>
+                  <p class="text-left">{{ item.userName }}</p>
                 </v-card-subtitle>
               </v-col>
             </v-row>
@@ -191,12 +209,12 @@
         </v-row>
         <v-row class="pl-2 d-flex justify-start">
           <v-col lg="10" sm="10">
-                <v-card-title
-                  justify="center"
-                  class="text-h5"
-                  v-text="item.text"
-                ></v-card-title>
-            </v-col>
+            <v-card-title
+              justify="center"
+              class="text-h5"
+              v-text="item.text"
+            ></v-card-title>
+          </v-col>
         </v-row>
         <v-row class="pl-5">
           <v-expansion-panels enabled>
@@ -232,9 +250,9 @@
                 <v-col lg="12">
                   <v-expansion-panel-content>
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                    do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                    Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                    laboris nisi ut aliquip ex ea commodo consequat.
+                    do eiusmod tempor incididunt ut labore et dolore magna
+                    aliqua. Ut enim ad minim veniam, quis nostrud exercitation
+                    ullamco laboris nisi ut aliquip ex ea commodo consequat.
                   </v-expansion-panel-content>
                 </v-col>
               </v-row>
@@ -307,15 +325,18 @@ export default {
       this.time_from_addition = this.calculateAdditionTime();
     },
     redirectToItem(itemId, type = null) {
-      if(!type){
+      if (!type) {
         this.$router.push({
           name: `${this.redirect_module_name}`,
           params: { id: itemId },
         });
       } else {
-        this.$router.push({ name: type == 'Album' ? "AlbumPage" : "ArtistPage", params: { id: itemId } });
+        this.$router.push({
+          name: type == "Album" ? "AlbumPage" : "ArtistPage",
+          params: { id: itemId },
+        });
       }
-    }
+    },
   },
 };
 </script>
@@ -336,7 +357,7 @@ export default {
 p {
   margin-bottom: 0;
 }
-.v-expansion-panel::before{
+.v-expansion-panel::before {
   box-shadow: none;
 }
 </style>

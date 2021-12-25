@@ -104,8 +104,8 @@ export default {
       ],
       watch_artist: {
         favoriteDate: moment.utc().format(),
-        userId: this.$store.state.auth.userId
-      }
+        userId: this.$store.state.auth.userId,
+      },
     };
   },
   setup() {
@@ -118,7 +118,11 @@ export default {
         (response) => {
           if (response.status == 200) {
             // TODO change button to observed, get userobservedartist
-            this.$emit("show-alert", `You're now watching ${this.parent.name}.`, "success");
+            this.$emit(
+              "show-alert",
+              `You're now watching ${this.parent.name}.`,
+              "success"
+            );
           } else {
             this.$emit(
               "show-alert",
