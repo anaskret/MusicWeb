@@ -26,6 +26,8 @@ import {
   faPaperPlane,
   faCheck,
   faTimes,
+  faUserFriends,
+  faPlus,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import axios from "@/services/index.js";
@@ -56,6 +58,8 @@ const faIcons = [
   faPaperPlane,
   faCheck,
   faTimes,
+  faUserFriends,
+  faPlus
 ];
 faIcons.forEach((icon) => library.add(icon));
 

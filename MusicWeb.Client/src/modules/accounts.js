@@ -65,6 +65,25 @@ export default function useAccounts() {
       return accountServices.watchArtist(data);
     }
   };
+
+  const getAccounts = function () {
+      return accountServices.getAccounts()
+      .then((response) => {
+        let res = response.data;
+        let friends = [];
+        res.forEach((friend) => {
+            friends.push(new Account(friend));
+        });
+        return friends;
+      });
+
+  };
+
+  const getFriends = function (id) {
+      if(id){
+          return accountServices.getFriends(id);
+      }
+  };
   return {
     loginAccount,
     logoutAccount,
@@ -77,5 +96,7 @@ export default function useAccounts() {
     getPaged,
     addAccountPost,
     userWatchArtist,
+    getAccounts,
+    getFriends
   };
 }

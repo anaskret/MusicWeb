@@ -43,4 +43,16 @@ export default {
       data
     );
   },
+  getAccounts() {
+    return ApiService.authRequest(
+      `/users`,
+      ApiService.get
+    );
+  },
+  getFriends(id) {
+    return ApiService.authRequest(
+      `/userfriendsbyuserId/${id}`,
+      ApiService.get
+    );
+  },
 };

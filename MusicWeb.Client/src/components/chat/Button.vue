@@ -12,13 +12,20 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 export default {
-  name: "Button",
-  methods: {
-    openChat() {
-      this.$emit("open-chat");
-    },
-  },
+   name: "Button",
+   computed: {
+      ...mapGetters({
+         account: "current_user",
+      }),
+   },
+   methods: {
+      openChat() {
+         this.$emit("open-chat");
+         this.$friendsHub.sendFriendRequest(this.account.id, 'ae1fdcba-3786-48de-ac49-e63d6a9cd281');
+      },
+   },
 };
 </script>
 <style scoped>

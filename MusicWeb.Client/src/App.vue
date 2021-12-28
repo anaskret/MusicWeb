@@ -25,9 +25,18 @@
     <v-main>
       <router-view @show-alert="showAlert" />
     </v-main>
+    <FriendButton
+        @show-friend-list="setDrawer"
+        v-if="!['Login', 'Register'].includes(this.$route.name)"
+    />
     <Button
-      @open-chat="openChat"
-      v-if="!['Login', 'Register'].includes(this.$route.name)"
+        @open-chat="openChat"
+        v-if="!['Login', 'Register'].includes(this.$route.name)"
+    />
+    <FriendList
+        :drawer="drawer"
+        @update-drawer="setDrawer"
+        v-if="!['Login', 'Register'].includes(this.$route.name)"
     />
   </v-app>
 </template>
@@ -36,12 +45,16 @@
 import Navbar from "@/components/Navbar";
 import Chat from "@/components/chat/Chat";
 import Button from "@/components/chat/Button";
+import FriendList from "@/components/FriendList";
+import FriendButton from "@/components/FriendButton";
 export default {
   name: "App",
   components: {
     Navbar,
     Chat,
     Button,
+    FriendList,
+    FriendButton
   },
   data() {
     return {
@@ -50,6 +63,7 @@ export default {
       timeout: 2500,
       alert_type: "",
       chatVisibility: true,
+      drawer: null
     };
   },
   mounted() {
@@ -77,6 +91,9 @@ export default {
     closeChat() {
       this.chatVisibility = false;
     },
+    setDrawer(drawer){
+        this.drawer = drawer;
+    }
   },
 };
 </script>
