@@ -1,6 +1,5 @@
 <template>
   <v-container fluid class="py-16">
-    {{parent}}
     <v-row justify="center">
       <v-col lg="3" sm="6" class="pr-lg-12">
         <div>
@@ -32,12 +31,13 @@
             <div>
               <p>Dodaj do ulubionych</p>
               <div class="d-flex flex-row">
-                <div align-content="center" class="mr-lg-3" @click="addToFavorite">
+                <div align-content="center" class="mr-lg-3">
                   <font-awesome-icon
                     class="heart icon"
                     icon="heart"
                     size="2x"
-                    color="#865e61"
+                    :color="heart.color"
+                    @click="updateUserFavorite"
                   ></font-awesome-icon>
                 </div>
                 <div align-items="center" class="align-center">
@@ -81,6 +81,8 @@ import useAlbumRatings from "@/modules/albumRatings.js";
 import AlbumRating from "@/models/AlbumRating.js";
 import useSongRatings from "@/modules/songRatings.js";
 import SongRating from "@/models/AlbumRating.js";
+import useUserFavoriteAlbums from "@/modules/userFavoriteAlbums.js";
+import UserFavoriteAlbum from "@/models/UserFavoriteAlbum.js";
 
 export default {
   name: "Header",
@@ -112,16 +114,19 @@ export default {
         { color: "gray", value:4 },
         { color: "gray", value:5 },
       ],
+      heart: {color: "gray"},
       albumRating: new AlbumRating(),
       songRating: new SongRating(),
       id: this.$route.params.id, 
       user_id: localStorage.getItem("user-id"), 
+      userFavoriteAlbum: new UserFavoriteAlbum(),
     };
   },
   setup() {
     
     const { addAlbumRating, getUserRating, updateUserRating } = useAlbumRatings();
     const { addSongRating, getSongUserRating, updateSongUserRating } = useSongRatings();
+    const { getUserFavoriteAlbum, deleteUserFavoriteAlbum, addUserFavoriteAlbum } = useUserFavoriteAlbums();   
 
       const addNewAlbumRating = function (ratingId) {
       this.albumRating.userId = this.$store.state.auth.userId;
@@ -206,7 +211,6 @@ export default {
         );
       }
 
-
       
 
       const addNewSongRating = function (ratingId) {
@@ -251,7 +255,56 @@ export default {
           
       });
     };
+
+    const getUserAlbum = function () {
+      getUserFavoriteAlbum(this.user_id, this.$route.params.id).then((response) => {
+        this.userFavoriteAlbum = response;
+         this.colorHeart();
+          
+      });
+    };  
     
+        const deleteFavoriteAlbum = function (id) {
+        deleteUserFavoriteAlbum(id).then(() => {
+          this.$emit("getRating");
+         this.userFavoriteAlbum = {};
+         this.colorHeart();
+          
+      });
+    };
+
+    
+      const addFavoriteAlbum = function () {
+      this.userFavoriteAlbum.userId = this.$store.state.auth.userId;
+      this.userFavoriteAlbum.favoriteId = this.$route.params.id;
+      delete this.userFavoriteAlbum.id;
+      delete this.userFavoriteAlbum.user;
+      delete this.userFavoriteAlbum.album;
+      
+      
+        addUserFavoriteAlbum(this.userFavoriteAlbum).then(
+          (response) => {
+            if (response.status == 200) {
+              this.$emit("getRating");
+              this.$emit("show-alert", "Review added.", "success");
+              this.getUserAlbum();
+            } else {
+              this.$emit(
+                "show-alert",
+                `Nie udało się dodać recenzji. Błąd ${response.status}`,
+                "error"
+              );
+            }
+          },
+          (error) => {
+            this.$emit(
+              "show-alert",
+              `Nie udało się dodać recenzji. ${error.response.status} ${error.response.data}`,
+              "error"
+            );
+          }
+        );
+      }
 
     return {
       addNewAlbumRating,
@@ -259,7 +312,10 @@ export default {
       getAlbumUserRating,
       updateAlbumUserRating,
       getSongRating,
-      updateSongRating
+      updateSongRating, 
+      getUserAlbum,
+      deleteFavoriteAlbum,
+      addFavoriteAlbum,
     };
   },
   methods: {
@@ -330,9 +386,30 @@ export default {
       this.countStars();
     },
 
-    addToFavorite: function()
+    colorHeart: function() 
     {
+      let heart = document.querySelector(".heart");
+      if (this.userFavoriteAlbum.albumId == this.$route.params.id)
+      {
+        heart.classList.add("activeHeart");
+      }
+      else
+      {
+        console.log("else");
+        heart.classList.remove("activeHeart");
+      }
+    },
+    updateUserFavorite: function()
+    {
+      if (this.userFavoriteAlbum.albumId != null)
+      {
+        this.deleteFavoriteAlbum(this.userFavoriteAlbum.id);
+        
 
+      }
+      else {
+        this.addFavoriteAlbum();
+      }
     }
 
   },
@@ -340,6 +417,7 @@ export default {
     if (this.module_name == "Album")
     {
       this.getAlbumUserRating();
+      this.getUserAlbum();
     }
     else if (this.module_name == "Song")
     {
@@ -375,5 +453,7 @@ p {
 .activeStar {
   color: #868263;
 }
-
+.activeHeart {
+  color: #865e61;
+}
 </style>

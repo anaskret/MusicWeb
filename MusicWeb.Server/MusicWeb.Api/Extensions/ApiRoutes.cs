@@ -165,6 +165,7 @@ namespace MusicWeb.Api.Extensions
             public const string GetAll = Root + "/userfavoritealbumsbyuser/{userId}";
             public const string GetById = Root + "/userfavoritealbums/{userId}";
             public const string Delete = Root + "/userfavoritealbums/{id}";
+            public const string GetUserAlbum = Root + "/userfavoritealbums/{userId}/{albumId}";
         }
 
         public static class UserFavoriteSongs
