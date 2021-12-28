@@ -65,8 +65,8 @@ namespace MusicWeb.Api.Controllers.Users
         {
             try
             {
-                var model = await _userFavoriteAlbumService.CreateAsync(_mapper.Map<UserFavoriteAlbum>(model));
-                return Ok(model);
+                await _userFavoriteAlbumService.CreateAsync(_mapper.Map<UserFavoriteAlbum>(model));
+                return Ok();
             }
             catch(Exception ex)
             {
