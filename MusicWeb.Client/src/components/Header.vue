@@ -395,7 +395,6 @@ export default {
       }
       else
       {
-        console.log("else");
         heart.classList.remove("activeHeart");
       }
     },

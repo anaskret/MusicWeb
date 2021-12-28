@@ -172,8 +172,9 @@ namespace MusicWeb.Api.Extensions
         {
             public const string Create = Root + "/userfavoritesongs";
             public const string GetById = Root + "/userfavoritesongs/{id}";
-            public const string GetAll = Root + "/userfavoritesongsbyuser/{id}";
+            public const string GetAll = Root + "/userfavoritesongsbyuser/{userId}";
             public const string Delete = Root + "/userfavoritesongs/{id}";
+            public const string GetUserSong = Root + "/userfavoritesongs/{userId}/{songId}";
         }
 
         public static class UserFriends

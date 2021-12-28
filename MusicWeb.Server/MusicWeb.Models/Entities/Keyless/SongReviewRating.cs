@@ -15,5 +15,6 @@ namespace MusicWeb.Models.Entities.Keyless
         public int SongId { get; set; }
         public string UserId { get; set; }
         public int Rating { get; set; }
+        public int FavoriteCount { get; set; }
     }
 }
