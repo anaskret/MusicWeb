@@ -55,4 +55,11 @@ export default {
       ApiService.get
     );
   },
+  addFriendRequest(data) {
+    return ApiService.authRequest(
+      `/userfriends`,
+      ApiService.post,
+      data
+    );
+  },
 };

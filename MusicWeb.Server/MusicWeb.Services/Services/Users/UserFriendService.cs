@@ -33,8 +33,7 @@ namespace MusicWeb.Services.Services.Users
         public async Task CreateNewRequestAsync(UserFriend entity)
         {
             await CreateAsync(entity);
-
-            await _hubContext.Clients.Group(entity.FriendId).SendFriendRequest(entity.UserId, entity.FriendId);
+            await _hubContext.Clients.All.SendFriendRequest(entity.UserId, entity.FriendId);
         }
 
         public async Task CreateAsync(UserFriend entity)

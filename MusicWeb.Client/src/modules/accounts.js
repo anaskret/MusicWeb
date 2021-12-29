@@ -84,6 +84,12 @@ export default function useAccounts() {
           return accountServices.getFriends(id);
       }
   };
+
+  const addFriendRequest = function (data) {
+      if(data){
+          return accountServices.addFriendRequest(data);
+      }
+  };
   return {
     loginAccount,
     logoutAccount,
@@ -97,6 +103,7 @@ export default function useAccounts() {
     addAccountPost,
     userWatchArtist,
     getAccounts,
-    getFriends
+    getFriends,
+    addFriendRequest
   };
 }

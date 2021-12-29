@@ -84,8 +84,8 @@ export default {
       this.chatVisibility = true;
     },
     prepareFriendRequestAlert(userId, friendId) {
-      debugger;
-      this.showAlert(`${userId} requested ${friendId}`, "success");
+      console.log(userId); // TODO display fullname
+      this.showAlert(`${friendId} sent you an invitation.`, "success");
     },
     userTyping: function (e) {
       console.log("typing", e);

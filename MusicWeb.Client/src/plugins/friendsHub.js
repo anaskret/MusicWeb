@@ -24,8 +24,6 @@ export default {
     };
 
     connection.on("SendFriendRequest", (userId, friendId) => {
-        debugger;
-        console.log('aaa');
       friendsHub.$emit("friend-request-received", userId, friendId);
     });
 

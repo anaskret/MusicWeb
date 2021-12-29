@@ -32,7 +32,7 @@
             </v-list-item-avatar>
             <v-list-item-content>
             <v-list-item-subtitle>
-                  <template v-if="user.sender == account.id">   
+                  <template v-if="user.receiver == account.id">   
                      <v-btn fab small class="friend-btn mr-1">
                         <font-awesome-icon
                         class="icon"
@@ -52,7 +52,8 @@
                         ></font-awesome-icon>
                      </v-btn>
                   </template>
-                  <template v-else-if="!user.receiver && !user.sender">
+                  <!-- <template v-else-if="!user.receiver && !user.sender"> -->
+                  <template v-else>
                      <v-btn fab small class="friend-btn mr-4" @click="addFriend(user.id)">
                         <font-awesome-icon
                         class="icon"
@@ -114,6 +115,7 @@ export default {
          page: 1,
          per_page: 10,
          users: [],
+         friend_request: {}
       }
    },
    props: {
@@ -141,7 +143,7 @@ export default {
    methods: {
        openChat(){
          this.$emit("open-chat");
-       }
+       },
    },
    watch: {
       account(){
@@ -149,7 +151,7 @@ export default {
       }
    },
    setup() {
-      const { getAccounts, getFriends } = useAccounts();
+      const { getAccounts, getFriends, addFriendRequest } = useAccounts();
 
       const getFriendsList = function () {
          let friend_requests = [];
@@ -169,10 +171,36 @@ export default {
             });
          });
       }
-
+      
       const addFriend = function (id) {
-        this.$friendsHub.sendFriendRequest(this.account.id, id);
-      }
+      this.friend_request.userId = this.account.id;
+      this.friend_request.friendId = id;
+      addFriendRequest(this.friend_request).then(
+        (response) => {
+          if (response.status == 200) {
+            // TODO change button to observed, get userobservedartist
+            this.$emit(
+              "show-alert",
+              `Friend added successfuly.`,
+              "success"
+            );
+          } else {
+            this.$emit(
+              "show-alert",
+              `Something went wrong. Error ${response.status}`,
+              "error"
+            );
+          }
+        },
+        (error) => {
+          this.$emit(
+            "show-alert",
+            `Something went wrong. ${error.response.status} ${error.response.data}`,
+            "error"
+          );
+        }
+      );
+    };
 
       return {
          getFriendsList,
