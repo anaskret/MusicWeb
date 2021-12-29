@@ -8,6 +8,8 @@
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="10.1.1" />
+    <PackageReference Include="FluentAssertions" Version="6.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Hosting" Version="2.2.7" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="5.0.12" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="5.0.12" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.9.4" />
@@ -25,6 +27,10 @@
   <ItemGroup>
     <ProjectReference Include="..\MusicWeb.Admin\MusicWeb.Admin.csproj" />
     <ProjectReference Include="..\MusicWeb.Api\MusicWeb.Api.csproj" />
+    <ProjectReference Include="..\MusicWeb.Infrastructure\MusicWeb.DataAccess.csproj" />
+    <ProjectReference Include="..\MusicWeb.Models\MusicWeb.Models.csproj" />
+    <ProjectReference Include="..\MusicWeb.Repositories\MusicWeb.Repositories.csproj" />
+    <ProjectReference Include="..\MusicWeb.Services\MusicWeb.Services.csproj" />
   </ItemGroup>
 
 </Project>

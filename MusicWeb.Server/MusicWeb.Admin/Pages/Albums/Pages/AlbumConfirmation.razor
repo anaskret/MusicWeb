@@ -1,0 +1,188 @@
+﻿@page "/albums/list"
+
+@using MusicWeb.Admin.Pages.Albums.Factories.Interfaces
+@using MusicWeb.Admin.Pages.Albums.Models
+@using MusicWeb.Services.Interfaces
+
+@inject IAlbumFactory _albumFactory;
+@inject IMapper _mapper;
+@inject IAlbumService _albumService;
+@inject ILogger<AlbumConfirmation> _logger;
+
+<title>MusicWeb - Album Confirmation</title>
+
+<div class="row">
+    <div class="panel-hdr text-center">
+        <div class="col-12">
+            <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                <h4 class="mb-sm-0">Unconfirmed albums</h4>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12 col-md-6">
+            <div class="card mb-g">
+                <div class="card-body">
+                    <StatusMessageComponent @ref="StatusMessage" />
+                    <div class="frame-wrap p-0 border-0 m-0">
+                        <div class="table-responsive">
+                            <table class="table m-0 table-striped table-bordered" id="table-example">
+                                <thead class="thead-themed">
+                                    <tr>
+                                        <th>Title</th>
+                                        <th>Artist</th>
+                                        <th>Genre</th>
+                                        <th>Release Date</th>
+                                        <th>Description</th>
+                                        <th class="text-center">Akcje</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var album in List)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @album.Name
+                                            </td>
+                                            <td>
+                                                @album.ArtistName
+                                            </td>
+                                            <td>
+                                                @album.AlbumGenreName
+                                            </td>
+                                            <td>
+                                                @album.ReleaseDate.Date
+                                            </td>
+                                            <td>
+                                                @album.Description
+                                            </td>
+
+                                            <td>
+                                                <div class="text-center">
+                                                    <a href="#" title="Check songs" @onclick="() => LoadLines(album)" @onclick:preventDefault>
+                                                        <i class="fas fa-eye"></i>
+                                                    </a>
+                                                    <a href="#" title="Confirm" @onclick="() => ConfirmAlbum(album.Id)" @onclick:preventDefault>
+                                                        <i class="fas fa-check"></i>
+                                                    </a>
+                                                    <a href="#" title="Delete" @onclick="() => DeleteClick(album.Id)" @onclick:preventDefault>
+                                                        <i class="fas fa-trash-alt"></i>
+                                                    </a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-12 col-md-6">
+            <div class="card mb-g">
+                <div class="card-body">
+                    <div class="frame-wrap p-0 border-0 m-0">
+                        <div class="table-responsive">
+                            <table class="table m-0 table-striped table-bordered" id="table-example">
+                                <thead class="thead-themed">
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Length</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var line in SelectedModelLines)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @line.Name
+                                            </td>
+                                            <td>
+                                                @line.Length
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<ConfirmComponent ConfirmationChanged="ConfirmDelete_Click" @ref="DeleteConfirmation"></ConfirmComponent>
+
+@code {
+    [Parameter]
+    public List<AlbumPageModel> List { get; set; }
+    public List<SongPageModel> SelectedModelLines { get; set; }
+
+    public StatusMessageComponent StatusMessage { get; set; }
+
+    private int idToDelete;
+    protected ConfirmComponent DeleteConfirmation { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        List = new List<AlbumPageModel>();
+        SelectedModelLines = new List<SongPageModel>();
+
+        List = await _albumFactory.PrepareAlbums();
+        StateHasChanged();
+    }
+
+    public async Task ConfirmAlbum(int id)
+    {
+        try
+        {
+            await _albumService.ConfirmAlbumAsync(id);
+            List.Remove(List.FirstOrDefault(prp => prp.Id == id));
+            StatusMessage.Show("Album confirmed successfuly");
+            StateHasChanged();
+        }
+        catch(Exception ex)
+        {
+            _logger.LogError(ex.Message,ex);
+            StatusMessage.Show("Error An unexpected exception occured while confirming the album");
+        }
+    }
+
+    public async Task DeleteClick(int id)
+    {
+        idToDelete = id;
+        DeleteConfirmation.Show();
+    }
+
+    protected async Task ConfirmDelete_Click(bool deleteConfirmed)
+    {
+        try
+        {
+            if (deleteConfirmed)
+            {
+                await _albumService.DeleteAsync(idToDelete);
+                List.Remove(List.FirstOrDefault(prp => prp.Id == idToDelete));
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex.Message);
+            StatusMessage.Show("Error Wystąpił niespodziewany błąd podczas usuwania danych");
+        }
+    }
+
+    private async Task LoadLines(AlbumPageModel model)
+    {
+        if (model.SongList.Count == 0)
+            await _albumFactory.PrepareSongs(model);
+
+        SelectedModelLines = model.SongList;
+
+        if (model.SongList.Count == 0)
+            StatusMessage.Show("Error The selected album doesn't contain any songs");
+
+    }
+}
+

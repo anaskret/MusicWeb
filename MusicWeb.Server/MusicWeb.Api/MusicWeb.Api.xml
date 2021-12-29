@@ -143,6 +143,26 @@
             Deletes a post
             </summary>
         </member>
+        <member name="M:MusicWeb.Api.Controllers.Ratings.AlbumRatingController.GetById(System.Int32)">
+            <summary>
+            Gets a single rating
+            </summary>
+        </member>
+        <member name="M:MusicWeb.Api.Controllers.Ratings.AlbumRatingController.GetAllForAlbum(System.Int32)">
+            <summary>
+            Gets all ratings for an album
+            </summary>
+        </member>
+        <member name="M:MusicWeb.Api.Controllers.Ratings.AlbumRatingController.CreateAlbum(MusicWeb.Models.Dtos.Ratings.CreateAlbumRatingDto)">
+            <summary>
+            Creates an album rating
+            </summary>
+        </member>
+        <member name="M:MusicWeb.Api.Controllers.Ratings.AlbumRatingController.UpdateAlbum(MusicWeb.Models.Dtos.Ratings.AlbumRatingDto)">
+            <summary>
+            Updates a rating for an album
+            </summary>
+        </member>
         <member name="M:MusicWeb.Api.Controllers.Ratings.ArtistRatingController.GetById(System.Int32)">
             <summary>
             Gets a single rating
@@ -161,6 +181,26 @@
         <member name="M:MusicWeb.Api.Controllers.Ratings.ArtistRatingController.UpdateArtist(MusicWeb.Models.Dtos.Ratings.ArtistRatingDto)">
             <summary>
             Updates a rating for an artist
+            </summary>
+        </member>
+        <member name="M:MusicWeb.Api.Controllers.Ratings.SongRatingController.GetById(System.Int32)">
+            <summary>
+            Gets a single rating
+            </summary>
+        </member>
+        <member name="M:MusicWeb.Api.Controllers.Ratings.SongRatingController.GetAllForSong(System.Int32)">
+            <summary>
+            Gets all ratings for an song
+            </summary>
+        </member>
+        <member name="M:MusicWeb.Api.Controllers.Ratings.SongRatingController.CreateSong(MusicWeb.Models.Dtos.Ratings.CreateSongRatingDto)">
+            <summary>
+            Creates an song rating
+            </summary>
+        </member>
+        <member name="M:MusicWeb.Api.Controllers.Ratings.SongRatingController.UpdateSong(MusicWeb.Models.Dtos.Ratings.SongRatingDto)">
+            <summary>
+            Updates a rating for an song
             </summary>
         </member>
         <member name="M:MusicWeb.Api.Controllers.Users.UserController.UpdatePasswordAsync(MusicWeb.Models.Dtos.Users.UpdatePasswordDto)">

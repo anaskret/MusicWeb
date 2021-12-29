@@ -174,7 +174,6 @@ namespace MusicWeb.Api
             services.AddSignalR();
 
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-            services.AddSignalR();
 
             var serviceProvider = services.BuildServiceProvider();
             var logger = serviceProvider.GetService<ILogger<ApplicationLogger>>();
@@ -241,16 +240,27 @@ namespace MusicWeb.Api
 
             services.AddTransient<IPostRepository, PostRepository>();
             services.AddTransient<IPostService, PostService>();
+            services.AddTransient<IPostLikeRepository, PostLikeRepository>();
+            services.AddTransient<IPostLikeService, PostLikeService>();
+            services.AddTransient<IPostCommentRepository, PostCommentRepository>();
+            services.AddTransient<IPostCommentService, PostCommentService>();
 
             services.AddTransient<IFileService, FileService>();
 
             services.AddTransient<IArtistRatingRepository, ArtistRatingRepository>();
             services.AddTransient<IArtistRatingService, ArtistRatingService>();
 
+            services.AddTransient<IAlbumRatingRepository, AlbumRatingRepository>();
+            services.AddTransient<IAlbumRatingService, AlbumRatingService>();
+
+            services.AddTransient<ISongRatingRepository, SongRatingRepository>();
+            services.AddTransient<ISongRatingService, SongRatingService>();
+
             services.AddTransient<IRolesService, RolesService>();
 
             services.AddTransient<IChatService, ChatService>();
             services.AddTransient<IMessageService, MessageService>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

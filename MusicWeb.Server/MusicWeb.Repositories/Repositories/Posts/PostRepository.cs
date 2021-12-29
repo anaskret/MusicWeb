@@ -22,7 +22,14 @@ namespace MusicWeb.Repositories.Repositories.Posts
         public async Task<List<UserAndArtistPost>> GetPostForUserAsync(string userId, int page = 0, int pageSize = int.MaxValue)
         {
             var sql = @$"
-SELECT T01.* FROM(
+SELECT 
+	T01.*, 
+	cast(CASE 
+		WHEN T02.Id IS NULL THEN 0
+		ELSE 1
+	END as bit) as IsLiked,
+	COALESCE(T03.TotalLikes, 0) as TotalLikes
+FROM(
 	SELECT T0.Id, Text, CreateDate, PosterId, T2.UserName, null as Artist, null as ArtistId, null as Album, null as AlbumId, T2.ImagePath as Image, null as AlbumImage
 	FROM Post T0
 	LEFT JOIN UserFriend T1 ON T1.FriendId = T0.PosterId
@@ -36,6 +43,13 @@ SELECT T01.* FROM(
 	LEFT JOIN Album T3 ON T3.Id = T0.AlbumId
 	WHERE T1.UserId = '{userId}'
 	) T01
+LEFT JOIN PostLike T02 ON T02.PostId = T01.Id
+LEFT JOIN
+(
+	SELECT COUNT(T031.PostId) as TotalLikes, T031.PostId
+	FROM PostLike T031
+	GROUP BY T031.PostId
+) T03 ON T03.PostId = T01.Id
 ORDER BY T01.CreateDate DESC
 OFFSET {page} * {pageSize} ROWS
 FETCH NEXT {pageSize} ROWS ONLY";

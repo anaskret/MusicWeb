@@ -1,5 +1,6 @@
 ﻿using MusicWeb.Models.Entities.Artists;
 using MusicWeb.Models.Entities.Base;
+using MusicWeb.Models.Entities.Ratings;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -26,5 +27,6 @@ namespace MusicWeb.Models.Entities
         public virtual ICollection<SongGuestArtist> SongGuestArtists { get; set; }
         public virtual ICollection<UserFavoriteSong> UserFavoriteSongs { get; set; }
         public virtual ICollection<SongReview> SongReviews{ get; set; }
+        public virtual ICollection<SongRating> SongRatings { get; set; }
     }
 }

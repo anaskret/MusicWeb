@@ -12,6 +12,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using MusicWeb.Admin.Areas.Identity;
 using MusicWeb.Admin.Middleware;
+using MusicWeb.Admin.Pages.Albums.Factories;
+using MusicWeb.Admin.Pages.Albums.Factories.Interfaces;
 using MusicWeb.Admin.Pages.Artists.Factories;
 using MusicWeb.Admin.Pages.Artists.Factories.Interfaces;
 using MusicWeb.Admin.Pages.Settings.Factories;
@@ -41,6 +43,7 @@ using MusicWeb.Repositories.Repositories.Ratings;
 using MusicWeb.Repositories.Repositories.Songs;
 using MusicWeb.Repositories.Repositories.Users;
 using MusicWeb.Services.Interfaces;
+using MusicWeb.Services.Interfaces.ApiIntegration;
 using MusicWeb.Services.Interfaces.Artists;
 using MusicWeb.Services.Interfaces.Files;
 using MusicWeb.Services.Interfaces.Genres;
@@ -51,6 +54,7 @@ using MusicWeb.Services.Interfaces.Ratings;
 using MusicWeb.Services.Interfaces.Roles;
 using MusicWeb.Services.Interfaces.Users;
 using MusicWeb.Services.Services.Albums;
+using MusicWeb.Services.Services.ApiIntegration;
 using MusicWeb.Services.Services.Artists;
 using MusicWeb.Services.Services.Files;
 using MusicWeb.Services.Services.Genres;
@@ -59,6 +63,7 @@ using MusicWeb.Services.Services.Origins;
 using MusicWeb.Services.Services.Posts;
 using MusicWeb.Services.Services.Ratings;
 using MusicWeb.Services.Services.Roles;
+using MusicWeb.Services.Services.Songs;
 using MusicWeb.Services.Services.Users;
 using System;
 using System.Collections.Generic;
@@ -129,6 +134,8 @@ namespace MusicWeb.Admin
 
             services.AddTransient<ICountryRepository, CountryRepository>();
 
+            services.AddTransient<ISongService, SongService>();
+
             services.AddTransient<ISongRepository, SongRepository>();
             services.AddTransient<ISongGuestArtistRepository, SongGuestArtistRepository>();
             services.AddTransient<ISongReviewRepository, SongReviewRepository>();
@@ -167,11 +174,21 @@ namespace MusicWeb.Admin
             services.AddTransient<IArtistRatingRepository, ArtistRatingRepository>();
             services.AddTransient<IArtistRatingService, ArtistRatingService>();
 
+            services.AddTransient<IAlbumRatingRepository, AlbumRatingRepository>();
+            services.AddTransient<IAlbumRatingService, AlbumRatingService>();
+
+            services.AddTransient<ISongRatingRepository, SongRatingRepository>();
+            services.AddTransient<ISongRatingService, SongRatingService>();
+
             services.AddTransient<IRolesService, RolesService>();
 
             services.AddTransient<IFileService, FileService>();
 
             services.AddTransient<IArtistModelFactory, ArtistModelFactory>();
+
+            services.AddTransient<IAlbumFactory, AlbumFactory>();
+
+            services.AddTransient<IApiIntegrationService, ApiIntegrationService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

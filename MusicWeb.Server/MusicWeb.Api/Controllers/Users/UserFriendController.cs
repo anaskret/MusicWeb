@@ -43,7 +43,7 @@ namespace MusicWeb.Api.Controllers.Users
         }
 
         [HttpPost(ApiRoutes.UserFriends.Create)]
-        public async Task<IActionResult> Create([FromBody] UserFriendDto model)
+        public async Task<IActionResult> Create([FromBody] CreateUserFriendDto model)
         {
             try
             {
@@ -66,7 +66,7 @@ namespace MusicWeb.Api.Controllers.Users
         /// FriendId = User sending the request
         /// </remarks>
         [HttpPost(ApiRoutes.UserFriends.AcceptRequest)]
-        public async Task<IActionResult> AcceptRequest([FromBody] UserFriendDto model)
+        public async Task<IActionResult> AcceptRequest([FromBody] CreateUserFriendDto model)
         {
             try
             {
@@ -97,11 +97,11 @@ namespace MusicWeb.Api.Controllers.Users
         }
 
         [HttpGet(ApiRoutes.UserFriends.GetById)]
-        public async Task<IActionResult> GetById([FromRoute] int id)
+        public async Task<IActionResult> GetById([FromRoute] string userId, string friendId)
         {
             try
             {
-                var model = _mapper.Map<UserFriendDto>(await _userFriendService.GetByIdAsync(id));
+                var model = _mapper.Map<UserFriendDto>(await _userFriendService.GetSingleByUserIdAndFriendIdAsync(userId, friendId));
                 return Ok(model);
             }
             catch (Exception ex)

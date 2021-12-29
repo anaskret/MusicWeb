@@ -11,7 +11,8 @@ namespace MusicWeb.Models.Entities.Origins
     public class Country : BaseEntity
     {
         public string Name { get; set; }
-        
+        public string Code { get; set; }
+
         public virtual ICollection<Artist> Artists { get; set; }
     }
 }

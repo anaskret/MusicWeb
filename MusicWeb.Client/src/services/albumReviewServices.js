@@ -3,7 +3,7 @@ export default {
   getAll() {
     return ApiService.authRequest(`/albumreviews`, ApiService.get);
   },
-  addReview(data) {
+  addAlbumReview(data) {
     return ApiService.authRequest(`/albumreviews`, ApiService.post, data);
   },
   getAlbumReviewFullData(id) {

@@ -1,6 +1,7 @@
 ﻿using MusicWeb.Models.Entities.Artists;
 using MusicWeb.Models.Entities.Base;
 using MusicWeb.Models.Entities.Posts;
+using MusicWeb.Models.Entities.Ratings;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -21,14 +22,15 @@ namespace MusicWeb.Models.Entities
 
         public int AlbumGenreId { get; set; }
         public virtual Genre AlbumGenre { get; set; }
-        public double duration { get; set; }
-        public string description { get; set; }
-        public Boolean isConfirmed { get; set; }
+        public double Duration { get; set; }
+        public string Description { get; set; }
+        public bool IsConfirmed { get; set; }
 
         public virtual ICollection<Song> Songs{ get; set; }
         public virtual ICollection<AlbumReview> AlbumReviews{ get; set; }
         public virtual ICollection<UserFavoriteAlbum> UserFavoriteAlbums{ get; set; }
         public virtual ICollection<ArtistsOnTheAlbum> ArtistsOnTheAlbums{ get; set; }
-        //public virtual ICollection<Post> Posts { get; set; }
+        public virtual ICollection<Post> Posts { get; set; }
+        public virtual ICollection<AlbumRating> AlbumRatings { get; set; }
     }
 }

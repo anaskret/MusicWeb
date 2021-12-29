@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using MusicWeb.Models.Constants;
 using MusicWeb.Models.Dtos.Artists;
 using MusicWeb.Models.Dtos.Genres;
+using MusicWeb.Models.Dtos.Songs;
 using MusicWeb.Models.Entities;
 using MusicWeb.Models.Entities.Artists;
 using MusicWeb.Models.Entities.Keyless;
@@ -35,33 +36,21 @@ namespace MusicWeb.Services.Services.Artists
         private readonly IMapper _mapper;
         private readonly IFileService _fileService;
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly IAlbumService _albumService;
-        private readonly IArtistCommentService _artistCommentService;
-        private readonly IArtistRatingService _artistRatingService;
-        private readonly IUserFavoriteArtistService _userFavoriteArtistService;
-        private readonly IUserObservedArtistService _userObserverArtistService;
+        private readonly ISongService _songService;
 
         public ArtistService(IArtistRepository artistRepository,
-            IMapper mapper,
-            IBandService bandService,
-            IFileService fileService,
-            UserManager<ApplicationUser> userManager,
-            IAlbumService albumService,
-            IArtistCommentService artistCommentService,
-            IArtistRatingService artistRatingService, 
-            IUserFavoriteArtistService userFavoriteArtistService, 
-            IUserObservedArtistService userObserverArtistService)
+                             IMapper mapper,
+                             IBandService bandService,
+                             IFileService fileService,
+                             UserManager<ApplicationUser> userManager, 
+                             ISongService songService)
         {
             _artistRepository = artistRepository;
             _mapper = mapper;
             _bandService = bandService;
             _fileService = fileService;
             _userManager = userManager;
-            _albumService = albumService;
-            _artistCommentService = artistCommentService;
-            _artistRatingService = artistRatingService;
-            _userFavoriteArtistService = userFavoriteArtistService;
-            _userObserverArtistService = userObserverArtistService;
+            _songService = songService;
         }
 
         public async Task<Artist> GetByIdAsync(int id)
@@ -111,6 +100,8 @@ namespace MusicWeb.Services.Services.Artists
                 var band = await _bandService.GetBandMembersAsync(mappedEntity.Id);
                 mappedEntity.Members = _mapper.Map<List<BandMemberDto>>(band);
             }
+
+            mappedEntity.Songs.AddRange(_mapper.Map<List<SongWithRatingDto>>(await _songService.GetTopSongsWithRatingAsync(id)));
 
             return mappedEntity;
         }
@@ -170,9 +161,9 @@ namespace MusicWeb.Services.Services.Artists
             var userByUserName = await _userManager.FindByNameAsync(model.UserName);
 
             if (userByEmail != null)
-                throw new ArgumentException("User with given email already exists!");
+                throw new ArgumentException("Error User with given email already exists!");
             if (userByUserName != null)
-                throw new ArgumentException("User with given username already exists!");
+                throw new ArgumentException("Error User with given username already exists!");
 
             var artistEntity = _mapper.Map<Artist>(model);
 

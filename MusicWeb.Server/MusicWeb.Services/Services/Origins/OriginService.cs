@@ -48,5 +48,10 @@ namespace MusicWeb.Services.Services.Origins
         {
             return await _countryRepository.GetAllAsync();
         }
+
+        public async Task AddCountriesRangeAsync(List<Country> entities)
+        {
+            await _countryRepository.AddRangeAsync(entities);
+        }
     }
 }

@@ -10,5 +10,6 @@ namespace MusicWeb.Repositories.Interfaces.Users
 {
     public interface IUserFriendRepository : IRepository<UserFriend>
     {
+        Task<UserFriend> GetUserFriendByIdsWithFriendDataAsync(string userId, string friendId);
     }
 }

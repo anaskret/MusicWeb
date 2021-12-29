@@ -15,6 +15,7 @@ namespace MusicWeb.Services.Interfaces.Users
         Task DeleteAsync(int id);
         Task DeleteRangeByUserIdAsync(string userId);
         Task UpdateAsync(UserFriend entity);
+        Task<UserFriend> GetSingleByUserIdAndFriendIdAsync(string userId, string friendId);
         Task<IList<UserFriend>> GetAllByUserIdAsync(string userId);
         Task<UserFriend> GetByIdAsync(int id);
         Task AcceptFriendRequestAsync(UserFriend entity);

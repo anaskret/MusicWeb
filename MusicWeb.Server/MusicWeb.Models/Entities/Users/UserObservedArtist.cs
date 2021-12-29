@@ -1,6 +1,7 @@
 ﻿using MusicWeb.Models.Entities.Artists;
 using MusicWeb.Models.Entities.Base;
 using MusicWeb.Models.Entities.Posts;
+using MusicWeb.Models.Entities.Posts.Base;
 using MusicWeb.Models.Identity;
 using System;
 using System.Collections.Generic;

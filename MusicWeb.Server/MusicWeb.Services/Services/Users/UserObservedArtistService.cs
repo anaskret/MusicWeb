@@ -22,6 +22,7 @@ namespace MusicWeb.Services.Services.Users
 
         public async Task CreateAsync(UserObservedArtist entity)
         {
+            entity.ObservedDate = DateTime.Now;
             await _userObservedArtistRepository.AddAsync(entity);
         }
 

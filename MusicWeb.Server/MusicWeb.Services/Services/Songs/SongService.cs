@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using MusicWeb.Models.Dtos.Songs;
 using MusicWeb.Models.Entities;
+using MusicWeb.Models.Entities.Keyless;
 using MusicWeb.Repositories.Interfaces.Songs;
 using MusicWeb.Services.Interfaces;
 using System;
@@ -33,9 +34,10 @@ namespace MusicWeb.Services.Services.Songs
             await _songRepository.DeleteAsync(entity);
         }
 
-        public async Task<List<SongDto>> GetAllAsync()
+        public async Task<List<Song>> GetAllAsync()
         {
-            return _mapper.Map<List<SongDto>>(await _songRepository.GetAllAsync());
+            var entites = await _songRepository.GetAllAsync();
+            return entites.ToList();
         }
 
         public async Task<Song> GetByIdAsync(int id)
@@ -45,14 +47,29 @@ namespace MusicWeb.Services.Services.Songs
 
         public async Task<SongFullDataDto> GetSongFullDataByIdAsync(int id)
         {
-                var song = await _songRepository.GetSongFullDataByIdAsync(id);
-                return _mapper.Map<SongFullDataDto>(song);
-            
+            var song = await _songRepository.GetSongFullDataByIdAsync(id);
+            return _mapper.Map<SongFullDataDto>(song);
+        }
+
+        public async Task<List<TopSongsWithRating>> GetTopSongsWithRatingAsync(int artistId)
+        {
+            return await _songRepository.GetTopSongsWithRatingsAsync(artistId);
         }
 
         public async Task UpdateAsync(Song entity)
         {
             await _songRepository.UpdateAsync(entity);
+        }
+
+        public async Task<List<Song>> GetSongsByAlbumIdAsync(int albumId)
+        {
+            var entities = await _songRepository.GetAllAsync(obj => obj.Where(prp => prp.AlbumId == albumId));
+            return entities.ToList();
+        }
+
+        public async Task DeleteRangeAsync(List<Song> entities)
+        {
+            await _songRepository.DeleteRangeAsync(entities);
         }
     }
 }

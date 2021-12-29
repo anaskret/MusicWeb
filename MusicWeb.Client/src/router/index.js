@@ -47,8 +47,13 @@ const routes = [
     component: () => import("@/views/Activities.vue"),
   },
   {
-    path: "/review/:id",
-    name: "ReviewPage",
+    path: "/songreview/:id",
+    name: "SongReviewPage",
+    component: () => import("@/views/ReviewPage"),
+  },
+  {
+    path: "/albumreview/:id",
+    name: "AlbumReviewPage",
     component: () => import("@/views/ReviewPage"),
   },
 ];

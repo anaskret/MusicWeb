@@ -2,10 +2,10 @@
   <v-container fluid class="py-16 d-flex justify-center">
     <v-row justify="center">
       <v-col md="2" sm="6">
-        <v-avatar size="250">
+        <v-avatar size="280">
           <v-img
             v-if="account.imagePath"
-            :src="`${server_url}/${account.imagePath}`"
+            :src="`${this.$store.state.serverUrl}/${account.imagePath}`"
             :alt="`${account.firstname}`"
             class="rounded-circle"
           />
