@@ -32,13 +32,37 @@ namespace MusicWeb.Services.Services.Users
 
         public async Task CreateNewRequestAsync(UserFriend entity)
         {
+            var doesExist = await _userFriendRepository.GetSingleAsync(prp => (string.Equals(prp.UserId, entity.UserId) && string.Equals(prp.FriendId, entity.FriendId))
+                                                                           || (string.Equals(prp.FriendId, entity.UserId) && string.Equals(prp.UserId, entity.FriendId)));
+            if (doesExist != null)
+                throw new ArgumentException("You already have that user in your friend list or the invite is already sent");
+
             await CreateAsync(entity);
 
             await _hubContext.Clients.Group(entity.FriendId).SendFriendRequest(entity.UserId, entity.FriendId);
         }
 
+        public async Task AcceptFriendRequestAsync(UserFriend entity)
+        {
+            var sender = await GetSingleByUserIdAndFriendIdAsync(entity.FriendId, entity.UserId);
+            if (sender == null)
+                throw new ArgumentException("UserFriendRequest with this userId and friendId doesn't exist");
+            if (sender.IsAccepted)
+                throw new ArgumentException("UserFriendRequest is already accepted");
+
+            sender.IsAccepted = true;
+            entity.IsAccepted = true;
+
+            await UpdateAsync(sender);
+            await CreateAsync(entity);
+
+            await _hubContext.Clients.Group(entity.FriendId).FriendRequestAccepted(entity.FriendId, entity.UserId);
+        }
+
         public async Task CreateAsync(UserFriend entity)
         {
+
+
             await _userFriendRepository.AddAsync(entity);
         }
 
@@ -72,21 +96,6 @@ namespace MusicWeb.Services.Services.Users
         public async Task<UserFriend> GetSingleByUserIdAndFriendIdAsync(string userId, string friendId)
         {
             return await _userFriendRepository.GetUserFriendByIdsWithFriendDataAsync(userId, friendId);
-        }
-
-        public async Task AcceptFriendRequestAsync(UserFriend entity)
-        {
-            var sender = await GetSingleByUserIdAndFriendIdAsync(entity.FriendId, entity.UserId);
-            if (sender == null)
-                throw new ArgumentException("UserFriendRequest with this userId and friendId doesn't exist");
-
-            sender.IsAccepted = true;
-            entity.IsAccepted = true;
-
-            await UpdateAsync(sender);
-            await CreateAsync(entity);
-
-            await _hubContext.Clients.Group(entity.FriendId).FriendRequestAccepted(entity.FriendId, entity.UserId);
         }
 
         public async Task UpdateAsync(UserFriend entity)

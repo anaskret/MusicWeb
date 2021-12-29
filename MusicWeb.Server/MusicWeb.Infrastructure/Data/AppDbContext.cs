@@ -388,7 +388,6 @@ namespace MusicWeb.DataAccess.Data
             {
                 entity.HasOne(e => e.Poster)
                 .WithMany(p => p.Posts)
-                .HasPrincipalKey(p => p.FriendId)
                 .HasForeignKey(e => e.PosterId)
                 .IsRequired(false)
                 .OnDelete(DeleteBehavior.Restrict);

@@ -48,7 +48,7 @@ namespace MusicWeb.Api.Controllers.Users
             try
             {
                 var entity = _mapper.Map<UserFriend>(model);
-                await _userFriendService.CreateAsync(entity);
+                await _userFriendService.CreateNewRequestAsync(entity);
                 return Ok();
             }
             catch (Exception ex)

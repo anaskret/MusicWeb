@@ -223,7 +223,7 @@
             Updates user image
             </summary>
         </member>
-        <member name="M:MusicWeb.Api.Controllers.Users.UserFriendController.AcceptRequest(MusicWeb.Models.Dtos.Users.UserFriendDto)">
+        <member name="M:MusicWeb.Api.Controllers.Users.UserFriendController.AcceptRequest(MusicWeb.Models.Dtos.Users.CreateUserFriendDto)">
             <summary>
             Accepts Friend Request.
             </summary>

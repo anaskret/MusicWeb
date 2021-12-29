@@ -18,7 +18,5 @@ namespace MusicWeb.Models.Entities
 
         public virtual ApplicationUser User { get; set; }
         public virtual ApplicationUser Friend { get; set; }
-
-        public virtual ICollection<Post> Posts { get; set; }
     }
 }

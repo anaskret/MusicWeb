@@ -21,7 +21,7 @@ namespace MusicWeb.Models.Entities.Posts
 
         public virtual Artist PosterArtist { get; set; }
         public virtual Album Album { get; set; }
-        public virtual UserFriend Poster { get; set; }
+        public virtual ApplicationUser Poster { get; set; }
         public virtual ICollection<PostLike> PostLikes { get; set; }
         public virtual ICollection<PostComment> PostComments { get; set; }
     }
