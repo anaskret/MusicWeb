@@ -13,6 +13,7 @@ export default class Album {
   songs = [];
   rating = "";
   ratingsCount = "";
+  favoriteCount = null;
 
   constructor($data) {
     if ($data) {
@@ -30,6 +31,7 @@ export default class Album {
       this.albumGenre = $data.albumGenre ? $data.albumGenre : {};
       this.rating = $data.rating;
       this.ratingsCount = $data.ratingsCount;
+      this.favoriteCount = $data.favoriteCount;
     }
   }
 }

@@ -193,15 +193,15 @@
         </div>
       </v-card>
     </div>
-        <div v-if="page_name == 'SongList'">
+        <div v-if="page_name == 'AlbumReviewList' || page_name == 'SongReviewList'">
             <v-card @click="redirectToItem(item.id)">
         <div class="d-flex flex-no-wrap justify-space-between">
           <div>
-            <v-card-title class="text-h5" v-text="item.name"></v-card-title>
+            <v-card-title class="text-h5" v-text="item.title"></v-card-title>
 
             <v-card-subtitle
               ><p>
-                {{ moment(item.releaseDate).format("L") }}
+                {{ moment(item.postDate).format("L") }}
               </p></v-card-subtitle
             >
 

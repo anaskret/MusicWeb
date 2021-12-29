@@ -22,9 +22,11 @@ namespace MusicWeb.Repositories.Repositories.Songs
         public async Task<SongRatingAverage> GetSongAverageRating(int id)
         {
             var sql = $@"SELECT T0.*, ROUND(Coalesce(T1.Rating, 0), 2) as Rating, 
-            T1.RatingsCount
+            T1.RatingsCount,
+            COALESCE(T2.Favorite, 0) as FavoriteCount
             FROM Song T0
-            LEFT JOIN(SELECT SongId, AVG(Cast(Rating as float)) as Rating, COUNT(Rating) as RatingsCount FROM SongRating GROUP BY SongId) T1 ON T1.SongId = T0.Id";
+            LEFT JOIN(SELECT SongId, AVG(Cast(Rating as float)) as Rating, COUNT(Rating) as RatingsCount FROM SongRating GROUP BY SongId) T1 ON T1.SongId = T0.Id
+            LEFT JOIN (SELECT SongId, COUNT(SongId) as Favorite FROM UserFavoriteSong GROUP BY SongId) T2 ON T0.Id = T2.SongId";
             var query = _dbContext.SongRatingAverage.FromSqlRaw(sql);
             var entity = await query.FirstOrDefaultAsync(prp => prp.Id == id);
             return entity;
@@ -44,10 +46,11 @@ namespace MusicWeb.Repositories.Repositories.Songs
         public async Task<List<SongRatingAverage>> GetSongsPagedAsync(SortType sortType, DateTime startDate, DateTime endDate, int pageNum = 0, int pageSize = 15, string searchString = "")
         {
             var sql = @$"SELECT T0.*, ROUND(Coalesce(T1.Rating, 0), 2) as Rating, 
-            T1.RatingsCount
+            T1.RatingsCount,
+            COALESCE(T2.Favorite, 0) as FavoriteCount
             FROM Song T0
-            LEFT JOIN(SELECT SongId, AVG(Cast(Rating as float)) as Rating,
-            COUNT(Rating) as RatingsCount FROM SongRating GROUP BY SongId) T1 ON T1.SongId = T0.Id";
+            LEFT JOIN(SELECT SongId, AVG(Cast(Rating as float)) as Rating, COUNT(Rating) as RatingsCount FROM SongRating GROUP BY SongId) T1 ON T1.SongId = T0.Id
+            LEFT JOIN (SELECT SongId, COUNT(SongId) as Favorite FROM UserFavoriteSong GROUP BY SongId) T2 ON T0.Id = T2.SongId";
 
             var query = _dbContext.SongRatingAverage.FromSqlRaw(sql);
 

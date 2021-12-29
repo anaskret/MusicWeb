@@ -2,6 +2,9 @@
 using Microsoft.EntityFrameworkCore;
 using MusicWeb.Models.Dtos.Albums;
 using MusicWeb.Models.Entities;
+using MusicWeb.Models.Entities.Keyless;
+using MusicWeb.Models.Enums;
+using MusicWeb.Repositories.Extensions.Pagination.Interfaces;
 using MusicWeb.Repositories.Interfaces.Albums;
 using MusicWeb.Services.Interfaces.Albums;
 using System;
@@ -60,6 +63,21 @@ namespace MusicWeb.Services.Services.Albums
             var albumReview = await _albumReviewRepository.GetAlbumReviewFullDataByIdAsync(id);
             return _mapper.Map<AlbumReviewFullDataDto>(albumReview);
 
+        }
+
+        public async Task<List<AlbumReviewRating>> GetPagedAsync(SortType sortType, DateTime startDate, DateTime endDate, int pageNum = 0, int pageSize = int.MaxValue)
+        {
+            var response = await _albumReviewRepository.GetAlbumsPagedAsync(sortType, startDate, endDate, pageNum, pageSize);
+            return _mapper.Map<List<AlbumReviewRating>>(response);
+        }
+
+        public async Task<IPagedList<AlbumReview>> GetIPagedAsync(int pageNum = 0, int pageSize = int.MaxValue)
+        {
+            return await _albumReviewRepository.GetAllPagedAsync(query =>
+            {
+
+                return query.OrderByDescending(prp => prp.Title);
+            });
         }
     }
 }

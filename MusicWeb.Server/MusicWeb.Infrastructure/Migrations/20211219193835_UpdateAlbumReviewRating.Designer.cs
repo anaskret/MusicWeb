@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MusicWeb.DataAccess.Data;
 
 namespace MusicWeb.DataAccess.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211219193835_UpdateAlbumReviewRating")]
+    partial class UpdateAlbumReviewRating
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -409,9 +411,6 @@ namespace MusicWeb.DataAccess.Migrations
                     b.Property<double>("Duration")
                         .HasColumnType("float");
 
-                    b.Property<int>("FavoriteCount")
-                        .HasColumnType("int");
-
                     b.Property<int>("Id")
                         .HasColumnType("int");
 
@@ -499,9 +498,6 @@ namespace MusicWeb.DataAccess.Migrations
                     b.Property<int>("ComposerId")
                         .HasColumnType("int");
 
-                    b.Property<int>("FavoriteCount")
-                        .HasColumnType("int");
-
                     b.Property<int>("Id")
                         .HasColumnType("int");
 
@@ -530,35 +526,6 @@ namespace MusicWeb.DataAccess.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.ToTable("SongRatingAverage");
-                });
-
-            modelBuilder.Entity("MusicWeb.Models.Entities.Keyless.SongReviewRating", b =>
-                {
-                    b.Property<string>("Content")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("FavoriteCount")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Id")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("PostDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("Rating")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SongId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Title")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.ToTable("SongReviewRating");
                 });
 
             modelBuilder.Entity("MusicWeb.Models.Entities.Keyless.UserAndArtistPost", b =>
@@ -823,9 +790,6 @@ namespace MusicWeb.DataAccess.Migrations
                     b.Property<DateTime>("PostDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("RatingId")
-                        .HasColumnType("int");
-
                     b.Property<int>("SongId")
                         .HasColumnType("int");
 
@@ -840,8 +804,6 @@ namespace MusicWeb.DataAccess.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("RatingId");
 
                     b.HasIndex("SongId");
 
@@ -1379,10 +1341,6 @@ namespace MusicWeb.DataAccess.Migrations
 
             modelBuilder.Entity("MusicWeb.Models.Entities.SongReview", b =>
                 {
-                    b.HasOne("MusicWeb.Models.Entities.Ratings.SongRating", "Rating")
-                        .WithMany()
-                        .HasForeignKey("RatingId");
-
                     b.HasOne("MusicWeb.Models.Entities.Song", "Song")
                         .WithMany("SongReviews")
                         .HasForeignKey("SongId")
@@ -1394,8 +1352,6 @@ namespace MusicWeb.DataAccess.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
-
-                    b.Navigation("Rating");
 
                     b.Navigation("Song");
 
