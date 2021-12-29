@@ -55,6 +55,7 @@ namespace MusicWeb.Api.Extensions.AutoMapper
             CreateMap<AlbumFullDataDto, Album>();
             CreateMap<AlbumRatingAverage, AlbumDto>();
 
+
             CreateMap<AlbumReview, AlbumReviewDto>()
                 .ForMember(prp => prp.UserName, obj => obj.MapFrom(src => src.User.UserName));
             CreateMap<AlbumReviewDto, AlbumReview>();
@@ -63,6 +64,10 @@ namespace MusicWeb.Api.Extensions.AutoMapper
             CreateMap<AlbumReview, AlbumReviewFullDataDto>()
                 .ForMember(prp => prp.UserName, obj => obj.MapFrom(src => src.User.UserName))
                 .ForMember(prp => prp.Artist, obj => obj.MapFrom(src => src.Album.Artist.Name));
+            CreateMap<AlbumReviewRating, AlbumReview>();
+            CreateMap<AlbumReview, AlbumReviewRating>();
+            CreateMap<AlbumReviewRating, AlbumReviewDto>();
+            CreateMap<AlbumReviewDto, AlbumReviewRating>();
 
             CreateMap<Song, SongDto>();
             CreateMap<SongDto, Song>();
@@ -70,6 +75,7 @@ namespace MusicWeb.Api.Extensions.AutoMapper
             CreateMap<Song, CreateSongDto>();
             CreateMap<SongFullDataDto, Song>();
             CreateMap<Song, SongFullDataDto>();
+            CreateMap<SongRatingAverage, SongDto>();
 
             CreateMap<TopSongsWithRating, SongWithRatingDto>();
 
@@ -82,6 +88,10 @@ namespace MusicWeb.Api.Extensions.AutoMapper
                 .ForMember(prp => prp.UserName, obj => obj.MapFrom(src => src.User.UserName))
                 .ForMember(prp => prp.AlbumName, obj => obj.MapFrom(src => src.Song.Album.Name))
                 .ForMember(prp => prp.ArtistName, obj => obj.MapFrom(src => src.Song.Album.Artist.Name));
+            CreateMap<SongReviewRating, SongReview>();
+            CreateMap<SongReview, SongReviewRating>();
+            CreateMap<SongReviewRating, SongReviewDto>();
+            CreateMap<SongReviewDto, SongReviewRating>();
 
             CreateMap<BandMemberDto, BandMember>();
             CreateMap<BandMember, BandMemberDto>()

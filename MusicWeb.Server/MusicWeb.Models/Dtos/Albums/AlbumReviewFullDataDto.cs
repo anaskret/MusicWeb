@@ -1,4 +1,6 @@
-﻿using MusicWeb.Models.Identity;
+﻿using MusicWeb.Models.Dtos.Ratings;
+using MusicWeb.Models.Entities.Ratings;
+using MusicWeb.Models.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,10 +18,12 @@ namespace MusicWeb.Models.Dtos.Albums
         public string UserName { get; set; }
         public AlbumDto Album { get; set; }
         public string Artist { get; set; }
+        public AlbumRating Rating { get; set; } 
 
         public AlbumReviewFullDataDto()
         {
             Album = new AlbumDto();
+            Rating = new AlbumRating();
         }
     }
 }

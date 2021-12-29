@@ -14,8 +14,45 @@ export default function useAlbums() {
       });
     }
   };
+  const getAlbumRatingAverage = function (id) {
+    if (id) {
+      return albumServices.getAlbumRatingAverage(id).then((response) => {
+        return new Album(response.data);
+      });
+    }
+  };
+  const getPaged = function (
+    page_num,
+    page_size,
+    sort_type,
+    create_date_start,
+    create_date_end,
+    search_string
+  ) {
+    if (page_num > -1 && page_size && create_date_start && create_date_end) {
+      return albumServices
+        .getPaged(
+          page_num,
+          page_size,
+          sort_type,
+          create_date_start,
+          create_date_end,
+          search_string
+        )
+        .then((response) => {
+          let res = response.data;
+          let albums = [];
+          res.forEach((album) => {
+            albums.push(new Album(album));
+          });
+          return albums;
+        });
+    }
+  };
   return {
     getAll,
     getAlbumFullData,
+    getAlbumRatingAverage,
+    getPaged,
   };
 }

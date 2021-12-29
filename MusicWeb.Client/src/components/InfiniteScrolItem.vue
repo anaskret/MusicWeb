@@ -36,7 +36,7 @@
         </div>
       </v-card>
     </div>
-    <div v-else-if="page_name == 'Activities' && (item.artist != null || item.album != null)">
+    <div v-else-if="page_name == 'Activities'">
       <v-card>
         <v-row class="pl-2 d-flex justify-space-between">
           <v-col lg="8" sm="8">
@@ -52,7 +52,7 @@
               </v-col>
               <v-col lg="9" sm="9">
                 <v-card-subtitle>
-                  <p class="text-left">{{item.userName}} follows (Artist)</p>
+                  <p class="text-left">(User) follows (Artist)</p>
                 </v-card-subtitle>
               </v-col>
             </v-row>
@@ -80,11 +80,11 @@
                 <v-card-title
                   justify="center"
                   class="text-h5"
-                  v-text="item.userName"
+                  v-text="item.name"
                 ></v-card-title>
                 <v-card-subtitle>
                   <p class="text-left">
-                    {{ moment(item.createDate).format("YYYY") }}
+                    {{ moment(item.establishmentDate).format("YYYY") }}
                   </p>
                   <p class="text-left">Genre</p>
                 </v-card-subtitle>
@@ -157,87 +157,76 @@
         </v-row>
       </v-card>
     </div>
-    <div v-else-if="page_name == 'Activities' && item.artist == null && item.album == null">
-      <v-card>
-        <v-row class="pl-2 d-flex justify-space-between">
-          <v-col lg="8" sm="8">
-            <v-row align="center">
-              <v-col lg="2" sm="2">
-                <div>
-                  <v-img
-                    :src="require('@/assets/BandPhoto.svg')"
-                    contain
-                    class="pl-8"
-                  />
-                </div>
-              </v-col>
-              <v-col lg="9" sm="9">
-                <v-card-subtitle>
-                  <p class="text-left">{{item.userName}}</p>
-                </v-card-subtitle>
-              </v-col>
-            </v-row>
-          </v-col>
-          <v-col lg="3" sm="3">
-            <v-card-subtitle>
-              <p class="text-right">
-                {{ time_from_addition }}
-              </p>
-            </v-card-subtitle>
-          </v-col>
-        </v-row>
-        <v-row class="pl-2 d-flex justify-start">
-          <v-col lg="10" sm="10">
-                <v-card-title
-                  justify="center"
-                  class="text-h5"
-                  v-text="item.text"
-                ></v-card-title>
-            </v-col>
-        </v-row>
-        <v-row class="pl-5">
-          <v-expansion-panels enabled>
-            <v-expansion-panel>
-              <v-row class="d-flex justify-space-between">
-                <v-col lg="3" sm="3" class="pt-4">
-                  <v-btn>
-                    <font-awesome-icon
-                      class="icon pa-1"
-                      icon="thumbs-up"
-                      size="2x"
-                      outlined
-                      fab
-                    ></font-awesome-icon>
-                  </v-btn>
-                  <v-btn>
-                    <font-awesome-icon
-                      class="icon pa-1"
-                      icon="comment"
-                      size="2x"
-                      outlined
-                      fab
-                    ></font-awesome-icon>
-                  </v-btn>
-                </v-col>
-                <v-col lg="3" sm="3">
-                  <v-expansion-panel-header hide-actions class="justify-end">
-                    2 comments
-                  </v-expansion-panel-header>
-                </v-col>
-              </v-row>
-              <v-row>
-                <v-col lg="12">
-                  <v-expansion-panel-content>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                    do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                    Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                    laboris nisi ut aliquip ex ea commodo consequat.
-                  </v-expansion-panel-content>
-                </v-col>
-              </v-row>
-            </v-expansion-panel>
-          </v-expansion-panels>
-        </v-row>
+    <div v-if="page_name == 'AlbumList'">
+            <v-card @click="redirectToItem(item.id)">
+        <div class="d-flex flex-no-wrap justify-space-between">
+          <div>
+            <v-card-title class="text-h5" v-text="item.name"></v-card-title>
+
+            <v-card-subtitle
+              ><p>
+                {{ moment(item.releaseDate).format("L") }}
+              </p></v-card-subtitle
+            >
+
+            <v-card-actions>
+              <v-btn
+                class="ml-2 mt-3"
+                fab
+                icon
+                height="40px"
+                right
+                width="40px"
+              >
+                <font-awesome-icon
+                  class="icon"
+                  icon="chevron-right"
+                  size="2x"
+                />
+              </v-btn>
+            </v-card-actions>
+          </div>
+
+          <v-avatar class="ma-3" size="125" tile>
+            <v-img :src="require(`@/assets/judgement.svg`)"></v-img>
+          </v-avatar>
+        </div>
+      </v-card>
+    </div>
+        <div v-if="page_name == 'AlbumReviewList' || page_name == 'SongReviewList'">
+            <v-card @click="redirectToItem(item.id)">
+        <div class="d-flex flex-no-wrap justify-space-between">
+          <div>
+            <v-card-title class="text-h5" v-text="item.title"></v-card-title>
+
+            <v-card-subtitle
+              ><p>
+                {{ moment(item.postDate).format("L") }}
+              </p></v-card-subtitle
+            >
+
+            <v-card-actions>
+              <v-btn
+                class="ml-2 mt-3"
+                fab
+                icon
+                height="40px"
+                right
+                width="40px"
+              >
+                <font-awesome-icon
+                  class="icon"
+                  icon="chevron-right"
+                  size="2x"
+                />
+              </v-btn>
+            </v-card-actions>
+          </div>
+
+          <v-avatar class="ma-3" size="125" tile>
+            <v-img :src="require(`@/assets/judgement.svg`)"></v-img>
+          </v-avatar>
+        </div>
       </v-card>
     </div>
   </div>
@@ -275,7 +264,7 @@ export default {
     },
     calculateAdditionTime() {
       let now_date = this.moment();
-      let post_date = this.moment(this.item.createDate);
+      let post_date = this.moment(this.item.establishmentDate);
       let duration = this.moment.duration(now_date.diff(post_date));
       duration = duration._data;
       let result = "";

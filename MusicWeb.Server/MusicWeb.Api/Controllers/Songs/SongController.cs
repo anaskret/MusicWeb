@@ -4,6 +4,8 @@ using Microsoft.Extensions.Logging;
 using MusicWeb.Api.Extensions;
 using MusicWeb.Models.Dtos.Songs;
 using MusicWeb.Models.Entities;
+using MusicWeb.Models.Entities.Keyless;
+using MusicWeb.Models.Enums;
 using MusicWeb.Services.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -121,6 +123,50 @@ namespace MusicWeb.Api.Controllers.Songs
             }
         }
 
+        [HttpGet(ApiRoutes.Songs.GetSongRatingAverage)]
+        public async Task<IActionResult> GetSongRatingAverage([FromRoute] int id)
+        {
+            try
+            {
+                var response = await _songService.GetSongRatingAverage(id);
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [HttpGet(ApiRoutes.Songs.GetAllPagedSearchString)]
+        public async Task<IActionResult> GetAllPagedSearchString([FromRoute] int pageNum, [FromRoute] int pageSize, [FromRoute] SortType sortType, [FromRoute] DateTime createDateStart, [FromRoute] DateTime createDateEnd, [FromRoute] string searchString = "")
+        {
+            try
+            {
+                var response = _mapper.Map<List<SongRatingAverage>>(await _songService.GetPagedAsync(sortType, createDateStart, createDateEnd, pageNum, pageSize, searchString));
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [HttpGet(ApiRoutes.Songs.GetAllPaged)]
+        public async Task<IActionResult> GetAllPaged([FromRoute] int pageNum, [FromRoute] int pageSize, [FromRoute] SortType sortType, [FromRoute] DateTime createDateStart, [FromRoute] DateTime createDateEnd)
+        {
+            try
+            {
+                var response = _mapper.Map<List<SongDto>>(await _songService.GetPagedAsync(sortType, createDateStart, createDateEnd, pageNum, pageSize));
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return StatusCode(500, ex.Message);
+            }
+        }
 
     }
 }

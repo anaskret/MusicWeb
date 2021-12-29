@@ -1,4 +1,5 @@
 export default class Album {
+  id = null;
   name = "";
   releaseDate = "";
   artistId = "";
@@ -10,9 +11,13 @@ export default class Album {
   albumGenre = {};
   albumReviews = [];
   songs = [];
+  rating = "";
+  ratingsCount = "";
+  favoriteCount = null;
 
   constructor($data) {
     if ($data) {
+      this.id = $data.id;
       this.name = $data.name;
       this.releaseDate = $data.releaseDate;
       this.artistId = $data.artistId;
@@ -24,6 +29,9 @@ export default class Album {
       this.albumReviews = $data.albumReviews ? $data.albumReviews : [];
       this.artist = $data.artist ? $data.artist : {};
       this.albumGenre = $data.albumGenre ? $data.albumGenre : {};
+      this.rating = $data.rating;
+      this.ratingsCount = $data.ratingsCount;
+      this.favoriteCount = $data.favoriteCount;
     }
   }
 }

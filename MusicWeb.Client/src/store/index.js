@@ -11,5 +11,22 @@ export default new Vuex.Store({
     tokenExpired: false,
     searchingValue: "",
     serverUrl: "http://localhost:5000",
+    album: {},
+  },
+  mutations: {
+    setAlbum(state, album) {
+      state.album = album;
+    },
+    setSong(state, song) {
+      state.song = song;
+    },
+  },
+  getters: {
+    album(state) {
+      return state.album;
+    },
+    song(state) {
+      return state.song;
+    },
   },
 });

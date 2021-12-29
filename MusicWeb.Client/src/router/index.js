@@ -22,6 +22,16 @@ const routes = [
     component: () => import("@/views/ArtistListPage.vue"),
   },
   {
+    path: "/albums",
+    name: "AlbumListPage",
+    component: () => import("@/views/AlbumListPage.vue"),
+  },
+  {
+    path: "/albumreviews",
+    name: "AlbumReviewListPage",
+    component: () => import("@/views/AlbumReviewListPage.vue"),
+  },
+  {
     path: "/artist/:id",
     name: "ArtistPage",
     component: () => import("@/views/ArtistPage.vue"),
@@ -42,6 +52,11 @@ const routes = [
     component: () => import("@/views/SongPage.vue"),
   },
   {
+    path: "/songs",
+    name: "SongListPage",
+    component: () => import("@/views/SongListPage.vue"),
+  },
+  {
     path: "/activities",
     name: "Activities",
     component: () => import("@/views/Activities.vue"),
@@ -55,6 +70,11 @@ const routes = [
     path: "/albumreview/:id",
     name: "AlbumReviewPage",
     component: () => import("@/views/ReviewPage"),
+  },
+  {
+    path: "/songreviews",
+    name: "SongReviewListPage",
+    component: () => import("@/views/SongReviewListPage.vue"),
   },
 ];
 

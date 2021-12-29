@@ -184,6 +184,7 @@ export default {
       this.songReview.userId = this.$store.state.auth.userId;
       this.songReview.songId = this.$route.params.id;
       this.songReview.postDate = moment.utc().format();
+      delete this.songReview.id;
       if (
         this.songReview.title == null ||
         this.songReview.title == "" ||
@@ -224,6 +225,7 @@ export default {
       this.albumReview.postDate = moment.utc().format();
       delete this.albumReview.album;
       delete this.albumReview.user;
+      delete this.albumReview.id;
       if (
         this.albumReview.title == null ||
         this.albumReview.title == "" ||
