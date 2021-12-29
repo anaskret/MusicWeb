@@ -36,6 +36,8 @@
     <FriendList
         :drawer="drawer"
         @update-drawer="setDrawer"
+        @show-alert="showAlert"
+        @open-chat="openChat"
         v-if="!['Login', 'Register'].includes(this.$route.name)"
     />
   </v-app>

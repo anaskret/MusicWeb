@@ -9,11 +9,11 @@
     </div>
     <div class="close">
       <font-awesome-icon
-        class="close-button"
-        :color="colors.submitImageIcon"
+        class="close-button-icon"
+        :color="colors.submit_image_icon"
         icon="times"
         @click="closeChat"
-      />
+      ></font-awesome-icon>
     </div>
   </div>
 </template>
@@ -69,7 +69,7 @@ export default {
     cursor: pointer;
   }
 
-  .close-button:hover {
+  .close-button-icon:hover {
     color: #969393;
   }
 }

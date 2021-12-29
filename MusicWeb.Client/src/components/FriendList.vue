@@ -4,8 +4,17 @@
         class="friend-list-container"
         absolute
         temporary
+        hide-overlay
       >
       <v-list>
+          <v-list-item>
+        <v-list-item-title>
+            <h1>
+                Friends
+            </h1>
+        </v-list-item-title>
+          </v-list-item>
+        <v-divider></v-divider>
          <v-list-item v-for="(user, index) in visibleUsers" :key="index">
             <v-list-item-avatar>
                <v-img
@@ -22,9 +31,9 @@
                />
             </v-list-item-avatar>
             <v-list-item-content>
-               <v-list-item-title>
-                  <template v-if="!user.is_friend">   
-                     <v-btn fab class="friend-btn mr-1">
+            <v-list-item-subtitle>
+                  <template v-if="user.sender == account.id">   
+                     <v-btn fab small class="friend-btn mr-1">
                         <font-awesome-icon
                         class="icon"
                         icon="check"
@@ -33,7 +42,7 @@
                         color="green"
                         ></font-awesome-icon>
                      </v-btn>
-                     <v-btn fab class="friend-btn mr-4" >
+                     <v-btn fab small class="friend-btn mr-4" >
                         <font-awesome-icon
                         class="icon"
                         icon="times"
@@ -43,8 +52,8 @@
                         ></font-awesome-icon>
                      </v-btn>
                   </template>
-                  <template v-else>
-                     <v-btn fab class="friend-btn mr-4" >
+                  <template v-else-if="!user.receiver && !user.sender">
+                     <v-btn fab small class="friend-btn mr-4" @click="addFriend(user.id)">
                         <font-awesome-icon
                         class="icon"
                         icon="plus"
@@ -54,13 +63,16 @@
                         ></font-awesome-icon>
                      </v-btn>
                   </template>
-                  <span :title="`${user.firstname} ${user.lastname}`">{{user.firstname}} {{user.lastname}}</span>
-               </v-list-item-title>
+                  <v-btn plain @click="openChat">
+                     <span :title="`${user.firstname} ${user.lastname}`">{{user.firstname}} {{user.lastname}}</span>
+                  </v-btn>
+            </v-list-item-subtitle>
             </v-list-item-content>
          </v-list-item>
          <v-divider></v-divider>
          
-         <v-list-item v-for="(user, index) in visibleUsers" :key="index">
+         <!-- TODO accepted Friends list -->
+         <!-- <v-list-item v-for="(user, index) in visibleUsers" :key="index">
             <v-list-item-avatar>
                <v-img
                   v-if="user.imagePath"
@@ -76,15 +88,16 @@
                />
             </v-list-item-avatar>
             <v-list-item-content>
-               <v-list-item-title>
+               <v-list-item-subtitle>
                   <span :title="`${user.firstname} ${user.lastname}`">{{user.firstname}} {{user.lastname}}</span>
-               </v-list-item-title>
+               </v-list-item-subtitle>
             </v-list-item-content>
-         </v-list-item>
+         </v-list-item> -->
         </v-list>
          <v-pagination
             v-model="page"
             class="pagination"
+            circle
             :length="Math.ceil(users.length/per_page)"
             :total-visible="5"
          ></v-pagination>
@@ -100,7 +113,7 @@ export default {
       return {
          page: 1,
          per_page: 10,
-         users: []
+         users: [],
       }
    },
    props: {
@@ -125,6 +138,11 @@ export default {
          return this.users.slice((this.page - 1)* this.per_page, this.page* this.per_page)
       }
    },
+   methods: {
+       openChat(){
+         this.$emit("open-chat");
+       }
+   },
    watch: {
       account(){
          this.getFriendsList();
@@ -134,16 +152,17 @@ export default {
       const { getAccounts, getFriends } = useAccounts();
 
       const getFriendsList = function () {
-         let friends = [];
+         let friend_requests = [];
          getFriends(this.account.id).then((response) => {
-            friends = response.data.map(friend => friend.friendId);
+            friend_requests = response.data;
          });
          getAccounts().then((response) => {
             this.users = response.filter(user => {
                if(user.id != this.account.id && this.account.id){
-                  user.is_friend = false;
-                  if(friends.find(friend_id => friend_id == user.id) != null){
-                     user.is_friend = true;
+                  const sended_request = friend_requests.find(request => request.friendId == user.id);
+                  if(sended_request){
+                      user.sender = sended_request.userId;
+                      user.receiver = sended_request.friendId;
                   }
                   return user;
                }
@@ -151,8 +170,13 @@ export default {
          });
       }
 
+      const addFriend = function (id) {
+        this.$friendsHub.sendFriendRequest(this.account.id, id);
+      }
+
       return {
-         getFriendsList
+         getFriendsList,
+         addFriend
       }
    }
 };

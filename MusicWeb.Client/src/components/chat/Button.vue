@@ -23,7 +23,6 @@ export default {
    methods: {
       openChat() {
          this.$emit("open-chat");
-         this.$friendsHub.sendFriendRequest(this.account.id, 'ae1fdcba-3786-48de-ac49-e63d6a9cd281');
       },
    },
 };

@@ -71,12 +71,6 @@ export default {
   },
   methods: {
     ...mapMutations(["setParticipants", "setPlaceholder"]),
-    onClose: function () {
-      this.$emit("onClose");
-    },
-    onType(e) {
-      this.$emit("onType", e);
-    },
   },
 };
 </script>
