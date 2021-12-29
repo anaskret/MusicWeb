@@ -69,6 +69,7 @@ export default {
     const { getSongFullData, getSongRatingAverage } = useSongs();
     const getSongData = function () {
       getSongFullData(this.id).then((response) => {
+        console.log(response);
         this.song = response;
         this.prepareReviews();
         this.getSongRating();
@@ -76,9 +77,9 @@ export default {
     };
     const getSongRating = function () {
       getSongRatingAverage(this.id).then((response) => {
-        this.$set(this.song, 'rating', response.rating);
-        this.$set(this.song, 'ratingsCount', response.ratingsCount);
-        this.$set(this.song, 'favoriteCount', response.favoriteCount);
+          this.$set(this.song, 'rating', response.rating);
+          this.$set(this.song, 'ratingsCount', response.ratingsCount);
+          this.$set(this.song, 'favoriteCount', response.favoriteCount);
       })
     }
     return {

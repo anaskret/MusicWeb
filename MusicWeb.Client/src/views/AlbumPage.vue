@@ -83,10 +83,10 @@ export default {
     };
     const getAlbumRating = function () {
       getAlbumRatingAverage(this.id).then((response) => {
-        this.$set(this.album, 'rating', response.rating);
-        this.$set(this.album, 'ratingsCount', response.ratingsCount);
-        this.$set(this.album, 'favoriteCount', response.favoriteCount);
-      })
+          this.$set(this.album, 'rating', response.rating);
+          this.$set(this.album, 'ratingsCount', response.ratingsCount);
+          this.$set(this.album, 'favoriteCount', response.favoriteCount);
+     })
     }
     return {
       getAlbumData,

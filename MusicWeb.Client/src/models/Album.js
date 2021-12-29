@@ -29,9 +29,9 @@ export default class Album {
       this.albumReviews = $data.albumReviews ? $data.albumReviews : [];
       this.artist = $data.artist ? $data.artist : {};
       this.albumGenre = $data.albumGenre ? $data.albumGenre : {};
-      this.rating = $data.rating;
-      this.ratingsCount = $data.ratingsCount;
-      this.favoriteCount = $data.favoriteCount;
+      this.rating = $data.rating ? $data.rating : 0;
+      this.ratingsCount = $data.ratingsCount ? $data.ratingsCount : 0;
+      this.favoriteCount = $data.favoriteCount ? $data.favoriteCount : 0;
     }
   }
 }

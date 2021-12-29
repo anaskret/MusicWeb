@@ -23,7 +23,7 @@ namespace MusicWeb.Repositories.Repositories.Albums
         public async Task<AlbumRatingAverage> GetAlbumAverageRating(int id)
         {
             var sql = $@"SELECT T0.*, ROUND(Coalesce(T1.Rating, 0), 2) as Rating, 
-            T1.RatingsCount, 
+            COALESCE(T1.RatingsCount,0) as RatingsCount, 
             COALESCE(T2.Favorite, 0) as FavoriteCount
             FROM Album T0
             LEFT JOIN(SELECT AlbumId, AVG(Cast(Rating as float)) as Rating, COUNT(Rating) as RatingsCount FROM AlbumRating GROUP BY AlbumId) T1 ON T1.AlbumId = T0.Id
@@ -48,7 +48,7 @@ namespace MusicWeb.Repositories.Repositories.Albums
         public async Task<List<AlbumRatingAverage>> GetAlbumsPagedAsync(SortType sortType, DateTime startDate, DateTime endDate, int pageNum = 0, int pageSize = 15, string searchString = "")
         {
             var sql = @$"SELECT T0.*, ROUND(Coalesce(T1.Rating, 0), 2) as Rating, 
-            T1.RatingsCount, 
+            COALESCE(T1.RatingsCount,0) as RatingsCount, 
             COALESCE(T2.Favorite, 0) as FavoriteCount
             FROM Album T0
             LEFT JOIN(SELECT AlbumId, AVG(Cast(Rating as float)) as Rating, COUNT(Rating) as RatingsCount FROM AlbumRating GROUP BY AlbumId) T1 ON T1.AlbumId = T0.Id

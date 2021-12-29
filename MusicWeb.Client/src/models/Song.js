@@ -10,8 +10,8 @@ export default class Song {
   album = {};
   composer = {};
   songReviews = [];
-  rating = "";
-  ratingsCount = "";
+  rating = null;
+  ratingsCount = null;
   favoriteCount = null;
 
   constructor($data) {
@@ -27,9 +27,9 @@ export default class Song {
       this.album = $data.album ? $data.album : {};
       this.composer = $data.composer ? $data.composer : {};
       this.songReviews = $data.songReviews ? $data.songReviews : [];
-      this.rating = $data.rating;
-      this.ratingsCount = $data.ratingsCount;
-      this.favoriteCount = $data.favoriteCount;
+      this.rating = $data.rating ? $data.rating : 0;
+      this.ratingsCount = $data.ratingsCount ? $data.ratingsCount : 0;
+      this.favoriteCount = $data.favoriteCount ? $data.favoriteCount : 0;
     }
   }
 }

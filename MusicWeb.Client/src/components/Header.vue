@@ -255,7 +255,7 @@ export default {
     };      
     const getSongRating = function () {
         getSongUserRating(this.id, this.user_id).then((response) => {
-         this.songRating = response;
+          this.songRating = response;
           this.getDefaultStars(this.songRating.rating);
           
       });
@@ -382,8 +382,9 @@ export default {
       
       if (this.module_name == "Album")
       {
-        if (this.albumRating != null)
+        if (this.albumRating.id > 0)
         {
+          console.log(this.albumRating)
           this.updateAlbumUserRating(ratingId);
         }
         else 
@@ -431,6 +432,10 @@ export default {
       else if (this.module_name == "Song")
       {
         value = this.songRating.rating;
+      }
+      if (value == "")
+      {
+        value = "0";
       }
       let rating = document.querySelector("#rating");
       rating.innerText = value + ".0";
