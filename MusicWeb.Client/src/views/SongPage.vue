@@ -76,9 +76,9 @@ export default {
     };
     const getSongRating = function () {
       getSongRatingAverage(this.id).then((response) => {
-        console.log(response);
         this.$set(this.song, 'rating', response.rating);
         this.$set(this.song, 'ratingsCount', response.ratingsCount);
+        this.$set(this.song, 'favoriteCount', response.favoriteCount);
       })
     }
     return {

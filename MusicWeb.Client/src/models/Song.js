@@ -12,6 +12,7 @@ export default class Song {
   songReviews = [];
   rating = "";
   ratingsCount = "";
+  favoriteCount = null;
 
   constructor($data) {
     if ($data) {
@@ -28,6 +29,7 @@ export default class Song {
       this.songReviews = $data.songReviews ? $data.songReviews : [];
       this.rating = $data.rating;
       this.ratingsCount = $data.ratingsCount;
+      this.favoriteCount = $data.favoriteCount;
     }
   }
 }

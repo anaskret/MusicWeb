@@ -1,5 +1,6 @@
 <template>
   <v-container fluid class="py-16">
+    {{parent}}
     <v-row justify="center">
       <v-col lg="3" sm="6" class="pr-lg-12">
         <div>
@@ -83,6 +84,8 @@ import useSongRatings from "@/modules/songRatings.js";
 import SongRating from "@/models/AlbumRating.js";
 import useUserFavoriteAlbums from "@/modules/userFavoriteAlbums.js";
 import UserFavoriteAlbum from "@/models/UserFavoriteAlbum.js";
+import useUserFavoriteSongs from "@/modules/userFavoriteSongs.js";
+import UserFavoriteSong from "@/models/UserFavoriteSong.js";
 
 export default {
   name: "Header",
@@ -120,6 +123,7 @@ export default {
       id: this.$route.params.id, 
       user_id: localStorage.getItem("user-id"), 
       userFavoriteAlbum: new UserFavoriteAlbum(),
+      userFavoriteSong: new UserFavoriteSong(),
     };
   },
   setup() {
@@ -127,6 +131,8 @@ export default {
     const { addAlbumRating, getUserRating, updateUserRating } = useAlbumRatings();
     const { addSongRating, getSongUserRating, updateSongUserRating } = useSongRatings();
     const { getUserFavoriteAlbum, deleteUserFavoriteAlbum, addUserFavoriteAlbum } = useUserFavoriteAlbums();   
+    const { getUserFavoriteSong, deleteUserFavoriteSong, addUserFavoriteSong } = useUserFavoriteSongs();   
+    
 
       const addNewAlbumRating = function (ratingId) {
       this.albumRating.userId = this.$store.state.auth.userId;
@@ -305,6 +311,55 @@ export default {
           }
         );
       }
+      const getUserSong = function () {
+      getUserFavoriteSong(this.user_id, this.$route.params.id).then((response) => {
+        this.userFavoriteSong = response;
+         this.colorHeart();
+          
+      });
+    };  
+    
+        const deleteFavoriteSong = function (id) {
+        deleteUserFavoriteSong(id).then(() => {
+          this.$emit("getRating");
+         this.userFavoriteSong = {};
+         this.colorHeart();
+          
+      });
+    };
+
+    
+      const addFavoriteSong = function () {
+      this.userFavoriteSong.userId = this.$store.state.auth.userId;
+      this.userFavoriteSong.favoriteId = this.$route.params.id;
+      delete this.userFavoriteSong.id;
+      delete this.userFavoriteSong.user;
+      delete this.userFavoriteSong.song;
+      
+      
+        addUserFavoriteSong(this.userFavoriteSong).then(
+          (response) => {
+            if (response.status == 200) {
+              this.$emit("getRating");
+              this.$emit("show-alert", "Review added.", "success");
+              this.getUserSong();
+            } else {
+              this.$emit(
+                "show-alert",
+                `Nie udało się dodać recenzji. Błąd ${response.status}`,
+                "error"
+              );
+            }
+          },
+          (error) => {
+            this.$emit(
+              "show-alert",
+              `Nie udało się dodać recenzji. ${error.response.status} ${error.response.data}`,
+              "error"
+            );
+          }
+        );
+      }
 
     return {
       addNewAlbumRating,
@@ -315,7 +370,10 @@ export default {
       updateSongRating, 
       getUserAlbum,
       deleteFavoriteAlbum,
-      addFavoriteAlbum,
+      addFavoriteAlbum,      
+      getUserSong,
+      deleteFavoriteSong,
+      addFavoriteSong,
     };
   },
   methods: {
@@ -389,7 +447,17 @@ export default {
     colorHeart: function() 
     {
       let heart = document.querySelector(".heart");
-      if (this.userFavoriteAlbum.albumId == this.$route.params.id)
+      let parentId;
+      if (this.module_name == "Album")
+      {
+        parentId = this.userFavoriteAlbum.albumId;
+      }
+      else if (this.module_name == "Song")
+      {
+        parentId = this.userFavoriteSong.songId;
+      }
+
+      if (parentId == this.$route.params.id)
       {
         heart.classList.add("activeHeart");
       }
@@ -400,14 +468,27 @@ export default {
     },
     updateUserFavorite: function()
     {
-      if (this.userFavoriteAlbum.albumId != null)
+       if (this.module_name == "Album")
       {
-        this.deleteFavoriteAlbum(this.userFavoriteAlbum.id);
-        
+        if (this.userFavoriteAlbum.albumId != null)
+        {
+          this.deleteFavoriteAlbum(this.userFavoriteAlbum.id);
+          
 
+        }
+        else {
+          this.addFavoriteAlbum();
+        }
       }
-      else {
-        this.addFavoriteAlbum();
+      else if (this.module_name == "Song")
+      {
+        if (this.userFavoriteSong.songId != null)
+        {
+          this.deleteFavoriteSong(this.userFavoriteSong.id);
+        }
+        else {
+          this.addFavoriteSong();
+        }
       }
     }
 
@@ -421,6 +502,7 @@ export default {
     else if (this.module_name == "Song")
     {
       this.getSongRating();
+      this.getUserSong();
     }
   }
 };
