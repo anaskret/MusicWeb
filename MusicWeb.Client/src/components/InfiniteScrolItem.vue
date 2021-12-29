@@ -157,7 +157,7 @@
         </v-row>
       </v-card>
     </div>
-    <div v-if="page_name == 'AlbumList'">
+    <div v-if="page_name == 'AlbumList' || page_name == 'SongList'">
             <v-card @click="redirectToItem(item.id)">
         <div class="d-flex flex-no-wrap justify-space-between">
           <div>

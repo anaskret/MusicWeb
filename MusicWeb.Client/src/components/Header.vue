@@ -1,6 +1,5 @@
 <template>
   <v-container fluid class="py-16">
-    {{parent}}
     <v-row justify="center">
       <v-col lg="3" sm="6" class="pr-lg-12">
         <div>
@@ -527,7 +526,7 @@ p {
 .feature-text {
   font-size: 1rem;
 }
-.star {
+.star, .heart {
   cursor: pointer;
 }
 
