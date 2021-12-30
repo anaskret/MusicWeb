@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using MusicWeb.Models.Dtos.Users;
 using MusicWeb.Models.Entities;
+using MusicWeb.Models.Identity;
 using MusicWeb.Repositories.Interfaces.Users;
 using MusicWeb.Services.Hubs;
 using MusicWeb.Services.Interfaces.Hubs;
@@ -19,15 +21,18 @@ namespace MusicWeb.Services.Services.Users
     {
         private readonly IUserFriendRepository _userFriendRepository;
         private readonly IMapper _mapper;
+        private readonly UserManager<ApplicationUser> _userManager;
         private readonly IHubContext<FriendsHub, IFriendsHub> _hubContext;
 
-        public UserFriendService(IUserFriendRepository userFriendRepository, 
-            IMapper mapper, 
-            IHubContext<FriendsHub, IFriendsHub> hubContext)
+        public UserFriendService(IUserFriendRepository userFriendRepository,
+            IMapper mapper,
+            IHubContext<FriendsHub, IFriendsHub> hubContext, 
+            UserManager<ApplicationUser> userManager)
         {
             _userFriendRepository = userFriendRepository;
             _mapper = mapper;
             _hubContext = hubContext;
+            _userManager = userManager;
         }
 
         public async Task CreateNewRequestAsync(UserFriend entity)
@@ -37,9 +42,16 @@ namespace MusicWeb.Services.Services.Users
             if (doesExist != null)
                 throw new ArgumentException("You already have that user in your friend list or the invite is already sent");
 
+            entity.CreatedByUserId = entity.UserId;
+
             await CreateAsync(entity);
 
-            await _hubContext.Clients.Group(entity.FriendId).SendFriendRequest(entity.UserId, entity.FriendId);
+            var user = await _userManager.FindByIdAsync(entity.UserId);
+            if (user == null)
+                throw new Exception("Friend Request was created, but notification was not sent as user was not found");
+
+            var fullName = user.FirstName + " " + user.LastName;
+            await _hubContext.Clients.Group(entity.FriendId).SendFriendRequest(entity.UserId, entity.FriendId, fullName);
         }
 
         public async Task AcceptFriendRequestAsync(UserFriend entity)
