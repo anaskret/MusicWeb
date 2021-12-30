@@ -117,43 +117,14 @@ namespace MusicWeb.Api.Controllers.Artists
                 return StatusCode(500, ex.Message);
             }
         }
-/*
-        /// <summary>
-        /// Creates an artist or a band.
-        /// </summary>
-        /// <remarks>
-        /// To add a band member set Type to Band Member and BandId = SomeBandId &#xA;
-        /// To add an artist image pass image bytes in ImageBytes, otherwise set the property to an empty string &#xA;
-        /// </remarks>
-        [HttpPost(ApiRoutes.Artists.Create)]
-        public async Task<IActionResult> CreateArtist([FromBody] CreateArtistDto dto)
+
+        [HttpGet(ApiRoutes.Artists.GetArtistRatingAverage)]
+        public async Task<IActionResult> GetAlbumRatingAverage([FromRoute] int id)
         {
             try
             {
-                var entity = _mapper.Map<Artist>(dto);
-                await _artistService.AddAsync(entity, dto.ImageBytes);
-
-                return Ok();
-            }
-            catch(Exception ex)
-            {
-                _logger.LogError(ex.Message);
-                return StatusCode(500, ex.Message);
-            }
-        }
-
-        /// <summary>
-        /// Updates an artist or a band
-        /// </summary>
-        [HttpPut(ApiRoutes.Artists.Update)]
-        public async Task<IActionResult> UpdateArtist([FromBody] ArtistDto dto)
-        {
-            try
-            {
-                var entity = _mapper.Map<Artist>(dto);
-                await _artistService.UpdateAsync(entity);
-
-                return Ok();
+                var response = await _artistService.GetArtistRatingAverage(id);
+                return Ok(response);
             }
             catch (Exception ex)
             {
@@ -161,43 +132,87 @@ namespace MusicWeb.Api.Controllers.Artists
                 return StatusCode(500, ex.Message);
             }
         }
+        /*
+                /// <summary>
+                /// Creates an artist or a band.
+                /// </summary>
+                /// <remarks>
+                /// To add a band member set Type to Band Member and BandId = SomeBandId &#xA;
+                /// To add an artist image pass image bytes in ImageBytes, otherwise set the property to an empty string &#xA;
+                /// </remarks>
+                [HttpPost(ApiRoutes.Artists.Create)]
+                public async Task<IActionResult> CreateArtist([FromBody] CreateArtistDto dto)
+                {
+                    try
+                    {
+                        var entity = _mapper.Map<Artist>(dto);
+                        await _artistService.AddAsync(entity, dto.ImageBytes);
 
-        /// <summary>
-        /// Updates artist image
-        /// </summary>
-        [HttpPut(ApiRoutes.Artists.UpdateImage)]
-        public async Task<IActionResult> UpdateArtistImage([FromBody] ArtistFileUpdateDto dto)
-        {
-            try
-            {
-                await _artistService.UpdateImageAsync(dto);
+                        return Ok();
+                    }
+                    catch(Exception ex)
+                    {
+                        _logger.LogError(ex.Message);
+                        return StatusCode(500, ex.Message);
+                    }
+                }
 
-                return Ok();
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex.Message);
-                return StatusCode(500, ex.Message);
-            }
-        }
+                /// <summary>
+                /// Updates an artist or a band
+                /// </summary>
+                [HttpPut(ApiRoutes.Artists.Update)]
+                public async Task<IActionResult> UpdateArtist([FromBody] ArtistDto dto)
+                {
+                    try
+                    {
+                        var entity = _mapper.Map<Artist>(dto);
+                        await _artistService.UpdateAsync(entity);
 
-        /// <summary>
-        /// Deletes an artist or a band
-        /// </summary>
-        [HttpDelete(ApiRoutes.Artists.Delete)]
-        public async Task<IActionResult> DeleteArtist([FromRoute] int id)
-        {
-            try
-            {
-                await _artistService.DeleteAsync(id);
+                        return Ok();
+                    }
+                    catch (Exception ex)
+                    {
+                        _logger.LogError(ex.Message);
+                        return StatusCode(500, ex.Message);
+                    }
+                }
 
-                return Ok();
-            }
-            catch(Exception ex)
-            {
-                _logger.LogError(ex.Message);
-                return StatusCode(500, ex.Message);
-            }
-        }*/
+                /// <summary>
+                /// Updates artist image
+                /// </summary>
+                [HttpPut(ApiRoutes.Artists.UpdateImage)]
+                public async Task<IActionResult> UpdateArtistImage([FromBody] ArtistFileUpdateDto dto)
+                {
+                    try
+                    {
+                        await _artistService.UpdateImageAsync(dto);
+
+                        return Ok();
+                    }
+                    catch (Exception ex)
+                    {
+                        _logger.LogError(ex.Message);
+                        return StatusCode(500, ex.Message);
+                    }
+                }
+
+                /// <summary>
+                /// Deletes an artist or a band
+                /// </summary>
+                [HttpDelete(ApiRoutes.Artists.Delete)]
+                public async Task<IActionResult> DeleteArtist([FromRoute] int id)
+                {
+                    try
+                    {
+                        await _artistService.DeleteAsync(id);
+
+                        return Ok();
+                    }
+                    catch(Exception ex)
+                    {
+                        _logger.LogError(ex.Message);
+                        return StatusCode(500, ex.Message);
+                    }
+                }*/
     }
 }

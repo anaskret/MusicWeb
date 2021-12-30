@@ -19,6 +19,7 @@ namespace MusicWeb.Api.Extensions
             public const string UpdateImage = Root + "/artists/images";
             public const string GetById = Root + "/artists/{id}";
             public const string Delete = Root + "/artists/{id}";
+            public const string GetArtistRatingAverage = Root + "/artistaveragerating/{id}";
         }
 
         public static class ArtistComments
