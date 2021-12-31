@@ -16,7 +16,7 @@ namespace MusicWeb.DataAccess.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("ProductVersion", "5.0.11")
+                .HasAnnotation("ProductVersion", "5.0.9")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -97,12 +97,10 @@ namespace MusicWeb.DataAccess.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
                     b.Property<string>("LoginProvider")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ProviderKey")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ProviderDisplayName")
                         .HasColumnType("nvarchar(max)");
@@ -139,12 +137,10 @@ namespace MusicWeb.DataAccess.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("LoginProvider")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Name")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Value")
                         .HasColumnType("nvarchar(max)");
@@ -461,6 +457,38 @@ namespace MusicWeb.DataAccess.Migrations
                     b.ToTable("ArtistRatingAverage");
                 });
 
+            modelBuilder.Entity("MusicWeb.Models.Entities.Keyless.TopSongsWithRating", b =>
+                {
+                    b.Property<int>("AlbumId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ComposerId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ImagePath")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("Length")
+                        .HasColumnType("float");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("PositionOnAlbum")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("Rating")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime>("ReleaseDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Text")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.ToTable("TopSongsWithRating");
+                });
+
             modelBuilder.Entity("MusicWeb.Models.Entities.Keyless.UserAndArtistPost", b =>
                 {
                     b.Property<string>("Album")
@@ -640,6 +668,32 @@ namespace MusicWeb.DataAccess.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("PostLike");
+                });
+
+            modelBuilder.Entity("MusicWeb.Models.Entities.Ratings.AlbumRating", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("AlbumId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Rating")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AlbumId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AlbumRating");
                 });
 
             modelBuilder.Entity("MusicWeb.Models.Entities.Ratings.ArtistRating", b =>
@@ -879,6 +933,9 @@ namespace MusicWeb.DataAccess.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("CreatedByUserId")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("FriendId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
@@ -891,6 +948,8 @@ namespace MusicWeb.DataAccess.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("FriendId");
 
                     b.HasIndex("UserId");
 
@@ -1219,10 +1278,9 @@ namespace MusicWeb.DataAccess.Migrations
                         .HasForeignKey("ArtistPosterId")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("MusicWeb.Models.Entities.UserFriend", "Poster")
+                    b.HasOne("MusicWeb.Models.Identity.ApplicationUser", "Poster")
                         .WithMany("Posts")
                         .HasForeignKey("PosterId")
-                        .HasPrincipalKey("FriendId")
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("MusicWeb.Models.Entities.UserObservedArtist", null)
@@ -1552,11 +1610,6 @@ namespace MusicWeb.DataAccess.Migrations
                     b.Navigation("UserFavoriteSongs");
                 });
 
-            modelBuilder.Entity("MusicWeb.Models.Entities.UserFriend", b =>
-                {
-                    b.Navigation("Posts");
-                });
-
             modelBuilder.Entity("MusicWeb.Models.Entities.UserObservedArtist", b =>
                 {
                     b.Navigation("Posts");
@@ -1585,6 +1638,10 @@ namespace MusicWeb.DataAccess.Migrations
                     b.Navigation("PostComments");
 
                     b.Navigation("PostLikes");
+
+                    b.Navigation("Posts");
+
+                    b.Navigation("SongRatings");
 
                     b.Navigation("SongReviews");
 

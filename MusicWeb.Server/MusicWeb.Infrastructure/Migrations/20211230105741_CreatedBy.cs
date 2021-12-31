@@ -2,22 +2,21 @@
 
 namespace MusicWeb.DataAccess.Migrations
 {
-    public partial class UserFriendIsAccepted : Migration
+    public partial class CreatedBy : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<bool>(
-                name: "IsAccepted",
+            migrationBuilder.AddColumn<string>(
+                name: "CreatedByUserId",
                 table: "UserFriend",
-                type: "bit",
-                nullable: false,
-                defaultValue: false);
+                type: "nvarchar(max)",
+                nullable: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "IsAccepted",
+                name: "CreatedByUserId",
                 table: "UserFriend");
         }
     }
