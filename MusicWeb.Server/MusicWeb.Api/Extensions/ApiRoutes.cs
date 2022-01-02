@@ -177,7 +177,7 @@ namespace MusicWeb.Api.Extensions
         {
             public const string Create = Root + "/userfriends";
             public const string AcceptRequest = Root + "/userfriends/acceptrequest";
-            public const string Delete = Root + "/userfriends/{id}";
+            public const string Delete = Root + "/userfriends/{userId}/{friendId}";
             public const string GetById = Root + "/userfriends/{userId}/{friendId}";
             public const string GetAll = Root + "/userfriendsbyuserId/{userId}";
         }

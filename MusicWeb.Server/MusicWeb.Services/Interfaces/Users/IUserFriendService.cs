@@ -12,7 +12,7 @@ namespace MusicWeb.Services.Interfaces.Users
     {
         Task CreateAsync(UserFriend entity);
         Task CreateNewRequestAsync(UserFriend entity);
-        Task DeleteAsync(int id);
+        Task DeleteAsync(string userId, string friendId);
         Task DeleteRangeByUserIdAsync(string userId);
         Task UpdateAsync(UserFriend entity);
         Task<UserFriend> GetSingleByUserIdAndFriendIdAsync(string userId, string friendId);

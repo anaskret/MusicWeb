@@ -73,15 +73,18 @@ namespace MusicWeb.Services.Services.Users
 
         public async Task CreateAsync(UserFriend entity)
         {
-
-
             await _userFriendRepository.AddAsync(entity);
         }
 
-        public async Task DeleteAsync(int id)
+        public async Task DeleteAsync(string userId, string friendId)
         {
-            var entity = await _userFriendRepository.GetByIdAsync(id);
-            await _userFriendRepository.DeleteAsync(entity);
+            var entity = await _userFriendRepository.GetSingleAsync(prp => string.Equals(prp.UserId, userId) && string.Equals(prp.FriendId, friendId));
+            var secondEntity = await _userFriendRepository.GetSingleAsync(prp => string.Equals(prp.FriendId, userId) && string.Equals(prp.UserId, friendId));
+
+            if(entity != null)
+                await _userFriendRepository.DeleteAsync(entity);
+            if(secondEntity != null)
+                await _userFriendRepository.DeleteAsync(secondEntity);
         }
 
         public async Task DeleteRangeByUserIdAsync(string userId)
