@@ -82,7 +82,7 @@ namespace MusicWeb.Api.Controllers.Users
         }
 
         [HttpDelete(ApiRoutes.UserFriends.Delete)]
-        public async Task<IActionResult> Delete([FromRoute] int id)
+        public async Task<IActionResult> Delete([FromRoute] string userId, string friendId)
         {
             try
             {
