@@ -86,7 +86,7 @@ namespace MusicWeb.Api.Controllers.Users
         {
             try
             {
-                await _userFriendService.DeleteAsync(id);
+                await _userFriendService.DeleteAsync(userId, friendId);
                 return Ok();
             }
             catch (Exception ex)
