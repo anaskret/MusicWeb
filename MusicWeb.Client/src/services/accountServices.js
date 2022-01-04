@@ -49,9 +49,9 @@ export default {
       ApiService.get
     );
   },
-  getFriends(id) {
+  getFriends(user_id) {
     return ApiService.authRequest(
-      `/userfriendsbyuserId/${id}`,
+      `/userfriendsbyuserId/${user_id}`,
       ApiService.get
     );
   },
@@ -60,6 +60,19 @@ export default {
       `/userfriends`,
       ApiService.post,
       data
+    );
+  },
+  acceptFriendRequest(data) {
+    return ApiService.authRequest(
+      `/userfriends/acceptrequest`,
+      ApiService.post,
+      data
+    );
+  },
+  discardFriendRequest(user_id, friend_id) {
+    return ApiService.authRequest(
+      `/userfriends/${user_id}/${friend_id}`,
+      ApiService.delete
     );
   },
 };

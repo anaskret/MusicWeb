@@ -27,6 +27,16 @@ export default {
       friendsHub.$emit("friend-request-received", userId, friendId, fullName);
     });
 
+    friendsHub.friendRequestAccepted = (userId, friendId) => {
+      return startedPromise
+        .then(() => connection.invoke("FriendRequestAccepted", userId, friendId))
+        .catch(console.error);
+    };
+
+    connection.on("FriendRequestAccepted", (userId, friendId) => {
+      friendsHub.$emit("friend-request-accepted", userId, friendId);
+    });
+
     let startedPromise = null;
 
     function start() {

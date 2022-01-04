@@ -79,15 +79,27 @@ export default function useAccounts() {
 
   };
 
-  const getFriends = function (id) {
-      if(id){
-          return accountServices.getFriends(id);
+  const getFriends = function (user_id) {
+      if(user_id){
+          return accountServices.getFriends(user_id);
       }
   };
 
   const addFriendRequest = function (data) {
       if(data){
           return accountServices.addFriendRequest(data);
+      }
+  };
+
+  const acceptFriendRequest = function (data) {
+      if(data){
+          return accountServices.acceptFriendRequest(data);
+      }
+  };
+
+  const discardFriendRequest = function (user_id, friend_id) {
+      if(user_id && friend_id){
+          return accountServices.discardFriendRequest(user_id, friend_id);
       }
   };
   return {
@@ -104,6 +116,8 @@ export default function useAccounts() {
     userWatchArtist,
     getAccounts,
     getFriends,
-    addFriendRequest
+    addFriendRequest,
+    acceptFriendRequest,
+    discardFriendRequest
   };
 }

@@ -38,6 +38,7 @@
         @update-drawer="setDrawer"
         @show-alert="showAlert"
         @open-chat="openChat"
+        ref="friend_list_component"
         v-if="!['Login', 'Register'].includes(this.$route.name)"
     />
   </v-app>
@@ -73,6 +74,10 @@ export default {
       "friend-request-received",
       this.prepareFriendRequestAlert
     );
+    this.$friendsHub.$on(
+      "friend-request-accepted",
+      this.prepareFriendRequestAcceptedAlert
+    );
   },
   methods: {
     showAlert(message, type) {
@@ -84,8 +89,14 @@ export default {
       this.chatVisibility = true;
     },
     prepareFriendRequestAlert(userId, friendId, fullName) {
-      console.log(userId, friendId); // TODO display fullname
+      console.log(userId, friendId);
+      this.$refs.friend_list_component.getFriendsList();
       this.showAlert(`${fullName} sent you an invitation.`, "success");
+    },
+    prepareFriendRequestAcceptedAlert(userId, friendId) {
+      console.log(userId, friendId);
+      this.$refs.friend_list_component.getFriendsList();
+      this.showAlert(`${friendId} accepted your invitation.`, "success");
     },
     userTyping: function (e) {
       console.log("typing", e);

@@ -33,7 +33,7 @@
             <v-list-item-content class="open-chat-button">
                <v-list-item-subtitle>
                      <template v-if="user.receiver && !user.requestAccepted">   
-                        <v-btn fab small class="friend-btn mr-1">
+                        <v-btn fab small class="friend-btn mr-1" @click="acceptRequest(user.id)">
                            <font-awesome-icon
                            class="icon"
                            icon="check"
@@ -42,7 +42,7 @@
                            color="green"
                            ></font-awesome-icon>
                         </v-btn>
-                        <v-btn fab small class="friend-btn mr-4" >
+                        <v-btn fab small class="friend-btn mr-4" @click="discardRequest(user.id)">
                            <font-awesome-icon
                            class="icon"
                            icon="times"
@@ -64,18 +64,21 @@
                         </v-btn>
                      </template>
                      <template v-else-if="user.sender && !user.requestAccepted">
-                        <v-btn plain @click="openChat">
+                        <div class="pending-status">
                            <v-badge
                               color="green"
                               content="Pending"
                            >
                               <span :title="`${user.firstname} ${user.lastname}`">{{user.firstname}} {{user.lastname}}</span>
                            </v-badge>
+                        </div>
+                     </template>
+                     <template v-if="(user.sender || user.receiver) && user.requestAccepted">
+                        <v-btn  plain @click="openChat">
+                           <span :title="`${user.firstname} ${user.lastname}`">{{user.firstname}} {{user.lastname}}</span>
                         </v-btn>
                      </template>
-                     <v-btn v-if="!user.sender" plain @click="openChat">
-                        <span :title="`${user.firstname} ${user.lastname}`">{{user.firstname}} {{user.lastname}}</span>
-                     </v-btn>
+                     <span v-if="!user.sender && !user.requestAccepted" :title="`${user.firstname} ${user.lastname}`">{{user.firstname}} {{user.lastname}}</span>
                </v-list-item-subtitle>
             </v-list-item-content>
          </v-list-item>
@@ -160,20 +163,29 @@ export default {
       }
    },
    setup() {
-      const { getAccounts, getFriends, addFriendRequest } = useAccounts();
+      const { getAccounts, getFriends, addFriendRequest, acceptFriendRequest, discardFriendRequest } = useAccounts();
 
-      const getFriendsList = function () {
-         let friend_requests = [];
-         getFriends(this.account.id).then((response) => {
-            friend_requests = response.data;
-         });
+      const getFriendsList = async function () {
+         let friend_requests = await getFriends(this.account.id).then((response) => response.data);
          getAccounts().then((response) => {
             this.users = response.filter(user => {
                if(user.id != this.account.id && this.account.id){
                   user.receiver = false;
                   user.sender = false;
-                  const user_sent_request = friend_requests.find(request => request.createdByUserId == this.account.id);
-                  const friend_sent_request = friend_requests.find(request => request.createdByUserId != this.account.id && request.userId == this.account.id);
+                  const user_sent_request = friend_requests.find(function (request) 
+                  {
+                     if(request.createdByUserId == this.account.id && request.friendId == user.id)
+                     {
+                        return request;
+                     }
+                  }.bind(this));
+                  const friend_sent_request = friend_requests.find(function (request) 
+                  {
+                     if(request.createdByUserId != this.account.id && request.userId == user.id)
+                     {
+                        return request;
+                     }
+                  }.bind(this));
                   if(user_sent_request){
                      user.sender = true;
                      user.requestAccepted = user_sent_request.isAccepted;
@@ -188,38 +200,98 @@ export default {
       }
       
       const addFriend = function (id) {
-      this.friend_request.userId = this.account.id;
-      this.friend_request.friendId = id;
-      addFriendRequest(this.friend_request).then(
-        (response) => {
-          if (response.status == 200) {
-            // TODO change button to observed, get userobservedartist
-            this.$emit(
-              "show-alert",
-              `Friend added successfuly.`,
-              "success"
-            );
-          } else {
-            this.$emit(
-              "show-alert",
-              `Something went wrong. Error ${response.status}`,
-              "error"
-            );
-          }
-        },
-        (error) => {
-          this.$emit(
-            "show-alert",
-            `Something went wrong. ${error.response.status} ${error.response.data}`,
-            "error"
-          );
-        }
-      );
-    };
+         this.friend_request.userId = this.account.id;
+         this.friend_request.friendId = id;
+         addFriendRequest(this.friend_request).then(
+            (response) => {
+               if (response.status == 200) {
+                  this.$emit(
+                  "show-alert",
+                  `Friend added successfuly.`,
+                  "success"
+                  );
+                  this.getFriendsList();
+               } else {
+                  this.$emit(
+                  "show-alert",
+                  `Something went wrong. Error ${response.status}`,
+                  "error"
+                  );
+               }
+            },
+            (error) => {
+               this.$emit(
+                  "show-alert",
+                  `Something went wrong. ${error.response.status} ${error.response.data}`,
+                  "error"
+               );
+            }
+         );
+      };
+
+      const acceptRequest = function (id){
+         this.friend_request.userId = this.account.id;
+         this.friend_request.friendId = id;
+         acceptFriendRequest(this.friend_request).then(
+            (response) => {
+               if (response.status == 200) {
+                  this.$emit(
+                  "show-alert",
+                  `Friend accepted.`,
+                  "success"
+                  );
+                  this.getFriendsList();
+               } else {
+                  this.$emit(
+                  "show-alert",
+                  `Something went wrong. Error ${response.status}`,
+                  "error"
+                  );
+               }
+            },
+            (error) => {
+               this.$emit(
+                  "show-alert",
+                  `Something went wrong. ${error.response.status} ${error.response.data}`,
+                  "error"
+               );
+            }
+         );
+      }
+
+      const discardRequest = function (id){
+         discardFriendRequest(this.account.id, id).then(
+            (response) => {
+               if (response.status == 200) {
+                  this.$emit(
+                  "show-alert",
+                  `Friend discarded.`,
+                  "success"
+                  );
+                  this.getFriendsList();
+               } else {
+                  this.$emit(
+                  "show-alert",
+                  `Something went wrong. Error ${response.status}`,
+                  "error"
+                  );
+               }
+            },
+            (error) => {
+               this.$emit(
+                  "show-alert",
+                  `Something went wrong. ${error.response.status} ${error.response.data}`,
+                  "error"
+               );
+            }
+         );
+      }
 
       return {
          getFriendsList,
-         addFriend
+         addFriend,
+         acceptRequest,
+         discardRequest
       }
    }
 };
@@ -241,7 +313,9 @@ export default {
   bottom: 1rem;
   z-index: 1;
 }
-.open-chat-button{
+.pending-status{
    height: 48px;
+   display: flex;
+   align-items: center;
 }
 </style>
