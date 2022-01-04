@@ -9,11 +9,6 @@ namespace MusicWeb.Services.Hubs
 {
     public class FriendsHub : Hub<IFriendsHub>
     {
-        public async Task SubscribeUserGroup(string userName)
-        {
-            await Groups.AddToGroupAsync(Context.ConnectionId, userName);
-        }
-
         public async Task SendFriendRequest(string userName, string friendUserName, string fullName)
         {
             await Clients.Group(friendUserName).SendFriendRequest(userName, friendUserName, fullName);
