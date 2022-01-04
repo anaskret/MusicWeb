@@ -49,9 +49,12 @@ namespace MusicWeb.Services.Services.Users
             var user = await _userManager.FindByIdAsync(entity.UserId);
             if (user == null)
                 throw new Exception("Friend Request was created, but notification was not sent as user was not found");
+            var friend = await _userManager.FindByIdAsync(entity.FriendId);
+            if (friend == null)
+                throw new Exception("Friend Request was created, but notification was not sent as friend was not found");
 
             var fullName = user.FirstName + " " + user.LastName;
-            await _hubContext.Clients.Group(entity.FriendId).SendFriendRequest(entity.UserId, entity.FriendId, fullName);
+            await _hubContext.Clients.Group(friend.UserName).SendFriendRequest(user.UserName, friend.UserName, fullName);
         }
 
         public async Task AcceptFriendRequestAsync(UserFriend entity)
@@ -67,7 +70,7 @@ namespace MusicWeb.Services.Services.Users
             await UpdateAsync(sender);
 
             var fullName = sender.Friend.FirstName + " " + sender.Friend.LastName;
-            await _hubContext.Clients.Group(sender.UserId).FriendRequestAccepted(sender.UserId, sender.FriendId, fullName);
+            await _hubContext.Clients.Group(sender.User.UserName).FriendRequestAccepted(sender.User.UserName, sender.Friend.UserName, fullName);
         }
 
         public async Task CreateAsync(UserFriend entity)
