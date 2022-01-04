@@ -56,7 +56,7 @@ export const auth = {
       state.userId = data.userId;
       state.userName = data.userName;
       this.commit("setCurrentUser");
-      Vue.prototype.$userHub.subscribeUserGroup(state.userName);
+      Vue.prototype.$friendsHub.subscribeUserGroup(state.userName);
     },
     loginFailure(state) {
       state.status.loggedIn = false;
