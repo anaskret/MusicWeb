@@ -63,12 +63,10 @@ namespace MusicWeb.Services.Services.Users
                 throw new ArgumentException("UserFriendRequest is already accepted");
 
             sender.IsAccepted = true;
-            entity.IsAccepted = true;
 
             await UpdateAsync(sender);
-            await CreateAsync(entity);
 
-            await _hubContext.Clients.Group(entity.FriendId).FriendRequestAccepted(entity.FriendId, entity.UserId);
+            await _hubContext.Clients.Group(sender.UserId).FriendRequestAccepted(sender.UserId, sender.FriendId);
         }
 
         public async Task CreateAsync(UserFriend entity)
@@ -78,13 +76,11 @@ namespace MusicWeb.Services.Services.Users
 
         public async Task DeleteAsync(string userId, string friendId)
         {
-            var entity = await _userFriendRepository.GetSingleAsync(prp => string.Equals(prp.UserId, userId) && string.Equals(prp.FriendId, friendId));
-            var secondEntity = await _userFriendRepository.GetSingleAsync(prp => string.Equals(prp.FriendId, userId) && string.Equals(prp.UserId, friendId));
+            var entity = await _userFriendRepository.GetSingleAsync(prp => string.Equals(prp.UserId, userId) && string.Equals(prp.FriendId, friendId)
+                                                                        || string.Equals(prp.FriendId, userId) && string.Equals(prp.UserId, friendId));
 
             if(entity != null)
                 await _userFriendRepository.DeleteAsync(entity);
-            if(secondEntity != null)
-                await _userFriendRepository.DeleteAsync(secondEntity);
         }
 
         public async Task DeleteRangeByUserIdAsync(string userId)
@@ -100,7 +96,10 @@ namespace MusicWeb.Services.Services.Users
 
         public async Task<IList<UserFriend>> GetAllByUserIdAsync(string userId)
         {
-            return await _userFriendRepository.GetAllAsync(entity => entity.Where(prp => string.Equals(prp.UserId, userId)).Include(prp => prp.Friend));
+            return await _userFriendRepository.GetAllAsync(entity => entity.Where(prp => string.Equals(prp.UserId, userId)
+                                                                  || string.Equals(prp.FriendId, userId))
+                                                                           .Include(prp => prp.Friend)
+                                                                           .Include(prp => prp.User));
         }
 
         public async Task<UserFriend> GetByIdAsync(int id)
