@@ -9,22 +9,19 @@ namespace MusicWeb.Services.Hubs
 {
     public class FriendsHub : Hub<IFriendsHub>
     {
-        public static List<string> GroupsTest { get; set; } = new List<string>();
-
-        public async Task SubscribeUserGroup(string userId)
+        public async Task SubscribeUserGroup(string userName)
         {
-            await Groups.AddToGroupAsync(Context.ConnectionId, "1");
-            GroupsTest.Add(userId);
+            await Groups.AddToGroupAsync(Context.ConnectionId, userName);
         }
 
-        public async Task SendFriendRequest(string userId, string friendId, string fullName)
+        public async Task SendFriendRequest(string userName, string friendUserName, string fullName)
         {
-            await Clients.Group("1").SendFriendRequest(userId, friendId, fullName);
+            await Clients.Group(friendUserName).SendFriendRequest(userName, friendUserName, fullName);
         }
 
-        public async Task FriendRequestAccepted(string senderId, string accepterId)
+        public async Task FriendRequestAccepted(string senderUserName, string accepterUserName, string fullName)
         {
-            await Clients.Group(senderId).FriendRequestAccepted(senderId, accepterId);
+            await Clients.Group(senderUserName).FriendRequestAccepted(senderUserName, accepterUserName, fullName);
         }
     }
 }

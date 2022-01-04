@@ -83,6 +83,10 @@ namespace MusicWeb.Admin.Areas.Identity.Pages.Account
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
                 var user = await _userManager.FindByNameAsync(Input.UserName);
+                if(user == null)
+                {
+                    ErrorMessage = "User doesn't exist";
+                }
                 if(user.Type != UserType.Admin)
                 {
                     ErrorMessage = "User doesn't have necessary permissions";

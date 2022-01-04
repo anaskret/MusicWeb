@@ -8,8 +8,8 @@ namespace MusicWeb.Services.Interfaces.Hubs
 {
     public interface IFriendsHub
     {
-        Task SendFriendRequest(string userId, string friendId, string fullName);
-        Task FriendRequestAccepted(string senderId, string accepterId);
-        Task SubscribeUserGroup(string userId);
+        Task SubscribeUserGroup(string userName);
+        Task SendFriendRequest(string userName, string friendUserName, string fullName);
+        Task FriendRequestAccepted(string senderUserName, string accepterUserName, string fullName);
     }
 }

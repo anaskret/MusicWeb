@@ -22,8 +22,8 @@ export default {
    },
    methods: {
        showFriendList(){
-         this.$friendsHub.subscribeUserGroup(this.account.id);
-         this.$friendsHub.sendFriendRequest(this.account.id, '70e79dd9-5f35-4688-b54a-ee080ebcae58', 'Grzgrz');
+         debugger;
+         this.$friendsHub.subscribeUserGroup(this.account.username);
          this.$emit("show-friend-list", true);
        }
    },
