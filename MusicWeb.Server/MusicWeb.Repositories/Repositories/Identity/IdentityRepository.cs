@@ -65,7 +65,8 @@ namespace MusicWeb.Repositories.Repositories.Identity
             {
                 UserId = user.Id,
                 Token = new JwtSecurityTokenHandler().WriteToken(token),
-                Expiration = token.ValidTo
+                Expiration = token.ValidTo,
+                UserName = user.UserName
             };
 
             return response;
