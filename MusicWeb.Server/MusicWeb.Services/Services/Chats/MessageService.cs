@@ -10,6 +10,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.SignalR;
 using MusicWeb.Services.Interfaces.Hubs;
 using MusicWeb.Services.Hubs;
+using Microsoft.AspNetCore.Identity;
+using MusicWeb.Models.Identity;
 
 namespace MusicWeb.Services.Services.Chats
 {
@@ -18,14 +20,17 @@ namespace MusicWeb.Services.Services.Chats
         private readonly IMessageRepository _messageRepository;
         private readonly IChatService _chatService;
         private readonly IHubContext<MessageHub, IMessageHub> _messageHub;
+        private readonly UserManager<ApplicationUser> _userManager;
 
         public MessageService(IMessageRepository messageRepository,
-            IChatService chatService, 
-            IHubContext<MessageHub, IMessageHub> messageHub)
+            IChatService chatService,
+            IHubContext<MessageHub, IMessageHub> messageHub, 
+            UserManager<ApplicationUser> userManager)
         {
             _messageRepository = messageRepository;
             _chatService = chatService;
             _messageHub = messageHub;
+            _userManager = userManager;
         }
 
         public async Task<Message> GetByIdAsync(int id)
@@ -59,7 +64,11 @@ namespace MusicWeb.Services.Services.Chats
             else
                 friendId = chatEntity.FriendId;
 
-            await _messageHub.Clients.Group(friendId).SendMessage(friendId, chatEntity.Id);
+            var friend = await _userManager.FindByIdAsync(friendId);
+            if (friend == null)
+                throw new Exception("Signal not sent as friend was not found");
+
+            await _messageHub.Clients.Group(friend.UserName).SendMessage(friend.UserName, chatEntity.Id);
         }
     }
 }
