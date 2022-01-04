@@ -10,9 +10,9 @@ namespace MusicWeb.Services.Hubs
 {
     public class MessageHub : Hub<IMessageHub>
     {
-        public async Task SendMessage(string friendId, int messageId)
+        public async Task SendMessage(string friendUserName, int messageId)
         {
-            await Clients.Group(friendId).SendMessage(friendId, messageId);
+            await Clients.Group(friendUserName).SendMessage(friendUserName, messageId);
         }
     }
 }
