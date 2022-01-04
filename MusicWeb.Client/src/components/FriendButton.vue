@@ -12,11 +12,19 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 export default {
    name: "FriendButton",
+   computed: {
+      ...mapGetters({
+         account: "current_user",
+      })
+   },
    methods: {
        showFriendList(){
-          this.$emit("show-friend-list", true);
+         this.$friendsHub.subscribeUserGroup(this.account.id);
+         this.$friendsHub.sendFriendRequest(this.account.id, '70e79dd9-5f35-4688-b54a-ee080ebcae58', 'Grzgrz');
+         this.$emit("show-friend-list", true);
        }
    },
 };

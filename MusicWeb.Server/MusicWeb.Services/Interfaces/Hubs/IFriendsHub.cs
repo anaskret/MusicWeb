@@ -10,5 +10,6 @@ namespace MusicWeb.Services.Interfaces.Hubs
     {
         Task SendFriendRequest(string userId, string friendId, string fullName);
         Task FriendRequestAccepted(string senderId, string accepterId);
+        Task SubscribeUserGroup(string userId);
     }
 }

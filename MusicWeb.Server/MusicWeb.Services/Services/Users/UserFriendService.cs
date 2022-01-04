@@ -51,7 +51,7 @@ namespace MusicWeb.Services.Services.Users
                 throw new Exception("Friend Request was created, but notification was not sent as user was not found");
 
             var fullName = user.FirstName + " " + user.LastName;
-            await _hubContext.Clients.All.SendFriendRequest(entity.UserId, entity.FriendId, fullName);
+            await _hubContext.Clients.Group(entity.FriendId).SendFriendRequest(entity.UserId, entity.FriendId, fullName);
         }
 
         public async Task AcceptFriendRequestAsync(UserFriend entity)
