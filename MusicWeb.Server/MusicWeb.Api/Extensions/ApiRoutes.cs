@@ -248,7 +248,7 @@ namespace MusicWeb.Api.Extensions
         public static class Messages
         {
             public const string Create = Root + "/messages";
-            public const string GetPagedByChatId = Root + "/messages/{id}/{page}/{size}";
+            public const string GetPagedByChatId = Root + "/messages/{id}/{page}/{pageSize}";
             public const string GetMessageById = Root + "/messages/{id}";
         }
     }

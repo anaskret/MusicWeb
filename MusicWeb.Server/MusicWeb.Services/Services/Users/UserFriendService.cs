@@ -66,7 +66,8 @@ namespace MusicWeb.Services.Services.Users
 
             await UpdateAsync(sender);
 
-            await _hubContext.Clients.Group(sender.UserId).FriendRequestAccepted(sender.UserId, sender.FriendId);
+            var fullName = sender.Friend.FirstName + " " + sender.Friend.LastName;
+            await _hubContext.Clients.Group(sender.UserId).FriendRequestAccepted(sender.UserId, sender.FriendId, fullName);
         }
 
         public async Task CreateAsync(UserFriend entity)

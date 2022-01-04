@@ -80,7 +80,7 @@ namespace MusicWeb.Services.Services.Albums
             var entity = await GetByIdAsync(id);
             entity.IsConfirmed = true;
 
-            await _albumRepository.DeleteAsync(entity);
+            await _albumRepository.UpdateAsync(entity);
         }
 
         public async Task<AlbumFullDataDto> GetFullAlbumDataByIdAsync(int id)
