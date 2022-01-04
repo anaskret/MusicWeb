@@ -11,7 +11,7 @@ namespace MusicWeb.Services.Hubs
     {
         public async Task SendFriendRequest(string userId, string friendId, string fullName)
         {
-            await Clients.Group(friendId).SendFriendRequest(userId, friendId, fullName);
+            await Clients.All.SendFriendRequest(userId, friendId, fullName);
         }
 
         public async Task FriendRequestAccepted(string senderId, string accepterId)

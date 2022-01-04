@@ -23,8 +23,8 @@ export default {
         .catch(console.error);
     };
 
-    connection.on("SendFriendRequest", (userId, friendId) => {
-      friendsHub.$emit("friend-request-received", userId, friendId);
+    connection.on("SendFriendRequest", (userId, friendId, fullName) => {
+      friendsHub.$emit("friend-request-received", userId, friendId, fullName);
     });
 
     let startedPromise = null;

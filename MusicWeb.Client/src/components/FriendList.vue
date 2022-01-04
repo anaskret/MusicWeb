@@ -30,44 +30,53 @@
                   class="rounded-circle"
                />
             </v-list-item-avatar>
-            <v-list-item-content>
-            <v-list-item-subtitle>
-                  <template v-if="user.receiver == account.id">   
-                     <v-btn fab small class="friend-btn mr-1">
-                        <font-awesome-icon
-                        class="icon"
-                        icon="check"
-                        size="1x"
-                        outlined
-                        color="green"
-                        ></font-awesome-icon>
+            <v-list-item-content class="open-chat-button">
+               <v-list-item-subtitle>
+                     <template v-if="user.receiver && !user.requestAccepted">   
+                        <v-btn fab small class="friend-btn mr-1">
+                           <font-awesome-icon
+                           class="icon"
+                           icon="check"
+                           size="1x"
+                           outlined
+                           color="green"
+                           ></font-awesome-icon>
+                        </v-btn>
+                        <v-btn fab small class="friend-btn mr-4" >
+                           <font-awesome-icon
+                           class="icon"
+                           icon="times"
+                           size="1x"
+                           outlined
+                           color="#bc0000"
+                           ></font-awesome-icon>
+                        </v-btn>
+                     </template>
+                     <template v-else-if="!user.receiver && !user.sender">
+                        <v-btn fab small class="friend-btn mr-4" @click="addFriend(user.id)">
+                           <font-awesome-icon
+                           class="icon"
+                           icon="plus"
+                           size="1x"
+                           outlined
+                           color="#485e7c"
+                           ></font-awesome-icon>
+                        </v-btn>
+                     </template>
+                     <template v-else-if="user.sender && !user.requestAccepted">
+                        <v-btn plain @click="openChat">
+                           <v-badge
+                              color="green"
+                              content="Pending"
+                           >
+                              <span :title="`${user.firstname} ${user.lastname}`">{{user.firstname}} {{user.lastname}}</span>
+                           </v-badge>
+                        </v-btn>
+                     </template>
+                     <v-btn v-if="!user.sender" plain @click="openChat">
+                        <span :title="`${user.firstname} ${user.lastname}`">{{user.firstname}} {{user.lastname}}</span>
                      </v-btn>
-                     <v-btn fab small class="friend-btn mr-4" >
-                        <font-awesome-icon
-                        class="icon"
-                        icon="times"
-                        size="1x"
-                        outlined
-                        color="#bc0000"
-                        ></font-awesome-icon>
-                     </v-btn>
-                  </template>
-                  <!-- <template v-else-if="!user.receiver && !user.sender"> -->
-                  <template v-else>
-                     <v-btn fab small class="friend-btn mr-4" @click="addFriend(user.id)">
-                        <font-awesome-icon
-                        class="icon"
-                        icon="plus"
-                        size="1x"
-                        outlined
-                        color="#485e7c"
-                        ></font-awesome-icon>
-                     </v-btn>
-                  </template>
-                  <v-btn plain @click="openChat">
-                     <span :title="`${user.firstname} ${user.lastname}`">{{user.firstname}} {{user.lastname}}</span>
-                  </v-btn>
-            </v-list-item-subtitle>
+               </v-list-item-subtitle>
             </v-list-item-content>
          </v-list-item>
          <v-divider></v-divider>
@@ -161,10 +170,16 @@ export default {
          getAccounts().then((response) => {
             this.users = response.filter(user => {
                if(user.id != this.account.id && this.account.id){
-                  const sended_request = friend_requests.find(request => request.friendId == user.id);
-                  if(sended_request){
-                      user.sender = sended_request.userId;
-                      user.receiver = sended_request.friendId;
+                  user.receiver = false;
+                  user.sender = false;
+                  const user_sent_request = friend_requests.find(request => request.createdByUserId == this.account.id);
+                  const friend_sent_request = friend_requests.find(request => request.createdByUserId != this.account.id && request.userId == this.account.id);
+                  if(user_sent_request){
+                     user.sender = true;
+                     user.requestAccepted = user_sent_request.isAccepted;
+                  } else if (!user_sent_request && friend_sent_request){
+                     user.receiver = true;
+                     user.requestAccepted = friend_sent_request.isAccepted;
                   }
                   return user;
                }
@@ -211,7 +226,7 @@ export default {
 </script>
 <style scoped>
 .friend-list-container{
-   width: 360px!important;
+   width: 400px!important;
 }
 * >>> .v-navigation-drawer__content{
    position: relative;
@@ -225,5 +240,8 @@ export default {
   width: 100%;
   bottom: 1rem;
   z-index: 1;
+}
+.open-chat-button{
+   height: 48px;
 }
 </style>
