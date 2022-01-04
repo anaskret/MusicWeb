@@ -17,9 +17,9 @@ export default {
     Vue.prototype.$userHub = userHub;
 
     //hub methods
-    userHub.subscribeUserGroup = (userId) => {
+    userHub.subscribeUserGroup = (userName) => {
       return startedPromise
-        .then(() => connection.invoke("SubscribeUserGroup", userId))
+        .then(() => connection.invoke("SubscribeUserGroup", userName))
         .catch(console.error);
     };
     let startedPromise = null;

@@ -22,8 +22,6 @@ export default {
    },
    methods: {
        showFriendList(){
-         debugger;
-         this.$friendsHub.subscribeUserGroup(this.account.username);
          this.$emit("show-friend-list", true);
        }
    },

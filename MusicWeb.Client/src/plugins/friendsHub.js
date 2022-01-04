@@ -17,12 +17,6 @@ export default {
     Vue.prototype.$friendsHub = friendsHub;
 
     //hub methods
-    friendsHub.subscribeUserGroup = (userId) => {
-        return startedPromise
-            .then(() => connection.invoke("SubscribeUserGroup", userId))
-            .catch(console.error);
-    };
-
     friendsHub.sendFriendRequest = (userId, friendId, fullName) => {
       return startedPromise
         .then(() => connection.invoke("SendFriendRequest", userId, friendId, fullName))
