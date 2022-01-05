@@ -40,11 +40,11 @@ namespace MusicWeb.Services.Services.Chats
 
         public async Task<List<Message>> GetMessagesByChatIdAsync(int chatId, int page = 0, int pageSize = int.MaxValue)
         {
-            var entities = await _messageRepository.GetAllAsync(obj => obj.Where(prp => prp.Id == chatId)
+            var entities = await _messageRepository.GetAllAsync(obj => obj.Where(prp => prp.ChatId == chatId)
                                                                           .Include(prp => prp.Sender)
                                                                           .Skip(page * pageSize)
                                                                           .Take(pageSize)
-                                                                          .OrderByDescending(prp => prp.SendDate));
+                                                                          .OrderBy(prp => prp.SendDate));
 
             return entities.ToList();
         }

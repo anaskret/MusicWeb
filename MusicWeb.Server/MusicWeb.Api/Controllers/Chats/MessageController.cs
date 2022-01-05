@@ -28,7 +28,7 @@ namespace MusicWeb.Api.Controllers.Chats
         {
             try
             {
-                var entites = await _messageService.GetMessagesByChatIdAsync(id);
+                var entites = await _messageService.GetMessagesByChatIdAsync(id, page, pageSize);
                 var models = _mapper.Map<List<MessageDto>>(entites);
                 return Ok(models);
             }
