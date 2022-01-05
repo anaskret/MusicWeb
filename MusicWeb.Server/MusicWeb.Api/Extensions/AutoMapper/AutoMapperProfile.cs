@@ -154,7 +154,9 @@ namespace MusicWeb.Api.Extensions.AutoMapper
             CreateMap<ChatDto, Chat>();
             CreateMap<Chat, ChatWithUserNamesDto>()
                 .ForMember(prp => prp.UserName, obj => obj.MapFrom(src => src.User.UserName))
-                .ForMember(prp => prp.FriendName, obj => obj.MapFrom(src => src.Friend.UserName));
+                .ForMember(prp => prp.FriendName, obj => obj.MapFrom(src => src.Friend.UserName))
+                .ForMember(prp => prp.FullName, obj => obj.MapFrom(src => src.User.FirstName + " " + src.User.LastName))
+                .ForMember(prp => prp.FriendFullName, obj => obj.MapFrom(src => src.Friend.FirstName + " " + src.Friend.LastName));
 
             CreateMap<BaseMessageDto, Message>();
             CreateMap<Message, MessageDto>()
