@@ -1,6 +1,6 @@
 <template>
   <v-container fluid grid-list-lg class="py-16">
-    <v-row justify="center">
+    <v-row justify="center" v-if="module_name != 'Ranking'">
       <v-col lg="8">
         <div class="mx-auto">
           <div v-if="module_name != 'Activities'">
@@ -12,6 +12,7 @@
                 transition="scale-transition"
                 offset-y
                 min-width="auto"
+                outlined
               >
                 <template v-slot:activator="{ on, attrs }">
                   <v-text-field
@@ -41,6 +42,7 @@
                 transition="scale-transition"
                 offset-y
                 min-width="auto"
+                outlined
               >
                 <template v-slot:activator="{ on, attrs }">
                   <v-text-field
@@ -69,6 +71,7 @@
               label="Sortuj"
               @change="setSelectedType"
               v-model="updateDefaultSortType"
+              outlined
             >
               <template v-slot:item="{ item, attrs, on }">
                 <v-list-item
@@ -86,6 +89,38 @@
             <v-btn @click="setDefaultFilters">Domyślne</v-btn>
             <v-btn @click="filterList">Filtruj/Sortuj</v-btn>
           </div>
+        </div>
+      </v-col>
+    </v-row>
+    <v-row justify="center" v-if="module_name == 'Ranking'">
+      <v-col lg="8">
+        <div>
+          <h1>Ranking Top 100 Artystów</h1>
+        </div>
+        <div>
+          <v-select
+              label="Typ rankingu"
+              outlined
+            >
+          <template v-slot:item="{ item, attrs, on }">
+                <v-list-item
+                  v-bind="attrs"
+                  v-on="on"
+                  style="background: #0d1117"
+                >
+                  <v-list-item-title
+                    :id="attrs['aria-labelledby']"
+                    v-text="item"
+                  ></v-list-item-title>
+                </v-list-item>
+              </template>
+          </v-select>
+        </div>
+        <div></div>
+      </v-col>
+    </v-row>
+        <v-row justify="center">
+      <v-col lg="8">
           <v-list v-if="module_name == 'Activities'">
             <v-list-item
               class="item"
@@ -97,6 +132,28 @@
               </v-list-item-content>
             </v-list-item>
           </v-list>
+          <div v-if="module_name == 'Ranking'">
+            <v-simple-table>
+            <thead>
+          <tr>
+            <th class="text-left">
+              Name
+            </th>
+            <th class="text-left">
+              Calories
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+               <tr v-for="(item, index) in items"
+              :key="index"
+        >
+          <td>{{ item.name }}</td>
+          <td>{{ item.description }}</td>
+        </tr>
+        </tbody>
+          </v-simple-table>
+          </div>
           <v-list v-else>
             <v-list-item-group v-model="show_list">
               <v-list-item v-for="(item, index) in items" :key="index">
@@ -118,7 +175,7 @@
               </v-list-item>
             </v-list-item-group>
           </v-list>
-        </div>
+        <!-- </div> -->
       </v-col>
     </v-row>
     <div

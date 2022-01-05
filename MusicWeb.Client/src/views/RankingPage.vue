@@ -1,5 +1,6 @@
 <template>
-  <RankingList
+  <InfiniteScrollList
+    :items="artists"
     :scroll_settings="scroll_settings"
     :getPagedItemList="getPagedArtistList"
     :filterList="filterList"
@@ -12,33 +13,47 @@
 
 <script>
 import useArtists from "@/modules/artists";
-import RankingList from "@/components/RankingList";
-import { mapMutations } from 'vuex';
+import InfiniteScrollList from "@/components/InfiniteScrollList";
 
 export default {
-  name: "ArtistListPage",
+  name: "Ranking",
   components: {
-    RankingList,
+    InfiniteScrollList,
   },
   data() {
     return {
       artists: [],
       filters: {},
       scroll_settings: {
-        totalItems: 100,
-        records_quantity: 10,
         page: 0,
+        records_quantity: 5,
+        default_sort_type: "Alfabetycznie malejąco",
+        sort_types: [
+          "Alfabetycznie malejąco",
+          "Alfabetycznie rosnąco",
+          "Po popularności malejąco",
+          "Po popularności rosnąco",
+        ],
+        selected_sort_type: 0,
       },
       intersection_active: true,
       redirect_module_name: "ArtistPage",
       last_search: "",
-      module_name: "ArtistList",
+      module_name: "Ranking",
     };
   },
   watch: {
-    artists() {
-      this.setRanking(this.artists);
-    }
+    "$store.state.searchingValue": function () {
+      debugger;
+      if (
+        this.last_search !== this.$store.state.searchingValue &&
+        this.$store.state.searchingValue
+      ) {
+        this.artists = [];
+        this.getPagedArtistList("", "", true);
+        this.$store.state.searchingValue = "";
+      }
+    },
   },
   methods: {
     parseDate(date) {
@@ -52,9 +67,6 @@ export default {
     setFilters(filters) {
       this.filters = filters;
     },
-    ...mapMutations([
-      'setRanking'
-    ]),
   },
 
   setup() {
@@ -65,7 +77,7 @@ export default {
         getPaged(
           this.scroll_settings.page,
           this.scroll_settings.records_quantity,
-          0,
+          this.scroll_settings.selected_sort_type,
           this.parseDate(this.filters.establishment_date_from),
           this.parseDate(this.filters.establishment_date_to),
           this.$store.state.searchingValue
