@@ -110,5 +110,17 @@ namespace MusicWeb.Repositories.Repositories.Identity
 
             return response;
         }
+
+        public async Task<string> ResetPasswordAsync(string userName, string newPassword)
+        {
+            var user = await _userManager.FindByNameAsync(userName);
+            if (user == null)
+                throw new ArgumentException("User not found!");
+
+            var resetToken = await _userManager.GeneratePasswordResetTokenAsync(user);
+            await _userManager.ResetPasswordAsync(user, resetToken, newPassword);
+
+            return user.Email;
+        }
     }
 }

@@ -129,6 +129,7 @@ namespace MusicWeb.Api.Extensions
         {
             public const string Register = Root + "/register";
             public const string Login = Root + "/login";
+            public const string PasswordReset = Root + "/passwordreset";
         }
 
         public static class Users

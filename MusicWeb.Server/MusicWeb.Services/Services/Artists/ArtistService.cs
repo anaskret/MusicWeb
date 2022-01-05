@@ -20,6 +20,7 @@ using MusicWeb.Services.Interfaces.Genres;
 using MusicWeb.Services.Interfaces.Origins;
 using MusicWeb.Services.Interfaces.Ratings;
 using MusicWeb.Services.Interfaces.Users;
+using MusicWeb.Services.Services.Identity;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -186,7 +187,11 @@ namespace MusicWeb.Services.Services.Artists
                 ArtistId = artistEntity.Id,
                 Type = UserType.Artist
             };
-            await _userManager.CreateAsync(userEntity);
+
+            var generator = new PasswordGeneratorService();
+            string password = generator.Generate();
+
+            await _userManager.CreateAsync(userEntity, password);
         }
 
         public async Task UpdateArtistAsync(Artist entity)

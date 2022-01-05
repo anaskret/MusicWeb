@@ -72,6 +72,8 @@ using MusicWeb.Services.Interfaces.Songs;
 using MusicWeb.Services.Interfaces.Hubs;
 using MusicWeb.Services.Interfaces.Chats;
 using MusicWeb.Services.Services.Chats;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using MusicWeb.Services.Services.Emails;
 
 namespace MusicWeb.Api
 {
@@ -261,6 +263,7 @@ namespace MusicWeb.Api
             services.AddTransient<IChatService, ChatService>();
             services.AddTransient<IMessageService, MessageService>();
 
+            services.AddTransient<IEmailSender, EmailService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
