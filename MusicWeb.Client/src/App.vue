@@ -20,7 +20,9 @@
         v-if="chatVisibility"
         @user-typing="userTyping"
         @close-chat="closeChat"
+        ref="chat_component" 
       />
+      <!-- Add calling getPagedMessages from chat or MessageDisplay -->
     </div>
     <v-main>
       <router-view @show-alert="showAlert" />
@@ -93,10 +95,10 @@ export default {
       this.$refs.friend_list_component.getFriendsList();
       this.showAlert(`${fullName} sent you an invitation.`, "success");
     },
-    prepareFriendRequestAcceptedAlert(userId, friendId) {
+    prepareFriendRequestAcceptedAlert(userId, friendId, fullName) {
       console.log(userId, friendId);
       this.$refs.friend_list_component.getFriendsList();
-      this.showAlert(`${friendId} accepted your invitation.`, "success");
+      this.showAlert(`${fullName} accepted your invitation.`, "success");
     },
     userTyping: function (e) {
       console.log("typing", e);

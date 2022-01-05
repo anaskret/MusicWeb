@@ -23,10 +23,5 @@ namespace MusicWeb.Services.Hubs
         {
             await Clients.Group(senderUserName).FriendRequestAccepted(senderUserName, accepterUserName, fullName);
         }
-
-        public async Task SubscribeUserGroup(string userName)
-        {
-            await Groups.AddToGroupAsync(Context.ConnectionId, userName);
-        }
     }
 }

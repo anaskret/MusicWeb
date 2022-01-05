@@ -74,7 +74,7 @@
                         </div>
                      </template>
                      <template v-if="(user.sender || user.receiver) && user.requestAccepted">
-                        <v-btn  plain @click="openChat">
+                        <v-btn  plain @click="openChat(user)">
                            <span :title="`${user.firstname} ${user.lastname}`">{{user.firstname}} {{user.lastname}}</span>
                         </v-btn>
                      </template>
@@ -82,30 +82,6 @@
                </v-list-item-subtitle>
             </v-list-item-content>
          </v-list-item>
-         <v-divider></v-divider>
-         
-         <!-- TODO accepted Friends list -->
-         <!-- <v-list-item v-for="(user, index) in visibleUsers" :key="index">
-            <v-list-item-avatar>
-               <v-img
-                  v-if="user.imagePath"
-                  :src="`${server_url}/${user.imagePath}`"
-                  :alt="`${user.firstname}`"
-                  class="rounded-circle"
-               />
-               <v-img
-                  v-else
-                  src="@/assets/defaut_user.png"
-                  :alt="`${user.firstname}`"
-                  class="rounded-circle"
-               />
-            </v-list-item-avatar>
-            <v-list-item-content>
-               <v-list-item-subtitle>
-                  <span :title="`${user.firstname} ${user.lastname}`">{{user.firstname}} {{user.lastname}}</span>
-               </v-list-item-subtitle>
-            </v-list-item-content>
-         </v-list-item> -->
         </v-list>
          <v-pagination
             v-model="page"
@@ -119,6 +95,7 @@
 
 <script>
 import useAccounts from "@/modules/accounts";
+import useChats from "@/modules/chats";
 import { mapGetters } from "vuex";
 export default {
    name: "FriendList",
@@ -153,7 +130,8 @@ export default {
       }
    },
    methods: {
-       openChat(){
+       openChat(user_id){
+         this.getChat(user_id);
          this.$emit("open-chat");
        },
    },
@@ -164,6 +142,7 @@ export default {
    },
    setup() {
       const { getAccounts, getFriends, addFriendRequest, acceptFriendRequest, discardFriendRequest } = useAccounts();
+      const { getChatByUserId, getPagedMessages } = useChats();
 
       const getFriendsList = async function () {
          let friend_requests = await getFriends(this.account.id).then((response) => response.data);
@@ -286,12 +265,34 @@ export default {
             }
          );
       }
+      const getChat = async function (friend){
+         let chat = await getChatByUserId(this.account.id).then((response) => 
+         {
+            let chats = response.data;
+            return chats.find(function (chat){
+               if(chat.friendName == friend.username && chat.userName == this.account.username)
+               {
+                  return chat;
+               }
+            }.bind(this));
+               
+         });
+         if(chat){
+            chat.id = 1; //TODO To Delete, get id from db
+            // TODO Add chat id to vuex
+            getPagedMessages(chat.id, 0, 7).then((response) => 
+            {
+               console.log(response); // TODO Fill chat
+            });
+         }
+      }
 
       return {
          getFriendsList,
          addFriend,
          acceptRequest,
-         discardRequest
+         discardRequest,
+         getChat
       }
    }
 };

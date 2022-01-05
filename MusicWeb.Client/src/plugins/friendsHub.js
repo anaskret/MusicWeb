@@ -38,8 +38,8 @@ export default {
         .catch(console.error);
     };
 
-    connection.on("FriendRequestAccepted", (userId, friendId) => {
-      friendsHub.$emit("friend-request-accepted", userId, friendId);
+    connection.on("FriendRequestAccepted", (userId, friendId, fullname) => {
+      friendsHub.$emit("friend-request-accepted", userId, friendId, fullname);
     });
 
     let startedPromise = null;
