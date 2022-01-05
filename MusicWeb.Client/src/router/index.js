@@ -76,6 +76,11 @@ const routes = [
     name: "SongReviewListPage",
     component: () => import("@/views/SongReviewListPage.vue"),
   },
+  {
+    path: "/ranking",
+    name: "RankingPage",
+    component: () => import("@/views/RankingPage.vue"),
+  },
 ];
 
 const router = new VueRouter({

@@ -12,6 +12,7 @@ export default new Vuex.Store({
     searchingValue: "",
     serverUrl: "http://localhost:5000",
     album: {},
+    rank_artists: [],
   },
   mutations: {
     setAlbum(state, album) {
@@ -20,6 +21,9 @@ export default new Vuex.Store({
     setSong(state, song) {
       state.song = song;
     },
+    setRanking(state, rank_artists) {
+      state.rank_artists = rank_artists;
+    },
   },
   getters: {
     album(state) {
@@ -27,6 +31,9 @@ export default new Vuex.Store({
     },
     song(state) {
       return state.song;
+    },
+    rankArtists(state) {
+      return state.rank_artists;
     },
   },
 });
