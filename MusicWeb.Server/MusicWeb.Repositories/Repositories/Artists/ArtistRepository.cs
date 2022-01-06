@@ -86,5 +86,6 @@ namespace MusicWeb.Repositories.Repositories.Artists
             var entities = await query.ToListAsync();
             return entities;
         }
+
     }
 }
