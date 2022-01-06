@@ -4,6 +4,8 @@
       :parent="artist"
       :show_observe_button="show_observe_button"
       :vote_title="vote_title"
+      :module_name="module_name"
+      @getRating="getArtistRating"
     />
     <InfoSection
       :parent="artist"
@@ -38,6 +40,7 @@ import InfoSection from "@/components/InfoSection.vue";
 import useArtists from "@/modules/artists";
 import useComments from "@/modules/comments";
 import useSongs from "@/modules/songs";
+import {mapMutations} from 'vuex';
 
 export default {
   name: "ArtistPage",
@@ -64,6 +67,16 @@ export default {
       description_title: "Biografia",
     };
   },
+    watch: {
+    artist() {
+      this.setArtist(this.artist);
+    }
+  },
+  methods: {
+    ...mapMutations([
+      'setArtist'
+    ]),
+  },
   created() {
     this.getArtist();
     this.getSongs();
@@ -71,13 +84,14 @@ export default {
   },
 
   setup() {
-    const { getArtistById } = useArtists();
+    const { getArtistById, getArtistRatingAverage } = useArtists();
     const { getCommentById } = useComments();
     const { getSongsByArtistId } = useSongs();
 
     const getArtist = function () {
       getArtistById(this.id).then((response) => {
         this.artist = response;
+        this.getArtistRating();
       });
     };
     const getComments = function () {
@@ -92,11 +106,20 @@ export default {
         response.forEach((song) => this.songs.push(song));
       });
     };
+        const getArtistRating = function () {
+      getArtistRatingAverage(this.id).then((response) => {
+        console.log(response);
+          this.$set(this.artist, 'rating', response.rating);
+          this.$set(this.artist, 'ratingsCount', response.ratingsCount);
+          this.$set(this.artist, 'favoriteCount', response.favoriteCount);
+     })
+    }
 
     return {
       getArtist,
       getComments,
       getSongs,
+      getArtistRating,
     };
   },
 };

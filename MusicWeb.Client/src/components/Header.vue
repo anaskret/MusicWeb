@@ -85,6 +85,8 @@ import useUserFavoriteAlbums from "@/modules/userFavoriteAlbums.js";
 import UserFavoriteAlbum from "@/models/UserFavoriteAlbum.js";
 import useUserFavoriteSongs from "@/modules/userFavoriteSongs.js";
 import UserFavoriteSong from "@/models/UserFavoriteSong.js";
+import useArtistRatings from "@/modules/artistRatings.js";
+import ArtistRating from "@/models/ArtistRating.js";
 
 export default {
   name: "Header",
@@ -119,6 +121,7 @@ export default {
       heart: {color: "gray"},
       albumRating: new AlbumRating(),
       songRating: new SongRating(),
+      artistRating: new ArtistRating(),
       id: this.$route.params.id, 
       user_id: localStorage.getItem("user-id"), 
       userFavoriteAlbum: new UserFavoriteAlbum(),
@@ -129,6 +132,7 @@ export default {
     
     const { addAlbumRating, getUserRating, updateUserRating } = useAlbumRatings();
     const { addSongRating, getSongUserRating, updateSongUserRating } = useSongRatings();
+    const { addArtistRating, getUserArtistRating, updateUserArtistRating } = useArtistRatings();
     const { getUserFavoriteAlbum, deleteUserFavoriteAlbum, addUserFavoriteAlbum } = useUserFavoriteAlbums();   
     const { getUserFavoriteSong, deleteUserFavoriteSong, addUserFavoriteSong } = useUserFavoriteSongs();   
     
@@ -164,6 +168,59 @@ export default {
       const updateAlbumUserRating = function (ratingId) {
       this.albumRating.rating = ratingId;
         updateUserRating(this.albumRating).then(
+          (response) => {
+            if (response.status == 200) {
+              this.$emit("getRating");
+              this.$emit("show-alert", "Review added.", "success");
+              
+            } else {
+              this.$emit(
+                "show-alert",
+                `Nie udało się dodać recenzji. Błąd ${response.status}`,
+                "error"
+              );
+            }
+          },
+          (error) => {
+            this.$emit(
+              "show-alert",
+              `Nie udało się dodać recenzji. ${error.response.status} ${error.response.data}`,
+              "error"
+            );
+          }
+        );
+      }
+const addNewArtistRating = function (ratingId) {
+      this.artistRating.userId = this.$store.state.auth.userId;
+      this.artistRating.artistId = this.$route.params.id;
+      this.artistRating.rating = ratingId;
+      
+        addArtistRating(this.artistRating).then(
+          (response) => {
+            if (response.status == 200) {
+              this.$emit("getRating");
+              this.$emit("show-alert", "Review added.", "success");
+            } else {
+              this.$emit(
+                "show-alert",
+                `Nie udało się dodać recenzji. Błąd ${response.status}`,
+                "error"
+              );
+            }
+          },
+          (error) => {
+            this.$emit(
+              "show-alert",
+              `Nie udało się dodać recenzji. ${error.response.status} ${error.response.data}`,
+              "error"
+            );
+          }
+        );
+      }
+
+      const updateArtistRating = function (ratingId) {
+      this.artistRating.rating = ratingId;
+        updateUserArtistRating(this.artistRating).then(
           (response) => {
             if (response.status == 200) {
               this.$emit("getRating");
@@ -257,6 +314,13 @@ export default {
         getSongUserRating(this.id, this.user_id).then((response) => {
           this.songRating = response;
           this.getDefaultStars(this.songRating.rating);
+          
+      });
+    };    
+    const getArtistRating = function () {
+        getUserArtistRating(this.id, this.user_id).then((response) => {
+          this.artistRating = response;
+          this.getDefaultStars(this.artistRating.rating);
           
       });
     };
@@ -373,6 +437,9 @@ export default {
       getUserSong,
       deleteFavoriteSong,
       addFavoriteSong,
+      addNewArtistRating,
+      updateArtistRating,
+      getArtistRating,
     };
   },
   methods: {
@@ -394,13 +461,25 @@ export default {
       }
       else if (this.module_name == "Song")
       {
-        if (this.songRating != null)
+        if (this.songRating.id > 0)
         {
           this.updateSongRating(ratingId);
         }
         else 
         {
           this.addNewSongRating(ratingId);
+        }
+      } 
+      else if (this.module_name == "Artist")
+      {
+        console.log(this.artistRating.id > 0);
+        if (this.artistRating.id > 0)
+        {
+          this.updateArtistRating(ratingId);
+        }
+        else 
+        {
+          this.addNewArtistRating(ratingId);
         }
       }
     },
@@ -432,6 +511,10 @@ export default {
       else if (this.module_name == "Song")
       {
         value = this.songRating.rating;
+      }
+      else if (this.module_name == "Artist")
+      {
+        value = this.artistRating.rating;
       }
       if (value == "")
       {
@@ -507,6 +590,11 @@ export default {
     {
       this.getSongRating();
       this.getUserSong();
+    }
+    else if (this.module_name == "Artist")
+    {
+      this.getArtistRating();
+      // this.getUserSong();
     }
   }
 };

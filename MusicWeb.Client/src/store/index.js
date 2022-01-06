@@ -12,6 +12,8 @@ export default new Vuex.Store({
     searchingValue: "",
     serverUrl: "http://localhost:5000",
     album: {},
+    artist: {},
+    song: {},
   },
   mutations: {
     setAlbum(state, album) {
@@ -20,6 +22,9 @@ export default new Vuex.Store({
     setSong(state, song) {
       state.song = song;
     },
+    setArtist(state, artist) {
+      state.artist = artist;
+    },
   },
   getters: {
     album(state) {
@@ -27,6 +32,9 @@ export default new Vuex.Store({
     },
     song(state) {
       return state.song;
+    },
+    artist(state) {
+      return state.artist;
     },
   },
 });

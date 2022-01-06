@@ -37,8 +37,16 @@ export default function useArtists() {
         });
     }
   };
+  const getArtistRatingAverage = function (id) {
+    if (id) {
+      return artistServices.getArtistRatingAverage(id).then((response) => {
+        return new Artist(response.data);
+      });
+    }
+  };
   return {
     getArtistById,
     getPaged,
+    getArtistRatingAverage,
   };
 }

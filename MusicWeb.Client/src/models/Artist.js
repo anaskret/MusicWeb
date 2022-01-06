@@ -12,6 +12,9 @@ export default class Artist {
   albums = [];
   members = [];
   genres = [];
+  rating = "";
+  ratingsCount = "";
+  favoriteCount = null;
 
   constructor($data) {
     if ($data) {
@@ -30,6 +33,9 @@ export default class Artist {
         ? $data.members.map((member) => member.name)
         : [];
       this.genres = $data.genres ? $data.genres.map((genre) => genre.name) : [];
+      this.rating = $data.rating ? $data.rating : 0;
+      this.ratingsCount = $data.ratingsCount ? $data.ratingsCount : 0;
+      this.favoriteCount = $data.favoriteCount ? $data.favoriteCount : 0;
     }
   }
 }

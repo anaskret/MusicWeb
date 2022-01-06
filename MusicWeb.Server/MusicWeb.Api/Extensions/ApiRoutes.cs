@@ -228,6 +228,7 @@ namespace MusicWeb.Api.Extensions
             public const string Delete = Root + "/artistratings/{id}";
             public const string GetById = Root + "/artistratings/{id}";
             public const string GetAll = Root + "/listartistratings/{id}";
+            public const string GetUserRating = Root + "/artistratings/{id}/user/{userId}";
         }
 
         public static class AlbumRatings
