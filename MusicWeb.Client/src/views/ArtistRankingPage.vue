@@ -13,6 +13,7 @@
 
 <script>
 import useArtists from "@/modules/artists";
+import useAlbums from "@/modules/albums";
 import InfiniteScrollList from "@/components/InfiniteScrollList";
 
 export default {
@@ -23,28 +24,20 @@ export default {
   data() {
     return {
       artists: [],
-      filters: {},
+      albums: [],
       scroll_settings: {
         page: 0,
-        records_quantity: 5,
-        default_sort_type: "Alfabetycznie malejąco",
-        sort_types: [
-          "Alfabetycznie malejąco",
-          "Alfabetycznie rosnąco",
-          "Po popularności malejąco",
-          "Po popularności rosnąco",
-        ],
-        selected_sort_type: 0,
+        records_quantity: 10,
+        default_ranking_type: "Po popularności malejąco",
+        selected_sort_type: 3,
       },
       intersection_active: true,
       redirect_module_name: "ArtistPage",
-      last_search: "",
-      module_name: "Ranking",
+      module_name: "ArtistRanking",
     };
   },
   watch: {
     "$store.state.searchingValue": function () {
-      debugger;
       if (
         this.last_search !== this.$store.state.searchingValue &&
         this.$store.state.searchingValue
@@ -70,23 +63,53 @@ export default {
   },
 
   setup() {
-    const { getPaged } = useArtists();
+    const { getPagedArtists } = useArtists();    
+    const { getPagedAlbums } = useAlbums();
+
 
     const getPagedArtistList = function (entries, observer, is_intersecting) {
       if (is_intersecting) {
-        getPaged(
+        getPagedArtists(
           this.scroll_settings.page,
           this.scroll_settings.records_quantity,
           this.scroll_settings.selected_sort_type,
           this.parseDate(this.filters.establishment_date_from),
-          this.parseDate(this.filters.establishment_date_to),
-          this.$store.state.searchingValue
+          this.parseDate(this.filters.establishment_date_to)
         )
           .then((response) => {
             if (response.length > 0) {
               response.forEach((item) => {
                 return this.artists.push(item);
               });
+            } else {
+              this.intersection_active = false;
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+        this.scroll_settings.page++;
+      }
+    };
+
+    const getPagedAlbumList = function (entries, observer, is_intersecting) {
+      if (is_intersecting) {
+        getPagedAlbums(
+          this.scroll_settings.page,
+          this.scroll_settings.records_quantity,
+          this.scroll_settings.selected_sort_type,
+          '1990-12-13T16:26:14.374Z',
+          // this.parseDate(this.filters.release_date_from),
+          this.parseDate(this.filters.release_date_to),
+          this.$store.state.searchingValue
+        )
+          .then((response) => {
+            debugger;
+            if (response.length > 0) {
+              response.forEach((item) => {
+                return this.albums.push(item);
+              });
+                console.log(this.albums);
               this.last_search = this.$store.state.searchingValue;
               this.$store.state.searchingValue = "";
             } else {
@@ -102,6 +125,7 @@ export default {
 
     return {
       getPagedArtistList,
+      getPagedAlbumList,
     };
   },
 };

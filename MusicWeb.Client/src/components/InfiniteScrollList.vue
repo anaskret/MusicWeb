@@ -1,6 +1,6 @@
 <template>
   <v-container fluid grid-list-lg class="py-16">
-    <v-row justify="center" v-if="module_name != 'Ranking'">
+    <v-row justify="center" v-if="module_name != 'ArtistRanking' || module_name !='AlbumRanking'">
       <v-col lg="8">
         <div class="mx-auto">
           <div v-if="module_name != 'Activities'">
@@ -92,7 +92,7 @@
         </div>
       </v-col>
     </v-row>
-    <v-row justify="center" v-if="module_name == 'Ranking'">
+    <v-row justify="center" v-if="module_name == 'ArtistRanking' || module_name == 'AlbumRating'">
       <v-col lg="8">
         <div>
           <h1>Ranking Top 100 Artystów</h1>
@@ -101,6 +101,9 @@
           <v-select
               label="Typ rankingu"
               outlined
+              :items="ranking_types"
+              v-model="defaultRanking"
+              @change="changeRankingType"
             >
           <template v-slot:item="{ item, attrs, on }">
                 <v-list-item
@@ -132,7 +135,7 @@
               </v-list-item-content>
             </v-list-item>
           </v-list>
-          <div v-if="module_name == 'Ranking'">
+          <div v-if="module_name == 'ArtistRanking' || module_name == 'AlbumRanking'">
             <v-simple-table>
             <thead>
           <tr>
@@ -211,6 +214,8 @@ export default {
     intersection_active: Boolean,
     redirect_module_name: String,
     module_name: String,
+    ranking_types:Array,
+    albums: Array,
   },
   components: {
     InfiniteScrolItem,
@@ -269,6 +274,22 @@ export default {
         this.$emit("set-filters", this.filters);
       this.updateDefaultSortType = "Alfabetycznie malejąco";
     },
+    changeRankingType() {
+      console.log(this.defaultRanking);
+      if (this.defaultRanking == "Artists")
+      {
+        this.$emit("getArtists");
+      }
+      else if (this.defaultRanking == "Albums")
+      {
+        this.$emit("getAlbums");
+        console.log(this.albums);
+      }
+      else if (this.defaultRanking == "Songs")
+      {
+console.log('a');
+      }
+    }
   },
 };
 </script>
