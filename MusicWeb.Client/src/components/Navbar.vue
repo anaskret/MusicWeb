@@ -342,7 +342,7 @@ export default {
       this.$router.push({ name: "Activities" });
     },
     redirectToRankList() {
-      this.$router.push({ name: "RankListPage" });
+      this.$router.push({ name: "RankingPage" });
     },
     prepareErrorArray(field) {
       const errors = [];
