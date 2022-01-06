@@ -11,5 +11,6 @@ namespace MusicWeb.Repositories.Interfaces.Identity
     {
         Task<LoginResponse> Login(LoginModel model);
         Task<RegisterResponse> Register(RegisterModel model);
+        Task<string> ResetPasswordAsync(string userName, string newPassword);
     }
 }

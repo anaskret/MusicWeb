@@ -47,5 +47,23 @@ namespace MusicWeb.Api.Controllers.Identity
                 return StatusCode(500, ex.Message);
             }
         }
+
+        [HttpPost(ApiRoutes.Identity.PasswordReset)]
+        public async Task<IActionResult> PasswordReset([FromBody] string userName)
+        {
+            try
+            {
+                await _identityService.ResetPasswordAsync(userName);
+                return Ok();
+            }
+            catch(ArgumentException)
+            {
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
     }
 }
