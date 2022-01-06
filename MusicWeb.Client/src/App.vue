@@ -20,7 +20,7 @@
         v-if="chatVisibility"
         @user-typing="userTyping"
         @close-chat="closeChat"
-        ref="chat_component" 
+        ref="chat_component"
       />
       <!-- Add calling getPagedMessages from chat or MessageDisplay -->
     </div>
@@ -28,20 +28,20 @@
       <router-view @show-alert="showAlert" />
     </v-main>
     <FriendButton
-        @show-friend-list="setDrawer"
-        v-if="!['Login', 'Register'].includes(this.$route.name)"
+      @show-friend-list="setDrawer"
+      v-if="!['Login', 'Register'].includes(this.$route.name)"
     />
-    <Button
-        @open-chat="openChat"
-        v-if="!['Login', 'Register'].includes(this.$route.name)"
+    <ChatButton
+      @open-chat="openChat"
+      v-if="!['Login', 'Register'].includes(this.$route.name)"
     />
     <FriendList
-        :drawer="drawer"
-        @update-drawer="setDrawer"
-        @show-alert="showAlert"
-        @open-chat="openChat"
-        ref="friend_list_component"
-        v-if="!['Login', 'Register'].includes(this.$route.name)"
+      :drawer="drawer"
+      @update-drawer="setDrawer"
+      @show-alert="showAlert"
+      @open-chat="openChat"
+      ref="friend_list_component"
+      v-if="!['Login', 'Register'].includes(this.$route.name)"
     />
   </v-app>
 </template>
@@ -49,7 +49,7 @@
 <script>
 import Navbar from "@/components/Navbar";
 import Chat from "@/components/chat/Chat";
-import Button from "@/components/chat/Button";
+import ChatButton from "@/components/chat/Button";
 import FriendList from "@/components/FriendList";
 import FriendButton from "@/components/FriendButton";
 export default {
@@ -57,9 +57,9 @@ export default {
   components: {
     Navbar,
     Chat,
-    Button,
+    ChatButton,
     FriendList,
-    FriendButton
+    FriendButton,
   },
   data() {
     return {
@@ -67,8 +67,8 @@ export default {
       alert_show: false,
       timeout: 2500,
       alert_type: "",
-      chatVisibility: true,
-      drawer: null
+      chatVisibility: false,
+      drawer: null,
     };
   },
   mounted() {
@@ -106,9 +106,9 @@ export default {
     closeChat() {
       this.chatVisibility = false;
     },
-    setDrawer(drawer){
-        this.drawer = drawer;
-    }
+    setDrawer(drawer) {
+      this.drawer = drawer;
+    },
   },
 };
 </script>

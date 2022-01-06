@@ -59,7 +59,7 @@ const faIcons = [
   faCheck,
   faTimes,
   faUserFriends,
-  faPlus
+  faPlus,
 ];
 faIcons.forEach((icon) => library.add(icon));
 
@@ -81,7 +81,6 @@ Vue.use(messageHub);
 Vue.use(friendsHub);
 Vue.use(VueExpandableImage);
 
-moment.locale("pl");
 Vue.prototype.moment = moment;
 
 /** Vue Filters Start */

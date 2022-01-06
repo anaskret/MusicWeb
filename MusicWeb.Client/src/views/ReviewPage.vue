@@ -90,17 +90,13 @@ export default {
       id: this.$route.params.id,
       review: {},
       module_name: this.$route.name,
-      
     };
   },
   methods: {},
   created() {
-    if (this.module_name == "AlbumReviewPage")
-    {
+    if (this.module_name == "AlbumReviewPage") {
       this.getAlbumReview();
-    }
-    else if (this.module_name == "SongReviewPage")
-    {
+    } else if (this.module_name == "SongReviewPage") {
       this.getSongReview();
     }
   },
@@ -113,7 +109,7 @@ export default {
     //   });
     // };
     const { getAlbumReviewFullData } = useAlbumReviews();
-    const {getSongReviewFullData} = useSongReviews();
+    const { getSongReviewFullData } = useSongReviews();
 
     const getAlbumReview = function () {
       getAlbumReviewFullData(this.id).then((response) => {
@@ -122,7 +118,7 @@ export default {
     };
 
     const getSongReview = function () {
-      getSongReviewFullData(this.id).then((response) =>{
+      getSongReviewFullData(this.id).then((response) => {
         this.review = response;
       });
     };

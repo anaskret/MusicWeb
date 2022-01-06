@@ -159,31 +159,27 @@ export default {
   methods: {
     addReviewDialog() {
       this.dialog = false;
-      if (this.module_name == "Album")
-      {
+      if (this.module_name == "Album") {
         this.addNewAlbumReview();
-      } 
-      else
-      {
+      } else {
         this.addNewSongReview();
       }
     },
     redirectToItem(itemId) {
       this.$router.push({
         name: `${this.redirect_module_name}`,
-        params: { id: itemId,
-        module_name: this.module_name },
+        params: { id: itemId, module_name: this.module_name },
       });
     },
   },
   setup() {
-      const { addSongReview } = useSongReviews();
-      const { addAlbumReview } = useAlbumReviews();
+    const { addSongReview } = useSongReviews();
+    const { addAlbumReview } = useAlbumReviews();
 
-      const addNewSongReview = function () {
+    const addNewSongReview = function () {
       this.songReview.userId = this.$store.state.auth.userId;
       this.songReview.songId = this.$route.params.id;
-      this.songReview.postDate = moment.utc().format();
+      this.songReview.postDate = moment().format();
       if (
         this.songReview.title == null ||
         this.songReview.title == "" ||
@@ -218,10 +214,10 @@ export default {
         );
       }
     };
-      const addNewAlbumReview = function () {
+    const addNewAlbumReview = function () {
       this.albumReview.userId = this.$store.state.auth.userId;
       this.albumReview.albumId = this.$route.params.id;
-      this.albumReview.postDate = moment.utc().format();
+      this.albumReview.postDate = moment().format();
       delete this.albumReview.album;
       delete this.albumReview.user;
       if (
@@ -263,8 +259,6 @@ export default {
       addNewAlbumReview,
     };
     // const { addReview } = useAlbumReviews();
-
-  
   },
 };
 </script>

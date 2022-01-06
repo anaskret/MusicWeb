@@ -67,40 +67,38 @@ export default function useAccounts() {
   };
 
   const getAccounts = function () {
-      return accountServices.getAccounts()
-      .then((response) => {
-        let res = response.data;
-        let friends = [];
-        res.forEach((friend) => {
-            friends.push(new Account(friend));
-        });
-        return friends;
+    return accountServices.getAccounts().then((response) => {
+      let res = response.data;
+      let friends = [];
+      res.forEach((friend) => {
+        friends.push(new Account(friend));
       });
-
+      return friends;
+    });
   };
 
   const getFriends = function (user_id) {
-      if(user_id){
-          return accountServices.getFriends(user_id);
-      }
+    if (user_id) {
+      return accountServices.getFriends(user_id);
+    }
   };
 
   const addFriendRequest = function (data) {
-      if(data){
-          return accountServices.addFriendRequest(data);
-      }
+    if (data) {
+      return accountServices.addFriendRequest(data);
+    }
   };
 
   const acceptFriendRequest = function (data) {
-      if(data){
-          return accountServices.acceptFriendRequest(data);
-      }
+    if (data) {
+      return accountServices.acceptFriendRequest(data);
+    }
   };
 
   const discardFriendRequest = function (user_id, friend_id) {
-      if(user_id && friend_id){
-          return accountServices.discardFriendRequest(user_id, friend_id);
-      }
+    if (user_id && friend_id) {
+      return accountServices.discardFriendRequest(user_id, friend_id);
+    }
   };
   return {
     loginAccount,
@@ -118,6 +116,6 @@ export default function useAccounts() {
     getFriends,
     addFriendRequest,
     acceptFriendRequest,
-    discardFriendRequest
+    discardFriendRequest,
   };
 }

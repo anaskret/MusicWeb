@@ -44,10 +44,7 @@ export default {
     );
   },
   getAccounts() {
-    return ApiService.authRequest(
-      `/users`,
-      ApiService.get
-    );
+    return ApiService.authRequest(`/users`, ApiService.get);
   },
   getFriends(user_id) {
     return ApiService.authRequest(
@@ -56,11 +53,7 @@ export default {
     );
   },
   addFriendRequest(data) {
-    return ApiService.authRequest(
-      `/userfriends`,
-      ApiService.post,
-      data
-    );
+    return ApiService.authRequest(`/userfriends`, ApiService.post, data);
   },
   acceptFriendRequest(data) {
     return ApiService.authRequest(

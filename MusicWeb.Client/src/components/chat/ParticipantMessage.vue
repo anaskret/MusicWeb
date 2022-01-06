@@ -10,7 +10,7 @@
     <div class="message-content">
       <template v-if="message.type == 'image'">
         <!-- <p class="message-username-image">{{getParticipantById(message.participantId).name}}</p> TODO get participant from db-->
-        <p class="message-username-image">Monisia</p>
+        <p class="message-username-image">{{participant.firstname}}</p>
         <div class="message-image">
           <expandable-image class="message-image-display" :src="message.src">
             <template v-slot:placeholder>
@@ -29,21 +29,20 @@
           class="message-text"
           :style="{ background: colors.message.others.bg }"
         >
-          <!-- <p class="message-username" :style="{color: colors.message.others.text}">{{getParticipantById(message.participantId).name}}</p> TODO get participant from db-->
           <p
             class="message-username"
             :style="{ color: colors.message.others.text }"
           >
-            Monisia
+            {{participant.firstname}}
           </p>
           <p :style="{ color: colors.message.others.text }">
             {{ message.content }}
           </p>
         </div>
       </template>
-      <div class="message-timestamp">
+      <div class="message-send_date">
         <template>
-          {{ message.timestamp }}
+          {{ message.send_date }}
         </template>
         <font-awesome-icon
           v-if="message.uploaded"
@@ -71,7 +70,7 @@ export default {
     },
   },
   computed: {
-    ...mapGetters(["messages", "current_user"]),
+    ...mapGetters(["messages", "current_user", "participant"]),
   },
 };
 </script>
@@ -97,7 +96,7 @@ export default {
     margin-right: 10px;
   }
 
-  .message-timestamp {
+  .message-send_date {
     display: flex;
     justify-content: flex-start;
     align-items: center;
@@ -106,7 +105,7 @@ export default {
     padding: 2px 7px;
     border-radius: 15px;
     margin: 0;
-    max-width: 50%;
+    max-width: 70%;
     font-size: 10px;
     color: #bdb8b8;
   }

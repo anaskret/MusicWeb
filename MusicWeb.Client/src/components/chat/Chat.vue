@@ -11,6 +11,8 @@ import Header from "./Header.vue";
 import MessageDisplay from "./MessageDisplay.vue";
 import Sender from "./Sender";
 import { mapMutations, mapGetters } from "vuex";
+import useChats from "@/modules/chats";
+import Message from "@/models/Message";
 
 export default {
   name: "Chat",
@@ -43,35 +45,44 @@ export default {
         submit_icon: "#d9d9d9",
         submit_image_icon: "#d9d9d9",
       },
-      participants: [
-        {
-          name: "Monisia",
-          id: 1,
-          profilePicture: "",
-        },
-      ],
     };
   },
   computed: {
     ...mapGetters({
       account: "current_user",
+      current_chat: "current_chat",
+      chat_page: "chat_page"
     }),
   },
   watch: {
-    participants() {
-      this.setParticipants(this.participants);
-    },
     placeholder() {
       this.setPlaceholder(this.placeholder);
     },
+    current_chat() {
+        this.getMessages();
+    }
   },
   created() {
-    this.setParticipants(this.participants);
     this.setPlaceholder(this.placeholder);
   },
   methods: {
-    ...mapMutations(["setParticipants", "setPlaceholder"]),
+    ...mapMutations(["setPlaceholder", "setMessages"]),
   },
+  setup() {
+    const { getPagedMessages } = useChats();
+  
+    const getMessages = function (){
+        getPagedMessages(this.current_chat.id, this.chat_page, 7).then((response) => 
+        {
+            let messages = response.map(message => new Message(message));
+            this.setMessages(messages);
+        });
+    }
+
+    return {
+        getMessages
+    }
+  }
 };
 </script>
 

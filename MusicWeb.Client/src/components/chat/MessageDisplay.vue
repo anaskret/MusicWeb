@@ -23,6 +23,8 @@
 import { mapGetters, mapMutations } from "vuex";
 import UserMessage from "./UserMessage.vue";
 import ParticipantMessage from "./ParticipantMessage.vue";
+import useChats from "@/modules/chats";
+import Message from "@/models/Message";
 export default {
   name: "MessageDisplay",
   components: {
@@ -42,71 +44,11 @@ export default {
       loading: false,
       messageSent: true,
       messageReceived: false,
-      toLoad: [
-        {
-          content: "TEST",
-          participantId: 1,
-          timestamp: {
-            year: 2016,
-            month: 3,
-            day: 5,
-            hour: 10,
-            minute: 10,
-            second: 3,
-            millisecond: 123,
-          },
-          uploaded: true,
-        },
-        {
-          content: "Test1",
-          participantId: "0162bff4-cd0c-4572-a066-51f6f5ce90a6",
-          timestamp: {
-            year: 2016,
-            month: 1,
-            day: 5,
-            hour: 19,
-            minute: 10,
-            second: 3,
-            millisecond: 123,
-          },
-          uploaded: true,
-        },
-        {
-          type: "image",
-          src: "https://localhost:5001/Users/6bc841d3-b7d7-4381-81b1-1d6fd45fc33d.jpg",
-          preview:
-            "https://localhost:5001/Users/6bc841d3-b7d7-4381-81b1-1d6fd45fc33d.jpg",
-          participantId: "0162bff4-cd0c-4572-a066-51f6f5ce90a6",
-          timestamp: {
-            year: 2012,
-            month: 3,
-            day: 7,
-            hour: 20,
-            minute: 10,
-            second: 3,
-            millisecond: 123,
-          },
-          uploaded: true,
-        },
-        {
-          content: "TEST",
-          participantId: 1,
-          timestamp: {
-            year: 2016,
-            month: 3,
-            day: 5,
-            hour: 10,
-            minute: 10,
-            second: 3,
-            millisecond: 123,
-          },
-          uploaded: true,
-        },
-      ],
+      messages_ready: false
     };
   },
   computed: {
-    ...mapGetters(["messages", "current_user"]),
+    ...mapGetters(["messages", "current_user", "current_chat", "chat_page"]),
   },
   mounted() {
     this.scrollDown();
@@ -123,10 +65,10 @@ export default {
       if (
         this.updateScroll ||
         (this.messageSent &&
-          this.messages[this.messages.length - 1].participantId ==
+          this.messages[this.messages.length - 1].participant_id ==
             this.current_user.id) ||
         (this.messageReceived &&
-          this.messages[this.messages.length - 1].participantId !=
+          this.messages[this.messages.length - 1].participant_id !=
             this.current_user.id)
       ) {
         this.scrollDown();
@@ -137,34 +79,29 @@ export default {
     }
   },
   methods: {
-    ...mapMutations(["loadOldMessages"]),
+    ...mapMutations(["loadOldMessages", "incrementChatPage"]),
     messageCompare(message1, message2) {
       if (!message2 || !message1) {
         return message1 === message2;
       }
-      let participant_equal = message1.participantId == message2.participantId;
+      let participant_equal = message1.participant_id == message2.participant_id;
       let content_equal = message1.content == message2.content;
-      let timestamp_equal =
-        message1.timestamp.valueOf() === message2.timestamp.valueOf();
+      let send_date_equal =
+        message1.send_date.valueOf() === message2.send_date.valueOf();
 
-      return participant_equal && content_equal && timestamp_equal;
+      return participant_equal && content_equal && send_date_equal;
     },
     updateScrollState({ target: { scrollTop, clientHeight, scrollHeight } }) {
       this.updateScroll = scrollTop + clientHeight >= scrollHeight;
 
-      if (this.toLoad.length > 0 && scrollTop < 20) {
+      if (this.messages_ready && scrollTop < 20) {
         this.loading = true;
         this.loadMoreMessages();
       }
     },
     loadMoreMessages() {
-      setTimeout(() => {
-        this.toLoad.forEach((message) => {
-          this.loadOldMessages(message);
-          this.toLoad = [];
-          this.loading = false;
-        });
-      }, 1000);
+        this.incrementChatPage();
+        this.getMessages();
     },
     scrollDown() {
       let scrollDiv = this.$refs.displayMessageContainer;
@@ -173,6 +110,34 @@ export default {
       this.updateScroll = false;
     },
   },
+  watch: {
+      lastMessage(){
+          this.messages_ready = true;
+      }
+  },
+  setup() {
+    const { getPagedMessages } = useChats();
+
+    const getMessages = function (){
+        getPagedMessages(this.current_chat.id, this.chat_page, 7).then((response) => 
+        {
+            if(response.length != 0){
+                let messages = response.map(message => new Message(message));
+                messages.forEach((message) => {
+                    this.loadOldMessages(message);
+                    this.loading = false;
+                });
+            } else {
+                this.loading = false;
+                this.messages_ready = false;8
+            }
+        });
+    }
+
+    return {
+        getMessages
+    }
+  }
 };
 </script>
 

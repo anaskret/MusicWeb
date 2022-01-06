@@ -2,8 +2,8 @@
   <div class="header-container" :style="{ background: colors.header.bg }">
     <div class="title">
       <p class="paticipants">
-        <span v-for="participant in participants" :key="participant.id">
-          {{ participant.name }}
+        <span>
+          {{ participant.firstname }}
         </span>
       </p>
     </div>
@@ -31,7 +31,7 @@ export default {
   computed: {
     ...mapGetters({
       account: "current_user",
-      participants: "participants",
+      participant: "participant",
     }),
   },
   methods: {

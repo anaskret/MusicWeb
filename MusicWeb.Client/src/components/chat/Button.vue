@@ -14,17 +14,17 @@
 <script>
 import { mapGetters } from "vuex";
 export default {
-   name: "Button",
-   computed: {
-      ...mapGetters({
-         account: "current_user",
-      }),
-   },
-   methods: {
-      openChat() {
-         this.$emit("open-chat");
-      },
-   },
+  name: "Button",
+  computed: {
+    ...mapGetters({
+      account: "current_user",
+    }),
+  },
+  methods: {
+    openChat() {
+      this.$emit("open-chat");
+    },
+  },
 };
 </script>
 <style scoped>

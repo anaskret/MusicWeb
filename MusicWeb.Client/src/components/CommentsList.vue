@@ -145,7 +145,7 @@ export default {
 
     const addComment = function () {
       this.loading = true;
-      this.comment.postDate = moment.utc().format();
+      this.comment.postDate = moment().format();
       this.comment.artistId = this.artistId;
       this.comment.userId = this.$store.state.auth.userId;
       if (this.comment.content == null || this.comment.content == "") {

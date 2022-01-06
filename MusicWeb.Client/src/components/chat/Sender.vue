@@ -13,7 +13,7 @@
       <font-awesome-icon :color="colors.submit_icon" icon="paper-plane" />
     </div>
     <!-- TODO Not clicable all item only image -->
-    <v-file-input 
+    <v-file-input
       class="send-icon"
       hide-input
       v-model="image_input"
@@ -61,8 +61,8 @@ export default {
       if (input_text && text_not_empty.test(input_text) && text_matched) {
         let message = new Message({
           content: text_matched[1],
-          participantId: this.account.id,
-          timestamp: moment.utc().format(),
+          participant_id: this.account.id,
+          send_date: moment().format(),
           uploaded: false,
           type: "text",
         });
@@ -75,8 +75,8 @@ export default {
         preview: URL.createObjectURL(file),
         src: "",
         content: "image",
-        participantId: this.account.id,
-        timestamp: moment.utc().format(),
+        participant_id: this.account.id,
+        send_date: moment().format(),
         uploaded: false,
         viewed: false,
       });

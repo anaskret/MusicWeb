@@ -25,9 +25,9 @@
           </p>
         </div>
       </template>
-      <div class="message-timestamp">
+      <div class="message-send_date">
         <template>
-          {{ message.timestamp }}
+          {{ message.send_date }}
         </template>
         <font-awesome-icon
           v-if="message.uploaded"
@@ -89,7 +89,7 @@ export default {
     margin-left: 10px;
   }
 
-  .message-timestamp {
+  .message-send_date {
     display: flex;
     justify-content: flex-end;
     align-items: center;
@@ -99,7 +99,7 @@ export default {
     padding: 2px 7px;
     border-radius: 15px;
     margin: 0;
-    max-width: 50%;
+    max-width: 70%;
     font-size: 10px;
     color: #bdb8b8;
   }

@@ -18,13 +18,15 @@ export default {
 
     //hub methods
     friendsHub.subscribeUserGroup = (userName) => {
-        return startedPromise
-          .then(() => connection.invoke("SubscribeUserGroup", userName))
-          .catch(console.error);
-      };
+      return startedPromise
+        .then(() => connection.invoke("SubscribeUserGroup", userName))
+        .catch(console.error);
+    };
     friendsHub.sendFriendRequest = (userId, friendId, fullName) => {
       return startedPromise
-        .then(() => connection.invoke("SendFriendRequest", userId, friendId, fullName))
+        .then(() =>
+          connection.invoke("SendFriendRequest", userId, friendId, fullName)
+        )
         .catch(console.error);
     };
 
@@ -34,7 +36,9 @@ export default {
 
     friendsHub.friendRequestAccepted = (userId, friendId) => {
       return startedPromise
-        .then(() => connection.invoke("FriendRequestAccepted", userId, friendId))
+        .then(() =>
+          connection.invoke("FriendRequestAccepted", userId, friendId)
+        )
         .catch(console.error);
     };
 

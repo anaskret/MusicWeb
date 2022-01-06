@@ -269,7 +269,7 @@ export default {
     const { addAccountPost } = useAccounts();
 
     const addPost = function () {
-      this.post.createDate = moment.utc().format();
+      this.post.createDate = moment().format();
       this.post.posterId = this.$store.state.auth.userId;
       if (this.post.text == null || this.post.text == "") {
         this.$emit("show-alert", "Post cannot be empty.", "error");

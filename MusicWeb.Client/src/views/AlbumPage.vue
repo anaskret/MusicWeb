@@ -14,7 +14,7 @@
       :list_title="list_title"
       :list_link_title="list_link_title"
     />
-    {{album.artist.name}}
+    {{ album.artist.name }}
     <ReviewList
       :reviews="reviews_desc"
       :refreshComments="getAlbumData"

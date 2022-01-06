@@ -1,22 +1,24 @@
 export default class Message {
-  type = "";
+  chat_id = null;
+  send_date = "";
+  participant_id = null;
+  participant_name = "";
   content = "";
+  type = "";
   src = "";
   preview = "";
-  participantId = null;
-  timestamp = "";
   uploaded = false;
-  viewed = false;
   constructor($data) {
     if ($data) {
-      this.type = $data.type;
-      this.content = $data.content;
+      this.chat_id = $data.chatId;
+      this.send_date = $data.sendDate;
+      this.participant_id = $data.senderId;
+      this.participant_name = $data.senderName;
+      this.content = $data.text;
+      this.type = $data.type ? $data.type : "text";
       this.src = $data.src;
       this.preview = $data.preview;
-      this.participantId = $data.participantId;
-      this.timestamp = $data.timestamp;
       this.uploaded = $data.uploaded;
-      this.viewed = $data.viewed;
     }
   }
 }

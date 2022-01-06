@@ -1,30 +1,30 @@
 <template>
-    <div class="friend-button-container">
-        <v-btn fab class="friend-btn" @click.stop="showFriendList">
-            <font-awesome-icon
-            class="icon pa-1"
-            icon="user-friends"
-            size="2x"
-            outlined
-            ></font-awesome-icon>
-        </v-btn>
-    </div>
+  <div class="friend-button-container">
+    <v-btn fab class="friend-btn" @click.stop="showFriendList">
+      <font-awesome-icon
+        class="icon pa-1"
+        icon="user-friends"
+        size="2x"
+        outlined
+      ></font-awesome-icon>
+    </v-btn>
+  </div>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
 export default {
-   name: "FriendButton",
-   computed: {
-      ...mapGetters({
-         account: "current_user",
-      })
-   },
-   methods: {
-       showFriendList(){
-         this.$emit("show-friend-list", true);
-       }
-   },
+  name: "FriendButton",
+  computed: {
+    ...mapGetters({
+      account: "current_user",
+    }),
+  },
+  methods: {
+    showFriendList() {
+      this.$emit("show-friend-list", true);
+    },
+  },
 };
 </script>
 <style scoped>

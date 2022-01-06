@@ -96,7 +96,7 @@
 <script>
 import useAccounts from "@/modules/accounts";
 import useChats from "@/modules/chats";
-import { mapGetters } from "vuex";
+import { mapGetters, mapMutations } from "vuex";
 export default {
    name: "FriendList",
    data() {
@@ -134,6 +134,10 @@ export default {
          this.getChat(user_id);
          this.$emit("open-chat");
        },
+        ...mapMutations([
+            "setCurrentChat",
+            "setParticipant"
+        ])
    },
    watch: {
       account(){
@@ -142,7 +146,7 @@ export default {
    },
    setup() {
       const { getAccounts, getFriends, addFriendRequest, acceptFriendRequest, discardFriendRequest } = useAccounts();
-      const { getChatByUserId, getPagedMessages } = useChats();
+      const { getChatByUserId } = useChats();
 
       const getFriendsList = async function () {
          let friend_requests = await getFriends(this.account.id).then((response) => response.data);
@@ -278,12 +282,8 @@ export default {
                
          });
          if(chat){
-            chat.id = 1; //TODO To Delete, get id from db
-            // TODO Add chat id to vuex
-            getPagedMessages(chat.id, 0, 7).then((response) => 
-            {
-               console.log(response); // TODO Fill chat
-            });
+             this.setCurrentChat(chat); 
+            this.setParticipant(friend);
          }
       }
 
