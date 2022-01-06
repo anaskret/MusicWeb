@@ -50,6 +50,7 @@ namespace MusicWeb.DataAccess.Data
         public DbSet<PostLike> PostLike{ get; set; }
         public DbSet<PostComment> PostComment{ get; set; }
         public DbSet<AlbumRating> AlbumRating { get; set; }
+        public DbSet<ArtistRating> ArtistRating { get; set; }
 
         //Keyless
         public DbSet<ArtistRatingAverage> ArtistRatingAverage { get; set; }
