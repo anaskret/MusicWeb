@@ -3,7 +3,7 @@ export default class Message {
   send_date = "";
   participant_id = null;
   participant_name = "";
-  content = "";
+  text = "";
   type = "";
   src = "";
   preview = "";
@@ -14,7 +14,7 @@ export default class Message {
       this.send_date = $data.sendDate;
       this.participant_id = $data.senderId;
       this.participant_name = $data.senderName;
-      this.content = $data.text;
+      this.text = $data.text;
       this.type = $data.type ? $data.type : "text";
       this.src = $data.src;
       this.preview = $data.preview;

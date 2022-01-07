@@ -9,6 +9,15 @@
       <div class="message-loading"></div>
     </div>
     <div
+      v-if="messages.length == 0"
+      class="message-container"
+    >  
+      <div class="empty-messages-placeholder">
+        <p>Send your first message!</p>
+      </div>
+    </div>
+    <div
+      v-else
       v-for="(message, index) in messages"
       :key="index"
       class="message-container"
@@ -24,7 +33,6 @@ import { mapGetters, mapMutations } from "vuex";
 import UserMessage from "./UserMessage.vue";
 import ParticipantMessage from "./ParticipantMessage.vue";
 import useChats from "@/modules/chats";
-import Message from "@/models/Message";
 export default {
   name: "MessageDisplay",
   components: {
@@ -85,7 +93,7 @@ export default {
         return message1 === message2;
       }
       let participant_equal = message1.participant_id == message2.participant_id;
-      let content_equal = message1.content == message2.content;
+      let content_equal = message1.text == message2.text;
       let send_date_equal =
         message1.send_date.valueOf() === message2.send_date.valueOf();
 
@@ -122,11 +130,9 @@ export default {
         getPagedMessages(this.current_chat.id, this.chat_page, 7).then((response) => 
         {
             if(response.length != 0){
-                let messages = response.map(message => new Message(message));
-                messages.forEach((message) => {
-                    this.loadOldMessages(message);
-                    this.loading = false;
-                });
+                let messages = response;
+                this.loadOldMessages(messages);
+                this.loading = false;
             } else {
                 this.loading = false;
                 this.messages_ready = false;8
@@ -227,6 +233,10 @@ export default {
     margin: 10px 10px 0px 10px;
     font-size: 12px;
     font-weight: bold;
+  }
+  .empty-messages-placeholder{
+      display: flex;
+      justify-content: center;
   }
 }
 

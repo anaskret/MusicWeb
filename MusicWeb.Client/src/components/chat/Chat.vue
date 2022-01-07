@@ -12,7 +12,6 @@ import MessageDisplay from "./MessageDisplay.vue";
 import Sender from "./Sender";
 import { mapMutations, mapGetters } from "vuex";
 import useChats from "@/modules/chats";
-import Message from "@/models/Message";
 
 export default {
   name: "Chat",
@@ -74,8 +73,7 @@ export default {
     const getMessages = function (){
         getPagedMessages(this.current_chat.id, this.chat_page, 7).then((response) => 
         {
-            let messages = response.map(message => new Message(message));
-            this.setMessages(messages);
+            this.setMessages(response);
         });
     }
 

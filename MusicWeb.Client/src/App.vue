@@ -22,7 +22,6 @@
         @close-chat="closeChat"
         ref="chat_component"
       />
-      <!-- Add calling getPagedMessages from chat or MessageDisplay -->
     </div>
     <v-main>
       <router-view @show-alert="showAlert" />
@@ -52,6 +51,8 @@ import Chat from "@/components/chat/Chat";
 import ChatButton from "@/components/chat/Button";
 import FriendList from "@/components/FriendList";
 import FriendButton from "@/components/FriendButton";
+import { mapGetters, mapMutations } from "vuex";
+import useChats from "@/modules/chats";
 export default {
   name: "App",
   components: {
@@ -71,6 +72,9 @@ export default {
       drawer: null,
     };
   },
+  computed: {
+    ...mapGetters(["current_chat"]),
+  },
   mounted() {
     this.$friendsHub.$on(
       "friend-request-received",
@@ -80,8 +84,13 @@ export default {
       "friend-request-accepted",
       this.prepareFriendRequestAcceptedAlert
     );
+    this.$messageHub.$on(
+      "friend-sent-message",
+      this.refreshChat
+    );
   },
   methods: {
+    ...mapMutations(["setMessages"]),
     showAlert(message, type) {
       this.alert_show = true;
       this.alert_message = message;
@@ -100,6 +109,10 @@ export default {
       this.$refs.friend_list_component.getFriendsList();
       this.showAlert(`${fullName} accepted your invitation.`, "success");
     },
+    refreshChat(friendUsername, chatId){
+      console.log(friendUsername, chatId)
+      this.getMessages(chatId);
+    },
     userTyping: function (e) {
       console.log("typing", e);
     },
@@ -110,6 +123,20 @@ export default {
       this.drawer = drawer;
     },
   },
+  setup() {
+    const { getPagedMessages } = useChats();
+  
+    const getMessages = function (chat_id, chat_page = 0){
+        getPagedMessages(chat_id, chat_page, 7).then((response) => 
+        {
+            this.setMessages(response);
+        });
+    }
+
+    return {
+        getMessages
+    }
+  }
 };
 </script>
 

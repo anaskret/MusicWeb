@@ -42,9 +42,9 @@ namespace MusicWeb.Services.Services.Chats
         {
             var entities = await _messageRepository.GetAllAsync(obj => obj.Where(prp => prp.ChatId == chatId)
                                                                           .Include(prp => prp.Sender)
+                                                                          .OrderByDescending(prp => prp.SendDate)
                                                                           .Skip(page * pageSize)
-                                                                          .Take(pageSize)
-                                                                          .OrderByDescending(prp => prp.SendDate));
+                                                                          .Take(pageSize));
 
             return entities.ToList();
         }

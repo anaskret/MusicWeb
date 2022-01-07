@@ -21,7 +21,7 @@
           :style="{ background: colors.message.myself.bg }"
         >
           <p :style="{ color: colors.message.myself.text }">
-            {{ message.content }}
+            {{ message.text }}
           </p>
         </div>
       </template>
@@ -39,8 +39,15 @@
     </div>
     <div class="thumb-img-container">
       <v-img
+        v-if="current_user.imagePath"
         class="user-thumb"
         :src="`${server_url}/${current_user.imagePath}`"
+      >
+      </v-img>
+      <v-img
+        v-else
+        class="user-thumb"
+        :src="require(`@/assets/unknownUser.svg`)"
       >
       </v-img>
     </div>

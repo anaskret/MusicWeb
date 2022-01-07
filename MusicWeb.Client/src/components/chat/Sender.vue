@@ -25,7 +25,6 @@
 </template>
 
 <script>
-import Message from "@/models/Message";
 import { mapMutations, mapGetters } from "vuex";
 import moment from "moment";
 export default {
@@ -46,6 +45,7 @@ export default {
     ...mapGetters({
       account: "current_user",
       placeholder: "placeholder",
+      current_chat: "current_chat"
     }),
   },
   methods: {
@@ -59,18 +59,16 @@ export default {
       const text_not_empty = /[^\s]+/i;
       const text_matched = input_text.match(/^\s*((.|\n)+?)\s*$/i);
       if (input_text && text_not_empty.test(input_text) && text_matched) {
-        let message = new Message({
-          content: text_matched[1],
-          participant_id: this.account.id,
-          send_date: moment().format(),
-          uploaded: false,
-          type: "text",
-        });
+        let message = {
+          chatId: this.current_chat.id,
+          senderId: this.account.id,
+          text: text_matched[1],
+        };
         this.newMessage(message);
       }
     },
     async sendImage(file) {
-      let message = new Message({
+      let message = {
         type: "image",
         preview: URL.createObjectURL(file),
         src: "",
@@ -79,7 +77,7 @@ export default {
         send_date: moment().format(),
         uploaded: false,
         viewed: false,
-      });
+      };
       this.newMessage(message);
     },
   },

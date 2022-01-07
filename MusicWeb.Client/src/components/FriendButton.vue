@@ -23,6 +23,8 @@ export default {
   methods: {
     showFriendList() {
       this.$emit("show-friend-list", true);
+      this.$messageHub.subscribeUserGroup(this.account.username);
+      this.$friendsHub.subscribeUserGroup(this.account.username);
     },
   },
 };

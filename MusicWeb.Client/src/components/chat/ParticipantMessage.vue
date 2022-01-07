@@ -2,6 +2,13 @@
   <div class="participant-message-container">
     <div class="thumb-img-container">
       <v-img
+        v-if="participant.imagePath"
+        class="participant-thumb"
+        :src="`${server_url}/${participant.imagePath}`"
+      >
+      </v-img>
+      <v-img
+        v-else
         class="participant-thumb"
         :src="require(`@/assets/unknownUser.svg`)"
       >
@@ -36,7 +43,7 @@
             {{participant.firstname}}
           </p>
           <p :style="{ color: colors.message.others.text }">
-            {{ message.content }}
+            {{ message.text }}
           </p>
         </div>
       </template>
@@ -70,7 +77,7 @@ export default {
     },
   },
   computed: {
-    ...mapGetters(["messages", "current_user", "participant"]),
+    ...mapGetters(["messages", "current_user", "participant", "server_url"]),
   },
 };
 </script>

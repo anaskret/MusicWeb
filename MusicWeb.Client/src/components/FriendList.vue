@@ -130,8 +130,8 @@ export default {
       }
    },
    methods: {
-       openChat(user_id){
-         this.getChat(user_id);
+       async openChat(user_id){
+         await this.getChat(user_id);
          this.$emit("open-chat");
        },
         ...mapMutations([
@@ -146,7 +146,7 @@ export default {
    },
    setup() {
       const { getAccounts, getFriends, addFriendRequest, acceptFriendRequest, discardFriendRequest } = useAccounts();
-      const { getChatByUserId } = useChats();
+      const { getChatByUserId, createNewChat } = useChats();
 
       const getFriendsList = async function () {
          let friend_requests = await getFriends(this.account.id).then((response) => response.data);
@@ -277,6 +277,13 @@ export default {
                if(chat.friendName == friend.username && chat.userName == this.account.username)
                {
                   return chat;
+               } else if (chat.friendName == this.account.username && chat.userName == friend.username){
+                   let tmp_full_name = chat.fullName;
+                   chat.friendName = friend.username;
+                   chat.userName = this.account.username;
+                   chat.fullName = chat.friendFullName;
+                   chat.friendFullName = tmp_full_name;
+                   return chat;
                }
             }.bind(this));
                
@@ -284,6 +291,12 @@ export default {
          if(chat){
              this.setCurrentChat(chat); 
             this.setParticipant(friend);
+         } else {
+             createNewChat({userId: this.account.id, friendId: friend.id}).then(response => {
+                 if(response.status == 200){
+                     getChat(friend);
+                 }
+             });
          }
       }
 

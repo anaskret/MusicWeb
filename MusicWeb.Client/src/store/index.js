@@ -2,6 +2,8 @@ import Vue from "vue";
 import Vuex from "vuex";
 import moment from "moment";
 import useAccounts from "@/modules/accounts";
+import useChats from "@/modules/chats";
+import Message from "@/models/Message";
 
 import { auth } from "./authModule";
 
@@ -23,27 +25,51 @@ export default new Vuex.Store({
     chat_page: 0
   },
   mutations: {
-    newMessage(state, message) {
-      message.send_date = moment(message.send_date).format("LT");
-      message.myself = message.participant_id === state.current_user.id;
-      state.messages = [...state.messages, message];
-      setTimeout(() => {
-        message.uploaded = true;
-        if (message.preview) {
-          message.src = message.preview;
-        }
-      }, 1000);
+    newMessage(state, message) { 
+      const { addNewMessage } = useChats();
+      let model_message = new Message(message);
+      model_message.send_date = moment().format("LT");
+      model_message.myself = model_message.participant_id === state.current_user.id;
+      state.messages = [...state.messages, model_message];
+      addNewMessage(message).then(
+         (response) => {
+            if (response.status == 200) {
+               state.messages.at(-1).uploaded = true;
+               if (state.messages.at(-1).preview) {
+                  state.messages.at(-1).src = state.messages.at(-1).preview;
+               }
+            } else {
+               this.$emit(
+               "show-alert",
+               `Something went wrong. Error ${response.status}`,
+               "error"
+               );
+            }
+         },
+         (error) => {
+            this.$emit(
+               "show-alert",
+               `Something went wrong. ${error.response.status} ${error.response.data}`,
+               "error"
+            );
+         }
+      );
     },
-    loadOldMessages(state, message) {
-      message.send_date = moment(message.send_date).calendar();
-      message.myself = message.participant_id === state.current_user.id;
-      state.messages.unshift(message);
-      setTimeout(() => {//TODO delete this, wait to upload
-        message.uploaded = true;
-        if (message.preview) {
-          message.src = message.preview;
-        }
-      }, 1000);
+    loadOldMessages(state, messages) {
+      messages = messages.map(message => {
+         if(moment(message.send_date).format("L") == moment().format("L")){
+            message.send_date = moment(message.send_date).format("LT");
+         } else {
+            message.send_date = moment(message.send_date).calendar();
+         }
+         message.myself = message.participant_id === state.current_user.id;
+         message.uploaded = true;
+         if (message.preview) {
+         message.src = message.preview;
+         }
+         return message;
+      });
+      state.messages = [...messages, ...state.messages];
     },
     setParticipant(state, participant) {
       state.participant = participant;
@@ -58,6 +84,7 @@ export default new Vuex.Store({
       state.placeholder = placeholder;
     },
     setCurrentChat(state, chat) {
+      state.chat_page = 0;
       state.current_chat = chat;
     },
     setMessages(state, messages){

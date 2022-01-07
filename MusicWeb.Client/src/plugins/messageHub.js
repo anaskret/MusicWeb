@@ -17,14 +17,13 @@ export default {
     Vue.prototype.$messageHub = messageHub;
 
     //hub methods
-    messageHub.SendMessage = (friendId, messageId) => {
-      return startedPromise
-        .then(() => connection.invoke("SendMessage", friendId, messageId))
-        .catch(console.error);
+    messageHub.subscribeUserGroup = (userName) => {
+        return startedPromise
+            .then(() => connection.invoke("SubscribeUserGroup", userName))
+            .catch(console.error);
     };
-
-    connection.on("SendMessage", (friendId, messageId) => {
-      messageHub.$emit("friend-sent-message", friendId, messageId);
+    connection.on("SendMessage", (friendUsername, chatId) => {
+      messageHub.$emit("friend-sent-message", friendUsername, chatId);
     });
 
     let startedPromise = null;
