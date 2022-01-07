@@ -9,7 +9,7 @@
       <div class="message-loading"></div>
     </div>
     <div
-      v-if="messages.length == 0"
+      v-if="messages.length == 0 && !loading"
       class="message-container"
     >  
       <div class="empty-messages-placeholder">

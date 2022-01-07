@@ -18,7 +18,7 @@ export default function useAccounts() {
         .getPagedMessages(chat_id, page_num, page_size)
         .then((response) => {
           let res = response.data;
-          res = res.map(message => new Message(message)).reverse();
+          res = res.map(message => new Message(message));
           return res;
         });
     }
