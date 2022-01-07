@@ -44,7 +44,7 @@ namespace MusicWeb.Services.Services.Chats
                                                                           .Include(prp => prp.Sender)
                                                                           .Skip(page * pageSize)
                                                                           .Take(pageSize)
-                                                                          .OrderBy(prp => prp.SendDate));
+                                                                          .OrderByDescending(prp => prp.SendDate));
 
             return entities.ToList();
         }
