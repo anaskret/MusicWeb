@@ -41,9 +41,9 @@ namespace MusicWeb.Services.Services.Posts
             return await _postRepository.GetByIdAsync(id);
         }
 
-        public async Task<List<UserAndArtistPost>> GetUserPostsAsync(string userId, int page, int pageSize)
+        public async Task<List<UserAndArtistPost>> GetUserPostsAsync(string userId, DateTime pageInitializeDate, int page, int pageSize)
         {
-            return await _postRepository.GetPostForUserAsync(userId, page, pageSize);
+            return await _postRepository.GetPostForUserAsync(userId, pageInitializeDate, page, pageSize);
         }
 
         public async Task UpdateAsync(Post entity)
