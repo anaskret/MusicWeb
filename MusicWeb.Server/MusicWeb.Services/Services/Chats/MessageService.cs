@@ -46,7 +46,7 @@ namespace MusicWeb.Services.Services.Chats
                                                                           .Skip(page * pageSize)
                                                                           .Take(pageSize));
 
-            return entities.ToList();
+            return entities.Reverse().ToList();
         }
 
         public async Task SendMessageAsync(Message entity)

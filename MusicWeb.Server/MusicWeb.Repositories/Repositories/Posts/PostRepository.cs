@@ -19,8 +19,11 @@ namespace MusicWeb.Repositories.Repositories.Posts
         {
         }
 
-        public async Task<List<UserAndArtistPost>> GetPostForUserAsync(string userId, int page = 0, int pageSize = int.MaxValue)
+        public async Task<List<UserAndArtistPost>> GetPostForUserAsync(string userId, DateTime pageInitializeDate, int page = 0, int pageSize = int.MaxValue)
         {
+			if (pageInitializeDate == DateTime.MinValue)
+				pageInitializeDate = DateTime.Now;
+
             var sql = @$"
 SELECT 
 	T01.*, 
@@ -50,6 +53,7 @@ LEFT JOIN
 	FROM PostLike T031
 	GROUP BY T031.PostId
 ) T03 ON T03.PostId = T01.Id
+WHERE T01.CreateDate < '{pageInitializeDate}'
 ORDER BY T01.CreateDate DESC
 OFFSET {page} * {pageSize} ROWS
 FETCH NEXT {pageSize} ROWS ONLY";

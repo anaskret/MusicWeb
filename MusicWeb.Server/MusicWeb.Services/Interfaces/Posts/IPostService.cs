@@ -16,6 +16,6 @@ namespace MusicWeb.Services.Interfaces.Posts
         Task DeleteAsync(int id);
         Task<Post> GetByIdAsync(int id);
         Task<IList<Post>> GetAllAsync();
-        Task<List<UserAndArtistPost>> GetUserPostsAsync(string userId, int page, int pageSize);
+        Task<List<UserAndArtistPost>> GetUserPostsAsync(string userId, DateTime pageInitializeDate, int page, int pageSize);
     }
 }
