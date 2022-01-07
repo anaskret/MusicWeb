@@ -8,6 +8,7 @@
     @set-filters="setFilters"
     :redirect_module_name="redirect_module_name"
     :module_name="module_name"
+    :columns_list="columns_list"
   />
 </template>
 
@@ -34,19 +35,8 @@ export default {
       intersection_active: true,
       redirect_module_name: "ArtistPage",
       module_name: "ArtistRanking",
+      columns_list: ["Position", "", "Artist", "Rating", "Amount of ratings", "Favorite", "Watched"],
     };
-  },
-  watch: {
-    "$store.state.searchingValue": function () {
-      if (
-        this.last_search !== this.$store.state.searchingValue &&
-        this.$store.state.searchingValue
-      ) {
-        this.artists = [];
-        this.getPagedArtistList("", "", true);
-        this.$store.state.searchingValue = "";
-      }
-    },
   },
   methods: {
     parseDate(date) {
@@ -69,10 +59,11 @@ export default {
 
     const getPagedArtistList = function (entries, observer, is_intersecting) {
       if (is_intersecting) {
+        console.log(this.scroll_settings.selected_sort_type)
         getPagedArtists(
           this.scroll_settings.page,
           this.scroll_settings.records_quantity,
-          this.scroll_settings.selected_sort_type,
+          3,
           this.parseDate(this.filters.establishment_date_from),
           this.parseDate(this.filters.establishment_date_to)
         )

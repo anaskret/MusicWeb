@@ -91,7 +91,7 @@ ORDER BY COALESCE(T3.AvgRating, 0) DESC, T0.Name";
                     query = query.OrderBy(prp => prp.Rating);
                     break;
                 case SortType.PopularityDesc:
-                    query = query.OrderByDescending(prp => prp.RatingsCount);
+                    query = query.OrderByDescending(prp => prp.Rating);
                     break;
                 default:
                     query = query.OrderBy(prp => prp.Name);

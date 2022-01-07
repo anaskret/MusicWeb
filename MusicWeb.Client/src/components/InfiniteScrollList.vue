@@ -1,6 +1,35 @@
 <template>
   <v-container fluid grid-list-lg class="py-16">
-    <v-row justify="center" v-if="module_name != 'ArtistRanking' || module_name !='AlbumRanking'">
+              <div v-if="module_name == 'ArtistRanking' || module_name == 'AlbumRanking' || module_name=='SongRanking'">
+            <v-simple-table>
+            <thead>
+          <tr>
+            <th v-for="(column, index) in columns_list" :key="index">{{column}}</th>
+            <!-- <th class="text-left">
+              Name
+            </th>
+            <th class="text-left">
+              Calories
+            </th> -->
+          </tr>
+        </thead>
+        <tbody>
+               <tr v-for="(item, index) in items"
+              :key="index"
+        >
+          <td>{{index + 1}}</td>
+          <td><div>
+          <v-img :src="require('@/assets/BandPhoto.svg')" style = "width: 50px;"/>
+        </div></td>
+          <td>{{ item.name }}</td>
+          <td>{{ item.rating }}</td>
+          <td>{{ item.ratingsCount }}</td>
+          <td>{{item.favoriteCount}}</td>
+        </tr>
+        </tbody>
+          </v-simple-table>
+          </div>
+    <v-row justify="center" v-else>
       <v-col lg="8">
         <div class="mx-auto">
           <div v-if="module_name != 'Activities'">
@@ -92,37 +121,8 @@
         </div>
       </v-col>
     </v-row>
-    <v-row justify="center" v-if="module_name == 'ArtistRanking' || module_name == 'AlbumRating'">
-      <v-col lg="8">
-        <div>
-          <h1>Ranking Top 100 Artystów</h1>
-        </div>
-        <div>
-          <v-select
-              label="Typ rankingu"
-              outlined
-              :items="ranking_types"
-              v-model="defaultRanking"
-              @change="changeRankingType"
-            >
-          <template v-slot:item="{ item, attrs, on }">
-                <v-list-item
-                  v-bind="attrs"
-                  v-on="on"
-                  style="background: #0d1117"
-                >
-                  <v-list-item-title
-                    :id="attrs['aria-labelledby']"
-                    v-text="item"
-                  ></v-list-item-title>
-                </v-list-item>
-              </template>
-          </v-select>
-        </div>
-        <div></div>
-      </v-col>
-    </v-row>
-        <v-row justify="center">
+    <v-row justify="center" v-if="module_name != 'ArtistRanking' && module_name != 'AlbumRanking' && module_name != 'SongRanking'">
+
       <v-col lg="8">
           <v-list v-if="module_name == 'Activities'">
             <v-list-item
@@ -135,28 +135,6 @@
               </v-list-item-content>
             </v-list-item>
           </v-list>
-          <div v-if="module_name == 'ArtistRanking' || module_name == 'AlbumRanking'">
-            <v-simple-table>
-            <thead>
-          <tr>
-            <th class="text-left">
-              Name
-            </th>
-            <th class="text-left">
-              Calories
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-               <tr v-for="(item, index) in items"
-              :key="index"
-        >
-          <td>{{ item.name }}</td>
-          <td>{{ item.description }}</td>
-        </tr>
-        </tbody>
-          </v-simple-table>
-          </div>
           <v-list v-else>
             <v-list-item-group v-model="show_list">
               <v-list-item v-for="(item, index) in items" :key="index">
@@ -214,8 +192,8 @@ export default {
     intersection_active: Boolean,
     redirect_module_name: String,
     module_name: String,
-    ranking_types:Array,
-    albums: Array,
+    columns_list: Array,
+
   },
   components: {
     InfiniteScrolItem,
@@ -274,22 +252,6 @@ export default {
         this.$emit("set-filters", this.filters);
       this.updateDefaultSortType = "Alfabetycznie malejąco";
     },
-    changeRankingType() {
-      console.log(this.defaultRanking);
-      if (this.defaultRanking == "Artists")
-      {
-        this.$emit("getArtists");
-      }
-      else if (this.defaultRanking == "Albums")
-      {
-        this.$emit("getAlbums");
-        console.log(this.albums);
-      }
-      else if (this.defaultRanking == "Songs")
-      {
-console.log('a');
-      }
-    }
   },
 };
 </script>
@@ -300,4 +262,5 @@ console.log('a');
   border-radius: 2%;
   margin-bottom: 3%;
 }
+
 </style>

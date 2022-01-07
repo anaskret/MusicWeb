@@ -70,11 +70,11 @@ export default {
   },
 
   setup() {
-    const { getPaged } = useSongs();
+    const { getPagedSongs } = useSongs();
 
     const getPagedSongList = function (entries, observer, is_intersecting) {
       if (is_intersecting) {
-        getPaged(
+        getPagedSongs(
           this.scroll_settings.page,
           this.scroll_settings.records_quantity,
           this.scroll_settings.selected_sort_type,

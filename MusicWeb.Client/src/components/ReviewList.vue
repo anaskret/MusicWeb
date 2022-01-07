@@ -102,7 +102,20 @@
           <v-col md="10">
             <div>
               <v-card-title class="headline review-title px-0 pt-2 pb-5">
-                {{ review.title }}
+                {{ review.title }} 
+                <div class="d-flex flex-row starConteiner" @mouseleave="getDefaultStars">
+                <font-awesome-icon
+                  class="star icon pr-2"
+                  v-for="(star, index) in stars"
+                  :key="index"
+                  icon="star"
+                  size="2x"
+                  :color="star.color"
+                  
+                  :id="'star_' + index" :value="star.value"
+              
+                ></font-awesome-icon>
+              </div>
               </v-card-title>
               <v-card-subtitle class="px-0">
                 {{ album }} - {{ artist }}
@@ -154,6 +167,13 @@ export default {
       error: {},
       dialog: false,
       user_id: localStorage.getItem("user-id"),
+            stars: [
+        { color: "gray", value:1 },
+        { color: "gray", value:2 },
+        { color: "gray", value:3 },
+        { color: "gray", value:4 },
+        { color: "gray", value:5 },
+      ],
     };
   },
   methods: {

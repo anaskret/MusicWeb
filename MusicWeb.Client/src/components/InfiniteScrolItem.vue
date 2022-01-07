@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="page_name == 'ArtistList'">
+    <div v-if="page_name == 'ArtistList' || page_name == 'SongList'">
       <v-card @click="redirectToItem(item.id)">
         <div class="d-flex flex-no-wrap justify-space-between">
           <div>
