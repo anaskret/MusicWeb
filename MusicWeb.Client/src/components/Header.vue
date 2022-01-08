@@ -80,8 +80,6 @@
 
 <script>
 import RankSection from "@/components/RankSection.vue";
-import moment from "moment";
-import useAccounts from "@/modules/accounts";
 import useAlbumRatings from "@/modules/albumRatings.js";
 import AlbumRating from "@/models/AlbumRating.js";
 import useSongRatings from "@/modules/songRatings.js";
@@ -151,36 +149,6 @@ export default {
     const { getUserObservedArtist, addUserObservedArtist, deleteUserObservedArtist} = useUserObservedArtists();   
     
 
-    const watchArtist = function () {
-      this.watch_artist.favoriteId = this.parent.id;
-      this.watch_artist.name = this.parent.name;
-      userWatchArtist(this.watch_artist).then(
-        (response) => {
-          if (response.status == 200) {
-            // TODO change button to observed, get userobservedartist
-            this.$emit(
-              "show-alert",
-              `You're now watching ${this.parent.name}.`,
-              "success"
-            );
-          } else {
-            this.$emit(
-              "show-alert",
-              `Something went wrong. Error ${response.status}`,
-              "error"
-            );
-          }
-        },
-        (error) => {
-          this.$emit(
-            "show-alert",
-            `Something went wrong. ${error.response.status} ${error.response.data}`,
-            "error"
-          );
-        }
-      );
-    };
-
     const addNewAlbumRating = function (ratingId) {
       this.albumRating.userId = this.$store.state.auth.userId;
       this.albumRating.albumId = this.$route.params.id;
@@ -200,13 +168,6 @@ export default {
               );
             }
           },
-          (error) => {
-            this.$emit(
-              "show-alert",
-              `Nie udało się dodać recenzji. Błąd ${response.status}`,
-              "error"
-            );
-          }
       );
     };
 
@@ -226,13 +187,6 @@ export default {
               );
             }
           },
-          (error) => {
-            this.$emit(
-              "show-alert",
-              `Nie udało się dodać recenzji. ${error.response.status} ${error.response.data}`,
-              "error"
-            );
-          }
         );
       }
 const addNewArtistRating = function (ratingId) {
@@ -254,13 +208,6 @@ const addNewArtistRating = function (ratingId) {
               );
             }
           },
-          (error) => {
-            this.$emit(
-              "show-alert",
-              `Nie udało się dodać recenzji. Błąd ${response.status}`,
-              "error"
-            );
-          }
         );
       }
 
@@ -280,13 +227,6 @@ const addNewArtistRating = function (ratingId) {
               );
             }
           },
-          (error) => {
-            this.$emit(
-              "show-alert",
-              `Nie udało się dodać recenzji. ${error.response.status} ${error.response.data}`,
-              "error"
-            );
-          }
         );
       }  
 
@@ -306,13 +246,6 @@ const addNewArtistRating = function (ratingId) {
               );
             }
           },
-          (error) => {
-            this.$emit(
-              "show-alert",
-              `Nie udało się dodać recenzji. ${error.response.status} ${error.response.data}`,
-              "error"
-            );
-          }
         );
       }
 
@@ -335,13 +268,6 @@ const addNewArtistRating = function (ratingId) {
               );
             }
           },
-          (error) => {
-            this.$emit(
-              "show-alert",
-              `Nie udało się dodać recenzji. Błąd ${response.status}`,
-              "error"
-            );
-          }
       );
     };
 
@@ -407,13 +333,6 @@ const addNewArtistRating = function (ratingId) {
               );
             }
           },
-          (error) => {
-            this.$emit(
-              "show-alert",
-              `Nie udało się dodać recenzji. ${error.response.status} ${error.response.data}`,
-              "error"
-            );
-          }
         );
       }
       const getUserSong = function () {
@@ -456,13 +375,6 @@ const addNewArtistRating = function (ratingId) {
               );
             }
           },
-          (error) => {
-            this.$emit(
-              "show-alert",
-              `Nie udało się dodać recenzji. ${error.response.status} ${error.response.data}`,
-              "error"
-            );
-          }
         );
       }
 
@@ -505,13 +417,6 @@ const addNewArtistRating = function (ratingId) {
               );
             }
           },
-          (error) => {
-            this.$emit(
-              "show-alert",
-              `Nie udało się dodać recenzji. ${error.response.status} ${error.response.data}`,
-              "error"
-            );
-          }
         );
       }
 
@@ -537,13 +442,6 @@ const addNewArtistRating = function (ratingId) {
               );
             }
           },
-          (error) => {
-            this.$emit(
-              "show-alert",
-              `Nie udało się dodać recenzji. ${error.response.status} ${error.response.data}`,
-              "error"
-            );
-          }
         );
       }
 
@@ -566,7 +464,6 @@ const addNewArtistRating = function (ratingId) {
     };
 
     return {
-      watchArtist,
       albumRating: new AlbumRating(),
       songRating: new SongRating(),
       id: this.$route.params.id,
