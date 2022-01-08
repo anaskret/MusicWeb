@@ -86,7 +86,7 @@ export default {
   setup() {
     const { getArtistById, getArtistRatingAverage } = useArtists();
     const { getCommentById } = useComments();
-    const { getSongsByArtistId } = useSongs();
+    const { getTopArtistSongs } = useSongs();
 
     const getArtist = function () {
       getArtistById(this.id).then((response) => {
@@ -101,7 +101,8 @@ export default {
       });
     };
     const getSongs = function () {
-      getSongsByArtistId(this.id).then((response) => {
+      getTopArtistSongs(this.id).then((response) => {
+        console.log(response);
         this.songs = [];
         response.forEach((song) => this.songs.push(song));
       });

@@ -48,7 +48,7 @@ namespace MusicWeb.Repositories.Repositories.Songs
         public async Task<List<TopSongsWithRating>> GetTopSongsWithRatingsAsync(int artistId)
         {
             var sql = @$"
-SELECT TOP 3 T0.*, CAST(COALESCE(T3.AvgRating, 0) as numeric) as Rating
+SELECT TOP 3 T0.*, CAST(COALESCE(T3.AvgRating, 0) as numeric) as Rating, T1.Name as AlbumName, T2.Name as ArtistName
 FROM Song T0
 INNER JOIN Album T1 ON T1.Id = T0.AlbumId
 INNER JOIN Artist T2 ON T2.Id = T1.ArtistId
@@ -58,7 +58,7 @@ LEFT JOIN
 	FROM SongRating
 	GROUP BY SongId
 ) T3 ON T3.SongId = T0.Id
-WHERE T2.Id = {artistId}
+WHERE T2.Id = 2
 ORDER BY COALESCE(T3.AvgRating, 0) DESC, T0.Name";
 
             var query = _dbContext.TopSongsWithRating.FromSqlRaw(sql);
