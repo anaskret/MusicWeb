@@ -74,5 +74,21 @@ namespace MusicWeb.Api.Controllers.Users
                 return StatusCode(500, ex.Message);
             }
         }
+
+        [HttpGet(ApiRoutes.UserObservedArtists.GetUserArtist)]
+        public async Task<IActionResult> GetUserArtist([FromRoute] string userId, [FromRoute] int artistId)
+        {
+            try
+            {
+                var models = _mapper.Map<List<UserObservedArtist>>(await _userObservedArtistService.GetAllByUserIdAsync(userId));
+                var model = models.Find(prp => prp.ArtistId == artistId);
+                return Ok(model);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return StatusCode(500, ex.Message);
+            }
+        }
     }
 }

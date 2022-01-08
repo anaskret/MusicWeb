@@ -158,6 +158,7 @@ namespace MusicWeb.Api.Extensions
             public const string GetAll = Root + "/userobservedartistsbyuser/{userId}";
             public const string GetById = Root + "/userobservedartists/{id}";
             public const string Delete = Root + "/userobservedartists/{id}";
+            public const string GetUserArtist = Root + "/userobservedartists/{userId}/{artistId}";
         }
 
         public static class UserFavoriteArtists
