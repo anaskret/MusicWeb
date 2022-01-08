@@ -15,6 +15,7 @@ export default class Artist {
   rating = "";
   ratingsCount = "";
   favoriteCount = null;
+  observedCount = null;
 
   constructor($data) {
     if ($data) {
@@ -36,6 +37,7 @@ export default class Artist {
       this.rating = $data.rating ? $data.rating : 0;
       this.ratingsCount = $data.ratingsCount ? $data.ratingsCount : 0;
       this.favoriteCount = $data.favoriteCount ? $data.favoriteCount : 0;
+      this.observedCount = $data.observedCount ? $data.observedCount : 0;
     }
   }
 }

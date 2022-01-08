@@ -25,6 +25,8 @@
           <td>{{ item.rating }}</td>
           <td>{{ item.ratingsCount }}</td>
           <td>{{item.favoriteCount}}</td>
+          <td v-if="module_name == 'ArtistRanking'">{{item.observedCount}}</td>
+          <td v-else>{{item.reviewsCount}}</td>
         </tr>
         </tbody>
           </v-simple-table>

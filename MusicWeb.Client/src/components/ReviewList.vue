@@ -103,7 +103,7 @@
             <div>
               <v-card-title class="headline review-title px-0 pt-2 pb-5">
                 {{ review.title }} 
-                <div class="d-flex flex-row starConteiner" @mouseleave="getDefaultStars">
+                <!-- <div class="d-flex flex-row starConteiner" @mouseleave="getDefaultStars">
                 <font-awesome-icon
                   class="star icon pr-2"
                   v-for="(star, index) in stars"
@@ -115,7 +115,7 @@
                   :id="'star_' + index" :value="star.value"
               
                 ></font-awesome-icon>
-              </div>
+              </div> -->
               </v-card-title>
               <v-card-subtitle class="px-0">
                 {{ album }} - {{ artist }}

@@ -86,6 +86,7 @@ export default {
           this.$set(this.album, 'rating', response.rating);
           this.$set(this.album, 'ratingsCount', response.ratingsCount);
           this.$set(this.album, 'favoriteCount', response.favoriteCount);
+          this.$set(this.album, 'reviewsCount', response.reviewsCount);
      })
     }
     return {
