@@ -102,7 +102,20 @@
           <v-col md="10">
             <div>
               <v-card-title class="headline review-title px-0 pt-2 pb-5">
-                {{ review.title }}
+                {{ review.title }} 
+                <!-- <div class="d-flex flex-row starConteiner" @mouseleave="getDefaultStars">
+                <font-awesome-icon
+                  class="star icon pr-2"
+                  v-for="(star, index) in stars"
+                  :key="index"
+                  icon="star"
+                  size="2x"
+                  :color="star.color"
+                  
+                  :id="'star_' + index" :value="star.value"
+              
+                ></font-awesome-icon>
+              </div> -->
               </v-card-title>
               <v-card-subtitle class="px-0">
                 {{ album }} - {{ artist }}
@@ -154,6 +167,13 @@ export default {
       error: {},
       dialog: false,
       user_id: localStorage.getItem("user-id"),
+            stars: [
+        { color: "gray", value:1 },
+        { color: "gray", value:2 },
+        { color: "gray", value:3 },
+        { color: "gray", value:4 },
+        { color: "gray", value:5 },
+      ],
     };
   },
   methods: {
@@ -179,7 +199,8 @@ export default {
     const addNewSongReview = function () {
       this.songReview.userId = this.$store.state.auth.userId;
       this.songReview.songId = this.$route.params.id;
-      this.songReview.postDate = moment().format();
+      this.songReview.postDate = moment.utc().format();
+      delete this.songReview.id;
       if (
         this.songReview.title == null ||
         this.songReview.title == "" ||
@@ -220,6 +241,7 @@ export default {
       this.albumReview.postDate = moment().format();
       delete this.albumReview.album;
       delete this.albumReview.user;
+      delete this.albumReview.id;
       if (
         this.albumReview.title == null ||
         this.albumReview.title == "" ||

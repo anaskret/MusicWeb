@@ -38,6 +38,12 @@ namespace MusicWeb.Services.Services.Users
             return await _userFavoriteArtistRepository.GetAllWithArtistByUserIdAsync(userId);
         }
 
+        public async Task<IList<UserFavoriteArtist>> GetUserFavoriteArtistAsync(string userId, int artistId)
+        {
+            var models = await _userFavoriteArtistRepository.GetAllWithArtistByUserIdAsync(userId);
+            return models;
+        }
+
         public async Task CreateAsync(UserFavoriteArtist entity)
         {
             await _userFavoriteArtistRepository.AddAsync(entity);

@@ -44,6 +44,21 @@ namespace MusicWeb.Api.Controllers.Users
                 return StatusCode(500, ex.Message);
             }
         }
+        [HttpGet(ApiRoutes.UserFavoriteAlbums.GetUserAlbum)]
+        public async Task<IActionResult> GetUserAlbum([FromRoute] string userId, [FromRoute] int albumId)
+        {
+            try
+            {
+                var models = _mapper.Map<List<UserFavoriteAlbum>>(await _userFavoriteAlbumService.GetAllByUserIdAsync(userId));
+                var model = models.Find(prp => prp.AlbumId == albumId);
+                return Ok(model);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return StatusCode(500, ex.Message);
+            }
+        }
 
         [HttpPost(ApiRoutes.UserFavoriteAlbums.Create)]
         public async Task<IActionResult> Create([FromBody] UserFavoriteDto model)

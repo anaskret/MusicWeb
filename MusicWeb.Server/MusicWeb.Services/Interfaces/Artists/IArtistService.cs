@@ -20,11 +20,12 @@ namespace MusicWeb.Services.Interfaces.Artists
         Task<Artist> GetByIdAsync(int id);
         Task<List<ArtistRatingAverage>> GetPagedAsync(SortType sortType, DateTime startDate, DateTime endDate, int pageNum = 0, int pageSize = 15, string searchString = "");
         Task<IPagedList<Artist>> GetIPagedAsync(string searchString, int pageNum = 0, int pageSize = int.MaxValue);
-        Task AddAsync(Artist entity, byte[] imageBytes);
+       Task AddAsync(Artist entity, byte[] imageBytes);
         Task AddArtistAsync(ArtistWithUserModel model);
         Task UpdateAsync(Artist entity);
         Task UpdateArtistAsync(Artist entity);
         Task UpdateImageAsync(ArtistFileUpdateDto dto);
         Task DeleteAsync(int id);
+        Task<ArtistRatingAverage> GetArtistRatingAverage(int id);
     }
 }

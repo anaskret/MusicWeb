@@ -33,11 +33,31 @@ namespace MusicWeb.Repositories.Repositories.Artists
             return entity;
         }
 
+        public async Task<ArtistRatingAverage> GetArtistAverageRating(int id)
+        {
+            var sql = $@"SELECT T0.*, ROUND(Coalesce(T1.Rating, 0), 2) as Rating, 
+            COALESCE(T1.RatingsCount,0) as RatingsCount, 
+            COALESCE(T2.Favorite, 0) as FavoriteCount,
+            COALESCE(T3.Observed, 0) as ObservedCount
+            FROM Artist T0
+            LEFT JOIN(SELECT ArtistId, AVG(Cast(Rating as float)) as Rating, COUNT(Rating) as RatingsCount FROM ArtistRating GROUP BY ArtistId) T1 ON T1.ArtistId = T0.Id
+            LEFT JOIN (SELECT ArtistId, COUNT(ArtistId) as Favorite FROM UserFavoriteArtist GROUP BY ArtistId) T2 ON T0.Id = T2.ArtistId
+            LEFT JOIN (SELECT ArtistId, COUNT(ArtistId) as Observed FROM UserObservedArtist GROUP BY ArtistId) T3 ON T0.Id = T3.ArtistId";
+            var query = _dbContext.ArtistRatingAverage.FromSqlRaw(sql);
+            var entity = await query.FirstOrDefaultAsync(prp => prp.Id == id);
+            return entity;
+        }
+
         public async Task<List<ArtistRatingAverage>> GetArtistsPagedAsync(SortType sortType, DateTime startDate, DateTime endDate, int pageNum = 0, int pageSize = 15, string searchString = "")
         {
-            var sql = @$"SELECT T0.*, ROUND(Coalesce(T1.Rating, 0), 2) as Popularity
-FROM Artist T0
-LEFT JOIN(SELECT ArtistId, AVG(Cast(Rating as float)) as Rating FROM ArtistRating GROUP BY ArtistId) T1 ON T1.ArtistId = T0.Id";
+            var sql = @$"SELECT T0.*, ROUND(Coalesce(T1.Rating, 0), 2) as Rating, 
+            COALESCE(T1.RatingsCount,0) as RatingsCount, 
+            COALESCE(T2.Favorite, 0) as FavoriteCount,
+            COALESCE(T3.Observed, 0) as ObservedCount
+            FROM Artist T0
+            LEFT JOIN(SELECT ArtistId, AVG(Cast(Rating as float)) as Rating, COUNT(Rating) as RatingsCount FROM ArtistRating GROUP BY ArtistId) T1 ON T1.ArtistId = T0.Id
+            LEFT JOIN (SELECT ArtistId, COUNT(ArtistId) as Favorite FROM UserFavoriteArtist GROUP BY ArtistId) T2 ON T0.Id = T2.ArtistId
+            LEFT JOIN (SELECT ArtistId, COUNT(ArtistId) as Observed FROM UserObservedArtist GROUP BY ArtistId) T3 ON T0.Id = T3.ArtistId";
 
             var query = _dbContext.ArtistRatingAverage.FromSqlRaw(sql);
 
@@ -54,10 +74,10 @@ LEFT JOIN(SELECT ArtistId, AVG(Cast(Rating as float)) as Rating FROM ArtistRatin
                     query =  query.OrderByDescending(prp => prp.Name);
                 break;
                 case SortType.PopularityAsc:
-                    query =  query.OrderBy(prp => prp.Popularity);
+                    query =  query.OrderBy(prp => prp.Rating);
                 break;
                 case SortType.PopularityDesc:
-                    query =  query.OrderByDescending(prp => prp.Popularity);
+                    query =  query.OrderByDescending(prp => prp.Rating);
                 break;
                 default:
                     query =  query.OrderBy(prp => prp.Name);
@@ -70,5 +90,6 @@ LEFT JOIN(SELECT ArtistId, AVG(Cast(Rating as float)) as Rating FROM ArtistRatin
             var entities = await query.ToListAsync();
             return entities;
         }
+
     }
 }

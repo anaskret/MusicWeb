@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="page_name == 'ArtistList'">
+    <div v-if="page_name == 'ArtistList' || page_name == 'SongList'">
       <v-card @click="redirectToItem(item.id)">
         <div class="d-flex flex-no-wrap justify-space-between">
           <div>
@@ -101,7 +101,7 @@
                 ></v-card-title>
                 <v-card-subtitle>
                   <p class="text-left">
-                    {{ moment(item.createDate).format("YYYY") }}
+                    {{ moment(item.establishmentDate).format("YYYY") }}
                   </p>
                   <p class="text-left">Genre</p>
                 </v-card-subtitle>
@@ -290,7 +290,7 @@ export default {
   methods: {
     calculateAdditionTime() {
       let now_date = this.moment();
-      let post_date = this.moment(this.item.createDate);
+      let post_date = this.moment(this.item.establishmentDate);
       let duration = this.moment.duration(now_date.diff(post_date));
       duration = duration._data;
       let result = "";

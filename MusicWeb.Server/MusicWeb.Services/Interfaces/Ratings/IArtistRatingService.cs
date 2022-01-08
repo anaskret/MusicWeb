@@ -16,5 +16,6 @@ namespace MusicWeb.Services.Interfaces.Ratings
         Task<IList<ArtistRating>> GetAllByArtistIdAsync(int id);
         Task<IList<ArtistRating>> GetAllByUserIdAsync(string id);
         Task<ArtistRating> GetByIdAsync(int id);
+        Task<ArtistRating> GetUserRating(int id, string userId);
     }
 }

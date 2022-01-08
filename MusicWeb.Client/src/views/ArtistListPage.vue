@@ -69,11 +69,11 @@ export default {
   },
 
   setup() {
-    const { getPaged } = useArtists();
+    const { getPagedArtists } = useArtists();
 
     const getPagedArtistList = function (entries, observer, is_intersecting) {
       if (is_intersecting) {
-        getPaged(
+        getPagedArtists(
           this.scroll_settings.page,
           this.scroll_settings.records_quantity,
           this.scroll_settings.selected_sort_type,

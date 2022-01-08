@@ -15,9 +15,11 @@ namespace MusicWeb.Models.Entities.Keyless
         public DateTime EstablishmentDate { get; set; }
         public string Bio { get; set; }
         public ArtistType Type { get; set; }
-
         public int? BandId { get; set; }
         public int CountryId { get; set; }
-        public double Popularity { get; set; }
+        public double Rating { get; set; }
+        public int RatingsCount { get; set; }
+        public int FavoriteCount { get; set; }
+        public int ObservedCount { get; set; }
     }
 }

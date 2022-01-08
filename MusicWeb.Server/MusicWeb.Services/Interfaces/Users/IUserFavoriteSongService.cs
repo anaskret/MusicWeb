@@ -13,5 +13,7 @@ namespace MusicWeb.Services.Interfaces.Users
         Task CreateAsync(UserFavoriteSong entity);
         Task DeleteAsync(int id);
         Task DeleteRangeByUserIdAsync(string userId);
+        Task<IList<UserFavoriteSong>> GetUserFavoriteSongAsync(string userId, int songId);
+
     }
 }

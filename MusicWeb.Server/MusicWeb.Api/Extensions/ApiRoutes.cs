@@ -19,6 +19,7 @@ namespace MusicWeb.Api.Extensions
             public const string UpdateImage = Root + "/artists/images";
             public const string GetById = Root + "/artists/{id}";
             public const string Delete = Root + "/artists/{id}";
+            public const string GetArtistRatingAverage = Root + "/artistaveragerating/{id}";
         }
 
         public static class ArtistComments
@@ -47,8 +48,10 @@ namespace MusicWeb.Api.Extensions
             public const string GetById = Root + "/albums/{id}";
             public const string Delete = Root + "/albums/{id}";
             public const string GetFullData = Root + "/albumsdata/{id}";
-            public const string GetAlbumRatingAverage = Root + "/albumsrating/{id}";
-            
+            public const string GetAlbumRatingAverage = Root + "/albumaveragerating/{id}";
+            public const string GetAllPagedSearchString = Root + "/albums/{pageNum}/{pageSize}/{sortType}/{createDateStart}/{createDateEnd}/{searchString}";
+            public const string GetAllPaged = Root + "/albums/{pageNum}/{pageSize}/{sortType}/{createDateStart}/{createDateEnd}";
+
         }
 
         public static class AlbumReviews
@@ -59,6 +62,9 @@ namespace MusicWeb.Api.Extensions
             public const string GetById = Root + "/albumreviews/{id}";
             public const string Delete = Root + "/albumreviews/{id}";
             public const string GetFullData = Root + "/albumreviewsdata/{id}";
+            public const string GetAllPagedWithRating = Root + "/albumreviews/{pageNum}/{pageSize}/{sortType}/{createDateStart}/{createDateEnd}/{searchString}";
+            public const string GetAllPaged = Root + "/albumreviews/{pageNum}/{pageSize}/{sortType}/{createDateStart}/{createDateEnd}";
+
 
         }
 
@@ -71,6 +77,10 @@ namespace MusicWeb.Api.Extensions
             public const string GetById = Root + "/songs/{id}";
             public const string Delete = Root + "/songs/{id}";
             public const string GetFullData = Root + "/songsdata/{id}";
+            public const string GetSongRatingAverage = Root + "/songaveragerating/{id}";
+            public const string GetAllPagedSearchString = Root + "/songs/{pageNum}/{pageSize}/{sortType}/{createDateStart}/{createDateEnd}/{searchString}";
+            public const string GetAllPaged = Root + "/songs/{pageNum}/{pageSize}/{sortType}/{createDateStart}/{createDateEnd}";
+
         }
 
         public static class SongReviews
@@ -81,6 +91,7 @@ namespace MusicWeb.Api.Extensions
             public const string GetById = Root + "/songreviews/{id}";
             public const string Delete = Root + "/songreviews/{id}";
             public const string GetFullData = Root + "/songreviewsdata/{id}";
+            public const string GetAllPagedWithRating = Root + "/songreviews/{pageNum}/{pageSize}/{sortType}/{createDateStart}/{createDateEnd}";
 
         }
 
@@ -148,30 +159,34 @@ namespace MusicWeb.Api.Extensions
             public const string GetAll = Root + "/userobservedartistsbyuser/{userId}";
             public const string GetById = Root + "/userobservedartists/{id}";
             public const string Delete = Root + "/userobservedartists/{id}";
+            public const string GetUserArtist = Root + "/userobservedartists/{userId}/{artistId}";
         }
 
         public static class UserFavoriteArtists
         {
             public const string Create = Root + "/userfavoriteartists";
-            public const string GetAll = Root + "/userfavoriteartistsbyuser/{id}";
-            public const string GetById = Root + "/userfavoriteartists/{id}";
+            public const string GetAll = Root + "/userfavoriteartistsbyuser/{userId}";
+            public const string GetById = Root + "/userfavoriteartists/{userId}";
             public const string Delete = Root + "/userfavoriteartists/{id}";
+            public const string GetUserArtist = Root + "/userfavoriteartists/{userId}/{artistId}";
         }
 
         public static class UserFavoriteAlbums
         {
             public const string Create = Root + "/userfavoritealbums";
             public const string GetAll = Root + "/userfavoritealbumsbyuser/{userId}";
-            public const string GetById = Root + "/userfavoritealbums/{id}";
+            public const string GetById = Root + "/userfavoritealbums/{userId}";
             public const string Delete = Root + "/userfavoritealbums/{id}";
+            public const string GetUserAlbum = Root + "/userfavoritealbums/{userId}/{albumId}";
         }
 
         public static class UserFavoriteSongs
         {
             public const string Create = Root + "/userfavoritesongs";
             public const string GetById = Root + "/userfavoritesongs/{id}";
-            public const string GetAll = Root + "/userfavoritesongsbyuser/{id}";
+            public const string GetAll = Root + "/userfavoritesongsbyuser/{userId}";
             public const string Delete = Root + "/userfavoritesongs/{id}";
+            public const string GetUserSong = Root + "/userfavoritesongs/{userId}/{songId}";
         }
 
         public static class UserFriends
@@ -215,6 +230,7 @@ namespace MusicWeb.Api.Extensions
             public const string Delete = Root + "/artistratings/{id}";
             public const string GetById = Root + "/artistratings/{id}";
             public const string GetAll = Root + "/listartistratings/{id}";
+            public const string GetUserRating = Root + "/artistratings/{id}/user/{userId}";
         }
 
         public static class AlbumRatings

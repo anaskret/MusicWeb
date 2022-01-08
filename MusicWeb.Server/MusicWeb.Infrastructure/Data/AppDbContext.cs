@@ -50,10 +50,14 @@ namespace MusicWeb.DataAccess.Data
         public DbSet<PostLike> PostLike{ get; set; }
         public DbSet<PostComment> PostComment{ get; set; }
         public DbSet<AlbumRating> AlbumRating { get; set; }
+        public DbSet<ArtistRating> ArtistRating { get; set; }
 
         //Keyless
         public DbSet<ArtistRatingAverage> ArtistRatingAverage { get; set; }
         public DbSet<AlbumRatingAverage> AlbumRatingAverage { get; set; }
+        public DbSet<AlbumReviewRating> AlbumReviewRating { get; set; }
+        public DbSet<SongRatingAverage> SongRatingAverage{ get; set; }
+        public DbSet<SongReviewRating> SongReviewRating { get; set; }
         public DbSet<UserAndArtistPost> UserAndArtistPost { get; set; }
         public DbSet<TopSongsWithRating> TopSongsWithRating { get; set; }
 
@@ -113,6 +117,13 @@ namespace MusicWeb.DataAccess.Data
                     .HasForeignKey(e => e.UserId)
                     .OnDelete(DeleteBehavior.Restrict)
                     .IsRequired();
+
+                entity.HasOne(e => e.AlbumRating)
+                    .WithOne(a => a.AlbumReview)
+                    .HasForeignKey<AlbumReview>(e => e.RatingId)
+                    .OnDelete(DeleteBehavior.NoAction)
+                    .IsRequired(false);
+                   // .HasForeignKey<AlbumReview>(e => e.RatingId);
             });
 
             modelBuilder.Entity<ArtistsOnTheAlbum>(entity =>
@@ -465,6 +476,10 @@ namespace MusicWeb.DataAccess.Data
                 .HasForeignKey(e => e.UserId)
                 .OnDelete(DeleteBehavior.Restrict)
                 .IsRequired(true);
+
+                entity.HasOne(e => e.AlbumReview)
+                .WithOne(a => a.AlbumRating)
+                .HasForeignKey<AlbumRating>(e => e.ReviewId);
             });
 
             modelBuilder.Entity<SongRating>(entity =>
@@ -479,6 +494,21 @@ namespace MusicWeb.DataAccess.Data
             });
 
             modelBuilder.Entity<AlbumRatingAverage>(entity =>
+            {
+                entity.HasNoKey();
+            });
+
+            modelBuilder.Entity<AlbumReviewRating>(entity =>
+            {
+                entity.HasNoKey();
+            });
+
+            modelBuilder.Entity<SongReviewRating>(entity =>
+            {
+                entity.HasNoKey();
+            });
+
+            modelBuilder.Entity<SongRatingAverage>(entity =>
             {
                 entity.HasNoKey();
             });

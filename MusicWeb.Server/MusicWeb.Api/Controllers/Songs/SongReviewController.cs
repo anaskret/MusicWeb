@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging;
 using MusicWeb.Api.Extensions;
 using MusicWeb.Models.Dtos.Songs;
 using MusicWeb.Models.Entities;
+using MusicWeb.Models.Enums;
 using MusicWeb.Models.Identity;
 using MusicWeb.Services.Interfaces.Songs;
 using System;
@@ -119,6 +120,22 @@ namespace MusicWeb.Api.Controllers.Songs
                 await _songReviewService.DeleteAsync(id);
 
                 return Ok();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+
+        [HttpGet(ApiRoutes.SongReviews.GetAllPagedWithRating)]
+        public async Task<IActionResult> GetAllPagedWithRating([FromRoute] int pageNum, [FromRoute] int pageSize, [FromRoute] SortType sortType, [FromRoute] DateTime createDateStart, [FromRoute] DateTime createDateEnd)
+        {
+            try
+            {
+                var response = await _songReviewService.GetPagedAsync(sortType, createDateStart, createDateEnd, pageNum, pageSize);
+                return Ok(response);
             }
             catch (Exception ex)
             {

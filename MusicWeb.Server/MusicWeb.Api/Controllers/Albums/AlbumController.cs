@@ -6,6 +6,8 @@ using MusicWeb.Api.Extensions;
 using MusicWeb.Models.Dtos.Albums;
 using MusicWeb.Models.Dtos.Albums.Create;
 using MusicWeb.Models.Entities;
+using MusicWeb.Models.Entities.Keyless;
+using MusicWeb.Models.Enums;
 using MusicWeb.Services.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -132,6 +134,36 @@ namespace MusicWeb.Api.Controllers.Albums
                 await _albumService.DeleteAsync(id);
 
                 return Ok();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [HttpGet(ApiRoutes.Albums.GetAllPagedSearchString)]
+        public async Task<IActionResult> GetAllPagedSearchString([FromRoute] int pageNum, [FromRoute] int pageSize, [FromRoute] SortType sortType, [FromRoute] DateTime createDateStart, [FromRoute] DateTime createDateEnd, [FromRoute] string searchString = "")
+        {
+            try
+            {
+                var response = _mapper.Map<List<AlbumRatingAverage>>(await _albumService.GetPagedAsync(sortType, createDateStart, createDateEnd, pageNum, pageSize, searchString));
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [HttpGet(ApiRoutes.Albums.GetAllPaged)]
+        public async Task<IActionResult> GetAllPaged([FromRoute] int pageNum, [FromRoute] int pageSize, [FromRoute] SortType sortType, [FromRoute] DateTime createDateStart, [FromRoute] DateTime createDateEnd)
+        {
+            try
+            {
+                var response = await _albumService.GetPagedAsync(sortType, createDateStart, createDateEnd, pageNum, pageSize);
+                return Ok(response);
             }
             catch (Exception ex)
             {
