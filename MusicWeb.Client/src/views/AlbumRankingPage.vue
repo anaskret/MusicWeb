@@ -8,6 +8,7 @@
     @set-filters="setFilters"
     :redirect_module_name="redirect_module_name"
     :module_name="module_name"
+    :columns_list="columns_list"
   />
 </template>
 
@@ -16,43 +17,24 @@ import useAlbums from "@/modules/albums";
 import InfiniteScrollList from "@/components/InfiniteScrollList";
 
 export default {
-  name: "AlbumListPage",
+  name: "AlbumRanking",
   components: {
     InfiniteScrollList,
   },
   data() {
     return {
       albums: [],
-      filters: {},
       scroll_settings: {
         page: 0,
         records_quantity: 5,
-        default_sort_type: "Alfabetycznie malejąco",
-        sort_types: [
-          "Alfabetycznie malejąco",
-          "Alfabetycznie rosnąco",
-          "Po popularności malejąco",
-          "Po popularności rosnąco",
-        ],
-        selected_sort_type: 0,
+        default_ranking_type: "Po popularności malejąco",
+        selected_sort_type: 3,
       },
       intersection_active: true,
       redirect_module_name: "AlbumPage",
-      last_search: "",
-      module_name: "AlbumList",
+      module_name: "AlbumRanking",
+      columns_list: ["Position", "", "Album", "Rating", "Amount of ratings", "Favorite", "Reviews"],
     };
-  },
-  watch: {
-    "$store.state.searchingValue": function () {
-      if (
-        this.last_search !== this.$store.state.searchingValue &&
-        this.$store.state.searchingValue
-      ) {
-        this.albums = [];
-        this.getPagedAlbumList("", "", true);
-        this.$store.state.searchingValue = "";
-      }
-    },
   },
   methods: {
     parseDate(date) {
@@ -76,19 +58,15 @@ export default {
         getPagedAlbums(
           this.scroll_settings.page,
           this.scroll_settings.records_quantity,
-          this.scroll_settings.selected_sort_type,
-          '1990-12-13T16:26:14.374Z',
-          // this.parseDate(this.filters.release_date_from),
-          this.parseDate(this.filters.release_date_to),
-          this.$store.state.searchingValue
+          3,
+          '1970-12-13T16:26:14.374Z',
+          '2030-12-13T16:26:14.374Z'
         )
           .then((response) => {
             if (response.length > 0) {
               response.forEach((item) => {
                 return this.albums.push(item);
               });
-              this.last_search = this.$store.state.searchingValue;
-              this.$store.state.searchingValue = "";
             } else {
               this.intersection_active = false;
             }

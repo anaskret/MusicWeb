@@ -9,6 +9,9 @@ namespace MusicWeb.Models.Entities.Ratings
     public class AlbumRating : BaseRating
     {
         public int AlbumId { get; set; }
-        public Album Album { get; set; }
+        public virtual Album Album { get; set; }
+        public int? ReviewId { get; set; }
+        public virtual AlbumReview AlbumReview { get; set; }
+
     }
 }

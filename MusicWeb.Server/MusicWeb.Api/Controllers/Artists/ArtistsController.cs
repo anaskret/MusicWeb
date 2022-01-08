@@ -8,6 +8,7 @@ using MusicWeb.Models.Dtos.Artists;
 using MusicWeb.Models.Dtos.Artists.Create;
 using MusicWeb.Models.Entities;
 using MusicWeb.Models.Entities.Artists;
+using MusicWeb.Models.Entities.Keyless;
 using MusicWeb.Models.Enums;
 using MusicWeb.Services.Interfaces.Artists;
 using System;
@@ -108,7 +109,7 @@ namespace MusicWeb.Api.Controllers.Artists
         {
             try
             {
-                var response = _mapper.Map<List<ArtistDto>>(await _artistService.GetPagedAsync(sortType, createDateStart, createDateEnd, pageNum, pageSize));
+                var response = _mapper.Map<List<ArtistRatingAverage>>(await _artistService.GetPagedAsync(sortType, createDateStart, createDateEnd, pageNum, pageSize));
                 return Ok(response);
             }
             catch(Exception ex)

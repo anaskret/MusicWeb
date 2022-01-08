@@ -1,6 +1,35 @@
 <template>
   <v-container fluid grid-list-lg class="py-16">
-    <v-row justify="center">
+              <div v-if="module_name == 'ArtistRanking' || module_name == 'AlbumRanking' || module_name=='SongRanking'">
+            <v-simple-table>
+            <thead>
+          <tr>
+            <th v-for="(column, index) in columns_list" :key="index">{{column}}</th>
+            <!-- <th class="text-left">
+              Name
+            </th>
+            <th class="text-left">
+              Calories
+            </th> -->
+          </tr>
+        </thead>
+        <tbody>
+               <tr v-for="(item, index) in items"
+              :key="index"
+        >
+          <td>{{index + 1}}</td>
+          <td><div>
+          <v-img :src="require('@/assets/BandPhoto.svg')" style = "width: 50px;"/>
+        </div></td>
+          <td>{{ item.name }}</td>
+          <td>{{ item.rating }}</td>
+          <td>{{ item.ratingsCount }}</td>
+          <td>{{item.favoriteCount}}</td>
+        </tr>
+        </tbody>
+          </v-simple-table>
+          </div>
+    <v-row justify="center" v-else>
       <v-col lg="8">
         <div class="mx-auto">
           <div v-if="module_name != 'Activities'">
@@ -12,6 +41,7 @@
                 transition="scale-transition"
                 offset-y
                 min-width="auto"
+                outlined
               >
                 <template v-slot:activator="{ on, attrs }">
                   <v-text-field
@@ -41,6 +71,7 @@
                 transition="scale-transition"
                 offset-y
                 min-width="auto"
+                outlined
               >
                 <template v-slot:activator="{ on, attrs }">
                   <v-text-field
@@ -69,6 +100,7 @@
               label="Sortuj"
               @change="setSelectedType"
               v-model="updateDefaultSortType"
+              outlined
             >
               <template v-slot:item="{ item, attrs, on }">
                 <v-list-item
@@ -86,6 +118,12 @@
             <v-btn @click="setDefaultFilters">Domyślne</v-btn>
             <v-btn @click="filterList">Filtruj/Sortuj</v-btn>
           </div>
+        </div>
+      </v-col>
+    </v-row>
+    <v-row justify="center" v-if="module_name != 'ArtistRanking' && module_name != 'AlbumRanking' && module_name != 'SongRanking'">
+
+      <v-col lg="8">
           <v-list v-if="module_name == 'Activities'">
             <v-list-item
               class="item"
@@ -118,7 +156,7 @@
               </v-list-item>
             </v-list-item-group>
           </v-list>
-        </div>
+        <!-- </div> -->
       </v-col>
     </v-row>
     <div
@@ -154,6 +192,8 @@ export default {
     intersection_active: Boolean,
     redirect_module_name: String,
     module_name: String,
+    columns_list: Array,
+
   },
   components: {
     InfiniteScrolItem,
@@ -222,4 +262,5 @@ export default {
   border-radius: 2%;
   margin-bottom: 3%;
 }
+
 </style>

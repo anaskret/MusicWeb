@@ -33,7 +33,7 @@ export default function useSongs() {
       });
     }
   };
-  const getPaged = function (
+  const getPagedSongs = function (
     page_num,
     page_size,
     sort_type,
@@ -66,6 +66,6 @@ export default function useSongs() {
     getSongFullData,
     getSongsByArtistId,
     getSongRatingAverage,
-    getPaged,
+    getPagedSongs,
   };
 }

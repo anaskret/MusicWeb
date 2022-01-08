@@ -140,6 +140,7 @@ namespace MusicWeb.Services.Services.Artists
 
                 return query.OrderByDescending(prp => prp.Name);
             });
+            
         }
 
         public async Task DeleteAsync(int id)

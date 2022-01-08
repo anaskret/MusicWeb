@@ -21,7 +21,7 @@ export default function useAlbums() {
       });
     }
   };
-  const getPaged = function (
+  const getPagedAlbums = function (
     page_num,
     page_size,
     sort_type,
@@ -53,6 +53,6 @@ export default function useAlbums() {
     getAll,
     getAlbumFullData,
     getAlbumRatingAverage,
-    getPaged,
+    getPagedAlbums,
   };
 }

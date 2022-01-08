@@ -1,5 +1,4 @@
 <template>
-
   <InfiniteScrollList
     :items="songs"
     :scroll_settings="scroll_settings"
@@ -9,6 +8,7 @@
     @set-filters="setFilters"
     :redirect_module_name="redirect_module_name"
     :module_name="module_name"
+    :columns_list="columns_list"
   />
 </template>
 
@@ -17,43 +17,24 @@ import useSongs from "@/modules/songs";
 import InfiniteScrollList from "@/components/InfiniteScrollList";
 
 export default {
-  name: "SongListPage",
+  name: "SongRanking",
   components: {
     InfiniteScrollList,
   },
   data() {
     return {
       songs: [],
-      filters: {},
       scroll_settings: {
         page: 0,
-        records_quantity: 5,
-        default_sort_type: "Alfabetycznie malejąco",
-        sort_types: [
-          "Alfabetycznie malejąco",
-          "Alfabetycznie rosnąco",
-          "Po popularności malejąco",
-          "Po popularności rosnąco",
-        ],
-        selected_sort_type: 0,
+        records_quantity: 10,
+        default_ranking_type: "Po popularności malejąco",
+        selected_sort_type: 3,
       },
       intersection_active: true,
       redirect_module_name: "SongPage",
-      last_search: "",
-      module_name: "SongList",
+      module_name: "SongRanking",
+      columns_list: ["Position", "", "Song", "Rating", "Amount of ratings", "Favorite", "Reviews"],
     };
-  },
-  watch: {
-    "$store.state.searchingValue": function () {
-      if (
-        this.last_search !== this.$store.state.searchingValue &&
-        this.$store.state.searchingValue
-      ) {
-        this.songs = [];
-        this.getPagedSongList("", "", true);
-        this.$store.state.searchingValue = "";
-      }
-    },
   },
   methods: {
     parseDate(date) {
@@ -88,6 +69,7 @@ export default {
               response.forEach((item) => {
                 return this.songs.push(item);
               });
+                console.log(this.songs);
               this.last_search = this.$store.state.searchingValue;
               this.$store.state.searchingValue = "";
             } else {

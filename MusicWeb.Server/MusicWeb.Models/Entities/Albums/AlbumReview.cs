@@ -17,10 +17,11 @@ namespace MusicWeb.Models.Entities
         public DateTime PostDate { get; set; }
         public int AlbumId { get; set; }
         public string UserId { get; set; }
+        public int? RatingId { get; set; }
 
         public virtual Album Album { get; set; }
         public virtual ApplicationUser User { get; set; }
-        public virtual AlbumRating Rating { get; set; }
+        public virtual AlbumRating AlbumRating { get; set; }
 
     }
 }

@@ -9,7 +9,7 @@ export default function useArtists() {
       });
     }
   };
-  const getPaged = function (
+  const getPagedArtists = function (
     page_num,
     page_size,
     sort_type,
@@ -46,7 +46,7 @@ export default function useArtists() {
   };
   return {
     getArtistById,
-    getPaged,
+    getPagedArtists,
     getArtistRatingAverage,
   };
 }

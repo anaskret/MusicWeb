@@ -4,7 +4,6 @@ export default class UserFavoriteArtist {
   artistId = null;
   artist = {};
   user = {};
-  artistId = null;
   constructor($data) {
     if ($data) {
       this.id = $data.id;
