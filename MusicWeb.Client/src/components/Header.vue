@@ -49,10 +49,7 @@
             </div>
             <div class="ml-lg-16">
               <p>{{ vote_title }}</p>
-              <div
-                class="d-flex flex-row starConteiner"
-                @mouseleave="getDefaultStars"
-              >
+              <div class="d-flex flex-row starConteiner" @mouseleave="getDefaultStars">
                 <font-awesome-icon
                   class="star icon pr-2"
                   v-for="(star, index) in stars"
@@ -62,8 +59,9 @@
                   :color="star.color"
                   @click="vote"
                   @mouseover="countStars"
-                  :id="'star_' + index"
-                  :value="star.value"
+                  
+                  :id="'star_' + index" :value="star.value"
+              
                 ></font-awesome-icon>
                 <div class="align-center">
                   <span class="feature-text" id="rating">0.0</span>
@@ -114,16 +112,16 @@ export default {
     },
     module_name: {
       type: String,
-    },
+    }, 
   },
   data() {
     return {
       stars: [
-        { color: "gray", value: 1 },
-        { color: "gray", value: 2 },
-        { color: "gray", value: 3 },
-        { color: "gray", value: 4 },
-        { color: "gray", value: 5 },
+        { color: "gray", value:1 },
+        { color: "gray", value:2 },
+        { color: "gray", value:3 },
+        { color: "gray", value:4 },
+        { color: "gray", value:5 },
       ],
       heart: {color: "gray"},
       albumRating: new AlbumRating(),
@@ -149,7 +147,7 @@ export default {
     const { getUserObservedArtist, addUserObservedArtist, deleteUserObservedArtist} = useUserObservedArtists();   
     
 
-    const addNewAlbumRating = function (ratingId) {
+      const addNewAlbumRating = function (ratingId) {
       this.albumRating.userId = this.$store.state.auth.userId;
       this.albumRating.albumId = this.$route.params.id;
       this.albumRating.rating = ratingId;
@@ -168,10 +166,17 @@ export default {
               );
             }
           },
-      );
-    };
+          (error) => {
+            this.$emit(
+              "show-alert",
+              `Nie udało się dodać recenzji. ${error.response.status} ${error.response.data}`,
+              "error"
+            );
+          }
+        );
+      }
 
-    const updateAlbumUserRating = function (ratingId) {
+      const updateAlbumUserRating = function (ratingId) {
       this.albumRating.rating = ratingId;
         updateUserRating(this.albumRating).then(
           (response) => {
@@ -187,6 +192,13 @@ export default {
               );
             }
           },
+          (error) => {
+            this.$emit(
+              "show-alert",
+              `Nie udało się dodać recenzji. ${error.response.status} ${error.response.data}`,
+              "error"
+            );
+          }
         );
       }
 const addNewArtistRating = function (ratingId) {
@@ -208,6 +220,13 @@ const addNewArtistRating = function (ratingId) {
               );
             }
           },
+          (error) => {
+            this.$emit(
+              "show-alert",
+              `Nie udało się dodać recenzji. ${error.response.status} ${error.response.data}`,
+              "error"
+            );
+          }
         );
       }
 
@@ -227,6 +246,13 @@ const addNewArtistRating = function (ratingId) {
               );
             }
           },
+          (error) => {
+            this.$emit(
+              "show-alert",
+              `Nie udało się dodać recenzji. ${error.response.status} ${error.response.data}`,
+              "error"
+            );
+          }
         );
       }  
 
@@ -246,10 +272,17 @@ const addNewArtistRating = function (ratingId) {
               );
             }
           },
+          (error) => {
+            this.$emit(
+              "show-alert",
+              `Nie udało się dodać recenzji. ${error.response.status} ${error.response.data}`,
+              "error"
+            );
+          }
         );
       }
 
-    const addNewSongRating = function (ratingId) {
+      const addNewSongRating = function (ratingId) {
       this.songRating.userId = this.$store.state.auth.userId;
       this.songRating.songId = this.$route.params.id;
       this.songRating.rating = ratingId;
@@ -268,8 +301,15 @@ const addNewArtistRating = function (ratingId) {
               );
             }
           },
-      );
-    };
+          (error) => {
+            this.$emit(
+              "show-alert",
+              `Nie udało się dodać recenzji. ${error.response.status} ${error.response.data}`,
+              "error"
+            );
+          }
+        );
+      }
 
       const getAlbumRating = function () {
         getUserRating(this.id, this.user_id).then((response) => {
@@ -333,6 +373,13 @@ const addNewArtistRating = function (ratingId) {
               );
             }
           },
+          (error) => {
+            this.$emit(
+              "show-alert",
+              `Nie udało się dodać recenzji. ${error.response.status} ${error.response.data}`,
+              "error"
+            );
+          }
         );
       }
       const getUserSong = function () {
@@ -375,6 +422,13 @@ const addNewArtistRating = function (ratingId) {
               );
             }
           },
+          (error) => {
+            this.$emit(
+              "show-alert",
+              `Nie udało się dodać recenzji. ${error.response.status} ${error.response.data}`,
+              "error"
+            );
+          }
         );
       }
 
@@ -417,6 +471,13 @@ const addNewArtistRating = function (ratingId) {
               );
             }
           },
+          (error) => {
+            this.$emit(
+              "show-alert",
+              `Nie udało się dodać recenzji. ${error.response.status} ${error.response.data}`,
+              "error"
+            );
+          }
         );
       }
 
@@ -442,6 +503,13 @@ const addNewArtistRating = function (ratingId) {
               );
             }
           },
+          (error) => {
+            this.$emit(
+              "show-alert",
+              `Nie udało się dodać recenzji. ${error.response.status} ${error.response.data}`,
+              "error"
+            );
+          }
         );
       }
 
@@ -464,10 +532,6 @@ const addNewArtistRating = function (ratingId) {
     };
 
     return {
-      albumRating: new AlbumRating(),
-      songRating: new SongRating(),
-      id: this.$route.params.id,
-      user_id: localStorage.getItem("user-id"),
       addNewAlbumRating,
       addNewSongRating, 
       getAlbumRating,
@@ -492,7 +556,8 @@ const addNewArtistRating = function (ratingId) {
     };
   },
   methods: {
-    vote: function (event) {
+    vote: function(event)
+    {
       let ratingId = event.currentTarget.getAttribute("value");
       
       if (this.module_name == "Album")
@@ -500,7 +565,9 @@ const addNewArtistRating = function (ratingId) {
         if (this.albumRating.id > 0)
         {
           this.updateAlbumUserRating(ratingId);
-        } else {
+        }
+        else 
+        {
           this.addNewAlbumRating(ratingId);
         }
       }
@@ -528,18 +595,23 @@ const addNewArtistRating = function (ratingId) {
       }
     },
 
-    colorStars: function (value) {
+    colorStars: function(value)
+    {
       let stars = document.querySelectorAll(".star");
-      stars.forEach((star) => {
-        if (star.getAttribute("value") <= value) {
+      stars.forEach(star => {
+        if (star.getAttribute("value") <= value)
+        {
           star.classList.add("activeStar");
-        } else {
+        }
+        else
+        {
           star.classList.remove("activeStar");
         }
       });
     },
 
-    countStars: function (event) {
+    countStars: function(event)
+    { 
       let value;
       if (event) {
         value = event.currentTarget.getAttribute("value");
@@ -564,7 +636,8 @@ const addNewArtistRating = function (ratingId) {
       this.colorStars(value);
     },
 
-    getDefaultStars: function (rating) {
+    getDefaultStars: function(rating)
+    {
       this.colorStars(rating);
       this.countStars();
     },
@@ -637,6 +710,7 @@ const addNewArtistRating = function (ratingId) {
       }
       else
       {
+
         this.deleteObservedArtist(this.userObservedArtist.id);
       }
 
