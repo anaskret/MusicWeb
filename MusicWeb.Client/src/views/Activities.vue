@@ -8,6 +8,7 @@
     @set-filters="setFilters"
     :redirect_module_name="redirect_module_name"
     :module_name="module_name"
+    v-on="$listeners"
   />
 </template>
 
@@ -37,7 +38,7 @@ export default {
   },
   methods: {
     parseDate(date) {
-      return this.moment.utc(date).format();
+      return this.moment(date).format();
     },
     filterList() {
       this.posts = [];
@@ -55,9 +56,9 @@ export default {
     const getPagedPostList = function (entries, observer, is_intersecting) {
       if (is_intersecting) {
         getPaged(
-        this.user_id,
+          this.user_id,
           this.scroll_settings.page,
-          this.scroll_settings.records_quantity,
+          this.scroll_settings.records_quantity
         )
           .then((response) => {
             if (response.length > 0) {

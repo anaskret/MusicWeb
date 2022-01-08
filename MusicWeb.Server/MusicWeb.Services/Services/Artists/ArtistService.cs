@@ -141,6 +141,7 @@ namespace MusicWeb.Services.Services.Artists
 
                 return query.OrderByDescending(prp => prp.Name);
             });
+            
         }
 
         public async Task DeleteAsync(int id)
@@ -200,6 +201,11 @@ namespace MusicWeb.Services.Services.Artists
                 await _bandService.DeleteAsync(entity.BandId.GetValueOrDefault(), entity.Id);
 
             await _artistRepository.UpdateAsync(entity);
+        }
+
+        public async Task<ArtistRatingAverage> GetArtistRatingAverage(int id)
+        {
+            return _mapper.Map<ArtistRatingAverage>(await _artistRepository.GetArtistAverageRating(id));
         }
     }
 }

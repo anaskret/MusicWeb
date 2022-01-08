@@ -1,5 +1,7 @@
 ﻿using MusicWeb.Models.Dtos.Songs;
 using MusicWeb.Models.Entities;
+using MusicWeb.Models.Entities.Keyless;
+using MusicWeb.Models.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,5 +18,6 @@ namespace MusicWeb.Services.Interfaces.Songs
         Task UpdateAsync(SongReview entity);
         Task DeleteAsync(int id);
         Task<SongReviewFullDataDto> GetSongReviewFullDataByIdAsync(int id);
+        Task<List<SongReviewRating>> GetPagedAsync(SortType sortType, DateTime startDate, DateTime endDate, int pageNum = 0, int pageSize = 15);
     }
 }

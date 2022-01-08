@@ -3,6 +3,9 @@ export default {
   getById(id) {
     return ApiService.authRequest(`/artistdata/${id}`, ApiService.get);
   },
+  getArtistRatingAverage(id) {
+    return ApiService.authRequest(`artistaveragerating/${id}`, ApiService.get);
+  },
   getPaged(
     page_num,
     page_size,

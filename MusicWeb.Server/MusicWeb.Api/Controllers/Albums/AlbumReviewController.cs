@@ -4,6 +4,7 @@ using Microsoft.Extensions.Logging;
 using MusicWeb.Api.Extensions;
 using MusicWeb.Models.Dtos.Albums;
 using MusicWeb.Models.Entities;
+using MusicWeb.Models.Enums;
 using MusicWeb.Services.Interfaces.Albums;
 using System;
 using System.Collections.Generic;
@@ -120,5 +121,37 @@ namespace MusicWeb.Api.Controllers.Albums
                 return StatusCode(500, ex.Message);
             }
         }
+
+       
+        [HttpGet(ApiRoutes.AlbumReviews.GetAllPagedWithRating)]
+        public async Task<IActionResult> GetAllPagedWithRating([FromRoute] int pageNum, [FromRoute] int pageSize, [FromRoute] SortType sortType, [FromRoute] DateTime createDateStart, [FromRoute] DateTime createDateEnd)
+        {
+            try
+            {
+                var response = await _albumReviewService.GetPagedAsync(sortType, createDateStart, createDateEnd, pageNum, pageSize);
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return StatusCode(500, ex.Message);
+            }
+        }
+        
+        [HttpGet(ApiRoutes.AlbumReviews.GetAllPaged)]
+        public async Task<IActionResult> GetAllPaged([FromRoute] int pageNum, [FromRoute] int pageSize, [FromRoute] SortType sortType, [FromRoute] DateTime createDateStart, [FromRoute] DateTime createDateEnd)
+        {
+            try
+            {
+                var response = await _albumReviewService.GetPagedAsync(sortType, createDateStart, createDateEnd, pageNum, pageSize);
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return StatusCode(500, ex.Message);
+            }
+        }
+       
     }
 }

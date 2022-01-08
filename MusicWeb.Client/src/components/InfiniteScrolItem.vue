@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="page_name == 'ArtistList'">
+    <div v-if="page_name == 'ArtistList' || page_name == 'SongList'">
       <v-card @click="redirectToItem(item.id)">
         <div class="d-flex flex-no-wrap justify-space-between">
           <div>
@@ -36,7 +36,14 @@
         </div>
       </v-card>
     </div>
-    <div v-else-if="page_name == 'Activities' && (item.artist != null || item.album != null)">
+    <div
+      v-else-if="
+        page_name == 'Activities' &&
+        (item.artist != null || item.album != null) &&
+        item.userName == null &&
+        item.posterId == null
+      "
+    >
       <v-card>
         <v-row class="pl-2 d-flex justify-space-between">
           <v-col lg="8" sm="8">
@@ -52,7 +59,14 @@
               </v-col>
               <v-col lg="9" sm="9">
                 <v-card-subtitle>
-                  <p class="text-left">{{item.userName}} follows (Artist)</p>
+                  <p class="text-left">
+                    <span
+                      class="link-to-item"
+                      @click="redirectToItem(item.artistId, 'Artist')"
+                      >{{ item.artist }}</span
+                    >
+                    posted the new album
+                  </p>
                 </v-card-subtitle>
               </v-col>
             </v-row>
@@ -71,7 +85,9 @@
               <v-col lg="4" sm="4">
                 <div>
                   <v-img
+                    class="link-to-item"
                     :src="require('@/assets/naturaldisaster.svg')"
+                    @click="redirectToItem(item.albumId, 'Album')"
                     contain
                   />
                 </div>
@@ -79,12 +95,13 @@
               <v-col lg="8" sm="8">
                 <v-card-title
                   justify="center"
-                  class="text-h5"
-                  v-text="item.userName"
+                  class="text-h5 link-to-item"
+                  v-text="item.album"
+                  @click="redirectToItem(item.albumId, 'Album')"
                 ></v-card-title>
                 <v-card-subtitle>
                   <p class="text-left">
-                    {{ moment(item.createDate).format("YYYY") }}
+                    {{ moment(item.establishmentDate).format("YYYY") }}
                   </p>
                   <p class="text-left">Genre</p>
                 </v-card-subtitle>
@@ -157,7 +174,11 @@
         </v-row>
       </v-card>
     </div>
-    <div v-else-if="page_name == 'Activities' && item.artist == null && item.album == null">
+    <div
+      v-else-if="
+        page_name == 'Activities' && item.artist == null && item.album == null
+      "
+    >
       <v-card>
         <v-row class="pl-2 d-flex justify-space-between">
           <v-col lg="8" sm="8">
@@ -173,7 +194,7 @@
               </v-col>
               <v-col lg="9" sm="9">
                 <v-card-subtitle>
-                  <p class="text-left">{{item.userName}}</p>
+                  <p class="text-left">{{ item.userName }}</p>
                 </v-card-subtitle>
               </v-col>
             </v-row>
@@ -188,12 +209,12 @@
         </v-row>
         <v-row class="pl-2 d-flex justify-start">
           <v-col lg="10" sm="10">
-                <v-card-title
-                  justify="center"
-                  class="text-h5"
-                  v-text="item.text"
-                ></v-card-title>
-            </v-col>
+            <v-card-title
+              justify="center"
+              class="text-h5"
+              v-text="item.text"
+            ></v-card-title>
+          </v-col>
         </v-row>
         <v-row class="pl-5">
           <v-expansion-panels enabled>
@@ -229,9 +250,9 @@
                 <v-col lg="12">
                   <v-expansion-panel-content>
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                    do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                    Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                    laboris nisi ut aliquip ex ea commodo consequat.
+                    do eiusmod tempor incididunt ut labore et dolore magna
+                    aliqua. Ut enim ad minim veniam, quis nostrud exercitation
+                    ullamco laboris nisi ut aliquip ex ea commodo consequat.
                   </v-expansion-panel-content>
                 </v-col>
               </v-row>
@@ -267,15 +288,9 @@ export default {
     this.prepareDate();
   },
   methods: {
-    redirectToItem(itemId) {
-      this.$router.push({
-        name: `${this.redirect_module_name}`,
-        params: { id: itemId },
-      });
-    },
     calculateAdditionTime() {
       let now_date = this.moment();
-      let post_date = this.moment(this.item.createDate);
+      let post_date = this.moment(this.item.establishmentDate);
       let duration = this.moment.duration(now_date.diff(post_date));
       duration = duration._data;
       let result = "";
@@ -308,6 +323,19 @@ export default {
     },
     prepareDate() {
       this.time_from_addition = this.calculateAdditionTime();
+    },
+    redirectToItem(itemId, type = null) {
+      if (!type) {
+        this.$router.push({
+          name: `${this.redirect_module_name}`,
+          params: { id: itemId },
+        });
+      } else {
+        this.$router.push({
+          name: type == "Album" ? "AlbumPage" : "ArtistPage",
+          params: { id: itemId },
+        });
+      }
     },
   },
 };

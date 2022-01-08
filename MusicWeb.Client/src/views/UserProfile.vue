@@ -2,12 +2,6 @@
   <v-container fluid class="py-16 d-flex justify-center">
     <v-row justify="center">
       <v-col md="2" sm="6">
-<<<<<<< HEAD
-          <v-avatar size="250">
-            <v-img v-if="account.imagePath" :src="`${this.$store.state.serverUrl}/${account.imagePath}`" :alt="`${account.firstname}`" class="rounded-circle" />
-            <v-img v-else src="@/assets/defaut_user.png" :alt="`${account.firstname}`" class="rounded-circle" />
-          </v-avatar>
-=======
         <v-avatar size="280">
           <v-img
             v-if="account.imagePath"
@@ -22,11 +16,10 @@
             class="rounded-circle"
           />
         </v-avatar>
->>>>>>> features/api/artistpagetopsongs
       </v-col>
       <v-col md="4" sm="9">
         <div class="profile-header">
-          <p>Profil</p>
+          <p>Profile</p>
           <h1 class="profile-title">
             <span class="text-uppercase display-2">
               {{ account.firstname }} {{ account.lastname }}
@@ -39,7 +32,7 @@
               </template>
               <v-card class="editDialog">
                 <v-card-title>
-                  <span class="text-h5">Wprowadź nowe dane</span>
+                  <span class="text-h5">Update your credits</span>
                 </v-card-title>
                 <v-card-text>
                   <v-container>
@@ -75,8 +68,8 @@
                 </v-card-text>
                 <v-card-actions>
                   <v-spacer></v-spacer>
-                  <v-btn @click="edit_dialog = false"> Anuluj </v-btn>
-                  <v-btn @click="updateNamesDialog"> Zapisz </v-btn>
+                  <v-btn @click="edit_dialog = false"> Close </v-btn>
+                  <v-btn @click="updateNamesDialog"> Save </v-btn>
                 </v-card-actions>
               </v-card>
             </v-dialog>
@@ -108,8 +101,8 @@
 import ReviewList from "@/components/ReviewList";
 import ItemCarousel from "../components/ItemCarousel.vue";
 import useAccounts from "@/modules/accounts";
-import Account from "@/models/Account";
 import { required, minLength, maxLength } from "vuelidate/lib/validators";
+import { mapGetters } from "vuex";
 export default {
   name: "UserProfile",
   components: {
@@ -125,7 +118,6 @@ export default {
       genres_title: "Ulubione gatunki",
       artists_link_title: "Zobacz wszystko",
       genres_link_title: "Zobacz wszystko",
-      account: new Account(),
       edit_dialog: false,
     };
   },
@@ -133,9 +125,12 @@ export default {
     this.getReviews();
     this.getArtists();
     this.getGenres();
-    this.getAccount();
   },
   computed: {
+    ...mapGetters({
+      account: "current_user",
+      server_url: "server_url",
+    }),
     isDisabled() {
       return this.$v.$invalid;
     },
@@ -242,28 +237,18 @@ export default {
     },
   },
   setup() {
-    const { getAccountById, updateAccountNames } = useAccounts();
-
-    const getAccount = function () {
-      getAccountById(localStorage.getItem("user-id")).then((response) => {
-        this.account = response;
-      });
-    };
+    const { updateAccountNames } = useAccounts();
 
     const updateNames = function () {
       this.account.id = localStorage.getItem("user-id");
       updateAccountNames(this.account).then(
         (response) => {
           if (response.status == 200) {
-            this.$emit(
-              "show-alert",
-              "Dane zostały zaktualizowane pomyślnie.",
-              "success"
-            );
+            this.$emit("show-alert", "Data updated successfuly.", "success");
           } else {
             this.$emit(
               "show-alert",
-              `Nie udało się zaktualizować. Błąd ${response.status}`,
+              `Something went wrong. Error ${response.status}`,
               "error"
             );
           }
@@ -271,7 +256,7 @@ export default {
         (error) => {
           this.$emit(
             "show-alert",
-            `Nie udało się zaktualizować. ${error.response.status} ${error.response.data}`,
+            `Something went wrong. ${error.response.status} ${error.response.data}`,
             "error"
           );
         }
@@ -279,7 +264,6 @@ export default {
     };
 
     return {
-      getAccount,
       updateNames,
     };
   },

@@ -11,11 +11,12 @@
     <div class="d-flex align-center">
       <v-img
         alt="MusicWeb"
-        class="shrink"
+        class="shrink link-to-item"
         contain
         src="@/assets/logo-navbar.png"
         transition="scale-transition"
         width="150"
+        @click="redirectToActivities"
       />
     </div>
     <v-spacer></v-spacer>
@@ -55,7 +56,7 @@
             <v-list-item-avatar>
               <img
                 v-if="account.imagePath"
-                :src="`${this.$store.state.serverUrl}/${account.imagePath}`"
+                :src="`${server_url}/${account.imagePath}`"
                 :alt="`${account.firstname}`"
               />
               <img
@@ -195,22 +196,6 @@
                         <span class="text-h5">Zmień zdjęcie</span>
                       </v-card-title>
                       <v-card-text>
-                        <!-- <v-container>
-                            <v-row>
-                                <v-col cols="12" md="12">
-                                    <v-text-field
-                                    class="p-4"
-                                    label="Email"
-                                    v-model.trim="$v.account.email.$model"
-                                    :error-messages="emailErrors"
-                                    :counter="25"
-                                    required
-                                    @input="$v.account.email.$touch()"
-                                    @blur="$v.account.email.$touch()"
-                                    ></v-text-field>
-                                </v-col>
-                            </v-row>
-                        </v-container> -->
                         <div class="uploader">
                           <v-file-input
                             label="File input"
@@ -257,7 +242,7 @@
 <script>
 import useAccounts from "@/modules/accounts";
 import SearchBar from "@/components/SearchBar";
-import Account from "@/models/Account";
+import { mapGetters } from "vuex";
 import {
   required,
   minLength,
@@ -265,6 +250,7 @@ import {
   email,
   sameAs,
 } from "vuelidate/lib/validators";
+import { mapMutations } from "vuex";
 export default {
   name: "Navbar",
   components: {
@@ -272,11 +258,9 @@ export default {
   },
   data() {
     return {
-      user_id: localStorage.getItem("user-id"),
       drawer: null,
       group: null,
       settings_dialog: false,
-      account: new Account(),
       oldPassword: "",
       confirmPassword: "",
       active_tab: 0,
@@ -290,6 +274,10 @@ export default {
     };
   },
   computed: {
+    ...mapGetters({
+      account: "current_user",
+      server_url: "server_url",
+    }),
     isDisabled() {
       return this.$v.$invalid;
     },
@@ -331,6 +319,7 @@ export default {
     },
   },
   methods: {
+    ...mapMutations(["setCurrentUser"]),
     redirectToProfile() {
       this.drawer = !this.drawer;
       this.$router.push({ name: "UserProfile" });
@@ -342,7 +331,7 @@ export default {
       this.$router.push({ name: "Activities" });
     },
     redirectToRankList() {
-      this.$router.push({ name: "RankListPage" });
+      this.$router.push({ name: "RankingPage" });
     },
     prepareErrorArray(field) {
       const errors = [];
@@ -419,15 +408,17 @@ export default {
       });
     },
     clearSettings() {
-      this.account = new Account();
+      this.account = this.$store.state.current_user;
+      this.account.password = "";
       this.oldPassword = "";
       this.confirmPassword = "";
+      this.$v.$touch();
     },
   },
   watch: {
     $route(to, from) {
-      if (from.path === "/" && to.path === "/artists") {
-        this.getAccount();
+      if (from.path === "/" && to.path === "/activities") {
+        this.setCurrentUser();
       }
       if (to.path === "/activities") {
         this.active_tab = 0;
@@ -436,47 +427,28 @@ export default {
       }
     },
   },
-  created() {
-    if (!["Login", "Register"].includes(this.$route.name)) {
-      this.getAccount();
-    }
-  },
   setup() {
-    const {
-      getAccountById,
-      updateAccountPassword,
-      updateAccountEmail,
-      updateAccountImage,
-    } = useAccounts();
+    const { updateAccountPassword, updateAccountEmail, updateAccountImage } =
+      useAccounts();
 
     const onLogout = function () {
       this.$store.dispatch("auth/logout");
     };
 
-    const getAccount = function () {
-      getAccountById(this.user_id).then((response) => {
-        this.account = response;
-      });
-    };
-
     const updatePassword = function () {
-      this.account.id = this.user_id;
+      this.account.id = this.$store.state.auth.userId;
       this.account.oldPassword = this.oldPassword;
       this.account.newPassword = this.account.password;
       this.account.confirmPassword = this.confirmPassword;
       updateAccountPassword(this.account).then(
         (response) => {
           if (response.status == 200) {
-            this.$emit(
-              "show-alert",
-              "Dane zostały zaktualizowane pomyślnie.",
-              "success"
-            );
+            this.$emit("show-alert", "Data updated successfuly.", "success");
             this.clearSettings();
           } else {
             this.$emit(
               "show-alert",
-              `Nie udało się zaktualizować. Błąd ${response.status}`,
+              `Something went wrong. Error ${response.status}`,
               "error"
             );
             this.clearSettings();
@@ -485,7 +457,7 @@ export default {
         (error) => {
           this.$emit(
             "show-alert",
-            `Nie udało się zaktualizować. ${error.response.status} ${error.response.data}`,
+            `Something went wrong. ${error.response.status} ${error.response.data}`,
             "error"
           );
           this.clearSettings();
@@ -494,20 +466,16 @@ export default {
     };
 
     const updateEmail = function () {
-      this.account.id = this.user_id;
+      this.account.id = this.$store.state.auth.userId;
       updateAccountEmail(this.account).then(
         (response) => {
           if (response.status == 200) {
-            this.$emit(
-              "show-alert",
-              "Dane zostały zaktualizowane pomyślnie.",
-              "success"
-            );
+            this.$emit("show-alert", "Data updated successfuly.", "success");
             this.clearSettings();
           } else {
             this.$emit(
               "show-alert",
-              `Nie udało się zaktualizować. Błąd ${response.status}`,
+              `Something went wrong. Error ${response.status}`,
               "error"
             );
             this.clearSettings();
@@ -516,7 +484,7 @@ export default {
         (error) => {
           this.$emit(
             "show-alert",
-            `Nie udało się zaktualizować. ${error.response.status} ${error.response.data}`,
+            `Something went wrong. ${error.response.status} ${error.response.data}`,
             "error"
           );
           this.clearSettings();
@@ -525,22 +493,18 @@ export default {
     };
 
     const updateImage = function () {
-      this.file.userid = this.user_id;
+      this.file.userid = this.$store.state.auth.userId;
       this.file.imagePath = "/Users/";
       updateAccountImage(this.file).then(
         (response) => {
           if (response.status == 200) {
-            this.$emit(
-              "show-alert",
-              "Dane zostały zaktualizowane pomyślnie.",
-              "success"
-            );
+            this.$emit("show-alert", "Data updated successfuly.", "success");
             this.clearSettings();
             this.$router.go();
           } else {
             this.$emit(
               "show-alert",
-              `Nie udało się zaktualizować. Błąd ${response.status}`,
+              `Something went wrong. Error ${response.status}`,
               "error"
             );
             this.clearSettings();
@@ -549,7 +513,7 @@ export default {
         (error) => {
           this.$emit(
             "show-alert",
-            `Nie udało się zaktualizować. ${error.response.status} ${error.response.data}`,
+            `Something went wrong. ${error.response.status} ${error.response.data}`,
             "error"
           );
           this.clearSettings();
@@ -559,7 +523,6 @@ export default {
 
     return {
       onLogout,
-      getAccount,
       updatePassword,
       updateEmail,
       updateImage,

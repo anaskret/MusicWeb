@@ -39,18 +39,10 @@ export default function useAccounts() {
     return await accountServices.updateImage(data);
   };
 
-  const getPaged = function (
-    user_id,
-    page_num,
-    page_size
-  ) {
+  const getPaged = function (user_id, page_num, page_size) {
     if (page_num > -1 && page_size) {
       return accountServices
-        .getPaged(
-            user_id,
-            page_num,
-            page_size
-        )
+        .getPaged(user_id, page_num, page_size)
         .then((response) => {
           let res = response.data;
           let posts = [];
@@ -59,6 +51,53 @@ export default function useAccounts() {
           });
           return posts;
         });
+    }
+  };
+
+  const addAccountPost = function (data) {
+    if (data) {
+      return accountServices.addPost(data);
+    }
+  };
+
+  const userWatchArtist = function (data) {
+    if (data) {
+      return accountServices.watchArtist(data);
+    }
+  };
+
+  const getAccounts = function () {
+    return accountServices.getAccounts().then((response) => {
+      let res = response.data;
+      let friends = [];
+      res.forEach((friend) => {
+        friends.push(new Account(friend));
+      });
+      return friends;
+    });
+  };
+
+  const getFriends = function (user_id) {
+    if (user_id) {
+      return accountServices.getFriends(user_id);
+    }
+  };
+
+  const addFriendRequest = function (data) {
+    if (data) {
+      return accountServices.addFriendRequest(data);
+    }
+  };
+
+  const acceptFriendRequest = function (data) {
+    if (data) {
+      return accountServices.acceptFriendRequest(data);
+    }
+  };
+
+  const discardFriendRequest = function (user_id, friend_id) {
+    if (user_id && friend_id) {
+      return accountServices.discardFriendRequest(user_id, friend_id);
     }
   };
   return {
@@ -70,9 +109,13 @@ export default function useAccounts() {
     updateAccountPassword,
     updateAccountEmail,
     updateAccountImage,
-<<<<<<< HEAD
-    getPaged
-=======
->>>>>>> features/api/artistpagetopsongs
+    getPaged,
+    addAccountPost,
+    userWatchArtist,
+    getAccounts,
+    getFriends,
+    addFriendRequest,
+    acceptFriendRequest,
+    discardFriendRequest,
   };
 }

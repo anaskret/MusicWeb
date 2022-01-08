@@ -44,7 +44,6 @@ export default {
   },
   watch: {
     "$store.state.searchingValue": function () {
-      debugger;
       if (
         this.last_search !== this.$store.state.searchingValue &&
         this.$store.state.searchingValue
@@ -57,7 +56,7 @@ export default {
   },
   methods: {
     parseDate(date) {
-      return this.moment.utc(date).format();
+      return this.moment(date).format();
     },
     filterList() {
       this.artists = [];
@@ -70,11 +69,11 @@ export default {
   },
 
   setup() {
-    const { getPaged } = useArtists();
+    const { getPagedArtists } = useArtists();
 
     const getPagedArtistList = function (entries, observer, is_intersecting) {
       if (is_intersecting) {
-        getPaged(
+        getPagedArtists(
           this.scroll_settings.page,
           this.scroll_settings.records_quantity,
           this.scroll_settings.selected_sort_type,

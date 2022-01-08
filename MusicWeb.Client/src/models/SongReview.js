@@ -1,4 +1,5 @@
 export default class SongReview {
+  id = null;
   title = "";
   content = "";
   postDate = "";
@@ -8,8 +9,10 @@ export default class SongReview {
   userName = "";
   albumName = "";
   artistName = "";
+  rating = null;
   constructor($data) {
     if ($data) {
+      this.id = $data.id;
       this.title = $data.title;
       this.content = $data.content;
       this.postDate = $data.postDate;
@@ -19,6 +22,7 @@ export default class SongReview {
       this.userName = $data.userName;
       this.albumName = $data.albumName;
       this.artistName = $data.artistName;
+      this.rating = $data.id;
     }
   }
 }

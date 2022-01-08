@@ -19,9 +19,38 @@ export default function useAlbumReviews() {
       });
     }
   };
+  const getPaged = function (
+    page_num,
+    page_size,
+    sort_type,
+    create_date_start,
+    create_date_end,
+    search_string
+  ) {
+    if (page_num > -1 && page_size && create_date_start && create_date_end) {
+      return albumReviewServices
+        .getPaged(
+          page_num,
+          page_size,
+          sort_type,
+          create_date_start,
+          create_date_end,
+          search_string
+        )
+        .then((response) => {
+          let res = response.data;
+          let albumReviews = [];
+          res.forEach((albumReview) => {
+            albumReviews.push(new AlbumReview(albumReview));
+          });
+          return albumReviews;
+        });
+    }
+  };
   return {
     getAll,
     addAlbumReview,
     getAlbumReviewFullData,
+    getPaged,
   };
 }

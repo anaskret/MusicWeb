@@ -1,6 +1,6 @@
 <template>
-  <div class="background">
-    <v-btn fab class="chat-btn">
+  <div class="button-container">
+    <v-btn fab class="chat-btn" @click="openChat">
       <font-awesome-icon
         class="icon pa-1"
         icon="comment"
@@ -10,20 +10,31 @@
     </v-btn>
   </div>
 </template>
+
 <script>
+import { mapGetters } from "vuex";
 export default {
-  name: "Chat",
-  setup() {},
+  name: "Button",
+  computed: {
+    ...mapGetters({
+      account: "current_user",
+    }),
+  },
+  methods: {
+    openChat() {
+      this.$emit("open-chat");
+    },
+  },
 };
 </script>
 <style scoped>
-.background {
+.button-container {
   display: flex;
   position: sticky;
-  bottom: 1rem;
-  z-index: 1;
   justify-content: flex-end;
   align-items: flex-start;
+  bottom: 1rem;
+  z-index: 1;
 }
 .chat-btn {
   margin-right: 1rem;
