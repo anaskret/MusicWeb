@@ -87,6 +87,8 @@ import useUserFavoriteSongs from "@/modules/userFavoriteSongs.js";
 import UserFavoriteSong from "@/models/UserFavoriteSong.js";
 import useArtistRatings from "@/modules/artistRatings.js";
 import ArtistRating from "@/models/ArtistRating.js";
+import useUserFavoriteArtist from "@/modules/userFavoriteArtists";
+import UserFavoriteArtist from "@/models/UserFavoriteArtist.js";
 
 export default {
   name: "Header",
@@ -126,6 +128,7 @@ export default {
       user_id: localStorage.getItem("user-id"), 
       userFavoriteAlbum: new UserFavoriteAlbum(),
       userFavoriteSong: new UserFavoriteSong(),
+      userFavoriteArtist: new UserFavoriteArtist(),
     };
   },
   setup() {
@@ -135,6 +138,7 @@ export default {
     const { addArtistRating, getUserArtistRating, updateUserArtistRating } = useArtistRatings();
     const { getUserFavoriteAlbum, deleteUserFavoriteAlbum, addUserFavoriteAlbum } = useUserFavoriteAlbums();   
     const { getUserFavoriteSong, deleteUserFavoriteSong, addUserFavoriteSong } = useUserFavoriteSongs();   
+    const { getUserFavoriteArtist, deleteUserFavoriteArtist, addUserFavoriteArtist } = useUserFavoriteArtists();   
     
 
       const addNewAlbumRating = function (ratingId) {
