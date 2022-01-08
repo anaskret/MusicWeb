@@ -37,10 +37,12 @@ namespace MusicWeb.Repositories.Repositories.Artists
         {
             var sql = $@"SELECT T0.*, ROUND(Coalesce(T1.Rating, 0), 2) as Rating, 
             COALESCE(T1.RatingsCount,0) as RatingsCount, 
-            COALESCE(T2.Favorite, 0) as FavoriteCount
+            COALESCE(T2.Favorite, 0) as FavoriteCount,
+            COALESCE(T3.Observed, 0) as ObservedCount
             FROM Artist T0
             LEFT JOIN(SELECT ArtistId, AVG(Cast(Rating as float)) as Rating, COUNT(Rating) as RatingsCount FROM ArtistRating GROUP BY ArtistId) T1 ON T1.ArtistId = T0.Id
-            LEFT JOIN (SELECT ArtistId, COUNT(ArtistId) as Favorite FROM UserFavoriteArtist GROUP BY ArtistId) T2 ON T0.Id = T2.ArtistId";
+            LEFT JOIN (SELECT ArtistId, COUNT(ArtistId) as Favorite FROM UserFavoriteArtist GROUP BY ArtistId) T2 ON T0.Id = T2.ArtistId
+            LEFT JOIN (SELECT ArtistId, COUNT(ArtistId) as Observed FROM UserObservedArtist GROUP BY ArtistId) T3 ON T0.Id = T3.ArtistId";
             var query = _dbContext.ArtistRatingAverage.FromSqlRaw(sql);
             var entity = await query.FirstOrDefaultAsync(prp => prp.Id == id);
             return entity;
@@ -50,10 +52,12 @@ namespace MusicWeb.Repositories.Repositories.Artists
         {
             var sql = @$"SELECT T0.*, ROUND(Coalesce(T1.Rating, 0), 2) as Rating, 
             COALESCE(T1.RatingsCount,0) as RatingsCount, 
-            COALESCE(T2.Favorite, 0) as FavoriteCount
+            COALESCE(T2.Favorite, 0) as FavoriteCount,
+            COALESCE(T3.Observed, 0) as ObservedCount
             FROM Artist T0
             LEFT JOIN(SELECT ArtistId, AVG(Cast(Rating as float)) as Rating, COUNT(Rating) as RatingsCount FROM ArtistRating GROUP BY ArtistId) T1 ON T1.ArtistId = T0.Id
-            LEFT JOIN (SELECT ArtistId, COUNT(ArtistId) as Favorite FROM UserFavoriteArtist GROUP BY ArtistId) T2 ON T0.Id = T2.ArtistId";
+            LEFT JOIN (SELECT ArtistId, COUNT(ArtistId) as Favorite FROM UserFavoriteArtist GROUP BY ArtistId) T2 ON T0.Id = T2.ArtistId
+            LEFT JOIN (SELECT ArtistId, COUNT(ArtistId) as Observed FROM UserObservedArtist GROUP BY ArtistId) T3 ON T0.Id = T3.ArtistId";
 
             var query = _dbContext.ArtistRatingAverage.FromSqlRaw(sql);
 

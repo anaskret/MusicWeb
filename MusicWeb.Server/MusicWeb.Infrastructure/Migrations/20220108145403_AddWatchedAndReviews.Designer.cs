@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MusicWeb.DataAccess.Data;
 
 namespace MusicWeb.DataAccess.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220108145403_AddWatchedAndReviews")]
+    partial class AddWatchedAndReviews
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -419,6 +421,9 @@ namespace MusicWeb.DataAccess.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("ObservedCount")
+                        .HasColumnType("int");
+
                     b.Property<double>("Rating")
                         .HasColumnType("float");
 
@@ -427,9 +432,6 @@ namespace MusicWeb.DataAccess.Migrations
 
                     b.Property<DateTime>("ReleaseDate")
                         .HasColumnType("datetime2");
-
-                    b.Property<int>("ReviewsCount")
-                        .HasColumnType("int");
 
                     b.ToTable("AlbumRatingAverage");
                 });
@@ -486,13 +488,13 @@ namespace MusicWeb.DataAccess.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("ObservedCount")
-                        .HasColumnType("int");
-
                     b.Property<double>("Rating")
                         .HasColumnType("float");
 
                     b.Property<int>("RatingsCount")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ReviewsCount")
                         .HasColumnType("int");
 
                     b.Property<int>("Type")

@@ -158,7 +158,7 @@ namespace MusicWeb.Api.Controllers.Songs
         {
             try
             {
-                var response = _mapper.Map<List<SongDto>>(await _songService.GetPagedAsync(sortType, createDateStart, createDateEnd, pageNum, pageSize));
+                var response = _mapper.Map<List<SongRatingAverage>>(await _songService.GetPagedAsync(sortType, createDateStart, createDateEnd, pageNum, pageSize));
                 return Ok(response);
             }
             catch (Exception ex)
