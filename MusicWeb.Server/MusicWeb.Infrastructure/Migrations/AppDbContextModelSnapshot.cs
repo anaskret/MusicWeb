@@ -227,7 +227,9 @@ namespace MusicWeb.DataAccess.Migrations
 
                     b.HasIndex("AlbumId");
 
-                    b.HasIndex("RatingId");
+                    b.HasIndex("RatingId")
+                        .IsUnique()
+                        .HasFilter("[RatingId] IS NOT NULL");
 
                     b.HasIndex("UserId");
 
@@ -793,6 +795,9 @@ namespace MusicWeb.DataAccess.Migrations
                     b.Property<int>("Rating")
                         .HasColumnType("int");
 
+                    b.Property<int?>("ReviewId")
+                        .HasColumnType("int");
+
                     b.Property<string>("UserId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
@@ -1254,8 +1259,8 @@ namespace MusicWeb.DataAccess.Migrations
                         .IsRequired();
 
                     b.HasOne("MusicWeb.Models.Entities.Ratings.AlbumRating", "Rating")
-                        .WithMany()
-                        .HasForeignKey("RatingId");
+                        .WithOne("AlbumReview")
+                        .HasForeignKey("MusicWeb.Models.Entities.AlbumReview", "RatingId");
 
                     b.HasOne("MusicWeb.Models.Identity.ApplicationUser", "User")
                         .WithMany("AlbumReviews")
@@ -1720,6 +1725,11 @@ namespace MusicWeb.DataAccess.Migrations
                     b.Navigation("PostComments");
 
                     b.Navigation("PostLikes");
+                });
+
+            modelBuilder.Entity("MusicWeb.Models.Entities.Ratings.AlbumRating", b =>
+                {
+                    b.Navigation("AlbumReview");
                 });
 
             modelBuilder.Entity("MusicWeb.Models.Entities.Song", b =>
