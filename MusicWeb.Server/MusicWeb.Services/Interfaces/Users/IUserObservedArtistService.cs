@@ -13,5 +13,6 @@ namespace MusicWeb.Services.Interfaces.Users
         Task CreateAsync(UserObservedArtist model);
         Task DeleteAsync(int id);
         Task DeleteRangeByUserIdAsync(string userId);
+        Task<IList<UserObservedArtist>> GetUserObservedArtistAsync(string userId, int artistId);
     }
 }

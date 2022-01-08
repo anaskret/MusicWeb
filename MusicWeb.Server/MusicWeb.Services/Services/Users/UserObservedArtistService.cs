@@ -42,5 +42,11 @@ namespace MusicWeb.Services.Services.Users
         {
             return await _userObservedArtistRepository.GetAllAsync(entity => entity.Where(prp => string.Equals(prp.UserId, userId)));
         }
+
+        public async Task<IList<UserObservedArtist>> GetUserObservedArtistAsync(string userId, int artistId)
+        {
+            var models = await _userObservedArtistRepository.GetAllWithArtistByUserIdAsync(userId);
+            return models;
+        }
     }
 }
