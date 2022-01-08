@@ -80,6 +80,7 @@ namespace MusicWeb.Api.Extensions
             public const string GetSongRatingAverage = Root + "/songaveragerating/{id}";
             public const string GetAllPagedSearchString = Root + "/songs/{pageNum}/{pageSize}/{sortType}/{createDateStart}/{createDateEnd}/{searchString}";
             public const string GetAllPaged = Root + "/songs/{pageNum}/{pageSize}/{sortType}/{createDateStart}/{createDateEnd}";
+            public const string GetTopSongs = Root + "/topsongs/{artistId}";
 
         }
 
