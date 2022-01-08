@@ -62,7 +62,7 @@ namespace MusicWeb.Api.Controllers.Chats
             try
             {
                 var entity = _mapper.Map<Message>(model);
-                await _messageService.SendMessageAsync(entity);
+                await _messageService.SendMessageAsync(entity, model.ImageBytes);
 
                 return Ok(model);
             }

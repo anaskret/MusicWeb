@@ -10,8 +10,8 @@ using MusicWeb.DataAccess.Data;
 namespace MusicWeb.DataAccess.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20220108150047_AddWatchedAndReviewsFix")]
-    partial class AddWatchedAndReviewsFix
+    [Migration("20220108202943_MessageImage")]
+    partial class MessageImage
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -662,6 +662,9 @@ namespace MusicWeb.DataAccess.Migrations
                     b.Property<int>("ChatId")
                         .HasColumnType("int");
 
+                    b.Property<string>("ImagePath")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("SendDate")
                         .HasColumnType("datetime2");
 
@@ -1064,6 +1067,9 @@ namespace MusicWeb.DataAccess.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("CreatedByUserId")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("FriendId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
@@ -1076,6 +1082,8 @@ namespace MusicWeb.DataAccess.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("FriendId");
 
                     b.HasIndex("UserId");
 
@@ -1404,10 +1412,9 @@ namespace MusicWeb.DataAccess.Migrations
                         .HasForeignKey("ArtistPosterId")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("MusicWeb.Models.Entities.UserFriend", "Poster")
+                    b.HasOne("MusicWeb.Models.Identity.ApplicationUser", "Poster")
                         .WithMany("Posts")
                         .HasForeignKey("PosterId")
-                        .HasPrincipalKey("FriendId")
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("MusicWeb.Models.Entities.UserObservedArtist", null)
@@ -1755,11 +1762,6 @@ namespace MusicWeb.DataAccess.Migrations
                     b.Navigation("UserFavoriteSongs");
                 });
 
-            modelBuilder.Entity("MusicWeb.Models.Entities.UserFriend", b =>
-                {
-                    b.Navigation("Posts");
-                });
-
             modelBuilder.Entity("MusicWeb.Models.Entities.UserObservedArtist", b =>
                 {
                     b.Navigation("Posts");
@@ -1788,6 +1790,8 @@ namespace MusicWeb.DataAccess.Migrations
                     b.Navigation("PostComments");
 
                     b.Navigation("PostLikes");
+
+                    b.Navigation("Posts");
 
                     b.Navigation("SongRatings");
 

@@ -501,8 +501,6 @@ namespace MusicWeb.DataAccess.Migrations
                     b.ToTable("ArtistRatingAverage");
                 });
 
-<<<<<<< HEAD
-=======
             modelBuilder.Entity("MusicWeb.Models.Entities.Keyless.SongRatingAverage", b =>
                 {
                     b.Property<int>("AlbumId")
@@ -576,7 +574,6 @@ namespace MusicWeb.DataAccess.Migrations
                     b.ToTable("SongReviewRating");
                 });
 
->>>>>>> features/client/artist-fav
             modelBuilder.Entity("MusicWeb.Models.Entities.Keyless.TopSongsWithRating", b =>
                 {
                     b.Property<int>("AlbumId")
@@ -662,6 +659,9 @@ namespace MusicWeb.DataAccess.Migrations
 
                     b.Property<int>("ChatId")
                         .HasColumnType("int");
+
+                    b.Property<string>("ImagePath")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("SendDate")
                         .HasColumnType("datetime2");
@@ -803,12 +803,9 @@ namespace MusicWeb.DataAccess.Migrations
                     b.Property<int>("Rating")
                         .HasColumnType("int");
 
-<<<<<<< HEAD
-=======
                     b.Property<int?>("ReviewId")
                         .HasColumnType("int");
 
->>>>>>> features/client/artist-fav
                     b.Property<string>("UserId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
@@ -817,13 +814,10 @@ namespace MusicWeb.DataAccess.Migrations
 
                     b.HasIndex("AlbumId");
 
-<<<<<<< HEAD
-=======
                     b.HasIndex("ReviewId")
                         .IsUnique()
                         .HasFilter("[ReviewId] IS NOT NULL");
 
->>>>>>> features/client/artist-fav
                     b.HasIndex("UserId");
 
                     b.ToTable("AlbumRating");
@@ -1795,11 +1789,8 @@ namespace MusicWeb.DataAccess.Migrations
 
                     b.Navigation("PostLikes");
 
-<<<<<<< HEAD
                     b.Navigation("Posts");
 
-=======
->>>>>>> features/client/artist-fav
                     b.Navigation("SongRatings");
 
                     b.Navigation("SongReviews");
