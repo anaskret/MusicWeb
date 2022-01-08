@@ -222,6 +222,38 @@ namespace MusicWeb.Admin
                 endpoints.MapBlazorHub();
                 endpoints.MapFallbackToPage("/_Host");
             });
+
+            var scope = app.ApplicationServices.CreateScope();
+            var context = scope.ServiceProvider.GetService<AppDbContext>();
+            var userManager = scope.ServiceProvider.GetService<UserManager<ApplicationUser>>();
+            var roleManager = scope.ServiceProvider.GetService<RoleManager<IdentityRole>>();
+
+            if (!context.Database.EnsureCreated())
+            {
+                var adminUser = userManager.FindByNameAsync("admin").Result;
+
+                if (adminUser != null)
+                    return;
+
+                var user = new ApplicationUser
+                {
+                    FirstName = "Admin",
+                    LastName = "Admin",
+                    UserName = "admin",
+                    Email = "admin@wp.pl",
+                    LockoutEnabled = false,
+                    Type = MusicWeb.Models.Enums.UserType.Admin
+                };
+
+                var result = userManager.CreateAsync(user, "Admin123").Result;
+                if (result.Succeeded)
+                {
+                    result = userManager.AddToRoleAsync(user, "Admin").Result;
+
+                    user.LockoutEnabled = false;
+                    result = userManager.UpdateAsync(user).Result;
+                }
+            }
         }
     }
 }
