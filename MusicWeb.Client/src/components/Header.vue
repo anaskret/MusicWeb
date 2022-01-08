@@ -21,7 +21,8 @@
                 height="30px"
                 v-if="show_observe_button"
                 class="text-uppercase align-self-center ml-md-16"
-                >Obserwuj
+                @click="addToObserved"
+                >{{observe_btn}}
               </v-btn>
             </div>
           </v-col>
@@ -89,6 +90,8 @@ import useArtistRatings from "@/modules/artistRatings.js";
 import ArtistRating from "@/models/ArtistRating.js";
 import useUserFavoriteArtists from "@/modules/userFavoriteArtists";
 import UserFavoriteArtist from "@/models/UserFavoriteArtist.js";
+import useUserObservedArtists from "@/modules/userObservedArtists";
+import UserObservedArtist from "@/models/UserObservedArtist.js";
 
 export default {
   name: "Header",
@@ -129,6 +132,8 @@ export default {
       userFavoriteAlbum: new UserFavoriteAlbum(),
       userFavoriteSong: new UserFavoriteSong(),
       userFavoriteArtist: new UserFavoriteArtist(),
+      userObservedArtist: new UserObservedArtist(),
+      observe_btn: "Observe",
     };
   },
   setup() {
@@ -139,6 +144,7 @@ export default {
     const { getUserFavoriteAlbum, deleteUserFavoriteAlbum, addUserFavoriteAlbum } = useUserFavoriteAlbums();   
     const { getUserFavoriteSong, deleteUserFavoriteSong, addUserFavoriteSong } = useUserFavoriteSongs();   
     const { getUserFavoriteArtist, deleteUserFavoriteArtist, addUserFavoriteArtist } = useUserFavoriteArtists();   
+    const { getUserObservedArtist, addUserObservedArtist, deleteUserObservedArtist} = useUserObservedArtists();   
     
 
       const addNewAlbumRating = function (ratingId) {
@@ -443,7 +449,6 @@ const addNewArtistRating = function (ratingId) {
       });
     };
 
-    
       const addFavoriteArtist = function () {
       this.userFavoriteArtist.userId = this.$store.state.auth.userId;
       this.userFavoriteArtist.favoriteId = this.$route.params.id;
@@ -476,6 +481,56 @@ const addNewArtistRating = function (ratingId) {
         );
       }
 
+    
+      const addObservedArtist = function () {
+      this.userObservedArtist.userId = this.$store.state.auth.userId;
+      this.userObservedArtist.favoriteId = this.$route.params.id;
+      delete this.userFavoriteArtist.id;
+      delete this.userFavoriteArtist.user;
+      delete this.userFavoriteArtist.artist;
+      
+      
+        addUserObservedArtist(this.userObservedArtist).then(
+          (response) => {
+            if (response.status == 200) {
+              this.getObservedArtist();
+              this.$emit("show-alert", "Review added.", "success");
+            } else {
+              this.$emit(
+                "show-alert",
+                `Nie udało się dodać recenzji. Błąd ${response.status}`,
+                "error"
+              );
+            }
+          },
+          (error) => {
+            this.$emit(
+              "show-alert",
+              `Nie udało się dodać recenzji. ${error.response.status} ${error.response.data}`,
+              "error"
+            );
+          }
+        );
+      }
+
+      const getObservedArtist = function () {
+      getUserObservedArtist(this.user_id, this.$route.params.id).then((response) => {
+        this.userObservedArtist = response;
+        if (this.userObservedArtist.id != null)
+        {
+          this.observe_btn = "Observed";
+        }       
+      });
+    };  
+
+    const deleteObservedArtist = function (id) {
+        deleteUserObservedArtist(id).then(() => {
+         this.userObservedArtist = {};
+         this.observe_btn = "Observe";
+          
+      });
+    };
+
     return {
       addNewAlbumRating,
       addNewSongRating, 
@@ -495,6 +550,9 @@ const addNewArtistRating = function (ratingId) {
       addFavoriteArtist, 
       deleteFavoriteArtist,
       getUserArtist,
+      getObservedArtist,
+      addObservedArtist,
+      deleteObservedArtist,
     };
   },
   methods: {
@@ -644,6 +702,22 @@ const addNewArtistRating = function (ratingId) {
           this.addFavoriteArtist();
         }
       }
+    }, 
+    addToObserved: function() {
+      // console.log(this.userObservedArtist);
+      if (this.userObservedArtist.id == null)
+      {
+        this.addObservedArtist();
+        console.log('add');
+        console.log(this.userObservedArtist);
+      }
+      else
+      {
+        console.log('delete');
+        this.deleteObservedArtist(this.userObservedArtist.id);
+        console.log(this.userObservedArtist);
+      }
+
     }
 
   },
@@ -662,6 +736,7 @@ const addNewArtistRating = function (ratingId) {
     {
       this.getArtistRating();
       this.getUserArtist();
+      this.getObservedArtist();
     }
   }
 };
