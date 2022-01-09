@@ -40,8 +40,9 @@ export default {
   methods: {
     searchData() {
       this.$store.state.searchingValue = this.search;
-      if (this.$router.currentRoute.path !== "/artists") {
-        this.$router.push({ name: "ArtistListPage" });
+      console.log(this.search);
+      if (this.$router.currentRoute.path !== "/search") {
+        this.$router.push({ name: "SearchPage" });
       }
     },
   },

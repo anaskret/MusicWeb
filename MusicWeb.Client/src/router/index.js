@@ -91,6 +91,11 @@ const routes = [
     name: "SongRankingPage",
     component: () => import("@/views/SongRankingPage.vue"),
   },
+  {
+    path: "/search",
+    name: "SearchPage",
+    component: () => import("@/views/SearchPage.vue"),
+  },
 ];
 
 const router = new VueRouter({
