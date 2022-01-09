@@ -44,6 +44,11 @@ namespace MusicWeb.Services.Services.Chats
             return await _messageRepository.GetByIdAsync(id);
         }
 
+        public async Task UpdateRangeAsync(List<Message> entites)
+        {
+            await _messageRepository.UpdateRangeAsync(entites);
+        }
+
         public async Task<List<Message>> GetMessagesByChatIdAsync(int chatId, int page = 0, int pageSize = int.MaxValue)
         {
             var entities = await _messageRepository.GetAllAsync(obj => obj.Where(prp => prp.ChatId == chatId)
@@ -81,6 +86,27 @@ namespace MusicWeb.Services.Services.Chats
                 throw new Exception("Signal not sent as friend was not found");
 
             await _messageHub.Clients.Group(friend.UserName).SendMessage(friend.UserName, chatEntity.Id);
+        }
+
+        public async Task ReadMessagesAsync(int chatId, string userId)
+        {
+            var chatEntity = await _chatService.GetByIdAsync(chatId);
+            if (chatEntity == null)
+                throw new ArgumentException("Chat doesn't exist!");
+
+            string senderId;
+            if (string.Equals(chatEntity.FriendId, userId))
+                senderId = chatEntity.UserId;
+            else
+                senderId = chatEntity.FriendId;
+
+            var messages = await _messageRepository.GetAllAsync(obj => obj.Where(prp => prp.ChatId == chatId && string.Equals(prp.SenderId, senderId)));
+            var messageList = messages.ToList();
+
+            messageList.ForEach(obj => obj.IsRead = true);
+            await UpdateRangeAsync(messageList);
+
+            await _messageHub.Clients.Group(senderId).MessagesRead(senderId, chatId);
         }
     }
 }

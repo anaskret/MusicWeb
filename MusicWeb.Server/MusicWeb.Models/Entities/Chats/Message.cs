@@ -14,6 +14,7 @@ namespace MusicWeb.Models.Entities
         public string Text { get; set; }
         public DateTime SendDate { get; set; }
         public string ImagePath { get; set; }
+        public bool IsRead { get; set; }
 
         public int ChatId { get; set; }
         public string SenderId { get; set; }

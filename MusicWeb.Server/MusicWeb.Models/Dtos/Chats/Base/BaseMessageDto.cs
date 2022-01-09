@@ -13,5 +13,7 @@ namespace MusicWeb.Models.Dtos.Chats.Base
 
         public string Text { get; set; }
         public byte[] ImageBytes { get; set; }
+
+        public bool IsRead { get; set; }
     }
 }
