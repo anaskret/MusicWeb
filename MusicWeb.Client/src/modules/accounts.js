@@ -39,10 +39,10 @@ export default function useAccounts() {
     return await accountServices.updateImage(data);
   };
 
-  const getPaged = function (user_id, page_num, page_size) {
-    if (page_num > -1 && page_size) {
+  const getPaged = function (user_id, page_initialize_date, page_num, page_size) {
+    if (page_num > -1 && page_initialize_date && page_size) {
       return accountServices
-        .getPaged(user_id, page_num, page_size)
+        .getPaged(user_id, page_initialize_date, page_num, page_size)
         .then((response) => {
           let res = response.data;
           let posts = [];

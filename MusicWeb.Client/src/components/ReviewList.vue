@@ -135,6 +135,7 @@ import useAlbumReviews from "@/modules/albumReviews";
 import SongReview from "@/models/SongReview";
 import useSongReviews from "@/modules/songReviews";
 import moment from "moment";
+import { mapGetters } from "vuex";
 export default {
   name: "ReviewList",
   props: {
@@ -153,8 +154,12 @@ export default {
       songReview: new SongReview(),
       error: {},
       dialog: false,
-      user_id: localStorage.getItem("user-id"),
     };
+  },
+  computed: {
+      ...mapGetters({
+         account: "current_user",
+      }),
   },
   methods: {
     addReviewDialog() {
@@ -177,7 +182,7 @@ export default {
     const { addAlbumReview } = useAlbumReviews();
 
     const addNewSongReview = function () {
-      this.songReview.userId = this.$store.state.auth.userId;
+      this.songReview.userId = this.account.id
       this.songReview.songId = this.$route.params.id;
       this.songReview.postDate = moment().format();
       if (
@@ -215,7 +220,7 @@ export default {
       }
     };
     const addNewAlbumReview = function () {
-      this.albumReview.userId = this.$store.state.auth.userId;
+      this.albumReview.userId = this.account.id;
       this.albumReview.albumId = this.$route.params.id;
       this.albumReview.postDate = moment().format();
       delete this.albumReview.album;

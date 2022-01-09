@@ -136,7 +136,7 @@
               :key="index"
             >
               <v-list-item-content>
-                <InfiniteScrolItem :item="item" :page_name="module_name" />
+                <InfiniteScrolItem :item="item" :page_name="module_name" v-on="$listeners"/>
               </v-list-item-content>
             </v-list-item>
           </v-list>
@@ -182,6 +182,7 @@ import InfiniteScrolItem from "@/components/InfiniteScrolItem";
 import useAccounts from "@/modules/accounts";
 import Post from "@/models/Post";
 import moment from "moment";
+import { mapGetters } from "vuex";
 export default {
   name: "InfiniteScrollList",
   data() {
@@ -207,6 +208,9 @@ export default {
     InfiniteScrolItem,
   },
   computed: {
+    ...mapGetters({
+        account: "current_user",
+    }),
     isDisabled() {
       return this.$v.$invalid;
     },
@@ -270,7 +274,7 @@ export default {
 
     const addPost = function () {
       this.post.createDate = moment().format();
-      this.post.posterId = this.$store.state.auth.userId;
+      this.post.posterId = this.account.id;
       if (this.post.text == null || this.post.text == "") {
         this.$emit("show-alert", "Post cannot be empty.", "error");
         this.new_post_dialog = true;

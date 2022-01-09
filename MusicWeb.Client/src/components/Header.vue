@@ -86,6 +86,7 @@ import useAlbumRatings from "@/modules/albumRatings.js";
 import AlbumRating from "@/models/AlbumRating.js";
 import useSongRatings from "@/modules/songRatings.js";
 import SongRating from "@/models/AlbumRating.js";
+import { mapGetters } from "vuex";
 
 export default {
   name: "Header",
@@ -119,7 +120,7 @@ export default {
       ],
       watch_artist: {
         favoriteDate: moment().format(),
-        userId: this.$store.state.auth.userId,
+        userId: this.account.id,
       },
     };
   },
@@ -160,7 +161,7 @@ export default {
     };
 
     const addNewAlbumRating = function (ratingId) {
-      this.albumRating.userId = this.$store.state.auth.userId;
+      this.albumRating.userId = this.account.id;
       this.albumRating.albumId = this.$route.params.id;
       this.albumRating.rating = ratingId;
 
@@ -211,7 +212,7 @@ export default {
     };
 
     const addNewSongRating = function (ratingId) {
-      this.songRating.userId = this.$store.state.auth.userId;
+      this.songRating.userId = this.account.id;
       this.songRating.songId = this.$route.params.id;
       this.songRating.rating = ratingId;
 
@@ -238,7 +239,7 @@ export default {
     };
 
     const getAlbumUserRating = function () {
-      getUserRating(this.id, this.user_id).then((response) => {
+      getUserRating(this.id, this.account.id).then((response) => {
         this.albumRating = response;
         this.getDefaultStars(this.albumRating.rating);
       });
@@ -249,12 +250,16 @@ export default {
       albumRating: new AlbumRating(),
       songRating: new SongRating(),
       id: this.$route.params.id,
-      user_id: localStorage.getItem("user-id"),
       addNewAlbumRating,
       addNewSongRating,
       getAlbumUserRating,
       updateAlbumUserRating,
     };
+  },
+  computed: {
+      ...mapGetters({
+         account: "current_user",
+      }),
   },
   methods: {
     vote: function (event) {

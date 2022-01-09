@@ -108,6 +108,7 @@
 import Comment from "@/models/Comment";
 import useComments from "@/modules/comments";
 import moment from "moment";
+import { mapGetters } from "vuex";
 export default {
   name: "CommentsList",
   props: {
@@ -130,6 +131,11 @@ export default {
       container.scrollTop = container.scrollHeight; //TODO Scroll to page bottom
     },
   },
+  computed: {
+    ...mapGetters({
+        account: "current_user"
+    }),
+  },
   watch: {
     loader() {
       const l = this.loader;
@@ -147,7 +153,7 @@ export default {
       this.loading = true;
       this.comment.postDate = moment().format();
       this.comment.artistId = this.artistId;
-      this.comment.userId = this.$store.state.auth.userId;
+      this.comment.userId = this.account.id;
       if (this.comment.content == null || this.comment.content == "") {
         this.$emit("show-alert", "Komentarz nie może być pusty.", "error");
         this.loading = false;

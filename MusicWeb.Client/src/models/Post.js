@@ -9,6 +9,10 @@ export default class Post {
   posterId = null;
   artistPosterId = "";
   albumId = "";
+  image = "";
+  isLiked = false;
+  totalLikes = null;
+  albumImage = null;
 
   constructor($data) {
     if ($data) {
@@ -22,6 +26,10 @@ export default class Post {
       this.posterId = $data.posterId;
       this.artistPosterId = $data.artistPosterId;
       this.albumId = $data.albumId;
+      this.image = $data.image;
+      this.isLiked = $data.isLiked;
+      this.totalLikes = $data.totalLikes;
+      this.albumImage = $data.albumImage;
     }
   }
 }
