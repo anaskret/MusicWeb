@@ -12,7 +12,7 @@
 @inject UserManager<ApplicationUser> _userManager;
 @inject NavigationManager NavManager;
 
-@*@attribute [Authorize(Roles = "Admin")]*@
+@attribute [Authorize(Roles = "Admin")]
 
 <title>MusicWeb - Users</title>
 
@@ -57,7 +57,7 @@
                                 </InputSelect>
                             </div>
                             <div class="col-md-3 col-sm-12 d-flex justify-content-end">
-                                <button type="button" class="btn btn-primary btn-xs-block mb-3 float-right waves-effect waves-themed" @onclick="GoToCreate">Create new admin</button>
+                                <button type="button" class="btn btn-primary btn-xs-block mb-3 float-right waves-effect waves-themed align-items-end" @onclick="GoToCreate">Create new admin</button>
                             </div>
                         </div>
                         <div class="table-responsive">
