@@ -183,5 +183,20 @@ namespace MusicWeb.Api.Controllers.Songs
             }
         }
 
+        [HttpGet(ApiRoutes.Songs.GetRankingPaged)]
+        public async Task<IActionResult> GetRankingPaged([FromRoute] RankSortType sortType, [FromRoute] int pageNum, [FromRoute] int pageSize)
+        {
+            try
+            {
+                var response = await _songService.GetPagedRankingAsync(sortType, pageNum, pageSize);
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return StatusCode(500, ex.Message);
+            }
+        }
+
     }
 }

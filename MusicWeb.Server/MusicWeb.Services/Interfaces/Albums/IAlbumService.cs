@@ -24,5 +24,6 @@ namespace MusicWeb.Services.Interfaces
         Task <AlbumRatingAverage> GetAlbumRatingAverage(int id);
         Task<List<AlbumRatingAverage>> GetPagedAsync(SortType sortType, DateTime startDate, DateTime endDate, int pageNum = 0, int pageSize = 15, string searchString = "");
         Task<IPagedList<Album>> GetIPagedAsync(string searchString, int pageNum = 0, int pageSize = int.MaxValue);
+        Task<List<AlbumRatingAverage>> GetPagedRankingAsync(RankSortType sortType, int pageNum = 0, int pageSize = 5);
     }
 }
