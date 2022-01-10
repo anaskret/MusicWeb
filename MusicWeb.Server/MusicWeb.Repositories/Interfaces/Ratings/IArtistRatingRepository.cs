@@ -10,5 +10,6 @@ namespace MusicWeb.Repositories.Interfaces.Ratings
 {
     public interface IArtistRatingRepository : IRepository<ArtistRating>
     {
+        Task<IList<ArtistRating>> GetUserRating(int id, string userId);
     }
 }

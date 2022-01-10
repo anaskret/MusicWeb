@@ -1,6 +1,5 @@
 <template>
   <v-container fluid class="py-16">
-    {{ albumRating }}
     <v-row justify="center">
       <v-col lg="3" sm="6" class="pr-lg-12">
         <div>
@@ -22,8 +21,8 @@
                 height="30px"
                 v-if="show_observe_button"
                 class="text-uppercase align-self-center ml-md-16"
-                @click="watchArtist"
-                >Watch
+                @click="addToObserved"
+                >{{observe_btn}}
               </v-btn>
             </div>
           </v-col>
@@ -35,24 +34,22 @@
               <div class="d-flex flex-row">
                 <div align-content="center" class="mr-lg-3">
                   <font-awesome-icon
-                    class="icon"
+                    class="heart icon"
                     icon="heart"
                     size="2x"
-                    color="#865e61"
+                    :color="heart.color"
+                    @click="updateUserFavorite"
                   ></font-awesome-icon>
                 </div>
                 <div align-items="center" class="align-center">
-                  <span class="feature-text pr-1">199 osób </span> dodało do
+                  <span class="feature-text pr-1">{{parent.favoriteCount }} osób </span> dodało do
                   ulubionych
                 </div>
               </div>
             </div>
             <div class="ml-lg-16">
               <p>{{ vote_title }}</p>
-              <div
-                class="d-flex flex-row starConteiner"
-                @mouseleave="getDefaultStars"
-              >
+              <div class="d-flex flex-row starConteiner" @mouseleave="getDefaultStars">
                 <font-awesome-icon
                   class="star icon pr-2"
                   v-for="(star, index) in stars"
@@ -62,8 +59,9 @@
                   :color="star.color"
                   @click="vote"
                   @mouseover="countStars"
-                  :id="'star_' + index"
-                  :value="star.value"
+                  
+                  :id="'star_' + index" :value="star.value"
+              
                 ></font-awesome-icon>
                 <div class="align-center">
                   <span class="feature-text" id="rating">0.0</span>
@@ -72,7 +70,7 @@
             </div>
           </v-col>
         </v-row>
-        <RankSection />
+        <RankSection :module_name="module_name"/>
       </v-col>
     </v-row>
   </v-container>
@@ -80,13 +78,22 @@
 
 <script>
 import RankSection from "@/components/RankSection.vue";
-import moment from "moment";
-import useAccounts from "@/modules/accounts";
 import useAlbumRatings from "@/modules/albumRatings.js";
 import AlbumRating from "@/models/AlbumRating.js";
 import useSongRatings from "@/modules/songRatings.js";
 import SongRating from "@/models/AlbumRating.js";
 import { mapGetters } from "vuex";
+import useUserFavoriteAlbums from "@/modules/userFavoriteAlbums.js";
+import UserFavoriteAlbum from "@/models/UserFavoriteAlbum.js";
+import useUserFavoriteSongs from "@/modules/userFavoriteSongs.js";
+import UserFavoriteSong from "@/models/UserFavoriteSong.js";
+import useArtistRatings from "@/modules/artistRatings.js";
+import ArtistRating from "@/models/ArtistRating.js";
+import useUserFavoriteArtists from "@/modules/userFavoriteArtists";
+import UserFavoriteArtist from "@/models/UserFavoriteArtist.js";
+import useUserObservedArtists from "@/modules/userObservedArtists";
+import UserObservedArtist from "@/models/UserObservedArtist.js";
+import moment from "moment";
 
 export default {
   name: "Header",
@@ -107,153 +114,448 @@ export default {
     },
     module_name: {
       type: String,
-    },
+    }, 
   },
   data() {
     return {
       stars: [
-        { color: "gray", value: 1 },
-        { color: "gray", value: 2 },
-        { color: "gray", value: 3 },
-        { color: "gray", value: 4 },
-        { color: "gray", value: 5 },
+        { color: "gray", value:1 },
+        { color: "gray", value:2 },
+        { color: "gray", value:3 },
+        { color: "gray", value:4 },
+        { color: "gray", value:5 },
       ],
-      watch_artist: {
-        favoriteDate: moment().format(),
-        userId: this.account.id,
-      },
+      heart: {color: "gray"},
+      albumRating: new AlbumRating(),
+      songRating: new SongRating(),
+      artistRating: new ArtistRating(),
+      id: this.$route.params.id, 
+      user_id: localStorage.getItem("user-id"), 
+      userFavoriteAlbum: new UserFavoriteAlbum(),
+      userFavoriteSong: new UserFavoriteSong(),
+      userFavoriteArtist: new UserFavoriteArtist(),
+      userObservedArtist: new UserObservedArtist(),
+      observe_btn: "Observe",
     };
   },
   setup() {
-    const { userWatchArtist } = useAccounts();
-    const { addAlbumRating, getUserRating, updateUserRating } =
-      useAlbumRatings();
-    const { addSongRating } = useSongRatings();
+    
+    const { addAlbumRating, getUserRating, updateUserRating } = useAlbumRatings();
+    const { addSongRating, getSongUserRating, updateSongUserRating } = useSongRatings();
+    const { addArtistRating, getUserArtistRating, updateUserArtistRating } = useArtistRatings();
+    const { getUserFavoriteAlbum, deleteUserFavoriteAlbum, addUserFavoriteAlbum } = useUserFavoriteAlbums();   
+    const { getUserFavoriteSong, deleteUserFavoriteSong, addUserFavoriteSong } = useUserFavoriteSongs();   
+    const { getUserFavoriteArtist, deleteUserFavoriteArtist, addUserFavoriteArtist } = useUserFavoriteArtists();   
+    const { getUserObservedArtist, addUserObservedArtist, deleteUserObservedArtist} = useUserObservedArtists();   
+    
 
-    const watchArtist = function () {
-      this.watch_artist.favoriteId = this.parent.id;
-      this.watch_artist.name = this.parent.name;
-      userWatchArtist(this.watch_artist).then(
-        (response) => {
-          if (response.status == 200) {
-            // TODO change button to observed, get userobservedartist
-            this.$emit(
-              "show-alert",
-              `You're now watching ${this.parent.name}.`,
-              "success"
-            );
-          } else {
-            this.$emit(
-              "show-alert",
-              `Something went wrong. Error ${response.status}`,
-              "error"
-            );
-          }
-        },
-        (error) => {
-          this.$emit(
-            "show-alert",
-            `Something went wrong. ${error.response.status} ${error.response.data}`,
-            "error"
-          );
-        }
-      );
-    };
-
-    const addNewAlbumRating = function (ratingId) {
-      this.albumRating.userId = this.account.id;
+      const addNewAlbumRating = function (ratingId) {
+      this.albumRating.userId = this.$store.state.auth.userId;
       this.albumRating.albumId = this.$route.params.id;
       this.albumRating.rating = ratingId;
-
-      addAlbumRating(this.albumRating).then(
-        (response) => {
-          if (response.status == 200) {
-            this.$emit("show-alert", "Review added.", "success");
-          } else {
+      
+        addAlbumRating(this.albumRating).then(
+          (response) => {
+            if (response.status == 200) {
+              this.$emit("getRating");
+              this.getAlbumRating();
+              this.$emit("show-alert", "Review added.", "success");
+            } else {
+              this.$emit(
+                "show-alert",
+                `Nie udało się dodać recenzji. Błąd ${response.status}`,
+                "error"
+              );
+            }
+          },
+          (error) => {
             this.$emit(
               "show-alert",
-              `Nie udało się dodać recenzji. Błąd ${response.status}`,
+              `Nie udało się dodać recenzji. ${error.response.status} ${error.response.data}`,
               "error"
             );
           }
-        },
-        (error) => {
-          this.$emit(
-            "show-alert",
-            `Nie udało się dodać recenzji. ${error.response.status} ${error.response.data}`,
-            "error"
-          );
-        }
-      );
-    };
+        );
+      }
 
-    const updateAlbumUserRating = function (ratingId) {
+      const updateAlbumUserRating = function (ratingId) {
       this.albumRating.rating = ratingId;
-      updateUserRating(this.albumRating).then(
-        (response) => {
-          if (response.status == 200) {
-            this.$emit("show-alert", "Review added.", "success");
-          } else {
+        updateUserRating(this.albumRating).then(
+          (response) => {
+            if (response.status == 200) {
+              this.$emit("getRating");
+              this.$emit("show-alert", "Review added.", "success");
+              
+            } else {
+              this.$emit(
+                "show-alert",
+                `Nie udało się dodać recenzji. Błąd ${response.status}`,
+                "error"
+              );
+            }
+          },
+          (error) => {
             this.$emit(
               "show-alert",
-              `Nie udało się dodać recenzji. Błąd ${response.status}`,
+              `Nie udało się dodać recenzji. ${error.response.status} ${error.response.data}`,
               "error"
             );
           }
-        },
-        (error) => {
-          this.$emit(
-            "show-alert",
-            `Nie udało się dodać recenzji. ${error.response.status} ${error.response.data}`,
-            "error"
-          );
-        }
-      );
-    };
+        );
+      }
+const addNewArtistRating = function (ratingId) {
+      this.artistRating.userId = this.$store.state.auth.userId;
+      this.artistRating.artistId = this.$route.params.id;
+      this.artistRating.rating = ratingId;
+      
+        addArtistRating(this.artistRating).then(
+          (response) => {
+            if (response.status == 200) {
+              this.$emit("getRating");
+              this.getArtistRating();
+              this.$emit("show-alert", "Review added.", "success");
+            } else {
+              this.$emit(
+                "show-alert",
+                `Nie udało się dodać recenzji. Błąd ${response.status}`,
+                "error"
+              );
+            }
+          },
+          (error) => {
+            this.$emit(
+              "show-alert",
+              `Nie udało się dodać recenzji. ${error.response.status} ${error.response.data}`,
+              "error"
+            );
+          }
+        );
+      }
 
-    const addNewSongRating = function (ratingId) {
-      this.songRating.userId = this.account.id;
+      const updateArtistRating = function (ratingId) {
+      this.artistRating.rating = ratingId;
+        updateUserArtistRating(this.artistRating).then(
+          (response) => {
+            if (response.status == 200) {
+              this.$emit("getRating");
+              this.$emit("show-alert", "Review added.", "success");
+              
+            } else {
+              this.$emit(
+                "show-alert",
+                `Nie udało się dodać recenzji. Błąd ${response.status}`,
+                "error"
+              );
+            }
+          },
+          (error) => {
+            this.$emit(
+              "show-alert",
+              `Nie udało się dodać recenzji. ${error.response.status} ${error.response.data}`,
+              "error"
+            );
+          }
+        );
+      }  
+
+    const updateSongRating = function (ratingId) {
+      this.songRating.rating = ratingId;
+        updateSongUserRating(this.songRating).then(
+          (response) => {
+            if (response.status == 200) {
+              this.$emit("getRating");
+              this.$emit("show-alert", "Review added.", "success");
+              
+            } else {
+              this.$emit(
+                "show-alert",
+                `Nie udało się dodać recenzji. Błąd ${response.status}`,
+                "error"
+              );
+            }
+          },
+          (error) => {
+            this.$emit(
+              "show-alert",
+              `Nie udało się dodać recenzji. ${error.response.status} ${error.response.data}`,
+              "error"
+            );
+          }
+        );
+      }
+
+      const addNewSongRating = function (ratingId) {
+      this.songRating.userId = this.$store.state.auth.userId;
       this.songRating.songId = this.$route.params.id;
       this.songRating.rating = ratingId;
-
-      addSongRating(this.songRating).then(
-        (response) => {
-          if (response.status == 200) {
-            this.$emit("show-alert", "Review added.", "success");
-          } else {
+      
+        addSongRating(this.songRating).then(
+          (response) => {
+            if (response.status == 200) {
+              this.$emit("getRating");
+              this.getSongRating();
+              this.$emit("show-alert", "Review added.", "success");
+            } else {
+              this.$emit(
+                "show-alert",
+                `Nie udało się dodać recenzji. Błąd ${response.status}`,
+                "error"
+              );
+            }
+          },
+          (error) => {
             this.$emit(
               "show-alert",
-              `Nie udało się dodać recenzji. Błąd ${response.status}`,
+              `Nie udało się dodać recenzji. ${error.response.status} ${error.response.data}`,
               "error"
             );
           }
-        },
-        (error) => {
-          this.$emit(
-            "show-alert",
-            `Nie udało się dodać recenzji. ${error.response.status} ${error.response.data}`,
-            "error"
-          );
-        }
-      );
+        );
+      }
+
+      const getAlbumRating = function () {
+        getUserRating(this.id, this.user_id).then((response) => {
+          this.albumRating = response;
+          this.getDefaultStars(this.albumRating.rating);
+          
+      });
+    };      
+    const getSongRating = function () {
+        getSongUserRating(this.id, this.user_id).then((response) => {
+          this.songRating = response;
+          this.getDefaultStars(this.songRating.rating);
+          
+      });
+    };    
+    const getArtistRating = function () {
+        getUserArtistRating(this.id, this.user_id).then((response) => {
+          this.artistRating = response;
+          this.getDefaultStars(this.artistRating.rating);
+          
+      });
     };
 
-    const getAlbumUserRating = function () {
-      getUserRating(this.id, this.account.id).then((response) => {
-        this.albumRating = response;
-        this.getDefaultStars(this.albumRating.rating);
+    const getUserAlbum = function () {
+      getUserFavoriteAlbum(this.user_id, this.$route.params.id).then((response) => {
+        this.userFavoriteAlbum = response;
+         this.colorHeart();
+          
+      });
+    };  
+    
+        const deleteFavoriteAlbum = function (id) {
+        deleteUserFavoriteAlbum(id).then(() => {
+          this.$emit("getRating");
+         this.userFavoriteAlbum = {};
+         this.colorHeart();
+          
+      });
+    };
+
+    
+      const addFavoriteAlbum = function () {
+      this.userFavoriteAlbum.userId = this.$store.state.auth.userId;
+      this.userFavoriteAlbum.favoriteId = this.$route.params.id;
+      delete this.userFavoriteAlbum.id;
+      delete this.userFavoriteAlbum.user;
+      delete this.userFavoriteAlbum.album;
+      
+      
+        addUserFavoriteAlbum(this.userFavoriteAlbum).then(
+          (response) => {
+            if (response.status == 200) {
+              this.$emit("getRating");
+              this.$emit("show-alert", "Review added.", "success");
+              this.getUserAlbum();
+            } else {
+              this.$emit(
+                "show-alert",
+                `Nie udało się dodać recenzji. Błąd ${response.status}`,
+                "error"
+              );
+            }
+          },
+          (error) => {
+            this.$emit(
+              "show-alert",
+              `Nie udało się dodać recenzji. ${error.response.status} ${error.response.data}`,
+              "error"
+            );
+          }
+        );
+      }
+      const getUserSong = function () {
+      getUserFavoriteSong(this.user_id, this.$route.params.id).then((response) => {
+        this.userFavoriteSong = response;
+         this.colorHeart();
+          
+      });
+    };  
+    
+        const deleteFavoriteSong = function (id) {
+        deleteUserFavoriteSong(id).then(() => {
+          this.$emit("getRating");
+         this.userFavoriteSong = {};
+         this.colorHeart();
+          
+      });
+    };
+
+    
+      const addFavoriteSong = function () {
+      this.userFavoriteSong.userId = this.$store.state.auth.userId;
+      this.userFavoriteSong.favoriteId = this.$route.params.id;
+      delete this.userFavoriteSong.id;
+      delete this.userFavoriteSong.user;
+      delete this.userFavoriteSong.song;
+      
+      
+        addUserFavoriteSong(this.userFavoriteSong).then(
+          (response) => {
+            if (response.status == 200) {
+              this.$emit("getRating");
+              this.$emit("show-alert", "Review added.", "success");
+              this.getUserSong();
+            } else {
+              this.$emit(
+                "show-alert",
+                `Nie udało się dodać recenzji. Błąd ${response.status}`,
+                "error"
+              );
+            }
+          },
+          (error) => {
+            this.$emit(
+              "show-alert",
+              `Nie udało się dodać recenzji. ${error.response.status} ${error.response.data}`,
+              "error"
+            );
+          }
+        );
+      }
+
+      const getUserArtist = function () {
+      getUserFavoriteArtist(this.user_id, this.$route.params.id).then((response) => {
+        this.userFavoriteArtist = response;
+         this.colorHeart();
+          
+      });
+    };  
+    
+        const deleteFavoriteArtist = function (id) {
+        deleteUserFavoriteArtist(id).then(() => {
+          this.$emit("getRating");
+         this.userFavoriteArtist = {};
+         this.colorHeart();
+          
+      });
+    };
+
+      const addFavoriteArtist = function () {
+      this.userFavoriteArtist.userId = this.$store.state.auth.userId;
+      this.userFavoriteArtist.favoriteId = this.$route.params.id;
+      delete this.userFavoriteArtist.id;
+      delete this.userFavoriteArtist.user;
+      delete this.userFavoriteArtist.artist;
+      
+      
+        addUserFavoriteArtist(this.userFavoriteArtist).then(
+          (response) => {
+            if (response.status == 200) {
+              this.$emit("getRating");
+              this.$emit("show-alert", "Review added.", "success");
+              this.getUserArtist();
+            } else {
+              this.$emit(
+                "show-alert",
+                `Nie udało się dodać recenzji. Błąd ${response.status}`,
+                "error"
+              );
+            }
+          },
+          (error) => {
+            this.$emit(
+              "show-alert",
+              `Nie udało się dodać recenzji. ${error.response.status} ${error.response.data}`,
+              "error"
+            );
+          }
+        );
+      }
+
+    
+      const addObservedArtist = function () {
+      this.userObservedArtist.userId = this.$store.state.auth.userId;
+      this.userObservedArtist.favoriteId = this.$route.params.id;
+      this.userObservedArtist.favoriteDate = moment().format();
+      delete this.userFavoriteArtist.id;
+      delete this.userFavoriteArtist.user;
+      delete this.userFavoriteArtist.artist;
+      
+      
+        addUserObservedArtist(this.userObservedArtist).then(
+          (response) => {
+            if (response.status == 200) {
+              this.getObservedArtist();
+              this.$emit("show-alert", "Review added.", "success");
+            } else {
+              this.$emit(
+                "show-alert",
+                `Nie udało się dodać recenzji. Błąd ${response.status}`,
+                "error"
+              );
+            }
+          },
+          (error) => {
+            this.$emit(
+              "show-alert",
+              `Nie udało się dodać recenzji. ${error.response.status} ${error.response.data}`,
+              "error"
+            );
+          }
+        );
+      }
+
+      const getObservedArtist = function () {
+      getUserObservedArtist(this.user_id, this.$route.params.id).then((response) => {
+        this.userObservedArtist = response;
+        if (this.userObservedArtist.id != null)
+        {
+          this.observe_btn = "Observed";
+        }       
+      });
+    };  
+
+    const deleteObservedArtist = function (id) {
+        deleteUserObservedArtist(id).then(() => {
+         this.userObservedArtist = {};
+         this.observe_btn = "Observe";
+          
       });
     };
 
     return {
-      watchArtist,
-      albumRating: new AlbumRating(),
-      songRating: new SongRating(),
-      id: this.$route.params.id,
       addNewAlbumRating,
-      addNewSongRating,
-      getAlbumUserRating,
+      addNewSongRating, 
+      getAlbumRating,
       updateAlbumUserRating,
+      getSongRating,
+      updateSongRating, 
+      getUserAlbum,
+      deleteFavoriteAlbum,
+      addFavoriteAlbum,      
+      getUserSong,
+      deleteFavoriteSong,
+      addFavoriteSong,
+      addNewArtistRating,
+      updateArtistRating,
+      getArtistRating,
+      addFavoriteArtist, 
+      deleteFavoriteArtist,
+      getUserArtist,
+      getObservedArtist,
+      addObservedArtist,
+      deleteObservedArtist,
     };
   },
   computed: {
@@ -262,50 +564,185 @@ export default {
       }),
   },
   methods: {
-    vote: function (event) {
+    vote: function(event)
+    {
       let ratingId = event.currentTarget.getAttribute("value");
-      if (this.module_name == "Album") {
-        if (this.albumRating != null) {
+      
+      if (this.module_name == "Album")
+      {
+        if (this.albumRating.id > 0)
+        {
           this.updateAlbumUserRating(ratingId);
-        } else {
+        }
+        else 
+        {
           this.addNewAlbumRating(ratingId);
         }
-      } else if (this.module_name == "Song") {
-        this.addNewSongRating(ratingId);
+      }
+      else if (this.module_name == "Song")
+      {
+        if (this.songRating.id > 0)
+        {
+          this.updateSongRating(ratingId);
+        }
+        else 
+        {
+          this.addNewSongRating(ratingId);
+        }
+      } 
+      else if (this.module_name == "Artist")
+      {
+        if (this.artistRating.id > 0)
+        {
+          this.updateArtistRating(ratingId);
+        }
+        else 
+        {
+          this.addNewArtistRating(ratingId);
+        }
       }
     },
 
-    colorStars: function (value) {
+    colorStars: function(value)
+    {
       let stars = document.querySelectorAll(".star");
-      stars.forEach((star) => {
-        if (star.getAttribute("value") <= value) {
+      stars.forEach(star => {
+        if (star.getAttribute("value") <= value)
+        {
           star.classList.add("activeStar");
-        } else {
+        }
+        else
+        {
           star.classList.remove("activeStar");
         }
       });
     },
 
-    countStars: function (event) {
+    countStars: function(event)
+    { 
       let value;
       if (event) {
         value = event.currentTarget.getAttribute("value");
-      } else {
+      }
+      else if (this.module_name == "Album"){
         value = this.albumRating.rating;
+      }
+      else if (this.module_name == "Song")
+      {
+        value = this.songRating.rating;
+      }
+      else if (this.module_name == "Artist")
+      {
+        value = this.artistRating.rating;
+      }
+      if (value == "")
+      {
+        value = "0";
       }
       let rating = document.querySelector("#rating");
       rating.innerText = value + ".0";
       this.colorStars(value);
     },
 
-    getDefaultStars: function (rating) {
+    getDefaultStars: function(rating)
+    {
       this.colorStars(rating);
       this.countStars();
     },
+
+    colorHeart: function() 
+    {
+      let heart = document.querySelector(".heart");
+      let parentId;
+      if (this.module_name == "Album")
+      {
+        parentId = this.userFavoriteAlbum.albumId;
+      }
+      else if (this.module_name == "Song")
+      {
+        parentId = this.userFavoriteSong.songId;
+      }
+      else if (this.module_name == "Artist")
+      {
+        parentId = this.userFavoriteArtist.artistId;
+      }
+
+      if (parentId == this.$route.params.id)
+      {
+        heart.classList.add("activeHeart");
+      }
+      else
+      {
+        heart.classList.remove("activeHeart");
+      }
+    },
+    updateUserFavorite: function()
+    {
+       if (this.module_name == "Album")
+      {
+        if (this.userFavoriteAlbum.albumId != null)
+        {
+          this.deleteFavoriteAlbum(this.userFavoriteAlbum.id);
+          
+
+        }
+        else {
+          this.addFavoriteAlbum();
+        }
+      }
+      else if (this.module_name == "Song")
+      {
+        if (this.userFavoriteSong.songId != null)
+        {
+          this.deleteFavoriteSong(this.userFavoriteSong.id);
+        }
+        else {
+          this.addFavoriteSong();
+        }
+      }
+      else if (this.module_name == "Artist")
+      {
+        if (this.userFavoriteArtist.artistId != null)
+        {
+          this.deleteFavoriteArtist(this.userFavoriteArtist.id);
+        }
+        else {
+          this.addFavoriteArtist();
+        }
+      }
+    }, 
+    addToObserved: function() {
+      if (this.userObservedArtist.id == null)
+      {
+        this.addObservedArtist();
+      }
+      else
+      {
+
+        this.deleteObservedArtist(this.userObservedArtist.id);
+      }
+
+    }
+
   },
   created() {
-    this.getAlbumUserRating();
-  },
+    if (this.module_name == "Album")
+    {
+      this.getAlbumRating();
+      this.getUserAlbum();
+    }
+    else if (this.module_name == "Song")
+    {
+      this.getSongRating();
+      this.getUserSong();
+    }
+    else if (this.module_name == "Artist")
+    {
+      this.getArtistRating();
+      this.getUserArtist();
+      this.getObservedArtist();
+    }
+  }
 };
 </script>
 
@@ -328,11 +765,14 @@ p {
 .feature-text {
   font-size: 1rem;
 }
-.star {
+.star, .heart {
   cursor: pointer;
 }
 
 .activeStar {
   color: #868263;
+}
+.activeHeart {
+  color: #865e61;
 }
 </style>

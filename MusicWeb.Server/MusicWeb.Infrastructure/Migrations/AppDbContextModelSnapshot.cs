@@ -210,6 +210,9 @@ namespace MusicWeb.DataAccess.Migrations
                     b.Property<DateTime>("PostDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<int?>("RatingId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Title")
                         .IsRequired()
                         .ValueGeneratedOnAdd()
@@ -404,6 +407,9 @@ namespace MusicWeb.DataAccess.Migrations
                     b.Property<double>("Duration")
                         .HasColumnType("float");
 
+                    b.Property<int>("FavoriteCount")
+                        .HasColumnType("int");
+
                     b.Property<int>("Id")
                         .HasColumnType("int");
 
@@ -422,7 +428,36 @@ namespace MusicWeb.DataAccess.Migrations
                     b.Property<DateTime>("ReleaseDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("ReviewsCount")
+                        .HasColumnType("int");
+
                     b.ToTable("AlbumRatingAverage");
+                });
+
+            modelBuilder.Entity("MusicWeb.Models.Entities.Keyless.AlbumReviewRating", b =>
+                {
+                    b.Property<int>("AlbumId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Content")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("PostDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Rating")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.ToTable("AlbumReviewRating");
                 });
 
             modelBuilder.Entity("MusicWeb.Models.Entities.Keyless.ArtistRatingAverage", b =>
@@ -439,6 +474,9 @@ namespace MusicWeb.DataAccess.Migrations
                     b.Property<DateTime>("EstablishmentDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("FavoriteCount")
+                        .HasColumnType("int");
+
                     b.Property<int>("Id")
                         .HasColumnType("int");
 
@@ -448,13 +486,92 @@ namespace MusicWeb.DataAccess.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<double>("Popularity")
+                    b.Property<int>("ObservedCount")
+                        .HasColumnType("int");
+
+                    b.Property<double>("Rating")
                         .HasColumnType("float");
+
+                    b.Property<int>("RatingsCount")
+                        .HasColumnType("int");
 
                     b.Property<int>("Type")
                         .HasColumnType("int");
 
                     b.ToTable("ArtistRatingAverage");
+                });
+
+            modelBuilder.Entity("MusicWeb.Models.Entities.Keyless.SongRatingAverage", b =>
+                {
+                    b.Property<int>("AlbumId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ComposerId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("FavoriteCount")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ImagePath")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("Length")
+                        .HasColumnType("float");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("PositionOnAlbum")
+                        .HasColumnType("int");
+
+                    b.Property<double>("Rating")
+                        .HasColumnType("float");
+
+                    b.Property<int>("RatingsCount")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("ReleaseDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("ReviewsCount")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Text")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.ToTable("SongRatingAverage");
+                });
+
+            modelBuilder.Entity("MusicWeb.Models.Entities.Keyless.SongReviewRating", b =>
+                {
+                    b.Property<string>("Content")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("FavoriteCount")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("PostDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Rating")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SongId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.ToTable("SongReviewRating");
                 });
 
             modelBuilder.Entity("MusicWeb.Models.Entities.Keyless.TopSongsWithRating", b =>
@@ -683,6 +800,9 @@ namespace MusicWeb.DataAccess.Migrations
                     b.Property<int>("Rating")
                         .HasColumnType("int");
 
+                    b.Property<int?>("ReviewId")
+                        .HasColumnType("int");
+
                     b.Property<string>("UserId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
@@ -690,6 +810,10 @@ namespace MusicWeb.DataAccess.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("AlbumId");
+
+                    b.HasIndex("ReviewId")
+                        .IsUnique()
+                        .HasFilter("[ReviewId] IS NOT NULL");
 
                     b.HasIndex("UserId");
 
@@ -826,6 +950,9 @@ namespace MusicWeb.DataAccess.Migrations
                     b.Property<DateTime>("PostDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<int?>("RatingId")
+                        .HasColumnType("int");
+
                     b.Property<int>("SongId")
                         .HasColumnType("int");
 
@@ -840,6 +967,8 @@ namespace MusicWeb.DataAccess.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("RatingId");
 
                     b.HasIndex("SongId");
 
@@ -1338,6 +1467,11 @@ namespace MusicWeb.DataAccess.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("MusicWeb.Models.Entities.AlbumReview", "AlbumReview")
+                        .WithOne("AlbumRating")
+                        .HasForeignKey("MusicWeb.Models.Entities.Ratings.AlbumRating", "ReviewId")
+                        .OnDelete(DeleteBehavior.NoAction);
+
                     b.HasOne("MusicWeb.Models.Identity.ApplicationUser", "User")
                         .WithMany("AlbumRatings")
                         .HasForeignKey("UserId")
@@ -1345,6 +1479,8 @@ namespace MusicWeb.DataAccess.Migrations
                         .IsRequired();
 
                     b.Navigation("Album");
+
+                    b.Navigation("AlbumReview");
 
                     b.Navigation("User");
                 });
@@ -1425,6 +1561,10 @@ namespace MusicWeb.DataAccess.Migrations
 
             modelBuilder.Entity("MusicWeb.Models.Entities.SongReview", b =>
                 {
+                    b.HasOne("MusicWeb.Models.Entities.Ratings.SongRating", "Rating")
+                        .WithMany()
+                        .HasForeignKey("RatingId");
+
                     b.HasOne("MusicWeb.Models.Entities.Song", "Song")
                         .WithMany("SongReviews")
                         .HasForeignKey("SongId")
@@ -1436,6 +1576,8 @@ namespace MusicWeb.DataAccess.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.Navigation("Rating");
 
                     b.Navigation("Song");
 
@@ -1550,6 +1692,11 @@ namespace MusicWeb.DataAccess.Migrations
                     b.Navigation("Songs");
 
                     b.Navigation("UserFavoriteAlbums");
+                });
+
+            modelBuilder.Entity("MusicWeb.Models.Entities.AlbumReview", b =>
+                {
+                    b.Navigation("AlbumRating");
                 });
 
             modelBuilder.Entity("MusicWeb.Models.Entities.Artists.Artist", b =>

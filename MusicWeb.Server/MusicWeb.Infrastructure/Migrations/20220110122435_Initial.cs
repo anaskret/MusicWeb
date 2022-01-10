@@ -20,7 +20,25 @@ namespace MusicWeb.DataAccess.Migrations
                     Duration = table.Column<double>(type: "float", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Rating = table.Column<double>(type: "float", nullable: false),
-                    RatingsCount = table.Column<int>(type: "int", nullable: false)
+                    RatingsCount = table.Column<int>(type: "int", nullable: false),
+                    FavoriteCount = table.Column<int>(type: "int", nullable: false),
+                    ReviewsCount = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AlbumReviewRating",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false),
+                    Title = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Content = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PostDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    AlbumId = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Rating = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -38,7 +56,10 @@ namespace MusicWeb.DataAccess.Migrations
                     Type = table.Column<int>(type: "int", nullable: false),
                     BandId = table.Column<int>(type: "int", nullable: true),
                     CountryId = table.Column<int>(type: "int", nullable: false),
-                    Popularity = table.Column<double>(type: "float", nullable: false)
+                    Rating = table.Column<double>(type: "float", nullable: false),
+                    RatingsCount = table.Column<int>(type: "int", nullable: false),
+                    FavoriteCount = table.Column<int>(type: "int", nullable: false),
+                    ObservedCount = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -114,6 +135,45 @@ namespace MusicWeb.DataAccess.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Genre", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "SongRatingAverage",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ReleaseDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Length = table.Column<double>(type: "float", nullable: false),
+                    ImagePath = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PositionOnAlbum = table.Column<int>(type: "int", nullable: false),
+                    Text = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    AlbumId = table.Column<int>(type: "int", nullable: false),
+                    ComposerId = table.Column<int>(type: "int", nullable: false),
+                    Rating = table.Column<double>(type: "float", nullable: false),
+                    RatingsCount = table.Column<int>(type: "int", nullable: false),
+                    FavoriteCount = table.Column<int>(type: "int", nullable: false),
+                    ReviewsCount = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                });
+
+            migrationBuilder.CreateTable(
+                name: "SongReviewRating",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false),
+                    Title = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Content = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PostDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    SongId = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Rating = table.Column<int>(type: "int", nullable: false),
+                    FavoriteCount = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
                 });
 
             migrationBuilder.CreateTable(
@@ -296,6 +356,7 @@ namespace MusicWeb.DataAccess.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     FriendId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    CreatedByUserId = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     IsAccepted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -543,33 +604,6 @@ namespace MusicWeb.DataAccess.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "AlbumRating",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    AlbumId = table.Column<int>(type: "int", nullable: false),
-                    Rating = table.Column<int>(type: "int", nullable: false),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AlbumRating", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_AlbumRating_Album_AlbumId",
-                        column: x => x.AlbumId,
-                        principalTable: "Album",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_AlbumRating_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "AlbumReview",
                 columns: table => new
                 {
@@ -579,7 +613,8 @@ namespace MusicWeb.DataAccess.Migrations
                     Content = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
                     PostDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     AlbumId = table.Column<int>(type: "int", nullable: false),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    RatingId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -726,6 +761,39 @@ namespace MusicWeb.DataAccess.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "AlbumRating",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    AlbumId = table.Column<int>(type: "int", nullable: false),
+                    ReviewId = table.Column<int>(type: "int", nullable: true),
+                    Rating = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AlbumRating", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AlbumRating_Album_AlbumId",
+                        column: x => x.AlbumId,
+                        principalTable: "Album",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_AlbumRating_AlbumReview_ReviewId",
+                        column: x => x.ReviewId,
+                        principalTable: "AlbumReview",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_AlbumRating_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "SongGuestArtist",
                 columns: table => new
                 {
@@ -776,35 +844,6 @@ namespace MusicWeb.DataAccess.Migrations
                         principalTable: "Song",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "SongReview",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Title = table.Column<string>(type: "nvarchar(max)", nullable: false, defaultValue: "Review"),
-                    Content = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
-                    PostDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    SongId = table.Column<int>(type: "int", nullable: false),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_SongReview", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_SongReview_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_SongReview_Song_SongId",
-                        column: x => x.SongId,
-                        principalTable: "Song",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -888,6 +927,42 @@ namespace MusicWeb.DataAccess.Migrations
                         onDelete: ReferentialAction.Restrict);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "SongReview",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Title = table.Column<string>(type: "nvarchar(max)", nullable: false, defaultValue: "Review"),
+                    Content = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
+                    PostDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    SongId = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    RatingId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SongReview", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_SongReview_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_SongReview_Song_SongId",
+                        column: x => x.SongId,
+                        principalTable: "Song",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_SongReview_SongRating_RatingId",
+                        column: x => x.RatingId,
+                        principalTable: "SongRating",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Album_AlbumGenreId",
                 table: "Album",
@@ -902,6 +977,13 @@ namespace MusicWeb.DataAccess.Migrations
                 name: "IX_AlbumRating_AlbumId",
                 table: "AlbumRating",
                 column: "AlbumId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AlbumRating_ReviewId",
+                table: "AlbumRating",
+                column: "ReviewId",
+                unique: true,
+                filter: "[ReviewId] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AlbumRating_UserId",
@@ -1101,6 +1183,11 @@ namespace MusicWeb.DataAccess.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_SongReview_RatingId",
+                table: "SongReview",
+                column: "RatingId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_SongReview_SongId",
                 table: "SongReview",
                 column: "SongId");
@@ -1170,7 +1257,7 @@ namespace MusicWeb.DataAccess.Migrations
                 name: "AlbumRatingAverage");
 
             migrationBuilder.DropTable(
-                name: "AlbumReview");
+                name: "AlbumReviewRating");
 
             migrationBuilder.DropTable(
                 name: "ArtistComment");
@@ -1215,10 +1302,13 @@ namespace MusicWeb.DataAccess.Migrations
                 name: "SongGuestArtist");
 
             migrationBuilder.DropTable(
-                name: "SongRating");
+                name: "SongRatingAverage");
 
             migrationBuilder.DropTable(
                 name: "SongReview");
+
+            migrationBuilder.DropTable(
+                name: "SongReviewRating");
 
             migrationBuilder.DropTable(
                 name: "TopSongsWithRating");
@@ -1239,6 +1329,9 @@ namespace MusicWeb.DataAccess.Migrations
                 name: "UserFriend");
 
             migrationBuilder.DropTable(
+                name: "AlbumReview");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
@@ -1248,10 +1341,13 @@ namespace MusicWeb.DataAccess.Migrations
                 name: "Post");
 
             migrationBuilder.DropTable(
-                name: "Song");
+                name: "SongRating");
 
             migrationBuilder.DropTable(
                 name: "UserObservedArtist");
+
+            migrationBuilder.DropTable(
+                name: "Song");
 
             migrationBuilder.DropTable(
                 name: "Album");
