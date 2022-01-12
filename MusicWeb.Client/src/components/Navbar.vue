@@ -6,7 +6,6 @@
     shrink-on-scroll
     dense
     scroll-threshold="500"
-    height="20%"
   >
     <div class="d-flex align-center">
       <v-img
@@ -20,11 +19,66 @@
       />
     </div>
     <v-spacer></v-spacer>
-    <template v-slot:extension>
+    <template>
       <v-tabs class="d-flex justify-center" v-model="active_tab">
         <v-tab v-for="tab of tabs" :key="tab.id" @click="tab.method">
           {{ tab.name }}
         </v-tab>
+        <v-menu
+              v-for="list_tab in tabs_with_list"
+              :key="list_tab.id"
+              open-on-hover
+              bottom
+              offset-y
+            >
+              <template v-slot:activator="{ on, attrs }">
+                <v-tab 
+                    v-if="list_tab.id == 1"
+                    v-bind="attrs" 
+                    v-on="on" 
+                    @click="ranking_pages[0].method">
+                    {{ list_tab.name }}
+                    <v-icon right>
+                        mdi-menu-down
+                    </v-icon>
+                </v-tab>
+                <v-tab 
+                    v-if="list_tab.id == 2"
+                    v-bind="attrs" 
+                    v-on="on" 
+                    @click="base_pages[0].method">
+                    {{ list_tab.name }}
+                    <v-icon right>
+                        mdi-menu-down
+                    </v-icon>
+                </v-tab>
+              </template>
+  
+              <v-list
+                v-if="list_tab.id == 1"
+                color="#2C2F33"
+              >
+                <v-list-item
+                  v-for="(page, index) in ranking_pages"
+                  :key="index"
+                  @click="page.method"
+                >
+                  {{ page.name }}
+                </v-list-item>
+              </v-list>
+              <v-list
+                v-else-if="list_tab.id == 2"
+                color="#2C2F33"
+              >
+                <v-list-item
+                  v-for="(page, index) in base_pages"
+                  :key="index"
+                  @click="page.method"
+                >
+                  {{ page.name }}
+                </v-list-item>
+              </v-list>
+            </v-menu>
       </v-tabs>
     </template>
     <v-spacer></v-spacer>
@@ -276,8 +330,20 @@ export default {
       active_tab: 0,
       tabs: [
         { id: 0, name: "Activities", method: this.redirectToActivities },
-        { id: 1, name: "Ranking", method: this.redirectToRankList },
-        { id: 2, name: "Base", method: this.redirectToArtistList },
+      ],
+      tabs_with_list:[
+        { id: 1, name: "Ranking"},
+        { id: 2, name: "Base"},
+      ],
+      base_pages: [
+        { name: "Artists", method: this.redirectToArtistList },
+        { name: "Albums", method: this.redirectToAlbumList },
+        { name: "Songs", method: this.redirectToSongList },
+      ],
+      ranking_pages: [
+        { name: "Artist Ranking", method: this.redirectToArtistRanking },
+        { name: "Albums Ranking", method: this.redirectToAlbumRanking },
+        { name: "Songs Ranking", method: this.redirectToSongRanking },
       ],
       files: new FormData(),
       file: {},
@@ -338,14 +404,26 @@ export default {
       this.drawer = !this.drawer;
       this.$router.push({ name: "UserProfile" });
     },
-    redirectToArtistList() {
-      this.$router.push({ name: "ArtistListPage" });
-    },
     redirectToActivities() {
       this.$router.push({ name: "Activities" });
     },
-    redirectToRankList() {
-      this.$router.push({ name: "RankingPage" });
+    redirectToArtistRanking() {
+      this.$router.push({ name: "ArtistRankingPage" });
+    },
+    redirectToAlbumRanking() {
+      this.$router.push({ name: "AlbumRankingPage" });
+    },
+    redirectToSongRanking() {
+      this.$router.push({ name: "SongRankingPage" });
+    },
+    redirectToArtistList() {
+      this.$router.push({ name: "ArtistListPage" });
+    },
+    redirectToAlbumList() {
+      this.$router.push({ name: "AlbumListPage" });
+    },
+    redirectToSongList() {
+      this.$router.push({ name: "SongListPage" });
     },
     prepareErrorArray(field) {
       const errors = [];
@@ -437,9 +515,20 @@ export default {
       }
       if (to.name === "Activities") {
         this.active_tab = 0;
-      } else if (to.name === "RankListPage") {
+      } else if (
+        to.name === "ArtistRankingPage"
+        || to.name === "AlbumRankingPage"
+        || to.name === "SongRankingPage"
+        ) {
         this.active_tab = 1;
-      } else if (to.name == "ArtistListPage" || to.name === "ArtistPage") {
+      } else if (
+        to.name == "ArtistListPage" 
+        || to.name === "ArtistPage" 
+        || to.name === "AlbumListPage" 
+        || to.name === "AlbumPage"
+        || to.name === "SongListPage" 
+        || to.name === "SongPage"
+      ) {
         this.active_tab = 2;
       }
     },
