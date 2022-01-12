@@ -36,7 +36,6 @@ export default {
   justify-content: flex-end;
   align-items: flex-start;
   bottom: 5.5rem;
-  z-index: 1;
 }
 .friend-btn {
   margin-right: 1rem;

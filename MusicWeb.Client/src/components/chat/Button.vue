@@ -34,7 +34,6 @@ export default {
   justify-content: flex-end;
   align-items: flex-start;
   bottom: 1rem;
-  z-index: 1;
 }
 .chat-btn {
   margin-right: 1rem;

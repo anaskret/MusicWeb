@@ -148,6 +148,7 @@ import useAlbumReviews from "@/modules/albumReviews";
 import SongReview from "@/models/SongReview";
 import useSongReviews from "@/modules/songReviews";
 import moment from "moment";
+import { mapGetters } from "vuex";
 export default {
   name: "ReviewList",
   props: {
@@ -176,6 +177,11 @@ export default {
       ],
     };
   },
+  computed: {
+      ...mapGetters({
+         account: "current_user",
+      }),
+  },
   methods: {
     addReviewDialog() {
       this.dialog = false;
@@ -197,7 +203,7 @@ export default {
     const { addAlbumReview } = useAlbumReviews();
 
     const addNewSongReview = function () {
-      this.songReview.userId = this.$store.state.auth.userId;
+      this.songReview.userId = this.account.id
       this.songReview.songId = this.$route.params.id;
       this.songReview.postDate = moment.utc().format();
       delete this.songReview.id;
@@ -236,7 +242,7 @@ export default {
       }
     };
     const addNewAlbumReview = function () {
-      this.albumReview.userId = this.$store.state.auth.userId;
+      this.albumReview.userId = this.account.id;
       this.albumReview.albumId = this.$route.params.id;
       this.albumReview.postDate = moment().format();
       delete this.albumReview.album;

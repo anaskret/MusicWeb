@@ -30,8 +30,12 @@
             </v-card-actions>
           </div>
 
-          <v-avatar class="ma-3" size="125" tile>
-            <v-img :src="require(`@/assets/judgement.svg`)"></v-img>
+          <v-avatar class="ma-3" size="125" tile> 
+            <v-img
+                class="pl-8"
+                :src="`${server_url}/${item.image}`"
+            >
+            </v-img>
           </v-avatar>
         </div>
       </v-card>
@@ -49,12 +53,19 @@
           <v-col lg="8" sm="8">
             <v-row align="center">
               <v-col lg="2" sm="2">
-                <div>
-                  <v-img
-                    :src="require('@/assets/BandPhoto.svg')"
-                    contain
-                    class="pl-8"
-                  />
+                <div class="post-thumb">
+                    <v-img
+                        v-if="item.image"
+                        class="post-thumb-img"
+                        :src="`${server_url}/${item.image}`"
+                    >
+                    </v-img>
+                    <v-img
+                        v-else
+                        class="post-thumb-img"
+                        :src="require(`@/assets/unknownUser.svg`)"
+                    >
+                    </v-img>
                 </div>
               </v-col>
               <v-col lg="9" sm="9">
@@ -86,7 +97,7 @@
                 <div>
                   <v-img
                     class="link-to-item"
-                    :src="require('@/assets/naturaldisaster.svg')"
+                    :src="`${server_url}/${item.albumImage}`"
                     @click="redirectToItem(item.albumId, 'Album')"
                     contain
                   />
@@ -119,14 +130,6 @@
                 :color="star.color"
               ></font-awesome-icon>
             </div>
-            <div class="ratings pt-4">
-              <p class="ratings-thumbs">200</p>
-              <font-awesome-icon
-                class="icon pa-1"
-                icon="thumbs-up"
-                size="2x"
-              ></font-awesome-icon>
-            </div>
           </v-col>
         </v-row>
         <v-row class="pl-5">
@@ -134,7 +137,7 @@
             <v-expansion-panel>
               <v-row class="d-flex justify-space-between">
                 <v-col lg="3" sm="3" class="pt-4">
-                  <v-btn>
+                  <v-btn  @click="likePost(item.id)">
                     <font-awesome-icon
                       class="icon pa-1"
                       icon="thumbs-up"
@@ -142,6 +145,7 @@
                       outlined
                       fab
                     ></font-awesome-icon>
+                    {{item.totalLikes}}
                   </v-btn>
                   <v-btn>
                     <font-awesome-icon
@@ -184,12 +188,19 @@
           <v-col lg="8" sm="8">
             <v-row align="center">
               <v-col lg="2" sm="2">
-                <div>
-                  <v-img
-                    :src="require('@/assets/BandPhoto.svg')"
-                    contain
-                    class="pl-8"
-                  />
+                <div class="post-thumb">
+                    <v-img
+                        v-if="item.image"
+                        class="post-thumb-img"
+                        :src="`${server_url}/${item.image}`"
+                    >
+                    </v-img>
+                    <v-img
+                        v-else
+                        class="post-thumb-img"
+                        :src="require(`@/assets/unknownUser.svg`)"
+                    >
+                    </v-img>
                 </div>
               </v-col>
               <v-col lg="9" sm="9">
@@ -221,7 +232,7 @@
             <v-expansion-panel>
               <v-row class="d-flex justify-space-between">
                 <v-col lg="3" sm="3" class="pt-4">
-                  <v-btn>
+                  <v-btn @click="likePost(item.id)">
                     <font-awesome-icon
                       class="icon pa-1"
                       icon="thumbs-up"
@@ -229,6 +240,7 @@
                       outlined
                       fab
                     ></font-awesome-icon>
+                    {{computed_item.totalLikes}}
                   </v-btn>
                   <v-btn>
                     <font-awesome-icon
@@ -265,6 +277,7 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 export default {
   name: "InfiniteScrolItem",
   data() {
@@ -277,6 +290,7 @@ export default {
         { color: "white" },
         { color: "gray" },
       ],
+      temp_item: this.item
     };
   },
   props: {
@@ -286,6 +300,20 @@ export default {
   },
   created() {
     this.prepareDate();
+  },
+  computed: {
+    ...mapGetters({
+        server_url: "server_url", 
+        account: "current_user"
+    }),
+    computed_item: {
+         get(){
+            return this.temp_item;
+         },
+         set(item){
+            this.temp_item = item;
+         }
+    }
   },
   methods: {
     calculateAdditionTime() {
@@ -337,6 +365,10 @@ export default {
         });
       }
     },
+    likePost(post_id){
+        this.computed_item.totalLikes += 1;
+        this.$emit("like-post", post_id);
+    }
   },
 };
 </script>
@@ -359,5 +391,12 @@ p {
 }
 .v-expansion-panel::before {
   box-shadow: none;
+}
+.post-thumb {
+  margin-left: 10px;
+  margin-right: 10px;
+}
+.post-thumb-img{
+  border-radius: 50%;
 }
 </style>

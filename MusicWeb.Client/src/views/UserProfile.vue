@@ -240,7 +240,6 @@ export default {
     const { updateAccountNames } = useAccounts();
 
     const updateNames = function () {
-      this.account.id = localStorage.getItem("user-id");
       updateAccountNames(this.account).then(
         (response) => {
           if (response.status == 200) {

@@ -82,6 +82,7 @@ import useAlbumRatings from "@/modules/albumRatings.js";
 import AlbumRating from "@/models/AlbumRating.js";
 import useSongRatings from "@/modules/songRatings.js";
 import SongRating from "@/models/AlbumRating.js";
+import { mapGetters } from "vuex";
 import useUserFavoriteAlbums from "@/modules/userFavoriteAlbums.js";
 import UserFavoriteAlbum from "@/models/UserFavoriteAlbum.js";
 import useUserFavoriteSongs from "@/modules/userFavoriteSongs.js";
@@ -92,6 +93,7 @@ import useUserFavoriteArtists from "@/modules/userFavoriteArtists";
 import UserFavoriteArtist from "@/models/UserFavoriteArtist.js";
 import useUserObservedArtists from "@/modules/userObservedArtists";
 import UserObservedArtist from "@/models/UserObservedArtist.js";
+import moment from "moment";
 
 export default {
   name: "Header",
@@ -485,6 +487,7 @@ const addNewArtistRating = function (ratingId) {
       const addObservedArtist = function () {
       this.userObservedArtist.userId = this.$store.state.auth.userId;
       this.userObservedArtist.favoriteId = this.$route.params.id;
+      this.userObservedArtist.favoriteDate = moment().format();
       delete this.userFavoriteArtist.id;
       delete this.userFavoriteArtist.user;
       delete this.userFavoriteArtist.artist;
@@ -554,6 +557,11 @@ const addNewArtistRating = function (ratingId) {
       addObservedArtist,
       deleteObservedArtist,
     };
+  },
+  computed: {
+      ...mapGetters({
+         account: "current_user",
+      }),
   },
   methods: {
     vote: function(event)

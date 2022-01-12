@@ -55,14 +55,14 @@
           <v-list-item>
             <v-list-item-avatar>
               <img
-                v-if="account.imagePath"
-                :src="`${server_url}/${account.imagePath}`"
-                :alt="`${account.firstname}`"
+                v-if="current_user.imagePath"
+                :src="`${server_url}/${current_user.imagePath}`"
+                :alt="`${current_user.firstname}`"
               />
               <img
                 v-else
                 src="@/assets/defaut_user.png"
-                :alt="`${account.firstname}`"
+                :alt="`${current_user.firstname}`"
               />
             </v-list-item-avatar>
 
@@ -114,7 +114,7 @@
                   <v-tab-item>
                     <v-card flat class="settingsDialog">
                       <v-card-title>
-                        <span class="text-h5">Zmień hasło</span>
+                        <span class="text-h5">Change Password</span>
                       </v-card-title>
                       <v-card-text>
                         <v-container>
@@ -122,32 +122,41 @@
                             <v-col cols="12" md="12">
                               <v-text-field
                                 class="p-4"
-                                label="Stare Hasło"
+                                label="Old Password"
                                 v-model.trim="$v.oldPassword.$model"
                                 :error-messages="oldPasswordErrors"
                                 required
                                 @input="$v.oldPassword.$touch()"
                                 @blur="$v.oldPassword.$touch()"
+                                :type="show_old_password ? 'text' : 'password'"
+                                :append-icon="show_old_password ? 'mdi-eye' : 'mdi-eye-off'"
+                                @click:append="show_old_password = !show_old_password"
                               ></v-text-field>
                               <v-text-field
                                 class="p-4"
-                                label="Nowe Hasło"
+                                label="New Password"
                                 v-model.trim="$v.account.password.$model"
                                 :error-messages="passwordErrors"
                                 :counter="25"
                                 required
                                 @input="$v.account.password.$touch()"
                                 @blur="$v.account.password.$touch()"
+                                :type="show_new_password ? 'text' : 'password'"
+                                :append-icon="show_new_password ? 'mdi-eye' : 'mdi-eye-off'"
+                                @click:append="show_new_password = !show_new_password"
                               ></v-text-field>
                               <v-text-field
                                 class="p-4"
-                                label="Potwierdź hasło"
+                                label="Confirm Password"
                                 v-model.trim="$v.confirmPassword.$model"
                                 :error-messages="confirmPasswordErrors"
                                 :counter="25"
                                 required
                                 @input="$v.confirmPassword.$touch()"
                                 @blur="$v.confirmPassword.$touch()"
+                                :type="show_confirm_password ? 'text' : 'password'"
+                                :append-icon="show_confirm_password ? 'mdi-eye' : 'mdi-eye-off'"
+                                @click:append="show_confirm_password = !show_confirm_password"
                               ></v-text-field>
                             </v-col>
                           </v-row>
@@ -155,15 +164,15 @@
                       </v-card-text>
                       <v-card-actions>
                         <v-spacer></v-spacer>
-                        <v-btn @click="settings_dialog = false"> Anuluj </v-btn>
-                        <v-btn @click="updatePasswordDialog"> Zapisz </v-btn>
+                        <v-btn @click="settings_dialog = false"> Close </v-btn>
+                        <v-btn @click="updatePasswordDialog"> Send </v-btn>
                       </v-card-actions>
                     </v-card>
                   </v-tab-item>
                   <v-tab-item>
                     <v-card flat class="settingsDialog">
                       <v-card-title>
-                        <span class="text-h5">Zmień maila</span>
+                        <span class="text-h5">Change Email</span>
                       </v-card-title>
                       <v-card-text>
                         <v-container>
@@ -172,12 +181,12 @@
                               <v-text-field
                                 class="p-4"
                                 label="Email"
-                                v-model.trim="$v.account.email.$model"
+                                v-model.trim="$v.email.$model"
                                 :error-messages="emailErrors"
                                 :counter="25"
                                 required
-                                @input="$v.account.email.$touch()"
-                                @blur="$v.account.email.$touch()"
+                                @input="$v.email.$touch()"
+                                @blur="$v.email.$touch()"
                               ></v-text-field>
                             </v-col>
                           </v-row>
@@ -185,15 +194,15 @@
                       </v-card-text>
                       <v-card-actions>
                         <v-spacer></v-spacer>
-                        <v-btn @click="settings_dialog = false"> Anuluj </v-btn>
-                        <v-btn @click="updateEmailDialog"> Zapisz </v-btn>
+                        <v-btn @click="settings_dialog = false"> Close </v-btn>
+                        <v-btn @click="updateEmailDialog"> Send </v-btn>
                       </v-card-actions>
                     </v-card>
                   </v-tab-item>
                   <v-tab-item>
                     <v-card flat class="settingsDialog">
                       <v-card-title>
-                        <span class="text-h5">Zmień zdjęcie</span>
+                        <span class="text-h5">Change Photo</span>
                       </v-card-title>
                       <v-card-text>
                         <div class="uploader">
@@ -206,8 +215,8 @@
                       </v-card-text>
                       <v-card-actions>
                         <v-spacer></v-spacer>
-                        <v-btn @click="settings_dialog = false"> Anuluj </v-btn>
-                        <v-btn @click="updateImageDialog"> Upload </v-btn>
+                        <v-btn @click="settings_dialog = false"> Close </v-btn>
+                        <v-btn @click="updateImageDialog"> Send </v-btn>
                       </v-card-actions>
                     </v-card>
                   </v-tab-item>
@@ -263,6 +272,7 @@ export default {
       settings_dialog: false,
       oldPassword: "",
       confirmPassword: "",
+      email: "",
       active_tab: 0,
       tabs: [
         { id: 0, name: "Activities", method: this.redirectToActivities },
@@ -271,11 +281,15 @@ export default {
       ],
       files: new FormData(),
       file: {},
+      account: {},
+      show_old_password: false,
+      show_new_password: false,
+      show_confirm_password: false,
     };
   },
   computed: {
     ...mapGetters({
-      account: "current_user",
+      current_user: "current_user",
       server_url: "server_url",
     }),
     isDisabled() {
@@ -301,12 +315,12 @@ export default {
         minLength: minLength(8),
         maxLength: maxLength(25),
       },
-      email: {
-        email,
-        required,
-        minLength: minLength(8),
-        maxLength: maxLength(25),
-      },
+    },
+    email: {
+      email,
+      required,
+      minLength: minLength(8),
+      maxLength: maxLength(25),
     },
     oldPassword: {
       required,
@@ -337,35 +351,36 @@ export default {
       const errors = [];
       if (field == "oldPassword") {
         if (!this.$v.oldPassword.$dirty) return errors;
-        !this.$v.oldPassword.required && errors.push("Pole jest wymagane.");
+        !this.$v.oldPassword.required && errors.push("Field required.");
       } else if (field == "confirmPassword") {
         if (!this.$v.confirmPassword.$dirty) return errors;
-        !this.$v.confirmPassword.required && errors.push("Pole jest wymagane.");
+        !this.$v.confirmPassword.required && errors.push("Field required.");
 
         if (this.$v.confirmPassword.sameAsPassword != undefined) {
           !this.$v.confirmPassword.sameAsPassword &&
-            errors.push(`Pole musi być takie same jak pole "Hasło".`);
+            errors.push(`Field must be same as "New Password"`);
+        }
+      } else if(field == "email"){
+        if (this.$v.email.email != undefined) {
+          !this.$v.email.email &&
+            errors.push(
+              `You must fill field like on example "example@ex.pl".`
+            );
         }
       } else {
         if (!this.$v.account[field].$dirty) return errors;
-        !this.$v.account[field].required && errors.push("Pole jest wymagane.");
+        !this.$v.account[field].required && errors.push("Field required.");
         if (
           this.$v.account[field].maxLength != undefined &&
           this.$v.account[field].minLength != undefined
         ) {
           !this.$v.account[field].maxLength &&
             errors.push(
-              `Pole nie może być dłuższe niż ${this.$v.account[field].$params.maxLength.max} znaków.`
+              `Field can't be longer than ${this.$v.account[field].$params.maxLength.max} characters.`
             );
           !this.$v.account[field].minLength &&
             errors.push(
-              `Pole musi mieć przynajmniej ${this.$v.account[field].$params.minLength.min} znaków.`
-            );
-        }
-        if (this.$v.account[field].email != undefined) {
-          !this.$v.account[field].email &&
-            errors.push(
-              `Pole musi być uzupełnione według szablonu "example@ex.pl".`
+              `Field must have at least ${this.$v.account[field].$params.minLength.min} characters.`
             );
         }
       }
@@ -408,7 +423,7 @@ export default {
       });
     },
     clearSettings() {
-      this.account = this.$store.state.current_user;
+      this.account = this.current_user;
       this.account.password = "";
       this.oldPassword = "";
       this.confirmPassword = "";
@@ -420,12 +435,17 @@ export default {
       if (from.path === "/" && to.path === "/activities") {
         this.setCurrentUser();
       }
-      if (to.path === "/activities") {
+      if (to.name === "Activities") {
         this.active_tab = 0;
-      } else if (to.path === "/artists") {
+      } else if (to.name === "RankListPage") {
+        this.active_tab = 1;
+      } else if (to.name == "ArtistListPage" || to.name === "ArtistPage") {
         this.active_tab = 2;
       }
     },
+    current_user(){
+      this.account = this.current_user;
+    }
   },
   setup() {
     const { updateAccountPassword, updateAccountEmail, updateAccountImage } =
@@ -436,7 +456,7 @@ export default {
     };
 
     const updatePassword = function () {
-      this.account.id = this.$store.state.auth.userId;
+      this.account.id = this.current_user.id;
       this.account.oldPassword = this.oldPassword;
       this.account.newPassword = this.account.password;
       this.account.confirmPassword = this.confirmPassword;
@@ -466,7 +486,8 @@ export default {
     };
 
     const updateEmail = function () {
-      this.account.id = this.$store.state.auth.userId;
+      this.account.id = this.current_user.id;
+      this.account.email = this.email;
       updateAccountEmail(this.account).then(
         (response) => {
           if (response.status == 200) {
@@ -493,7 +514,7 @@ export default {
     };
 
     const updateImage = function () {
-      this.file.userid = this.$store.state.auth.userId;
+      this.file.userid = this.current_user.id;
       this.file.imagePath = "/Users/";
       updateAccountImage(this.file).then(
         (response) => {

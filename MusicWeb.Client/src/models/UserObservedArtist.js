@@ -2,7 +2,7 @@ export default class UserObservedArtist {
   id = null;
   userId = null;
   artistId = null;
-  observedDate = null;
+  favoriteDate = null;
   artist = {};
   user = {};
   constructor($data) {
@@ -10,7 +10,7 @@ export default class UserObservedArtist {
       this.id = $data.id;
       this.userId = $data.userId;
       this.artistId = $data.artistId;
-      this.observedDate = $data.observedDate;
+      this.favoriteDate = $data.favoriteDate;
       this.artist = $data.artist ? $data.artist : {};
       this.user = $data.user ? $data.user : {};
     }
