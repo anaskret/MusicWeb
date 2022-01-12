@@ -74,6 +74,7 @@ using MusicWeb.Services.Interfaces.Chats;
 using MusicWeb.Services.Services.Chats;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using MusicWeb.Services.Services.Emails;
+using Microsoft.AspNetCore.Components.Authorization;
 
 namespace MusicWeb.Api
 {
@@ -178,6 +179,7 @@ namespace MusicWeb.Api
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             var serviceProvider = services.BuildServiceProvider();
+            services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<ApplicationUser>>();
             var logger = serviceProvider.GetService<ILogger<ApplicationLogger>>();
             services.AddSingleton(typeof(ILogger), logger);
 

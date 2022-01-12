@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using MusicWeb.Api.Extensions;
+using MusicWeb.Models.Constants;
 using MusicWeb.Models.Dtos.Chats;
 using MusicWeb.Models.Dtos.Chats.Base;
 using MusicWeb.Models.Entities;

@@ -73,6 +73,15 @@
                                     </div>
                                 </div>
                                 <div class="mb-4 row form-group">
+                                    <label class="col-md-2 col-form-label text-muted">Artist Photo</label>
+                                    <div class="col-md-10">
+                                        <InputFile OnChange="@LoadFile" class="form-control" />
+                                    </div>
+                                    <div class="text-danger">
+                                        <ValidationMessage For="() => Input.Image" />
+                                    </div>
+                                </div>
+                                <div class="mb-4 row form-group">
                                     <label class="col-md-2 col-form-label text-muted">Country</label>
                                     <InputSelect @bind-Value="Input.CountryId" class="form-select">
                                         <option value="0">Select</option>
@@ -136,7 +145,7 @@
                 return;
             }
 
-            await _artistService.UpdateArtistAsync(_mapper.Map<Artist>(Input));
+            await _artistService.UpdateArtistAsync(_mapper.Map<Artist>(Input), Input.ImageBytes);
             NavManager.NavigateTo("users/list");
         }
         catch (Exception ex)
@@ -144,5 +153,10 @@
             StatusMessage.Show("Error Something went wrong while creating a user");
             _logger.LogError(ex.Message);
         }
+    }
+
+    private void LoadFile(InputFileChangeEventArgs e)
+    {
+        Input.Image = e.File;
     }
 }

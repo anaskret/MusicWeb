@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using MusicWeb.Api.Extensions;
+using MusicWeb.Models.Constants;
 using MusicWeb.Models.Dtos.Artists;
 using MusicWeb.Models.Dtos.Artists.Create;
 using MusicWeb.Models.Entities;
@@ -133,6 +133,26 @@ namespace MusicWeb.Api.Controllers.Artists
                 return StatusCode(500, ex.Message);
             }
         }
+
+        /// <summary>
+        /// Updates artist image
+        /// </summary>
+        [HttpPut(ApiRoutes.Artists.UpdateImage)]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> UpdateArtistImage([FromBody] ArtistFileUpdateDto dto)
+        {
+            try
+            {
+                var path = await _artistService.UpdateImageAsync(dto);
+
+                return Ok(path);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return StatusCode(500, ex.Message);
+            }
+        }
         /*
                 /// <summary>
                 /// Creates an artist or a band.
@@ -168,25 +188,6 @@ namespace MusicWeb.Api.Controllers.Artists
                     {
                         var entity = _mapper.Map<Artist>(dto);
                         await _artistService.UpdateAsync(entity);
-
-                        return Ok();
-                    }
-                    catch (Exception ex)
-                    {
-                        _logger.LogError(ex.Message);
-                        return StatusCode(500, ex.Message);
-                    }
-                }
-
-                /// <summary>
-                /// Updates artist image
-                /// </summary>
-                [HttpPut(ApiRoutes.Artists.UpdateImage)]
-                public async Task<IActionResult> UpdateArtistImage([FromBody] ArtistFileUpdateDto dto)
-                {
-                    try
-                    {
-                        await _artistService.UpdateImageAsync(dto);
 
                         return Ok();
                     }

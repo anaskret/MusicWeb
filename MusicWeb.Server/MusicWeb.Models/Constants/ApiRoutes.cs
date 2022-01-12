@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace MusicWeb.Api.Extensions
+namespace MusicWeb.Models.Constants
 {
     public class ApiRoutes
     {

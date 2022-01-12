@@ -1,4 +1,5 @@
-﻿using MusicWeb.Models.Models.Identity;
+﻿using MusicWeb.Models.Identity;
+using MusicWeb.Models.Models.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,5 +13,6 @@ namespace MusicWeb.Repositories.Interfaces.Identity
         Task<LoginResponse> Login(LoginModel model);
         Task<RegisterResponse> Register(RegisterModel model);
         Task<string> ResetPasswordAsync(string userName, string newPassword);
+        Task<string> GenerateNewTokenForUserAsync(ApplicationUser user);
     }
 }

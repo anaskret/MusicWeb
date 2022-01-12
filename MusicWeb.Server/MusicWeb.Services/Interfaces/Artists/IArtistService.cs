@@ -23,8 +23,8 @@ namespace MusicWeb.Services.Interfaces.Artists
        Task AddAsync(Artist entity, byte[] imageBytes);
         Task AddArtistAsync(ArtistWithUserModel model);
         Task UpdateAsync(Artist entity);
-        Task UpdateArtistAsync(Artist entity);
-        Task UpdateImageAsync(ArtistFileUpdateDto dto);
+        Task UpdateArtistAsync(Artist entity, byte[] imageBytes);
+        Task<string> UpdateImageAsync(ArtistFileUpdateDto dto);
         Task DeleteAsync(int id);
         Task<ArtistRatingAverage> GetArtistRatingAverage(int id);
     }

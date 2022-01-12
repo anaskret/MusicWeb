@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity.UI.Services;
+using MusicWeb.Models.Identity;
 using MusicWeb.Models.Models.Identity;
 using MusicWeb.Repositories.Interfaces.Identity;
 using MusicWeb.Services.Interfaces.Identity;
@@ -42,6 +43,11 @@ namespace MusicWeb.Services.Services.Identity
             var email = await _identityRepository.ResetPasswordAsync(userName, newPassword);
 
             await _emailSender.SendEmailAsync(email, "New password", $"Your new password: {newPassword}");
+        }
+
+        public async Task<string> GenerateNewTokenAsync(ApplicationUser user)
+        {
+            return await _identityRepository.GenerateNewTokenForUserAsync(user);
         }
     }
 }
