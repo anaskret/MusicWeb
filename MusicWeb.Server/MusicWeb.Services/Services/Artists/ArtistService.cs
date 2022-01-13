@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.Extensions.Configuration;
 using MusicWeb.Models.Constants;
 using MusicWeb.Models.Dtos.Artists;
@@ -41,6 +42,7 @@ namespace MusicWeb.Services.Services.Artists
         private readonly IConfiguration _configuration;
         private readonly AuthenticationStateProvider _authenticationStateProvider;
         private readonly IIdentityService _identityService;
+        private readonly IEmailSender _emailSender;
 
         public ArtistService(IArtistRepository artistRepository,
                              IMapper mapper,
@@ -50,7 +52,8 @@ namespace MusicWeb.Services.Services.Artists
                              ISongService songService,
                              IConfiguration configuration,
                              AuthenticationStateProvider authenticationStateProvider,
-                             IIdentityService identityService)
+                             IIdentityService identityService, 
+                             IEmailSender emailSender)
         {
             _artistRepository = artistRepository;
             _mapper = mapper;
@@ -61,6 +64,7 @@ namespace MusicWeb.Services.Services.Artists
             _configuration = configuration;
             _authenticationStateProvider = authenticationStateProvider;
             _identityService = identityService;
+            _emailSender = emailSender;
         }
 
         public async Task<Artist> GetByIdAsync(int id)
@@ -204,6 +208,8 @@ namespace MusicWeb.Services.Services.Artists
             string password = generator.Generate();
 
             await _userManager.CreateAsync(userEntity, password);
+
+            await _emailSender.SendEmailAsync(model.Email, "New user created", $"Your email was connected to an artist! UserName: {model.UserName}, Password: {password}");
         }
 
         public async Task UpdateArtistAsync(Artist entity, byte[] imageBytes)

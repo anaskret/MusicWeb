@@ -75,6 +75,7 @@ using MusicWeb.Services.Services.Chats;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using MusicWeb.Services.Services.Emails;
 using Microsoft.AspNetCore.Components.Authorization;
+using MusicWeb.Services.Configuration;
 
 namespace MusicWeb.Api
 {
@@ -180,92 +181,11 @@ namespace MusicWeb.Api
 
             var serviceProvider = services.BuildServiceProvider();
             services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<ApplicationUser>>();
+
             var logger = serviceProvider.GetService<ILogger<ApplicationLogger>>();
             services.AddSingleton(typeof(ILogger), logger);
 
-            services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
-
-            services.AddTransient<IAlbumRepository, AlbumRepository>();
-            services.AddTransient<IAlbumReviewRepository, AlbumReviewRepository>();
-            services.AddTransient<IArtistsOnTheAlbumRepository, ArtistsOnTheAlbumRepository>();
-
-            services.AddTransient<IArtistRepository, ArtistRepository>();
-            services.AddTransient<IArtistCommentRepository, ArtistCommentRepository>();
-            services.AddTransient<IBandRepository, BandRepository>();
-
-            services.AddTransient<ISongRepository, SongRepository>();
-
- 
-            services.AddTransient<IChatRepository, ChatRepository>();
-            services.AddTransient<IMessageRepository, MessageRepository>();
-
-            services.AddTransient<IGenreRepository, GenreRepository>();
-
-            services.AddTransient<ICountryRepository, CountryRepository>();
-
-            services.AddTransient<ISongRepository, SongRepository>();
-            services.AddTransient<ISongGuestArtistRepository, SongGuestArtistRepository>();
-            services.AddTransient<ISongReviewRepository, SongReviewRepository>();
-
-            services.AddTransient<IUserFavoriteArtistRepository, UserFavoriteArtistRepository>();
-            services.AddTransient<IUserFavoriteArtistService, UserFavoriteArtistService>();
-
-            services.AddTransient<IUserFavoriteAlbumRepository, UserFavoriteAlbumRepository>();
-            services.AddTransient<IUserFavoriteAlbumService, UserFavoriteAlbumService>();
-
-            services.AddTransient<IUserFavoriteSongRepository, UserFavoriteSongRepository>();
-            services.AddTransient<IUserFavoriteSongService, UserFavoriteSongService>();
-
-            services.AddTransient<IUserFriendRepository, UserFriendRepository>();
-            services.AddTransient<IUserFriendService, UserFriendService>();
-
-            services.AddTransient<IUserObservedArtistRepository, UserObservedArtistRepository>();
-            services.AddTransient<IUserObservedArtistService, UserObservedArtistService>();
-
-            services.AddTransient<IArtistCommentService, ArtistCommentService>();
-            services.AddTransient<IArtistService, ArtistService>();
-            services.AddTransient<IBandService, BandService>();
-
-            services.AddTransient<IGenreService, GenreService>();
-
-            services.AddTransient<IOriginService, OriginService>();
-
-            services.AddTransient<IAlbumService, AlbumService>();
-            services.AddTransient<IAlbumReviewService, AlbumReviewService>();
-
-            services.AddTransient<ISongService, SongService>();
-            services.AddTransient<ISongReviewService, SongReviewService>();
-
-            services.AddTransient<IIdentityRepository, IdentityRepository>();
-            services.AddTransient<IIdentityService, IdentityService>();
-
-            services.AddTransient<IUserRepository, UserRepository>();
-            services.AddTransient<IUserService, UserService>();
-
-            services.AddTransient<IPostRepository, PostRepository>();
-            services.AddTransient<IPostService, PostService>();
-            services.AddTransient<IPostLikeRepository, PostLikeRepository>();
-            services.AddTransient<IPostLikeService, PostLikeService>();
-            services.AddTransient<IPostCommentRepository, PostCommentRepository>();
-            services.AddTransient<IPostCommentService, PostCommentService>();
-
-            services.AddTransient<IFileService, FileService>();
-
-            services.AddTransient<IArtistRatingRepository, ArtistRatingRepository>();
-            services.AddTransient<IArtistRatingService, ArtistRatingService>();
-
-            services.AddTransient<IAlbumRatingRepository, AlbumRatingRepository>();
-            services.AddTransient<IAlbumRatingService, AlbumRatingService>();
-
-            services.AddTransient<ISongRatingRepository, SongRatingRepository>();
-            services.AddTransient<ISongRatingService, SongRatingService>();
-
-            services.AddTransient<IRolesService, RolesService>();
-
-            services.AddTransient<IChatService, ChatService>();
-            services.AddTransient<IMessageService, MessageService>();
-
-            services.AddTransient<IEmailSender, EmailService>();
+            DependencyInstaller.InstallDependencies(services);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
