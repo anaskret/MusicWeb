@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MusicWeb.Services.Interfaces.Chats;
-using MusicWeb.Api.Extensions;
+using MusicWeb.Models.Constants;
 using MusicWeb.Models.Dtos.Chats.Base;
 using System.Threading.Tasks;
 using System;

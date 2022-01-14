@@ -12,5 +12,6 @@ namespace MusicWeb.Models.Constants
         public const string AlbumPath = "Albums";
         public const string SongPath = "Songs";
         public const string UserPath = "Users";
+        public const string UserMessagesPath = "Messages";
     }
 }

@@ -10,7 +10,7 @@
 @inject IUserService _userService;
 @inject NavigationManager NavManager;
 
-@*@attribute [Authorize(Roles = "Admin")]*@
+@attribute [Authorize(Roles = "Admin")]
 
 <title>MusicWeb - Artits</title>
 
@@ -43,7 +43,7 @@
 
                             <div class="form-group ml-auto mr-auto col-md-2">
                             </div>
-                            <div class="col-md-3 col-sm-12 d-flex justify-content-end">
+                            <div class="col-md-3 col-sm-12 d-flex justify-content-end align-items-end">
                                 <button type="button" class="btn btn-primary btn-xs-block mb-3 float-right waves-effect waves-themed" @onclick="GoToCreate">Create new artist</button>
                             </div>
                         </div>

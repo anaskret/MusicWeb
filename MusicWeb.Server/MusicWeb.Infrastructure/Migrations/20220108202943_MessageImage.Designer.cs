@@ -10,8 +10,8 @@ using MusicWeb.DataAccess.Data;
 namespace MusicWeb.DataAccess.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20220110122435_Initial")]
-    partial class Initial
+    [Migration("20220108202943_MessageImage")]
+    partial class MessageImage
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -661,6 +661,9 @@ namespace MusicWeb.DataAccess.Migrations
 
                     b.Property<int>("ChatId")
                         .HasColumnType("int");
+
+                    b.Property<string>("ImagePath")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("SendDate")
                         .HasColumnType("datetime2");

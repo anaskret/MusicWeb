@@ -37,33 +37,28 @@ namespace MusicWeb.Services.Services.Emails
         {
             try
             {
-                _ = Task.Run(async () =>
+                SmtpClient client = new()
                 {
-                    SmtpClient client = new()
-                    {
-                        Host = "smtp.gmail.com",
-                        Port = 587,
-                        EnableSsl = true,
-                        UseDefaultCredentials = false,
-                        DeliveryMethod = SmtpDeliveryMethod.Network,
-                        Credentials = new System.Net.NetworkCredential(_mail, _password)
-                    };
+                    Host = "smtp.gmail.com",
+                    Port = 587,
+                    EnableSsl = true,
+                    UseDefaultCredentials = false,
+                    DeliveryMethod = SmtpDeliveryMethod.Network,
+                    Credentials = new System.Net.NetworkCredential(_mail, _password)
+                };
 
-                    MailMessage mail = new MailMessage(_mail, email);
+                MailMessage mail = new MailMessage(_mail, email);
 
-                    mail.From = new MailAddress(_mail, "Prospero");
-                    mail.Subject = subject;
-                    mail.Body = message;
+                mail.From = new MailAddress(_mail, "Prospero");
+                mail.Subject = subject;
+                mail.Body = message;
 
-                    await client.SendMailAsync(mail);
-                });
+                await client.SendMailAsync(mail);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Can not send email");
             }
-
-            await Task.FromResult(0);
         }
         private async Task Execute(string subject, string message, List<string> emails)
         {

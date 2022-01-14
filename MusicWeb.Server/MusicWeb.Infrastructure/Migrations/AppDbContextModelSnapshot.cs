@@ -660,6 +660,9 @@ namespace MusicWeb.DataAccess.Migrations
                     b.Property<int>("ChatId")
                         .HasColumnType("int");
 
+                    b.Property<string>("ImagePath")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("SendDate")
                         .HasColumnType("datetime2");
 

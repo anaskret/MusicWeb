@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace MusicWeb.DataAccess.Migrations
 {
-    public partial class Initial : Migration
+    public partial class MessageImage : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -416,6 +416,7 @@ namespace MusicWeb.DataAccess.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Text = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: false),
                     SendDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ImagePath = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ChatId = table.Column<int>(type: "int", nullable: false),
                     SenderId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },

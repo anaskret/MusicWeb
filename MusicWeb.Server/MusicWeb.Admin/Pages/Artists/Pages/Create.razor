@@ -16,7 +16,7 @@
 @inject IArtistService _artistService;
 @inject IMapper _mapper; 
 
-@*@attribute [Authorize(Roles = "Admin")]*@
+@attribute [Authorize(Roles = "Admin")]
 
 <title>MusicWeb - Create Artist</title>
 
@@ -212,7 +212,7 @@
             }
 
             await _artistService.AddArtistAsync(Input);
-            NavManager.NavigateTo("users/list");
+            NavManager.NavigateTo("artists/list");
         }
         catch(ArgumentException ex)
         {

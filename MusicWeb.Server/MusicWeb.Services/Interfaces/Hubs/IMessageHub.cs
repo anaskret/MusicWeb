@@ -10,5 +10,6 @@ namespace MusicWeb.Services.Interfaces.Hubs
     {
         Task SendMessage(string friendUserName, int messageId);
         Task SubscribeUserGroup(string userName);
+        Task MessagesRead(string senderId, int chatId);
     }
 }

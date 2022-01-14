@@ -19,5 +19,10 @@ namespace MusicWeb.Services.Hubs
         {
             await Clients.Group(friendUserName).SendMessage(friendUserName, messageId);
         }
+
+        public async Task MessagesRead(string senderId, int chatId)
+        {
+            await Clients.Group(senderId).SendMessage(senderId, chatId);
+        }
     }
 }

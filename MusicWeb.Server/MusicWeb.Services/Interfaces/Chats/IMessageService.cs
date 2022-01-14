@@ -9,8 +9,10 @@ namespace MusicWeb.Services.Interfaces.Chats
 {
     public interface IMessageService
     {
-        Task SendMessageAsync(Message entity);
+        Task SendMessageAsync(Message entity, byte[] imageBytes);
         Task<List<Message>> GetMessagesByChatIdAsync(int chatId, int page = 0, int pageSize = int.MaxValue);
         Task<Message> GetByIdAsync(int id);
+        Task UpdateRangeAsync(List<Message> entites);
+        Task ReadMessagesAsync(int chatId, string userId);
     }
 }

@@ -42,6 +42,7 @@ using MusicWeb.Repositories.Repositories.Posts;
 using MusicWeb.Repositories.Repositories.Ratings;
 using MusicWeb.Repositories.Repositories.Songs;
 using MusicWeb.Repositories.Repositories.Users;
+using MusicWeb.Services.Configuration;
 using MusicWeb.Services.Interfaces;
 using MusicWeb.Services.Interfaces.ApiIntegration;
 using MusicWeb.Services.Interfaces.Artists;
@@ -110,85 +111,12 @@ namespace MusicWeb.Admin
             var logger = serviceProvider.GetService<ILogger<ApplicationLogger>>();
             services.AddSingleton(typeof(ILogger), logger);
 
-            services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
-
-            services.AddScoped<IUserService, UserService>();
-            services.AddScoped<IUserRepository, UserRepository>();
+            DependencyInstaller.InstallDependencies(services);
 
             services.AddScoped<IUserModelFactory, UserModelFactory>();
-
-            services.AddTransient<IRolesService, RolesService>();
-
-            services.AddTransient<IAlbumRepository, AlbumRepository>();
-            services.AddTransient<IAlbumReviewRepository, AlbumReviewRepository>();
-            services.AddTransient<IArtistsOnTheAlbumRepository, ArtistsOnTheAlbumRepository>();
-
-            services.AddTransient<IArtistRepository, ArtistRepository>();
-            services.AddTransient<IArtistCommentRepository, ArtistCommentRepository>();
-            services.AddTransient<IBandRepository, BandRepository>();
-
-            services.AddTransient<IChatRepository, ChatRepository>();
-            services.AddTransient<IMessageRepository, MessageRepository>();
-
-            services.AddTransient<IGenreRepository, GenreRepository>();
-
-            services.AddTransient<ICountryRepository, CountryRepository>();
-
-            services.AddTransient<ISongService, SongService>();
-
-            services.AddTransient<ISongRepository, SongRepository>();
-            services.AddTransient<ISongGuestArtistRepository, SongGuestArtistRepository>();
-            services.AddTransient<ISongReviewRepository, SongReviewRepository>();
-
-            services.AddTransient<IUserFavoriteArtistRepository, UserFavoriteArtistRepository>();
-            services.AddTransient<IUserFavoriteArtistService, UserFavoriteArtistService>();
-
-            services.AddTransient<IUserFavoriteAlbumRepository, UserFavoriteAlbumRepository>();
-            services.AddTransient<IUserFavoriteAlbumService, UserFavoriteAlbumService>();
-
-            services.AddTransient<IUserFavoriteSongRepository, UserFavoriteSongRepository>();
-            services.AddTransient<IUserFavoriteSongService, UserFavoriteSongService>();
-
-            services.AddTransient<IUserFriendRepository, UserFriendRepository>();
-            services.AddTransient<IUserFriendService, UserFriendService>();
-
-            services.AddTransient<IUserObservedArtistRepository, UserObservedArtistRepository>();
-            services.AddTransient<IUserObservedArtistService, UserObservedArtistService>();
-
-            services.AddTransient<IArtistCommentService, ArtistCommentService>();
-            services.AddTransient<IArtistService, ArtistService>();
-            services.AddTransient<IBandService, BandService>();
-
-            services.AddTransient<IGenreService, GenreService>();
-
-            services.AddTransient<IOriginService, OriginService>();
-
-            services.AddTransient<IAlbumService, AlbumService>();
-
-            services.AddTransient<IIdentityRepository, IdentityRepository>();
-            services.AddTransient<IIdentityService, IdentityService>();
-
-            services.AddTransient<IPostRepository, PostRepository>();
-            services.AddTransient<IPostService, PostService>();
-
-            services.AddTransient<IArtistRatingRepository, ArtistRatingRepository>();
-            services.AddTransient<IArtistRatingService, ArtistRatingService>();
-
-            services.AddTransient<IAlbumRatingRepository, AlbumRatingRepository>();
-            services.AddTransient<IAlbumRatingService, AlbumRatingService>();
-
-            services.AddTransient<ISongRatingRepository, SongRatingRepository>();
-            services.AddTransient<ISongRatingService, SongRatingService>();
-
-            services.AddTransient<IRolesService, RolesService>();
-
-            services.AddTransient<IFileService, FileService>();
-
             services.AddTransient<IArtistModelFactory, ArtistModelFactory>();
-
             services.AddTransient<IAlbumFactory, AlbumFactory>();
 
-            services.AddTransient<IApiIntegrationService, ApiIntegrationService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -222,6 +150,38 @@ namespace MusicWeb.Admin
                 endpoints.MapBlazorHub();
                 endpoints.MapFallbackToPage("/_Host");
             });
+
+            var scope = app.ApplicationServices.CreateScope();
+            var context = scope.ServiceProvider.GetService<AppDbContext>();
+            var userManager = scope.ServiceProvider.GetService<UserManager<ApplicationUser>>();
+            var roleManager = scope.ServiceProvider.GetService<RoleManager<IdentityRole>>();
+
+            if (!context.Database.EnsureCreated())
+            {
+                var adminUser = userManager.FindByNameAsync("admin").Result;
+
+                if (adminUser != null)
+                    return;
+
+                var user = new ApplicationUser
+                {
+                    FirstName = "Admin",
+                    LastName = "Admin",
+                    UserName = "admin",
+                    Email = "admin@wp.pl",
+                    LockoutEnabled = false,
+                    Type = MusicWeb.Models.Enums.UserType.Admin
+                };
+
+                var result = userManager.CreateAsync(user, "Admin123").Result;
+                if (result.Succeeded)
+                {
+                    result = userManager.AddToRoleAsync(user, "Admin").Result;
+
+                    user.LockoutEnabled = false;
+                    result = userManager.UpdateAsync(user).Result;
+                }
+            }
         }
     }
 }

@@ -1,11 +1,12 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using Microsoft.Extensions.Configuration;
 using MusicWeb.Models.Constants;
 using MusicWeb.Models.Dtos.Artists;
 using MusicWeb.Models.Dtos.Genres;
 using MusicWeb.Models.Dtos.Songs;
-using MusicWeb.Models.Entities;
 using MusicWeb.Models.Entities.Artists;
 using MusicWeb.Models.Entities.Keyless;
 using MusicWeb.Models.Enums;
@@ -16,16 +17,16 @@ using MusicWeb.Repositories.Interfaces.Artists;
 using MusicWeb.Services.Interfaces;
 using MusicWeb.Services.Interfaces.Artists;
 using MusicWeb.Services.Interfaces.Files;
-using MusicWeb.Services.Interfaces.Genres;
-using MusicWeb.Services.Interfaces.Origins;
-using MusicWeb.Services.Interfaces.Ratings;
-using MusicWeb.Services.Interfaces.Users;
+using MusicWeb.Services.Interfaces.Identity;
 using MusicWeb.Services.Services.Identity;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Security.Claims;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace MusicWeb.Services.Services.Artists
@@ -38,13 +39,21 @@ namespace MusicWeb.Services.Services.Artists
         private readonly IFileService _fileService;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ISongService _songService;
+        private readonly IConfiguration _configuration;
+        private readonly AuthenticationStateProvider _authenticationStateProvider;
+        private readonly IIdentityService _identityService;
+        private readonly IEmailSender _emailSender;
 
         public ArtistService(IArtistRepository artistRepository,
                              IMapper mapper,
                              IBandService bandService,
                              IFileService fileService,
-                             UserManager<ApplicationUser> userManager, 
-                             ISongService songService)
+                             UserManager<ApplicationUser> userManager,
+                             ISongService songService,
+                             IConfiguration configuration,
+                             AuthenticationStateProvider authenticationStateProvider,
+                             IIdentityService identityService, 
+                             IEmailSender emailSender)
         {
             _artistRepository = artistRepository;
             _mapper = mapper;
@@ -52,6 +61,10 @@ namespace MusicWeb.Services.Services.Artists
             _fileService = fileService;
             _userManager = userManager;
             _songService = songService;
+            _configuration = configuration;
+            _authenticationStateProvider = authenticationStateProvider;
+            _identityService = identityService;
+            _emailSender = emailSender;
         }
 
         public async Task<Artist> GetByIdAsync(int id)
@@ -61,10 +74,10 @@ namespace MusicWeb.Services.Services.Artists
 
         public async Task AddAsync(Artist entity, byte[] imageBytes)
         {
-            if (imageBytes.Length > 0)
-                entity.ImagePath = await _fileService.UploadFile(imageBytes, FilePathConsts.ArtistPath);
-
             await _artistRepository.AddAsync(entity);
+
+            await ArtistImageUploadInitalizationAsync(entity, imageBytes);
+
             if (entity.Type != ArtistType.BandMember)
                 return;
 
@@ -79,6 +92,21 @@ namespace MusicWeb.Services.Services.Artists
         public async Task<IList<Artist>> GetAllAsync()
         {
             return await _artistRepository.GetAllAsync();
+        }
+
+        public async Task UpdateAsync(Artist entity)
+        {
+            await _artistRepository.UpdateAsync(entity);
+        }
+
+        public async Task DeleteAsync(int id)
+        {
+            var entity = await GetByIdAsync(id);
+
+            if (entity.Type == ArtistType.BandMember)
+                await _bandService.DeleteAsync(entity.BandId.GetValueOrDefault(), entity.Id);
+
+            await _artistRepository.DeleteAsync(entity);
         }
 
         public async Task<ArtistFullInfoDto> GetFullArtistInfoByIdAsync(int id)
@@ -106,24 +134,20 @@ namespace MusicWeb.Services.Services.Artists
 
             return mappedEntity;
         }
-
-        public async Task UpdateAsync(Artist entity)
-        {
-            await _artistRepository.UpdateAsync(entity);
-        }
         
-        public async Task UpdateImageAsync(ArtistFileUpdateDto dto)
+        public async Task<string> UpdateImageAsync(ArtistFileUpdateDto dto)
         {
             if (dto.ImageBytes.Length == 0)
                 throw new ArgumentException("File is empty");
 
-            _fileService.DeleteFile(Path.GetFileName(dto.ImagePath), FilePathConsts.ArtistPath);
             var filePath = await _fileService.UploadFile(dto.ImageBytes, FilePathConsts.ArtistPath);
 
             var artist = await GetByIdAsync(dto.ArtistId);
             artist.ImagePath = filePath;
 
-            await UpdateAsync(artist);
+            await _artistRepository.UpdateAsync(artist);
+
+            return filePath;
         }
 
         public async Task<List<ArtistRatingAverage>> GetPagedAsync(SortType sortType, DateTime startDate, DateTime endDate, int pageNum = 0, int pageSize = int.MaxValue, string searchString = "")
@@ -141,15 +165,6 @@ namespace MusicWeb.Services.Services.Artists
 
                 return query.OrderByDescending(prp => prp.Name);
             });
-            
-        }
-
-        public async Task DeleteAsync(int id)
-        {
-            //add related objects deletion
-
-            var entity = await GetByIdAsync(id);
-            await _artistRepository.DeleteAsync(entity);
         }
 
         public async Task<IList<Artist>> GetAllBandsAsync()
@@ -193,19 +208,67 @@ namespace MusicWeb.Services.Services.Artists
             string password = generator.Generate();
 
             await _userManager.CreateAsync(userEntity, password);
+
+            await _emailSender.SendEmailAsync(model.Email, "New user created", $"Your email was connected to an artist! UserName: {model.UserName}, Password: {password}");
         }
 
-        public async Task UpdateArtistAsync(Artist entity)
+        public async Task UpdateArtistAsync(Artist entity, byte[] imageBytes)
         {
-            if(entity.Type == ArtistType.BandMember)
-                await _bandService.DeleteAsync(entity.BandId.GetValueOrDefault(), entity.Id);
-
-            await _artistRepository.UpdateAsync(entity);
+            await ArtistImageUploadInitalizationAsync(entity, imageBytes);
+            await UpdateAsync(entity);
         }
 
         public async Task<ArtistRatingAverage> GetArtistRatingAverage(int id)
         {
             return _mapper.Map<ArtistRatingAverage>(await _artistRepository.GetArtistAverageRating(id));
+        }
+
+        private async Task ArtistImageUploadInitalizationAsync(Artist entity, byte[] imageBytes)
+        {
+            if (imageBytes.Length > 0)
+            {
+                entity.ImagePath = await UploadImageAsync(entity.Id, imageBytes);
+                await UpdateAsync(entity);
+            }
+        }
+
+        private async Task<string> UploadImageAsync(int artistId, byte[] imageBytes)
+        {
+            var client = await CreateClient();
+
+            var apiEndpoint = _configuration.GetValue<string>("ApiEndpoint");
+            var requestUri = apiEndpoint + "/" + ApiRoutes.Artists.UpdateImage;
+            var dto = new ArtistFileUpdateDto { ArtistId = artistId, ImageBytes = imageBytes };
+
+            HttpContent content = new StringContent(JsonSerializer.Serialize(dto), Encoding.UTF8, "application/json");
+            var response = await client.PutAsync(requestUri, content);
+
+            if (response.StatusCode != System.Net.HttpStatusCode.OK)
+                return "";
+
+            var path = await response.Content.ReadAsStringAsync();
+            return path;
+        }
+
+        private async Task<HttpClient> CreateClient()
+        {
+            var client = new HttpClient();
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+            var token = await GetTokenAsync();
+            client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token);
+            return client;
+        }
+
+        private async Task<string> GetTokenAsync()
+        {
+            var authState = await _authenticationStateProvider.GetAuthenticationStateAsync();
+            var email = authState.User.FindFirst(prp => prp.Type == ClaimTypes.Email);
+            var user = await _userManager.FindByEmailAsync(email.Value);
+
+            var token = await _identityService.GenerateNewTokenAsync(user);
+
+            return token;
         }
     }
 }

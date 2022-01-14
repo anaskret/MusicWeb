@@ -46,7 +46,7 @@ namespace MusicWeb.Services.Services.Albums
 
         public async Task<List<Album>> GetAllAsync()
         {
-            var entites = await _albumRepository.GetAllAsync(obj => obj.Where(prp => prp.IsConfirmed).AsNoTracking());
+            var entites = await _albumRepository.GetAllAsync(obj => obj.Where(prp => prp.IsConfirmed).Include(prp => prp.Artist).Include(prp => prp.AlbumGenre).AsNoTracking());
             return entites.ToList();
         }
 
