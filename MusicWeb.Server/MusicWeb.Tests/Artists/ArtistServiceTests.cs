@@ -4,6 +4,7 @@ using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
@@ -42,6 +43,8 @@ namespace MusicWeb.Tests.Artists
         private Mock<IConfiguration> _configuration;
         private Mock<AuthenticationStateProvider> _authenticationStateProvider;
         private Mock<IIdentityService> _identityService;
+        private Mock<IEmailSender> _emailSender;
+
         public ArtistServiceTests()
         {
             _artistRepository = new Mock<IArtistRepository>();
@@ -54,6 +57,7 @@ namespace MusicWeb.Tests.Artists
             _configuration = new Mock<IConfiguration>();
             _authenticationStateProvider = new Mock<AuthenticationStateProvider>();
             _identityService = new Mock<IIdentityService>();
+            _emailSender = new Mock<IEmailSender>();
         }
 
         [Fact]
@@ -101,7 +105,8 @@ namespace MusicWeb.Tests.Artists
                 _songService.Object,
                 _configuration.Object,
                 _authenticationStateProvider.Object,
-                _identityService.Object);
+                _identityService.Object,
+                _emailSender.Object);
 
             var bandMember = new ArtistWithUserModel
             {
@@ -139,7 +144,8 @@ namespace MusicWeb.Tests.Artists
                 _songService.Object,
                 _configuration.Object,
                 _authenticationStateProvider.Object,
-                _identityService.Object);
+                _identityService.Object, 
+                _emailSender.Object);
 
             var artist = new ArtistWithUserModel();
 
@@ -174,7 +180,8 @@ namespace MusicWeb.Tests.Artists
                 _songService.Object,
                 _configuration.Object,
                 _authenticationStateProvider.Object,
-                _identityService.Object);
+                _identityService.Object,
+                _emailSender.Object);
 
             var artist = new ArtistWithUserModel
             {
@@ -218,7 +225,8 @@ namespace MusicWeb.Tests.Artists
                 _songService.Object,
                 _configuration.Object,
                 _authenticationStateProvider.Object,
-                _identityService.Object);
+                _identityService.Object,
+                _emailSender.Object);
 
             await artistService.AddAsync(new Artist(), Array.Empty<byte>());
             Func<Task> act = async () => await artistService.AddAsync(new Artist(), Array.Empty<byte>());
