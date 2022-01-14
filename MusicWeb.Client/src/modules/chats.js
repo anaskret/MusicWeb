@@ -13,6 +13,7 @@ export default function useAccounts() {
   };
 
   const getPagedMessages = async (chat_id, page_num, page_size) => {
+      debugger;
     if (page_num > -1 && page_size) {
       return chatServices
         .getPagedMessages(chat_id, page_num, page_size)

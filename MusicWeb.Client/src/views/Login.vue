@@ -18,7 +18,7 @@
         <form @submit.prevent="onSubmit">
           <v-text-field
             class="p-4"
-            label="Podaj login"
+            label="Type Login"
             prepend-icon="mdi-account"
             type="text"
             v-model.trim="$v.account.username.$model"
@@ -30,7 +30,7 @@
           ></v-text-field>
           <v-text-field
             class="p-4"
-            label="Podaj hasło"
+            label="Type Password"
             prepend-icon="mdi-lock"
             type="password"
             v-model.trim="$v.account.password.$model"
@@ -157,7 +157,7 @@ export default {
 
       if (this.$v.account[field].maxValue != undefined) {
         !this.$v.account[field].maxValue &&
-          errors.push(`Birth date cannot be in the future.`);
+          errors.push(`Birthdate cannot be in the future.`);
       }
       return errors;
     },

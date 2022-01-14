@@ -74,6 +74,7 @@ export default {
     const { getPagedMessages } = useChats();
   
     const getMessages = function (){
+        debugger;
         getPagedMessages(this.current_chat.id, this.chat_page, 7).then((response) => 
         {
             this.setMessages(response);

@@ -16,7 +16,6 @@
     </div>
     <div class="message-content">
       <template v-if="message.type == 'image'">
-        <!-- <p class="message-username-image">{{getParticipantById(message.participantId).name}}</p> TODO get participant from db-->
         <p class="message-username-image">{{participant.firstname}}</p>
         <div class="message-image">
           <expandable-image class="message-image-display" :src="message.src">
