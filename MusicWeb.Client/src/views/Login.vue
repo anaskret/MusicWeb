@@ -41,6 +41,17 @@
             @blur="$v.account.password.$touch()"
           ></v-text-field>
 
+          <div class="reset-password">
+            <v-btn
+              plain
+              color="gray"
+              class="md-4"
+              width="40%"
+              @click="redirectToPasswordReset"
+            >
+              Forgot Password?
+            </v-btn>
+          </div>
           <div class="btns mt-8">
             <v-btn
               outlined
@@ -159,6 +170,9 @@ export default {
     register() {
       this.$router.push({ name: "Register" });
     },
+    redirectToPasswordReset() {
+      this.$router.push({ name: "PasswordReset" });
+    },
   },
   setup() {
     const onSubmit = function () {
@@ -194,5 +208,10 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+.reset-password{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
 }
 </style>

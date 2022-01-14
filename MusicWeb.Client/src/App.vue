@@ -15,7 +15,7 @@
         </v-btn>
       </template>
     </v-snackbar>
-    <div class="chat" v-if="!['Login', 'Register'].includes(this.$route.name)">
+    <div class="chat" v-if="!['Login', 'Register', 'PasswordReset'].includes(this.$route.name)">
       <Chat
         v-if="chatVisibility"
         @user-typing="userTyping"
@@ -28,11 +28,11 @@
     </v-main>
     <FriendButton
       @show-friend-list="setDrawer"
-      v-if="!['Login', 'Register'].includes(this.$route.name)"
+      v-if="!['Login', 'Register', 'PasswordReset'].includes(this.$route.name)"
     />
     <ChatButton
       @open-chat="openChat"
-      v-if="!['Login', 'Register'].includes(this.$route.name)"
+      v-if="!['Login', 'Register', 'PasswordReset'].includes(this.$route.name)"
     />
     <FriendList
       :drawer="drawer"

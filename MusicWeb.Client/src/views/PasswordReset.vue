@@ -18,18 +18,28 @@
         <form @submit.prevent="onSubmit">
           <v-text-field
             class="p-4"
-            label="Type E-mail"
+            label="Type Username"
             prepend-icon="mdi-account"
             type="text"
-            v-model.trim="$v.account.email.$model"
-            :error-messages="emailErrors"
+            v-model.trim="$v.account.username.$model"
+            :error-messages="userNameErrors"
             :counter="16"
             required
-            @input="$v.account.email.$touch()"
-            @blur="$v.account.email.$touch()"
+            @input="$v.account.username.$touch()"
+            @blur="$v.account.username.$touch()"
           ></v-text-field>
 
           <div class="btns mt-8">
+            <v-btn
+              outlined
+              color="gray"
+              type="submit"
+              class="md-4"
+              :disabled="this.isDisabled"
+              width="40%"
+            >
+              Reset Password
+            </v-btn>
             <v-btn class="mt-4" @click="goBackToLoginPage" outlined width="40%">
               Log In
             </v-btn>
@@ -41,8 +51,9 @@
 </template>
 
 <script>
-import { required, email } from "vuelidate/lib/validators";
+import { required, minLength, maxLength } from "vuelidate/lib/validators";
 import Account from "@/models/Account";
+import useAccounts from "@/modules/accounts";
 export default {
   name: "PasswordReset",
   data() {
@@ -57,15 +68,16 @@ export default {
     isDisabled() {
       return this.$v.$invalid;
     },
-    emailErrors() {
-      return this.prepareErrorArray("email");
+    userNameErrors() {
+      return this.prepareErrorArray("username");
     },
   },
   validations: {
     account: {
-      email: {
+      username: {
         required,
-        email
+        minLength: minLength(5),
+        maxLength: maxLength(16),
       },
     },
   },
@@ -74,10 +86,17 @@ export default {
       const errors = [];
       if (!this.$v.account[field].$dirty) return errors;
       !this.$v.account[field].required && errors.push("Field is required.");
-      if (this.$v.account[field].email != undefined) {
-        !this.$v.account[field].email &&
+      if (
+        this.$v.account[field].maxLength != undefined &&
+        this.$v.account[field].minLength != undefined
+      ) {
+        !this.$v.account[field].maxLength &&
           errors.push(
-            `The field must be completed according to the template "example@ex.pl".`
+            `Field can't be longer than ${this.$v.account[field].$params.maxLength.max} characters.`
+          );
+        !this.$v.account[field].minLength &&
+          errors.push(
+            `Field must have at least ${this.$v.account[field].$params.minLength.min} characters.`
           );
       }
       return errors;
@@ -89,32 +108,44 @@ export default {
       this.message = "New password has been sent to your Mailbox.";
       window.setTimeout(() => {
           this.$router.push({ name: "Login" }).catch(() => {});
-      }, 1000);
+      }, 500);
     },
     goBackToLoginPage() {
       this.$router.push({ name: "Login" });
     },
   },
   setup() {
+    const { resetPassword } = useAccounts();
+
     const onSubmit = function () {
       this.$v.$touch();
       if (this.$v.$pendding || this.$v.$error) {
         return;
       }
-      this.is_logging = true;
-      this.$store.dispatch("auth/login", this.account).then(
-        () => {
-          setTimeout(this.redirect, 250);
-        },
-        (error) => {
-          if (
-            error.response.status == 500 &&
-            error.response.data == "Wrong username/password"
-          ) {
-            this.is_logging = false;
-            this.message = "Niepoprawny login lub hasło!";
-          }
-        }
+      resetPassword({userName: this.account.username}).then(
+         (response) => {
+            if (response.status == 200) {
+               this.$emit(
+               "show-alert",
+               `New password generated.`,
+               "success"
+               );
+               this.redirect();
+            } else {
+               this.$emit(
+               "show-alert",
+               `Something went wrong. Error ${response.status}`,
+               "error"
+               );
+            }
+         },
+         (error) => {
+            this.$emit(
+               "show-alert",
+               `Something went wrong. ${error.response.status} ${error.response.data}`,
+               "error"
+            );
+         }
       );
     };
 

@@ -91,6 +91,11 @@ const routes = [
     name: "SongRankingPage",
     component: () => import("@/views/SongRankingPage.vue"),
   },
+  {
+    path: "/passwordreset",
+    name: "PasswordReset",
+    component: () => import("@/views/PasswordReset.vue"),
+  },
 ];
 
 const router = new VueRouter({
@@ -100,7 +105,7 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  const publicPages = ["/", "/register"];
+  const publicPages = ["/", "/register", "/passwordreset"];
   const authRequired = !publicPages.includes(to.path);
   const loggedIn = localStorage.getItem("user-token");
 
