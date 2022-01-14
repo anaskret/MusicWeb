@@ -237,7 +237,7 @@ export default {
       if (this.$v.account[field].email != undefined) {
         !this.$v.account[field].email &&
           errors.push(
-            `Pole musi być uzupełnione według szablonu "example@ex.pl".`
+            `The field must be completed according to the template "example@ex.pl".`
           );
       }
 

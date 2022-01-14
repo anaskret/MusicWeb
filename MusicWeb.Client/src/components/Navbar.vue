@@ -1,6 +1,6 @@
 <template>
   <v-app-bar
-    v-if="!['Login', 'Register'].includes(this.$route.name)"
+    v-if="!['Login', 'Register', 'PasswordReset'].includes(this.$route.name)"
     app
     color="#2C2F33"
     shrink-on-scroll
@@ -442,7 +442,7 @@ export default {
         if (this.$v.email.email != undefined) {
           !this.$v.email.email &&
             errors.push(
-              `You must fill field like on example "example@ex.pl".`
+              `The field must be completed according to the template "example@ex.pl".`
             );
         }
       } else {

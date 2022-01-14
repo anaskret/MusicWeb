@@ -68,4 +68,11 @@ export default {
       ApiService.delete
     );
   },
+  resetPassword(data) {
+    return ApiService.authRequest(
+      `/passwordreset`,
+      ApiService.post,
+      data
+    );
+  },
 };

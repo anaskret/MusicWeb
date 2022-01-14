@@ -94,10 +94,16 @@ export default function useAccounts() {
       return accountServices.acceptFriendRequest(data);
     }
   };
-
+  
   const discardFriendRequest = function (user_id, friend_id) {
-    if (user_id && friend_id) {
-      return accountServices.discardFriendRequest(user_id, friend_id);
+      if (user_id && friend_id) {
+          return accountServices.discardFriendRequest(user_id, friend_id);
+        }
+    };
+    
+  const resetPassword = function (data) {
+    if (data && typeof data.userName == "string") {
+        return accountServices.resetPassword(data);
     }
   };
   return {
@@ -117,5 +123,6 @@ export default function useAccounts() {
     addFriendRequest,
     acceptFriendRequest,
     discardFriendRequest,
+    resetPassword
   };
 }

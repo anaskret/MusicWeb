@@ -14,7 +14,7 @@
             {{ message }}
           </h5>
         </div>
-        <v-card-title>Zaloguj się</v-card-title>
+        <v-card-title>Log In</v-card-title>
         <form @submit.prevent="onSubmit">
           <v-text-field
             class="p-4"
@@ -41,6 +41,17 @@
             @blur="$v.account.password.$touch()"
           ></v-text-field>
 
+          <div class="reset-password">
+            <v-btn
+              plain
+              color="gray"
+              class="md-4"
+              width="40%"
+              @click="redirectToPasswordReset"
+            >
+              Forgot Password?
+            </v-btn>
+          </div>
           <div class="btns mt-8">
             <v-btn
               outlined
@@ -51,11 +62,11 @@
               :loading="is_logging"
               width="40%"
             >
-              Zaloguj się
+              Log In
             </v-btn>
             <div></div>
             <v-btn class="mt-4" @click="register" outlined width="40%">
-              Zarejestruj
+              Sign In
             </v-btn>
           </div>
         </form>
@@ -123,30 +134,30 @@ export default {
     prepareErrorArray(field) {
       const errors = [];
       if (!this.$v.account[field].$dirty) return errors;
-      !this.$v.account[field].required && errors.push("Pole jest wymagane.");
+      !this.$v.account[field].required && errors.push("Field is required.");
       if (
         this.$v.account[field].maxLength != undefined &&
         this.$v.account[field].minLength != undefined
       ) {
         !this.$v.account[field].maxLength &&
           errors.push(
-            `Pole nie może być dłuższy niż ${this.$v.account[field].$params.maxLength.max} znaków.`
+            `Field cannot be longer than ${this.$v.account[field].$params.maxLength.max} characters.`
           );
         !this.$v.account[field].minLength &&
           errors.push(
-            `Pole musi mieć przynajmniej ${this.$v.account[field].$params.minLength.min} znaków.`
+            `Field must contain at least ${this.$v.account[field].$params.minLength.min} characters.`
           );
       }
       if (this.$v.account[field].email != undefined) {
         !this.$v.account[field].email &&
           errors.push(
-            `Pole musi być uzupełnione według szablonu "example@ex.pl".`
+            `The field must be completed according to the template "example@ex.pl".`
           );
       }
 
       if (this.$v.account[field].maxValue != undefined) {
         !this.$v.account[field].maxValue &&
-          errors.push(`Data urodzenia nie może być w przyszłości.`);
+          errors.push(`Birth date cannot be in the future.`);
       }
       return errors;
     },
@@ -158,6 +169,9 @@ export default {
     },
     register() {
       this.$router.push({ name: "Register" });
+    },
+    redirectToPasswordReset() {
+      this.$router.push({ name: "PasswordReset" });
     },
   },
   setup() {
@@ -173,11 +187,10 @@ export default {
         },
         (error) => {
           if (
-            error.response.status == 500 &&
-            error.response.data == "Wrong username/password"
+            error.response.status == 500 
           ) {
             this.is_logging = false;
-            this.message = "Niepoprawny login lub hasło!";
+            this.message = error.response.data;
           }
         }
       );
@@ -195,5 +208,10 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+.reset-password{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
 }
 </style>
