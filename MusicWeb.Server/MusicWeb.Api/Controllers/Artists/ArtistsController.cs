@@ -124,7 +124,7 @@ namespace MusicWeb.Api.Controllers.Artists
         {
             try
             {
-                var response = await _artistService.GetArtistRatingAverage(id);
+                var response = await _artistService.GetArtistRatingAverageAsync(id);
                 return Ok(response);
             }
             catch (Exception ex)
