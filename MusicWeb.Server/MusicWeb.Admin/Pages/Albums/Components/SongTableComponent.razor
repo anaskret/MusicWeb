@@ -1,0 +1,112 @@
+﻿@using Admin.Pages.Albums.Models
+
+<div class="table-responsive">
+    <StatusMessageComponent @ref="StatusMessageComponent" />
+    <table class="table m-0 mb-3 table-striped table-bordered" id="table-example">
+        <thead class="thead-themed">
+            <tr>
+                <th>Lp.</th>
+                <th>Nazwa wyrobu</th>
+                <th style="max-width: 150px">Nazwa wyrobu u klienta</th>
+                <th style="max-width: 130px">Kod EAN</th>
+                <th style="max-width: 100px">Kolor</th>
+                <th style="max-width: 70px">Ilość</th>
+                <th>Usuń</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{ int index = 1; }
+            @foreach (var line in Songs)
+            {
+            <tr>
+                <td>
+                    @index
+                    @{
+                        line.ListIndex = index;
+                        _id = index;
+                        index++;
+                    }
+                </td>
+                <td>
+                    <InputText @bind-Value="line.Name" class="form-control" />
+                    <div class="text-danger">
+                        <ValidationMessage For="@(() => line.Name)" />
+                    </div>
+                </td>
+                <td>
+                    <InputDate @bind-Value="line.ReleaseDate" class="form-control" />
+                    <div class="text-danger">
+                        <ValidationMessage For="@(() => line.ReleaseDate)" />
+                    </div>
+                </td>
+                <td>
+                    <InputNumber type="numeric" @bind-Value="line.Length" class="form-control" />
+                    <div class="text-danger">
+                        <ValidationMessage For="@(() => line.Length)" />
+                    </div>
+                </td>
+                <td>
+                </td>
+                <td>
+                    <InputNumber type="numeric" @bind-Value="line.PositionOnAlbum" class="form-control" />
+                    <div class="text-danger">
+                        <ValidationMessage For="@(() => line.PositionOnAlbum)" />
+                    </div>
+                </td>
+                <td>
+                    <InputTextArea type="numeric" @bind-Value="line.Text" class="form-control" />
+                    <div class="text-danger">
+                        <ValidationMessage For="@(() => line.Text)" />
+                    </div>
+                </td>
+                <td>
+                    <InputSelect @bind-Value="line.ComposerId" class="form-select">
+                        @foreach (var composer in Composers)
+                            {
+                            <option value="@composer.Id">@composer.Name</option>
+                            }
+                    </InputSelect>
+                    <div class="text-danger">
+                        <ValidationMessage For="@(() => line.ComposerId)" />
+                    </div>
+                </td>
+                <td>
+                    <div class="text-center">
+                        @if (Songs.Count >= 2 && Songs.Last() != line)
+                        {
+                            <form>
+                                <a href="#" title="Usuń" @onclick="() => DeleteClick(line.ListIndex)" @onclick:preventDefault>
+                                    <i class="fas fa-trash-alt"></i>
+                                </a>
+                            </form>
+                        }
+                    </div>
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@code {
+    [Parameter]
+    public List<ArtistSelectModel> Composers { get; set; }
+    [Parameter]
+    public List<CreatorSongModel> Songs { get; set; }
+
+    private int _id = 1;
+
+    private void DeleteClick(int id)
+    {
+        Songs.Remove(Songs.FirstOrDefault(prp => prp.ListIndex == id));
+        StateHasChanged();
+    }
+
+    private void AddNewLine(int lineId)
+    {
+        if (lineId != _id && Songs.Count >= 2)
+            return;
+
+        Songs.Add(new CreatorSongModel());
+    }
+}

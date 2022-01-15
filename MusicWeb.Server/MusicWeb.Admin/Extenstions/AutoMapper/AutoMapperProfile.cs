@@ -31,6 +31,7 @@ namespace MusicWeb.Admin.Extenstions.AutoMapper
             CreateMap<ArtistWithUserModel, Artist>();
             CreateMap<EditArtistModel, Artist>();
             CreateMap<Artist, EditArtistModel>();
+            CreateMap<Artist, ArtistSelectModel>();
 
             CreateMap<Album, AlbumPageModel>()
                 .ForMember(prp => prp.AlbumGenreName, obj => obj.MapFrom(src => src.AlbumGenre.Name))
