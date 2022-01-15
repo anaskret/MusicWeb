@@ -1256,13 +1256,13 @@ namespace MusicWeb.DataAccess.Migrations
                     b.HasOne("MusicWeb.Models.Entities.Genre", "AlbumGenre")
                         .WithMany("Albums")
                         .HasForeignKey("AlbumGenreId")
-                        .OnDelete(DeleteBehavior.SetNull)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("MusicWeb.Models.Entities.Artists.Artist", "Artist")
                         .WithMany("Albums")
                         .HasForeignKey("ArtistId")
-                        .OnDelete(DeleteBehavior.SetNull)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("AlbumGenre");
@@ -1275,13 +1275,13 @@ namespace MusicWeb.DataAccess.Migrations
                     b.HasOne("MusicWeb.Models.Entities.Album", "Album")
                         .WithMany("AlbumReviews")
                         .HasForeignKey("AlbumId")
-                        .OnDelete(DeleteBehavior.SetNull)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("MusicWeb.Models.Identity.ApplicationUser", "User")
                         .WithMany("AlbumReviews")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.SetNull)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Album");
@@ -1294,13 +1294,13 @@ namespace MusicWeb.DataAccess.Migrations
                     b.HasOne("MusicWeb.Models.Entities.Artists.Artist", "Artist")
                         .WithMany("ArtistComments")
                         .HasForeignKey("ArtistId")
-                        .OnDelete(DeleteBehavior.SetNull)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("MusicWeb.Models.Identity.ApplicationUser", "User")
                         .WithMany("ArtistComments")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.SetNull)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Artist");
@@ -1313,7 +1313,7 @@ namespace MusicWeb.DataAccess.Migrations
                     b.HasOne("MusicWeb.Models.Entities.Origins.Country", "Country")
                         .WithMany("Artists")
                         .HasForeignKey("CountryId")
-                        .OnDelete(DeleteBehavior.SetNull)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("MusicWeb.Models.Identity.ApplicationUser", "ArtistUser")
@@ -1330,13 +1330,13 @@ namespace MusicWeb.DataAccess.Migrations
                     b.HasOne("MusicWeb.Models.Entities.Artists.Artist", "Member")
                         .WithOne("BandMember")
                         .HasForeignKey("MusicWeb.Models.Entities.Artists.BandMember", "ArtistId")
-                        .OnDelete(DeleteBehavior.SetNull)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("MusicWeb.Models.Entities.Artists.Artist", "Band")
                         .WithMany("Band")
                         .HasForeignKey("BandId")
-                        .OnDelete(DeleteBehavior.SetNull)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Band");
@@ -1349,13 +1349,13 @@ namespace MusicWeb.DataAccess.Migrations
                     b.HasOne("MusicWeb.Models.Entities.Album", "Album")
                         .WithMany("ArtistsOnTheAlbums")
                         .HasForeignKey("AlbumId")
-                        .OnDelete(DeleteBehavior.SetNull)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("MusicWeb.Models.Entities.Artists.Artist", "Artist")
                         .WithMany("ArtistsOnTheAlbums")
                         .HasForeignKey("ArtistId")
-                        .OnDelete(DeleteBehavior.SetNull)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Album");
@@ -1368,13 +1368,13 @@ namespace MusicWeb.DataAccess.Migrations
                     b.HasOne("MusicWeb.Models.Identity.ApplicationUser", "Friend")
                         .WithMany("FriendChats")
                         .HasForeignKey("FriendId")
-                        .OnDelete(DeleteBehavior.SetNull)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("MusicWeb.Models.Identity.ApplicationUser", "User")
                         .WithMany("Chats")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.SetNull)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Friend");
@@ -1387,13 +1387,13 @@ namespace MusicWeb.DataAccess.Migrations
                     b.HasOne("MusicWeb.Models.Entities.Chat", "Chat")
                         .WithMany("Messages")
                         .HasForeignKey("ChatId")
-                        .OnDelete(DeleteBehavior.SetNull)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("MusicWeb.Models.Identity.ApplicationUser", "Sender")
                         .WithMany("Messages")
                         .HasForeignKey("SenderId")
-                        .OnDelete(DeleteBehavior.SetNull)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Chat");
@@ -1406,17 +1406,17 @@ namespace MusicWeb.DataAccess.Migrations
                     b.HasOne("MusicWeb.Models.Entities.Album", "Album")
                         .WithMany("Posts")
                         .HasForeignKey("AlbumId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("MusicWeb.Models.Entities.Artists.Artist", "PosterArtist")
                         .WithMany("Posts")
                         .HasForeignKey("ArtistPosterId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("MusicWeb.Models.Identity.ApplicationUser", "Poster")
                         .WithMany("Posts")
                         .HasForeignKey("PosterId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("MusicWeb.Models.Entities.UserObservedArtist", null)
                         .WithMany("Posts")
@@ -1434,13 +1434,13 @@ namespace MusicWeb.DataAccess.Migrations
                     b.HasOne("MusicWeb.Models.Entities.Posts.Post", "Post")
                         .WithMany("PostComments")
                         .HasForeignKey("PostId")
-                        .OnDelete(DeleteBehavior.SetNull)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("MusicWeb.Models.Identity.ApplicationUser", "User")
                         .WithMany("PostComments")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.Navigation("Post");
 
@@ -1452,13 +1452,13 @@ namespace MusicWeb.DataAccess.Migrations
                     b.HasOne("MusicWeb.Models.Entities.Posts.Post", "Post")
                         .WithMany("PostLikes")
                         .HasForeignKey("PostId")
-                        .OnDelete(DeleteBehavior.SetNull)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("MusicWeb.Models.Identity.ApplicationUser", "User")
                         .WithMany("PostLikes")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.Navigation("Post");
 
@@ -1470,7 +1470,7 @@ namespace MusicWeb.DataAccess.Migrations
                     b.HasOne("MusicWeb.Models.Entities.Album", "Album")
                         .WithMany("AlbumRatings")
                         .HasForeignKey("AlbumId")
-                        .OnDelete(DeleteBehavior.SetNull)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("MusicWeb.Models.Entities.AlbumReview", "AlbumReview")
@@ -1481,7 +1481,7 @@ namespace MusicWeb.DataAccess.Migrations
                     b.HasOne("MusicWeb.Models.Identity.ApplicationUser", "User")
                         .WithMany("AlbumRatings")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.SetNull)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Album");
@@ -1496,13 +1496,13 @@ namespace MusicWeb.DataAccess.Migrations
                     b.HasOne("MusicWeb.Models.Entities.Artists.Artist", "Artist")
                         .WithMany("ArtistRatings")
                         .HasForeignKey("ArtistId")
-                        .OnDelete(DeleteBehavior.SetNull)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("MusicWeb.Models.Identity.ApplicationUser", "User")
                         .WithMany("ArtistRatings")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.SetNull)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Artist");
@@ -1532,13 +1532,13 @@ namespace MusicWeb.DataAccess.Migrations
                     b.HasOne("MusicWeb.Models.Entities.Album", "Album")
                         .WithMany("Songs")
                         .HasForeignKey("AlbumId")
-                        .OnDelete(DeleteBehavior.SetNull)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("MusicWeb.Models.Entities.Artists.Artist", "Composer")
                         .WithMany("Songs")
                         .HasForeignKey("ComposerId")
-                        .OnDelete(DeleteBehavior.SetNull)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Album");
@@ -1551,13 +1551,13 @@ namespace MusicWeb.DataAccess.Migrations
                     b.HasOne("MusicWeb.Models.Entities.Artists.Artist", "Artist")
                         .WithMany("SongGuestArtists")
                         .HasForeignKey("ArtistId")
-                        .OnDelete(DeleteBehavior.SetNull)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("MusicWeb.Models.Entities.Song", "Song")
                         .WithMany("SongGuestArtists")
                         .HasForeignKey("SongId")
-                        .OnDelete(DeleteBehavior.SetNull)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Artist");
@@ -1574,13 +1574,13 @@ namespace MusicWeb.DataAccess.Migrations
                     b.HasOne("MusicWeb.Models.Entities.Song", "Song")
                         .WithMany("SongReviews")
                         .HasForeignKey("SongId")
-                        .OnDelete(DeleteBehavior.SetNull)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("MusicWeb.Models.Identity.ApplicationUser", "User")
                         .WithMany("SongReviews")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.SetNull)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Rating");
@@ -1595,13 +1595,13 @@ namespace MusicWeb.DataAccess.Migrations
                     b.HasOne("MusicWeb.Models.Entities.Album", "Album")
                         .WithMany("UserFavoriteAlbums")
                         .HasForeignKey("AlbumId")
-                        .OnDelete(DeleteBehavior.SetNull)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("MusicWeb.Models.Identity.ApplicationUser", "User")
                         .WithMany("UserFavoriteAlbums")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.SetNull)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Album");
@@ -1614,13 +1614,13 @@ namespace MusicWeb.DataAccess.Migrations
                     b.HasOne("MusicWeb.Models.Entities.Artists.Artist", "Artist")
                         .WithMany("UserFavoriteArtists")
                         .HasForeignKey("ArtistId")
-                        .OnDelete(DeleteBehavior.SetNull)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("MusicWeb.Models.Identity.ApplicationUser", "User")
                         .WithMany("UserFavoriteArtists")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.SetNull)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Artist");
@@ -1633,13 +1633,13 @@ namespace MusicWeb.DataAccess.Migrations
                     b.HasOne("MusicWeb.Models.Entities.Song", "Song")
                         .WithMany("UserFavoriteSongs")
                         .HasForeignKey("SongId")
-                        .OnDelete(DeleteBehavior.SetNull)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("MusicWeb.Models.Identity.ApplicationUser", "User")
                         .WithMany("UserFavoriteSongs")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.SetNull)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Song");
@@ -1652,13 +1652,13 @@ namespace MusicWeb.DataAccess.Migrations
                     b.HasOne("MusicWeb.Models.Identity.ApplicationUser", "Friend")
                         .WithMany("FriendUsers")
                         .HasForeignKey("FriendId")
-                        .OnDelete(DeleteBehavior.SetNull)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("MusicWeb.Models.Identity.ApplicationUser", "User")
                         .WithMany("UserFriends")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.SetNull)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Friend");
@@ -1671,13 +1671,13 @@ namespace MusicWeb.DataAccess.Migrations
                     b.HasOne("MusicWeb.Models.Entities.Artists.Artist", "Artist")
                         .WithMany("UserObservedArtists")
                         .HasForeignKey("ArtistId")
-                        .OnDelete(DeleteBehavior.SetNull)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("MusicWeb.Models.Identity.ApplicationUser", "User")
                         .WithMany("UserObservedArtists")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.SetNull)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Artist");

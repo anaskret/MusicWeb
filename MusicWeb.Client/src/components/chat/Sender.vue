@@ -63,6 +63,8 @@ export default {
           chatId: this.current_chat.id,
           senderId: this.account.id,
           text: text_matched[1],
+          imageBytes: "",
+          isRead: false
         };
         this.newMessage(message);
       }

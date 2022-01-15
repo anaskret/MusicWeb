@@ -23,6 +23,7 @@ export default new Vuex.Store({
     placeholder: "",
     current_chat: {},
     chat_page: 0,
+    base64_image: ""
   },
   mutations: {
     newMessage(state, message) {
@@ -121,8 +122,35 @@ export default new Vuex.Store({
     setArtist(state, artist) {
       state.artist = artist;
     },
+    setBase64Image(state, image){
+      state.base64_image = image;
+    }
   },
-  actions: {},
+  actions: {
+    encodeIntoBase64(action, payload){
+        () => {action};
+        return new Promise(function (resolve, reject) {
+            let reader = new FileReader();
+            let imgResult = "";
+            reader.readAsDataURL(payload);
+            reader.onload = function () {
+            imgResult = reader.result;
+            };
+            reader.onerror = function (error) {
+            reject(error);
+            };
+            reader.onloadend = function () {
+            resolve(imgResult);
+            };
+        });
+    },
+    setBase64({ dispatch, commit }, payload){
+        dispatch("encodeIntoBase64", payload).then((res) => {
+            let start = res.search(",");
+            commit('setBase64Image', res.substr(start + 1, res.length));
+        });
+    }
+  },
   getters: {
     server_url(state) {
       return state.serverUrl;
@@ -162,5 +190,8 @@ export default new Vuex.Store({
     artist(state) {
       return state.artist;
     },
+    base64_image(state){
+      return state.base64_image;
+    }
   },
 });

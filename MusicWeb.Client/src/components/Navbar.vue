@@ -270,7 +270,7 @@
                       <v-card-actions>
                         <v-spacer></v-spacer>
                         <v-btn @click="settings_dialog = false"> Close </v-btn>
-                        <v-btn @click="updateImageDialog"> Send </v-btn>
+                        <v-btn @click="updateImageDialog" :disabled="!base64_image"> Send </v-btn>
                       </v-card-actions>
                     </v-card>
                   </v-tab-item>
@@ -305,7 +305,6 @@
 <script>
 import useAccounts from "@/modules/accounts";
 import SearchBar from "@/components/SearchBar";
-import { mapGetters } from "vuex";
 import {
   required,
   minLength,
@@ -313,7 +312,7 @@ import {
   email,
   sameAs,
 } from "vuelidate/lib/validators";
-import { mapMutations } from "vuex";
+import { mapGetters, mapMutations, mapActions } from "vuex";
 export default {
   name: "Navbar",
   components: {
@@ -357,6 +356,7 @@ export default {
     ...mapGetters({
       current_user: "current_user",
       server_url: "server_url",
+      base64_image: "base64_image"
     }),
     isDisabled() {
       return this.$v.$invalid;
@@ -400,6 +400,7 @@ export default {
   },
   methods: {
     ...mapMutations(["setCurrentUser"]),
+    ...mapActions(['setBase64']),
     redirectToProfile() {
       this.drawer = !this.drawer;
       this.$router.push({ name: "UserProfile" });
@@ -478,27 +479,8 @@ export default {
     },
     fileChange(file) {
       if (file != null && file != "") {
-        this.getBase64(file).then((res) => {
-          let start = res.search(",");
-          this.file.imageBytes = res.substr(start + 1, res.length);
-        });
+        this.setBase64(file);
       }
-    },
-    getBase64(file) {
-      return new Promise(function (resolve, reject) {
-        let reader = new FileReader();
-        let imgResult = "";
-        reader.readAsDataURL(file);
-        reader.onload = function () {
-          imgResult = reader.result;
-        };
-        reader.onerror = function (error) {
-          reject(error);
-        };
-        reader.onloadend = function () {
-          resolve(imgResult);
-        };
-      });
     },
     clearSettings() {
       this.account = this.current_user;
@@ -534,6 +516,9 @@ export default {
     },
     current_user(){
       this.account = this.current_user;
+    },
+    base64_image(){
+      this.file.imageBytes = this.base64_image;
     }
   },
   setup() {

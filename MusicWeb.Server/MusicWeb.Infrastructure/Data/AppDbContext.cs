@@ -83,13 +83,13 @@ namespace MusicWeb.DataAccess.Data
                 entity.HasOne(e => e.Artist)
                     .WithMany(a => a.Albums)
                     .HasForeignKey(e => e.ArtistId)
-                    .OnDelete(DeleteBehavior.SetNull)
+                    .OnDelete(DeleteBehavior.NoAction)
                     .IsRequired();
 
                 entity.HasOne(e => e.AlbumGenre)
                     .WithMany(a => a.Albums)
                     .HasForeignKey(e => e.AlbumGenreId)
-                    .OnDelete(DeleteBehavior.SetNull)
+                    .OnDelete(DeleteBehavior.NoAction)
                     .IsRequired();
             });
 
@@ -109,13 +109,13 @@ namespace MusicWeb.DataAccess.Data
                 entity.HasOne(e => e.Album)
                     .WithMany(a => a.AlbumReviews)
                     .HasForeignKey(e => e.AlbumId)
-                    .OnDelete(DeleteBehavior.SetNull)
+                    .OnDelete(DeleteBehavior.NoAction)
                     .IsRequired();
 
                 entity.HasOne(e => e.User)
                     .WithMany(u => u.AlbumReviews)
                     .HasForeignKey(e => e.UserId)
-                    .OnDelete(DeleteBehavior.SetNull)
+                    .OnDelete(DeleteBehavior.NoAction)
                     .IsRequired();
 
                 entity.HasOne(e => e.AlbumRating)
@@ -131,13 +131,13 @@ namespace MusicWeb.DataAccess.Data
                 entity.HasOne(e => e.Album)
                     .WithMany(a => a.ArtistsOnTheAlbums)
                     .HasForeignKey(e => e.AlbumId)
-                    .OnDelete(DeleteBehavior.SetNull)
+                    .OnDelete(DeleteBehavior.NoAction)
                     .IsRequired();
 
                 entity.HasOne(e => e.Artist)
                     .WithMany(a => a.ArtistsOnTheAlbums)
                     .HasForeignKey(e => e.ArtistId)
-                    .OnDelete(DeleteBehavior.SetNull)
+                    .OnDelete(DeleteBehavior.NoAction)
                     .IsRequired();
             });
 
@@ -157,7 +157,7 @@ namespace MusicWeb.DataAccess.Data
                 entity.HasOne(e => e.Country)
                     .WithMany(a => a.Artists)
                     .HasForeignKey(e => e.CountryId)
-                    .OnDelete(DeleteBehavior.SetNull)
+                    .OnDelete(DeleteBehavior.NoAction)
                     .IsRequired();
 
 
@@ -178,13 +178,13 @@ namespace MusicWeb.DataAccess.Data
                 entity.HasOne(e => e.Artist)
                     .WithMany(a => a.ArtistComments)
                     .HasForeignKey(e => e.ArtistId)
-                    .OnDelete(DeleteBehavior.SetNull)
+                    .OnDelete(DeleteBehavior.NoAction)
                     .IsRequired();
 
                 entity.HasOne(e => e.User)
                     .WithMany(a => a.ArtistComments)
                     .HasForeignKey(e => e.UserId)
-                    .OnDelete(DeleteBehavior.SetNull)
+                    .OnDelete(DeleteBehavior.NoAction)
                     .IsRequired();
             });
 
@@ -193,13 +193,13 @@ namespace MusicWeb.DataAccess.Data
                 entity.HasOne(e => e.User)
                     .WithMany(a => a.Chats)
                     .HasForeignKey(e => e.UserId)
-                    .OnDelete(DeleteBehavior.SetNull)
+                    .OnDelete(DeleteBehavior.NoAction)
                     .IsRequired();
 
                 entity.HasOne(e => e.Friend)
                     .WithMany(a => a.FriendChats)
                     .HasForeignKey(e => e.FriendId)
-                    .OnDelete(DeleteBehavior.SetNull)
+                    .OnDelete(DeleteBehavior.NoAction)
                     .IsRequired();
             });
 
@@ -215,13 +215,13 @@ namespace MusicWeb.DataAccess.Data
                 entity.HasOne(e => e.Sender)
                     .WithMany(a => a.Messages)
                     .HasForeignKey(e => e.SenderId)
-                    .OnDelete(DeleteBehavior.SetNull)
+                    .OnDelete(DeleteBehavior.NoAction)
                     .IsRequired();
 
                 entity.HasOne(e => e.Chat)
                     .WithMany(a => a.Messages)
                     .HasForeignKey(e => e.ChatId)
-                    .OnDelete(DeleteBehavior.SetNull)
+                    .OnDelete(DeleteBehavior.NoAction)
                     .IsRequired();
             });
 
@@ -237,12 +237,12 @@ namespace MusicWeb.DataAccess.Data
                 entity.HasOne(b => b.Band)
                 .WithMany(a => a.Band)
                 .HasForeignKey(b => b.BandId)
-                .OnDelete(DeleteBehavior.SetNull);
+                .OnDelete(DeleteBehavior.NoAction);
 
                 entity.HasOne(b => b.Member)
                 .WithOne(a => a.BandMember)
                 .HasForeignKey<BandMember>(b => b.ArtistId)
-                .OnDelete(DeleteBehavior.SetNull);
+                .OnDelete(DeleteBehavior.NoAction);
             });
 
             modelBuilder.Entity<Song>(entity =>
@@ -257,13 +257,13 @@ namespace MusicWeb.DataAccess.Data
                 entity.HasOne(e => e.Album)
                     .WithMany(a => a.Songs)
                     .HasForeignKey(e => e.AlbumId)
-                    .OnDelete(DeleteBehavior.SetNull)
+                    .OnDelete(DeleteBehavior.NoAction)
                     .IsRequired();
 
                 entity.HasOne(e => e.Composer)
                     .WithMany(a => a.Songs)
                     .HasForeignKey(e => e.ComposerId)
-                    .OnDelete(DeleteBehavior.SetNull)
+                    .OnDelete(DeleteBehavior.NoAction)
                     .IsRequired();
             });
 
@@ -272,13 +272,13 @@ namespace MusicWeb.DataAccess.Data
                 entity.HasOne(e => e.Song)
                     .WithMany(a => a.SongGuestArtists)
                     .HasForeignKey(e => e.SongId)
-                    .OnDelete(DeleteBehavior.SetNull)
+                    .OnDelete(DeleteBehavior.NoAction)
                     .IsRequired();
 
                 entity.HasOne(e => e.Artist)
                     .WithMany(a => a.SongGuestArtists)
                     .HasForeignKey(e => e.ArtistId)
-                    .OnDelete(DeleteBehavior.SetNull)
+                    .OnDelete(DeleteBehavior.NoAction)
                     .IsRequired();
             });
 
@@ -298,13 +298,13 @@ namespace MusicWeb.DataAccess.Data
                 entity.HasOne(e => e.Song)
                     .WithMany(a => a.SongReviews)
                     .HasForeignKey(e => e.SongId)
-                    .OnDelete(DeleteBehavior.SetNull)
+                    .OnDelete(DeleteBehavior.NoAction)
                     .IsRequired();
 
                 entity.HasOne(e => e.User)
                     .WithMany(u => u.SongReviews)
                     .HasForeignKey(e => e.UserId)
-                    .OnDelete(DeleteBehavior.SetNull)
+                    .OnDelete(DeleteBehavior.NoAction)
                     .IsRequired();
             });
 
@@ -316,13 +316,13 @@ namespace MusicWeb.DataAccess.Data
                 entity.HasOne(e => e.Album)
                     .WithMany(a => a.UserFavoriteAlbums)
                     .HasForeignKey(e => e.AlbumId)
-                    .OnDelete(DeleteBehavior.SetNull)
+                    .OnDelete(DeleteBehavior.NoAction)
                     .IsRequired();
 
                 entity.HasOne(e => e.User)
                     .WithMany(u => u.UserFavoriteAlbums)
                     .HasForeignKey(e => e.UserId)
-                    .OnDelete(DeleteBehavior.SetNull)
+                    .OnDelete(DeleteBehavior.NoAction)
                     .IsRequired();
             });
 
@@ -334,13 +334,13 @@ namespace MusicWeb.DataAccess.Data
                 entity.HasOne(e => e.Artist)
                     .WithMany(a => a.UserFavoriteArtists)
                     .HasForeignKey(e => e.ArtistId)
-                    .OnDelete(DeleteBehavior.SetNull)
+                    .OnDelete(DeleteBehavior.NoAction)
                     .IsRequired();
 
                 entity.HasOne(e => e.User)
                     .WithMany(u => u.UserFavoriteArtists)
                     .HasForeignKey(e => e.UserId)
-                    .OnDelete(DeleteBehavior.SetNull)
+                    .OnDelete(DeleteBehavior.NoAction)
                     .IsRequired();
             });
 
@@ -352,13 +352,13 @@ namespace MusicWeb.DataAccess.Data
                 entity.HasOne(e => e.Artist)
                     .WithMany(a => a.UserObservedArtists)
                     .HasForeignKey(e => e.ArtistId)
-                    .OnDelete(DeleteBehavior.SetNull)
+                    .OnDelete(DeleteBehavior.NoAction)
                     .IsRequired();
 
                 entity.HasOne(e => e.User)
                     .WithMany(u => u.UserObservedArtists)
                     .HasForeignKey(e => e.UserId)
-                    .OnDelete(DeleteBehavior.SetNull)
+                    .OnDelete(DeleteBehavior.NoAction)
                     .IsRequired();
             });
 
@@ -370,13 +370,13 @@ namespace MusicWeb.DataAccess.Data
                 entity.HasOne(e => e.Song)
                     .WithMany(a => a.UserFavoriteSongs)
                     .HasForeignKey(e => e.SongId)
-                    .OnDelete(DeleteBehavior.SetNull)
+                    .OnDelete(DeleteBehavior.NoAction)
                     .IsRequired();
 
                 entity.HasOne(e => e.User)
                     .WithMany(u => u.UserFavoriteSongs)
                     .HasForeignKey(e => e.UserId)
-                    .OnDelete(DeleteBehavior.SetNull)
+                    .OnDelete(DeleteBehavior.NoAction)
                     .IsRequired();
             });
 
@@ -385,13 +385,13 @@ namespace MusicWeb.DataAccess.Data
                 entity.HasOne(e => e.User)
                     .WithMany(a => a.UserFriends)
                     .HasForeignKey(e => e.UserId)
-                    .OnDelete(DeleteBehavior.SetNull)
+                    .OnDelete(DeleteBehavior.NoAction)
                     .IsRequired();
 
                 entity.HasOne(e => e.Friend)
                     .WithMany(u => u.FriendUsers)
                     .HasForeignKey(e => e.FriendId)
-                    .OnDelete(DeleteBehavior.SetNull)
+                    .OnDelete(DeleteBehavior.NoAction)
                     .IsRequired();
             });
 
@@ -401,19 +401,19 @@ namespace MusicWeb.DataAccess.Data
                 .WithMany(p => p.Posts)
                 .HasForeignKey(e => e.PosterId)
                 .IsRequired(false)
-                .OnDelete(DeleteBehavior.SetNull);
+                .OnDelete(DeleteBehavior.NoAction);
 
                 entity.HasOne(e => e.PosterArtist)
                 .WithMany(p => p.Posts)
                 .HasForeignKey(e => e.ArtistPosterId)
                 .IsRequired(false)
-                .OnDelete(DeleteBehavior.SetNull);
+                .OnDelete(DeleteBehavior.NoAction);
 
                 entity.HasOne(e => e.Album)
                 .WithMany(p => p.Posts)
                 .HasForeignKey(e => e.AlbumId)
                 .IsRequired(false)
-                .OnDelete(DeleteBehavior.SetNull);
+                .OnDelete(DeleteBehavior.NoAction);
             });
 
             modelBuilder.Entity<PostLike>(entity =>
@@ -421,12 +421,12 @@ namespace MusicWeb.DataAccess.Data
                 entity.HasOne(e => e.Post)
                 .WithMany(p => p.PostLikes)
                 .HasForeignKey(e => e.PostId)
-                .OnDelete(DeleteBehavior.SetNull);
+                .OnDelete(DeleteBehavior.NoAction);
 
                 entity.HasOne(e => e.User)
                 .WithMany(p => p.PostLikes)
                 .HasForeignKey(e => e.UserId)
-                .OnDelete(DeleteBehavior.SetNull);
+                .OnDelete(DeleteBehavior.NoAction);
             });
 
             modelBuilder.Entity<PostComment>(entity =>
@@ -434,12 +434,12 @@ namespace MusicWeb.DataAccess.Data
                 entity.HasOne(e => e.Post)
                 .WithMany(p => p.PostComments)
                 .HasForeignKey(e => e.PostId)
-                .OnDelete(DeleteBehavior.SetNull);
+                .OnDelete(DeleteBehavior.NoAction);
 
                 entity.HasOne(e => e.User)
                 .WithMany(p => p.PostComments)
                 .HasForeignKey(e => e.UserId)
-                .OnDelete(DeleteBehavior.SetNull);
+                .OnDelete(DeleteBehavior.NoAction);
             });
 
             modelBuilder.Entity<ArtistRating>(entity =>
@@ -450,13 +450,13 @@ namespace MusicWeb.DataAccess.Data
                 entity.HasOne(e => e.Artist)
                 .WithMany(p => p.ArtistRatings)
                 .HasForeignKey(e => e.ArtistId)
-                .OnDelete(DeleteBehavior.SetNull)
+                .OnDelete(DeleteBehavior.NoAction)
                 .IsRequired(true);
 
                 entity.HasOne(e => e.User)
                 .WithMany(p => p.ArtistRatings)
                 .HasForeignKey(e => e.UserId)
-                .OnDelete(DeleteBehavior.SetNull)
+                .OnDelete(DeleteBehavior.NoAction)
                 .IsRequired(true);
             });
 
@@ -468,13 +468,13 @@ namespace MusicWeb.DataAccess.Data
                 entity.HasOne(e => e.Album)
                 .WithMany(p => p.AlbumRatings)
                 .HasForeignKey(e => e.AlbumId)
-                .OnDelete(DeleteBehavior.SetNull)
+                .OnDelete(DeleteBehavior.NoAction)
                 .IsRequired(true);
 
                 entity.HasOne(e => e.User)
                 .WithMany(p => p.AlbumRatings)
                 .HasForeignKey(e => e.UserId)
-                .OnDelete(DeleteBehavior.SetNull)
+                .OnDelete(DeleteBehavior.NoAction)
                 .IsRequired(true);
 
                 entity.HasOne(e => e.AlbumReview)

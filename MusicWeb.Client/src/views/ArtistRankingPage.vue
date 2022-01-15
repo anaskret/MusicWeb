@@ -95,7 +95,6 @@ export default {
           this.$store.state.searchingValue
         )
           .then((response) => {
-            debugger;
             if (response.length > 0) {
               response.forEach((item) => {
                 return this.albums.push(item);
