@@ -25,10 +25,16 @@
       clearable
       v-on:keyup.enter="searchData"
     ></v-text-field>
+            <v-select
+          :items="items"
+          label="Standard"
+        ></v-select>
   </div>
 </template>
 
 <script>
+import {mapMutations} from "vuex";
+
 export default {
   name: "SearchBar",
   data() {
@@ -39,12 +45,15 @@ export default {
   },
   methods: {
     searchData() {
-      this.$store.state.searchingValue = this.search;
+     this.setSearchingValue(this.search);
       console.log(this.search);
       if (this.$router.currentRoute.path !== "/search") {
         this.$router.push({ name: "SearchPage" });
       }
     },
+    ...mapMutations([
+      "setSearchingValue"
+    ])
   },
 };
 </script>

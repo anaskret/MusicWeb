@@ -210,9 +210,6 @@ namespace MusicWeb.DataAccess.Migrations
                     b.Property<DateTime>("PostDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("RatingId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Title")
                         .IsRequired()
                         .ValueGeneratedOnAdd()
@@ -803,6 +800,9 @@ namespace MusicWeb.DataAccess.Migrations
                     b.Property<int>("AlbumId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("AlbumReviewId")
+                        .HasColumnType("int");
+
                     b.Property<int>("Rating")
                         .HasColumnType("int");
 
@@ -817,9 +817,7 @@ namespace MusicWeb.DataAccess.Migrations
 
                     b.HasIndex("AlbumId");
 
-                    b.HasIndex("ReviewId")
-                        .IsUnique()
-                        .HasFilter("[ReviewId] IS NOT NULL");
+                    b.HasIndex("AlbumReviewId");
 
                     b.HasIndex("UserId");
 
@@ -1470,9 +1468,8 @@ namespace MusicWeb.DataAccess.Migrations
                         .IsRequired();
 
                     b.HasOne("MusicWeb.Models.Entities.AlbumReview", "AlbumReview")
-                        .WithOne("AlbumRating")
-                        .HasForeignKey("MusicWeb.Models.Entities.Ratings.AlbumRating", "ReviewId")
-                        .OnDelete(DeleteBehavior.NoAction);
+                        .WithMany()
+                        .HasForeignKey("AlbumReviewId");
 
                     b.HasOne("MusicWeb.Models.Identity.ApplicationUser", "User")
                         .WithMany("AlbumRatings")
@@ -1694,11 +1691,6 @@ namespace MusicWeb.DataAccess.Migrations
                     b.Navigation("Songs");
 
                     b.Navigation("UserFavoriteAlbums");
-                });
-
-            modelBuilder.Entity("MusicWeb.Models.Entities.AlbumReview", b =>
-                {
-                    b.Navigation("AlbumRating");
                 });
 
             modelBuilder.Entity("MusicWeb.Models.Entities.Artists.Artist", b =>

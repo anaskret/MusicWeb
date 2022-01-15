@@ -40,6 +40,7 @@ import useArtists from "@/modules/artists";
 import useAlbums from "@/modules/albums";
 import useSongs from "@/modules/songs";
 import InfiniteScrollList from "@/components/InfiniteScrollList";
+import {mapGetters} from "vuex";
 
 
 export default {
@@ -76,23 +77,27 @@ export default {
     };
   },
   watch: {
-    "$store.state.searchingValue": function () {
+    searchingValue: {
+      immediate: true,
+      handler() {
+      debugger;
       if (
-        this.last_search !== this.$store.state.searchingValue &&
-        this.$store.state.searchingValue
-      ) {
-        debugger;
-        this.artists = [];
-        this.albums = [];
-        this.songs = [];
-        this.scroll_settings.artist_page = 0;
-        this.scroll_settings.album_page = 0;
-        this.scroll_settings.song_page = 0;
-        this.getPagedArtistList("", "", true);
-        this.getPagedAlbumList("", "", true);
-        this.getPagedSongList("", "", true);
+        // this.last_search !== this.searchingValue &&
+          this.searchingValue
+        ) {
+          debugger;
+          this.artists = [];
+          this.albums = [];
+          this.songs = [];
+          this.scroll_settings.artist_page = 0;
+          this.scroll_settings.album_page = 0;
+          this.scroll_settings.song_page = 0;
+          this.getPagedArtistList("", "", true);
+          this.getPagedAlbumList("", "", true);
+          this.getPagedSongList("", "", true);
+        }
       }
-    },
+    }
   },
   methods: {
     parseDate(date) {
@@ -107,6 +112,11 @@ export default {
       this.filters = filters;
     },
   },
+  computed: {
+    ...mapGetters([
+      'searchingValue'
+    ])
+  },
 
   setup() {
     const { getPagedArtists } = useArtists();
@@ -114,22 +124,27 @@ export default {
     const { getPagedSongs } = useSongs();
 
     const getPagedArtistList = function (entries, observer, is_intersecting) {
+            debugger;
+            console.log(this.scroll_settings.artist_page)
       if (is_intersecting) {
+        if(this.artists.length <= 0 && this.scroll_settings.artist_page > 0){
+          this.scroll_settings.artist_page = 0;
+        }
         getPagedArtists(
           this.scroll_settings.artist_page,
           this.scroll_settings.records_quantity,
           this.scroll_settings.selected_sort_type,
           this.parseDate(this.filters.establishment_date_from),
           this.parseDate(this.filters.establishment_date_to),
-          this.$store.state.searchingValue
+          this.searchingValue
         )
           .then((response) => {
+                  debugger;
             if (response.length > 0) {
               response.forEach((item) => {
                 return this.artists.push(item);
               });
-              this.last_search = this.$store.state.searchingValue;
-              this.$store.state.searchingValue = "";
+              this.last_search = this.searchingValue;
             } else {
               this.intersection_active = false;
             }
@@ -142,22 +157,26 @@ export default {
     };
 
      const getPagedAlbumList = function (entries, observer, is_intersecting) {
+             debugger;
       if (is_intersecting) {
+        if(this.albums.length <= 0 && this.scroll_settings.album_page > 0){
+          this.scroll_settings.album_page = 0;
+        }
         getPagedAlbums(
           this.scroll_settings.album_page,
           this.scroll_settings.records_quantity,
           this.scroll_settings.selected_sort_type,
           '1900-12-13T16:26:14.374Z',
           '2030-12-13T16:26:14.374Z',
-          this.$store.state.searchingValue
+          this.searchingValue
         )
           .then((response) => {
+                  debugger;
             if (response.length > 0) {
               response.forEach((item) => {
                 return this.albums.push(item);
               });
-              this.last_search = this.$store.state.searchingValue;
-              this.$store.state.searchingValue = "";
+              this.last_search = this.searchingValue;
             } else {
               this.intersection_active = false;
             }
@@ -172,6 +191,9 @@ export default {
     const getPagedSongList = function (entries, observer, is_intersecting) {
       debugger;
       if (is_intersecting) {
+        if(this.songs.length <= 0 && this.scroll_settings.song_page > 0){
+          this.scroll_settings.song_page = 0;
+        }
         getPagedSongs(
           this.scroll_settings.song_page,
           this.scroll_settings.records_quantity,
@@ -179,7 +201,7 @@ export default {
           '1900-12-13T16:26:14.374Z',
           '2030-12-13T16:26:14.374Z',
           // this.parseDate(this.filters.release_date_to),
-          this.$store.state.searchingValue
+          this.searchingValue
         )
           .then((response) => {
             debugger;
@@ -187,8 +209,7 @@ export default {
               response.forEach((item) => {
                 return this.songs.push(item);
               });
-              this.last_search = this.$store.state.searchingValue;
-              this.$store.state.searchingValue = "";
+              this.last_search = this.searchingValue;
             } else {
               this.intersection_active = false;
             }

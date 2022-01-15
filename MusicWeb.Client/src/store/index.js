@@ -29,6 +29,9 @@ export default new Vuex.Store({
     setArtist(state, artist) {
       state.artist = artist;
     },
+    setSearchingValue(state, search) {
+      state.searchingValue = search;
+    },
   },
   getters: {
     album(state) {
@@ -42,6 +45,9 @@ export default new Vuex.Store({
     },
     artist(state) {
       return state.artist;
+    },
+    searchingValue(state) {
+      return state.searchingValue;
     },
   },
 });
