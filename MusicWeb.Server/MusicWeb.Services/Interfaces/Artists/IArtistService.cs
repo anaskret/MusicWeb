@@ -26,6 +26,6 @@ namespace MusicWeb.Services.Interfaces.Artists
         Task UpdateArtistAsync(Artist entity, byte[] imageBytes);
         Task<string> UpdateImageAsync(ArtistFileUpdateDto dto);
         Task DeleteAsync(int id);
-        Task<ArtistRatingAverage> GetArtistRatingAverage(int id);
+        Task<ArtistRatingAverage> GetArtistRatingAverageAsync(int id);
     }
 }

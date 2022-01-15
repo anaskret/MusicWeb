@@ -218,7 +218,7 @@ namespace MusicWeb.Services.Services.Artists
             await UpdateAsync(entity);
         }
 
-        public async Task<ArtistRatingAverage> GetArtistRatingAverage(int id)
+        public async Task<ArtistRatingAverage> GetArtistRatingAverageAsync(int id)
         {
             return _mapper.Map<ArtistRatingAverage>(await _artistRepository.GetArtistAverageRating(id));
         }
