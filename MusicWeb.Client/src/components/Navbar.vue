@@ -589,7 +589,7 @@ export default {
 
     const updateImage = function () {
       this.file.userid = this.current_user.id;
-      this.file.imagePath = "/Users/";
+      this.file.imagePath = "/Users";
       updateAccountImage(this.file).then(
         (response) => {
           if (response.status == 200) {

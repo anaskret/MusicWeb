@@ -35,7 +35,7 @@
               color="gray"
               type="submit"
               class="md-4"
-              :disabled="this.isDisabled"
+              :loading="is_sending"
               width="40%"
             >
               Reset Password
@@ -59,7 +59,7 @@ export default {
   data() {
     return {
       account: new Account(),
-      is_logging: false,
+      is_sending: false,
       message: "",
       error: {},
     };
@@ -105,7 +105,6 @@ export default {
       return typeof validation != "undefined" ? validation.$error : false;
     },
     redirect() {
-      this.message = "New password has been sent to your Mailbox.";
       window.setTimeout(() => {
           this.$router.push({ name: "Login" }).catch(() => {});
       }, 500);
@@ -122,16 +121,18 @@ export default {
       if (this.$v.$pendding || this.$v.$error) {
         return;
       }
+      this.is_sending = true;
       resetPassword({userName: this.account.username}).then(
          (response) => {
             if (response.status == 200) {
                this.$emit(
                "show-alert",
-               `New password generated.`,
+               `New password has been sent to your Mailbox.`,
                "success"
                );
                this.redirect();
-            } else {
+            } else {  
+               this.is_sending = false;
                this.$emit(
                "show-alert",
                `Something went wrong. Error ${response.status}`,
@@ -139,7 +140,8 @@ export default {
                );
             }
          },
-         (error) => {
+         (error) => { 
+            this.is_sending = false;
             this.$emit(
                "show-alert",
                `Something went wrong. ${error.response.status} ${error.response.data}`,
