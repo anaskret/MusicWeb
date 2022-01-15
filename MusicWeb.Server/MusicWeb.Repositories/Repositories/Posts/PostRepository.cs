@@ -53,12 +53,12 @@ LEFT JOIN
 	FROM PostLike T031
 	GROUP BY T031.PostId
 ) T03 ON T03.PostId = T01.Id
-WHERE T01.CreateDate < '{pageInitializeDate}'
 ORDER BY T01.CreateDate DESC
 OFFSET {page} * {pageSize} ROWS
 FETCH NEXT {pageSize} ROWS ONLY";
 
             var query = _dbContext.UserAndArtistPost.FromSqlRaw(sql);
+			query.Where(prp => prp.CreateDate < pageInitializeDate);
 
             var entities = await query.ToListAsync();
             return entities;
