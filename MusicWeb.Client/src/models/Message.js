@@ -4,10 +4,9 @@ export default class Message {
   participant_id = null;
   participant_name = "";
   text = "";
-  type = "";
-  src = "";
-  preview = "";
-  uploaded = false;
+  image_bytes = "";
+  image_path = "";
+  is_read = false;
   constructor($data) {
     if ($data) {
       this.chat_id = $data.chatId;
@@ -15,10 +14,9 @@ export default class Message {
       this.participant_id = $data.senderId;
       this.participant_name = $data.senderName;
       this.text = $data.text;
-      this.type = $data.type ? $data.type : "text";
-      this.src = $data.src;
-      this.preview = $data.preview;
-      this.uploaded = $data.uploaded;
+      this.image_bytes = $data.imageBytes;
+      this.image_path = $data.imagePath;
+      this.is_read = $data.isRead;
     }
   }
 }

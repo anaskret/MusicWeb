@@ -58,7 +58,7 @@ export default {
       this.setPlaceholder(this.placeholder);
     },
     current_chat: {
-        // immediate: true,
+        immediate: true,
         handler(){
             this.getMessages();
         }

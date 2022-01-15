@@ -19,14 +19,13 @@
       v-model="image_input"
       :color="colors.submit_image_icon"
       prepend-icon="mdi-image"
-      @change="sendImage"
+      @change="prepareImage"
     ></v-file-input>
   </div>
 </template>
 
 <script>
-import { mapMutations, mapGetters } from "vuex";
-import moment from "moment";
+import { mapMutations, mapActions, mapGetters } from "vuex";
 export default {
   name: "Sender",
   props: {
@@ -45,42 +44,45 @@ export default {
     ...mapGetters({
       account: "current_user",
       placeholder: "placeholder",
-      current_chat: "current_chat"
+      current_chat: "current_chat",
+      base64_image: "base64_image"
     }),
   },
   methods: {
     ...mapMutations(["newMessage"]),
+    ...mapActions(['setBase64']),
     handleTyping(e) {
       this.$emit("user-typing", e);
     },
     async sendMessage() {
+      let message = {
+          chatId: this.current_chat.id,
+          senderId: this.account.id,
+          text: "",
+          imageBytes: "",
+          imagePath: "",
+          isRead: false
+      };
       const input_text = this.text_input;
       this.text_input = "";
       const text_not_empty = /[^\s]+/i;
       const text_matched = input_text.match(/^\s*((.|\n)+?)\s*$/i);
-      if (input_text && text_not_empty.test(input_text) && text_matched) {
-        let message = {
-          chatId: this.current_chat.id,
-          senderId: this.account.id,
-          text: text_matched[1],
-          imageBytes: "",
-          isRead: false
-        };
+      if (this.image_input && this.base64_image && !input_text && !text_not_empty.test(input_text) && !text_matched){
+        message.imageBytes = this.base64_image;
+        message.imagePath = `/Chats/${this.current_chat.id}`;
+      }
+      else if (input_text && text_not_empty.test(input_text) && text_matched) {
+        message.text = text_matched[1];
+      }
+
+      if((this.image_input && this.base64_image) || (input_text && text_not_empty.test(input_text) && text_matched)){
         this.newMessage(message);
       }
     },
-    async sendImage(file) {
-      let message = {
-        type: "image",
-        preview: URL.createObjectURL(file),
-        src: "",
-        content: "image",
-        participant_id: this.account.id,
-        send_date: moment().format(),
-        uploaded: false,
-        viewed: false,
-      };
-      this.newMessage(message);
+    prepareImage(file) {
+      if (file != null && file != "") {
+        this.setBase64(file);
+      }
     },
   },
 };

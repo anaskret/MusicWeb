@@ -15,10 +15,10 @@
       </v-img>
     </div>
     <div class="message-content">
-      <template v-if="message.type == 'image'">
+      <template v-if="message.image_path && !message.text">
         <p class="message-username-image">{{participant.firstname}}</p>
         <div class="message-image">
-          <expandable-image class="message-image-display" :src="message.src">
+          <expandable-image class="message-image-display" :src="`${server_url}/${message.image_path}`">
             <template v-slot:placeholder>
               <v-row class="fill-height ma-0" align="center" justify="center">
                 <v-progress-circular
@@ -51,7 +51,7 @@
           {{ message.send_date }}
         </template>
         <font-awesome-icon
-          v-if="message.uploaded"
+          v-if="message.is_read"
           class="icon-sent"
           icon="check"
         />

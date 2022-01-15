@@ -36,10 +36,7 @@ export default new Vuex.Store({
       addNewMessage(message).then(
         (response) => {
           if (response.status == 200) {
-            state.messages.at(-1).uploaded = true;
-            if (state.messages.at(-1).preview) {
-              state.messages.at(-1).src = state.messages.at(-1).preview;
-            }
+            state.messages.at(-1).is_read = true;
           } else {
             this.$emit(
               "show-alert",
