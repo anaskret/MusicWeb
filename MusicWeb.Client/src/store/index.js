@@ -62,7 +62,6 @@ export default new Vuex.Store({
           message.send_date = moment(message.send_date).calendar();
         }
         message.myself = message.participant_id === state.current_user.id;
-        message.uploaded = true;
         if (message.preview) {
           message.src = message.preview;
         }
@@ -98,8 +97,6 @@ export default new Vuex.Store({
 
           if (!("myself" in message))
             message.myself = message.participant_id === state.current_user.id;
-
-          message.uploaded = true; //TODO delete this, wait to upload
           return message;
         });
       }
@@ -121,6 +118,9 @@ export default new Vuex.Store({
     },
     setBase64Image(state, image){
       state.base64_image = image;
+    },
+    clearBase64Image(state){
+      state.base64_image = null;
     }
   },
   actions: {

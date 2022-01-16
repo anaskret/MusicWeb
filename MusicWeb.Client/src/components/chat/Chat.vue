@@ -2,7 +2,7 @@
   <div class="chat-container">
     <Header :colors="colors" v-on="$listeners" />
     <MessageDisplay :colors="colors" v-on="$listeners" />
-    <Sender :colors="colors" v-on="$listeners" />
+    <Sender :colors="colors" v-on="$listeners" @refresh-messages="getMessages" />
   </div>
 </template>
 
