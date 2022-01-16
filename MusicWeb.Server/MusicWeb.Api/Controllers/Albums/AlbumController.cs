@@ -172,5 +172,21 @@ namespace MusicWeb.Api.Controllers.Albums
             }
         }
 
+        [HttpPut(ApiRoutes.Albums.UpdateImage)]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> UpdateArtistImage([FromBody] AlbumFileUpdateDto dto)
+        {
+            try
+            {
+                var path = await _albumService.UpdateImageAsync(dto);
+
+                return Ok(path);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return StatusCode(500, ex.Message);
+            }
+        }
     }
 }

@@ -33,7 +33,7 @@
                                 </div>
                             </div>
                             <div class="form-group mb-3">
-                                    <label class="form-label text-muted">Release Date</label>
+                                <label class="form-label text-muted">Release Date</label>
                                 <InputDate @bind-Value="Model.ReleaseDate" class="form-control" />
                                 <div class="text-danger">
                                     <ValidationMessage For="@(() => Model.ReleaseDate)" />
@@ -58,6 +58,12 @@
                                 <InputTextArea type="numeric" @bind-Value="Model.Text" class="form-control" />
                                 <div class="text-danger">
                                     <ValidationMessage For="@(() => Model.Text)" />
+                                </div>
+                            </div>
+                            <div class="mb-4 row form-group">
+                                <label class="col-md-2 col-form-label text-muted">Song Photo</label>
+                                <div class="col-md-10">
+                                    <InputFile OnChange="@LoadFile" class="form-control" />
                                 </div>
                             </div>
                             <div class="form-group mb-3">
@@ -141,5 +147,11 @@
     {
         ShowCreator = false;
         Model = new CreatorSongModel();
+    }
+
+    private async Task LoadFile(InputFileChangeEventArgs e)
+    {
+        Model.ImageBytes = new byte[e.File.Size];
+        await e.File.OpenReadStream(int.MaxValue).ReadAsync(Model.ImageBytes);
     }
 }

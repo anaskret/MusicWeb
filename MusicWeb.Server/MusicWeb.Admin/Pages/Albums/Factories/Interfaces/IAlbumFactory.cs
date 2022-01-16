@@ -9,7 +9,7 @@ namespace MusicWeb.Admin.Pages.Albums.Factories.Interfaces
     public interface IAlbumFactory
     {
         Task PrepareCreator(List<ArtistSelectModel> artists, List<GenreSelectModel> genres);
-        Task<List<AlbumPageModel>> PrepareAlbums();
+        Task<List<AlbumPageModel>> PrepareAlbums(int filter);
         Task PrepareSongs(AlbumPageModel model);
     }
 }

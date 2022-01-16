@@ -45,6 +45,7 @@ namespace MusicWeb.Models.Constants
             public const string Create = Root + "/albums";
             public const string GetAll = Root + "/albums";
             public const string Update = Root + "/albums";
+            public const string UpdateImage = Root + "/albums/image";
             public const string GetById = Root + "/albums/{id}";
             public const string Delete = Root + "/albums/{id}";
             public const string GetFullData = Root + "/albumsdata/{id}";
@@ -74,6 +75,7 @@ namespace MusicWeb.Models.Constants
             public const string Create = Root + "/songs";
             public const string GetAll = Root + "/songs";
             public const string Update = Root + "/songs";
+            public const string UpdateImage = Root + "/songs/image";
             public const string GetById = Root + "/songs/{id}";
             public const string Delete = Root + "/songs/{id}";
             public const string GetFullData = Root + "/songsdata/{id}";

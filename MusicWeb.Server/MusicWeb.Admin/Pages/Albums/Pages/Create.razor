@@ -4,6 +4,7 @@
 @using Admin.Pages.Albums.Factories.Interfaces
 @using Admin.Pages.Albums.Components
 @using MusicWeb.Models.Entities
+@using MusicWeb.Models.Dtos.Albums
 @using MusicWeb.Services.Interfaces
 
 @inject IAlbumFactory _factory
@@ -49,22 +50,29 @@
                                     </div>
                                 </div>
                                 <div class="mb-3 form-group">
-                                    <label class="form-label text-muted">ReleaseDate</label>
+                                    <label class="form-label text-muted">Release Date</label>
                                     <InputDate @bind-Value="Input.ReleaseDate" class="form-control" />
                                     <div class="text-danger">
                                         <ValidationMessage For="@(() => Input.ReleaseDate)" />
                                     </div>
                                 </div>
                                 <div class="mb-3 form-group">
-                                    <label class="form-label text-muted">File</label>
-                                    <InputText @bind-Value="Input.Name" class="form-control" />
+                                    <label class="form-label text-muted">Description</label>
+                                    <InputTextArea @bind-Value="Input.Description" class="form-control" />
                                     <div class="text-danger">
-                                        <ValidationMessage For="@(() => Input.Name)" />
+                                        <ValidationMessage For="@(() => Input.Description)" />
+                                    </div>
+                                </div>
+                                <div class="mb-4 row form-group">
+                                    <label class="col-md-2 col-form-label text-muted">Album Photo</label>
+                                    <div class="col-md-10">
+                                        <InputFile OnChange="@LoadFile" class="form-control" />
                                     </div>
                                 </div>
                                 <div class="mb-3 form-group">
                                     <label class="form-label text-muted">Artist</label>
                                     <InputSelect @bind-Value="Input.ArtistId" class="form-select">
+                                        <option value="0">Select an artist...</option>
                                         @foreach (var artist in Artists)
                                         {
                                             <option value="@artist.Id">@artist.Name</option>
@@ -74,14 +82,15 @@
                                 <div class="mb-3 form-group">
                                     <label class="form-label text-muted">Genre</label>
                                     <InputSelect @bind-Value="Input.AlbumGenreId" class="form-select">
+                                        <option value="0">Select a genre...</option>
                                         @foreach (var genre in Genres)
                                         {
                                             <option value="@genre.Id">@genre.Name</option>
                                         }
                                     </InputSelect>
                                 </div>
-                                     <MusicWeb.Admin.Pages.Albums.Components.SongTableComponent Songs="Input.Songs"
-                                                     Composers="Artists"></MusicWeb.Admin.Pages.Albums.Components.SongTableComponent>
+                                <MusicWeb.Admin.Pages.Albums.Components.SongTableComponent Songs="Input.Songs"
+                                                                                           Composers="Artists"></MusicWeb.Admin.Pages.Albums.Components.SongTableComponent>
                             </div>
                         </div>
                     </div>
@@ -127,9 +136,9 @@
                 return;
             }
 
-            var mappedOrder = _mapper.Map<Album>(Input);
+            var mappedOrder = _mapper.Map<AdminAlbumCreateDto>(Input);
 
-            await _albumService.AddAsync(mappedOrder);
+            await _albumService.CreateAdminAlbum(mappedOrder);
 
             NavManager.NavigateTo("/albums/list");
         }
@@ -142,5 +151,11 @@
             _logger.LogError(ex.Message);
             StatusMessageComponent.Show("Error An error occured while adding the album");
         }
+    }
+
+    private async Task LoadFile(InputFileChangeEventArgs e)
+    {
+        Input.ImageBytes = new byte[e.File.Size];
+        await e.File.OpenReadStream(int.MaxValue).ReadAsync(Input.ImageBytes);
     }
 }

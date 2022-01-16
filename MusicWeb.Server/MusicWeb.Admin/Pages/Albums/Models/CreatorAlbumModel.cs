@@ -17,11 +17,12 @@ namespace MusicWeb.Admin.Pages.Albums.Models
         [Required(ErrorMessage = "Release Date is required")]
         public DateTime ReleaseDate { get; set; } = DateTime.Now;
         public string ImagePath { get; set; }
+        public byte[] ImageBytes { get; set; }
 
-        [Range(0, int.MaxValue, ErrorMessage = "Artist is required")]
+        [Range(1, int.MaxValue, ErrorMessage = "Artist is required")]
         public int ArtistId { get; set; }
 
-        [Range(0, int.MaxValue, ErrorMessage = "Genre is required")]
+        [Range(1, int.MaxValue, ErrorMessage = "Genre is required")]
         public int AlbumGenreId { get; set; }
 
         public double Duration { get; set; }

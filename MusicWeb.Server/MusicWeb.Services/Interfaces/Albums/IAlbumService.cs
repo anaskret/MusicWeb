@@ -15,6 +15,7 @@ namespace MusicWeb.Services.Interfaces
     {
         Task<Album> GetByIdAsync(int id);
         Task<List<Album>> GetAllAsync();
+        Task<List<Album>> GetAllFilteredAsync(int filter);
         Task<AlbumFullDataDto> GetFullAlbumDataByIdAsync(int id);
         Task AddAsync(Album entity);
         Task UpdateAsync(Album entity);
@@ -24,5 +25,7 @@ namespace MusicWeb.Services.Interfaces
         Task <AlbumRatingAverage> GetAlbumRatingAverage(int id);
         Task<List<AlbumRatingAverage>> GetPagedAsync(SortType sortType, DateTime startDate, DateTime endDate, int pageNum = 0, int pageSize = 15, string searchString = "");
         Task<IPagedList<Album>> GetIPagedAsync(string searchString, int pageNum = 0, int pageSize = int.MaxValue);
+        Task CreateAdminAlbum(AdminAlbumCreateDto dto);
+        Task<string> UpdateImageAsync(AlbumFileUpdateDto dto);
     }
 }

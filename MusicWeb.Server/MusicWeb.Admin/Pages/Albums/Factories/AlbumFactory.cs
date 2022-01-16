@@ -38,9 +38,9 @@ namespace MusicWeb.Admin.Pages.Albums.Factories
             genres.AddRange(_mapper.Map<List<GenreSelectModel>>(await _genreService.GetAllAsync()));
         }
 
-        public async Task<List<AlbumPageModel>> PrepareAlbums()
+        public async Task<List<AlbumPageModel>> PrepareAlbums(int filter)
         {
-            return _mapper.Map<List<AlbumPageModel>>(await _albumService.GetAllAsync());
+            return _mapper.Map<List<AlbumPageModel>>(await _albumService.GetAllFilteredAsync(filter));
         }
 
         public async Task PrepareSongs(AlbumPageModel model)

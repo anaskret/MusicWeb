@@ -22,7 +22,7 @@
     </div>
     <div class="row d-flex align-items-center justify-content-between mb-3">
         <div class="col-sm-12 col-md-6">
-            <select class="form-select">
+            <select class="form-select" @bind="Filter">
                 <option value="0">All</option>
                 <option value="1">Unconfirmed</option>
                 <option value="2">Confirmed</option>
@@ -47,7 +47,8 @@
                                         <th>Genre</th>
                                         <th>Release Date</th>
                                         <th>Description</th>
-                                        <th class="text-center">Akcje</th>
+                                        <th>Is confirmed</th>
+                                        <th class="text-center">Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -68,6 +69,9 @@
                                             </td>
                                             <td>
                                                 @album.Description
+                                            </td>
+                                            <td>
+                                                @(album.IsConfirmed ? "Yes" : "No")
                                             </td>
                                             <td>
                                                 <div class="text-center">
@@ -143,6 +147,8 @@
     public List<AlbumPageModel> List { get; set; }
     public List<SongPageModel> SelectedModelLines { get; set; }
 
+    public int Filter { get; set; }
+
     public StatusMessageComponent StatusMessage { get; set; }
 
     private int idToDelete;
@@ -154,7 +160,7 @@
         List = new List<AlbumPageModel>();
         SelectedModelLines = new List<SongPageModel>();
 
-        List = await _albumFactory.PrepareAlbums();
+        List = await _albumFactory.PrepareAlbums(Filter);
         StateHasChanged();
     }
 
