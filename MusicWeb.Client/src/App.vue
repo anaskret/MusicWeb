@@ -20,6 +20,7 @@
         v-if="chatVisibility"
         @user-typing="userTyping"
         @close-chat="closeChat"
+        @show-alert="showAlert"
         ref="chat_component"
       />
     </div>
@@ -73,7 +74,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["current_chat"]),
+    ...mapGetters(["current_chat", "current_user"]),
   },
   mounted() {
     this.$friendsHub.$on(
@@ -124,12 +125,19 @@ export default {
     },
   },
   setup() {
-    const { getPagedMessages } = useChats();
+    const { getPagedMessages, readFriendMessages } = useChats();
   
     const getMessages = function (chat_id, chat_page = 0){
-        getPagedMessages(chat_id, chat_page, 7).then((response) => 
+        readFriendMessages({chatId: chat_id, userId: this.current_user.id}).then((response) =>
         {
-            this.setMessages(response);
+            if(response.status == 200){
+                getPagedMessages(chat_id, chat_page, 7).then((response) => 
+                {
+                    this.setMessages(response);
+                });
+            } else {
+                this.showAlert(`Error something went wrong. ${response.message}`, "error");
+            }
         });
     }
 

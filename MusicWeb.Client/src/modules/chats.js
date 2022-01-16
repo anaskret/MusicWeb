@@ -29,11 +29,18 @@ export default function useAccounts() {
         return await chatServices.addNewMessage(data);
     }
   };
+  
+  const readFriendMessages = async (data) => {
+    if (data) {
+        return await chatServices.readFriendMessages(data);
+    }
+  };
 
   return {
     getChatByUserId,
     getPagedMessages,
     addNewMessage,
-    createNewChat
+    createNewChat,
+    readFriendMessages
   };
 }

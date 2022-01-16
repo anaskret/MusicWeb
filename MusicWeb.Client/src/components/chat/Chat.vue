@@ -50,7 +50,8 @@ export default {
     ...mapGetters({
       account: "current_user",
       current_chat: "current_chat",
-      chat_page: "chat_page"
+      chat_page: "chat_page",
+      participant: "participant"
     }),
   },
   watch: {
@@ -71,12 +72,23 @@ export default {
     ...mapMutations(["setPlaceholder", "setMessages"]),
   },
   setup() {
-    const { getPagedMessages } = useChats();
+    const { getPagedMessages, readFriendMessages } = useChats();
   
     const getMessages = function (){
-        getPagedMessages(this.current_chat.id, this.chat_page, 7).then((response) => 
+        readFriendMessages({chatId: this.current_chat.id, userId: this.participant.id}).then((response) =>
         {
-            this.setMessages(response);
+            if(response.status == 200){
+                getPagedMessages(this.current_chat.id, this.chat_page, 7).then((response) => 
+                {
+                    this.setMessages(response);
+                });
+            } else {
+                this.$emit(
+                  "show-alert",
+                  `Error something went wrong. ${response.message}`,
+                  "error"
+                  );
+            }
         });
     }
 

@@ -15,4 +15,7 @@ export default {
   addNewMessage(data) {
     return ApiService.authRequest(`/messages`, ApiService.post, data);
   },
+  readFriendMessages(data) {
+    return ApiService.authRequest(`/messages`, ApiService.put, data);
+  },
 };
