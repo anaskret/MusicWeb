@@ -18,7 +18,7 @@
 
 <div class="row">
     <EditForm EditContext="@editContext" OnSubmit="@Post">
-        <div class="panel-hdr text-center">
+        <div class="panel-hdr text-center mb-3">
             <div class="col-12">
                 <div class="page-title-box d-sm-flex align-items-center justify-content-between">
                     <h4 class="mb-sm-0">New album</h4>
@@ -49,7 +49,7 @@
                                     </div>
                                 </div>
                                 <div class="mb-3 form-group">
-                                    <label class="form-label text-muted">Name</label>
+                                    <label class="form-label text-muted">ReleaseDate</label>
                                     <InputDate @bind-Value="Input.ReleaseDate" class="form-control" />
                                     <div class="text-danger">
                                         <ValidationMessage For="@(() => Input.ReleaseDate)" />
@@ -72,7 +72,7 @@
                                     </InputSelect>
                                 </div>
                                 <div class="mb-3 form-group">
-                                    <label class="form-label text-muted">Artist</label>
+                                    <label class="form-label text-muted">Genre</label>
                                     <InputSelect @bind-Value="Input.AlbumGenreId" class="form-select">
                                         @foreach (var genre in Genres)
                                         {
@@ -80,7 +80,7 @@
                                         }
                                     </InputSelect>
                                 </div>
-                                <MusicWeb.Admin.Pages.Albums.Components.SongTableComponent Songs="Input.Songs"
+                                     <MusicWeb.Admin.Pages.Albums.Components.SongTableComponent Songs="Input.Songs"
                                                      Composers="Artists"></MusicWeb.Admin.Pages.Albums.Components.SongTableComponent>
                             </div>
                         </div>
@@ -117,9 +117,13 @@
     {
         try
         {
+            if(Input.Songs.Count < 1)
+            {
+                StatusMessageComponent.Show("Error Add at least 1 song");
+            }
             if (!editContext.Validate())
             {
-                Input.Songs.Add(new CreatorSongModel());
+                StatusMessageComponent.Show("Error Incorrect data");
                 return;
             }
 

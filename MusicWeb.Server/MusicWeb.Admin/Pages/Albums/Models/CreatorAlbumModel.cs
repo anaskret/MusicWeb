@@ -1,18 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace MusicWeb.Admin.Pages.Albums.Models
 {
-    public class CreatorAlbumModel
+    public class CreatorAlbumModel : INotifyPropertyChanged
     {
+        private List<CreatorSongModel> _songs;
+
         [Required(ErrorMessage = "Name is required")]
         public string Name { get; set; }
 
         [Required(ErrorMessage = "Release Date is required")]
-        public DateTime ReleaseDate { get; set; }
+        public DateTime ReleaseDate { get; set; } = DateTime.Now;
         public string ImagePath { get; set; }
 
         [Range(0, int.MaxValue, ErrorMessage = "Artist is required")]
@@ -26,11 +29,24 @@ namespace MusicWeb.Admin.Pages.Albums.Models
         [Required(ErrorMessage = "Description is required")]
         public string Description { get; set; }
 
-        public List<CreatorSongModel> Songs { get; set; }
+        public List<CreatorSongModel> Songs
+        {
+            get => _songs;
+            set
+            {
+                if (value != _songs)
+                {
+                    _songs = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Songs)));
+                }
+            }
+        }
 
         public CreatorAlbumModel()
         {
             Songs = new List<CreatorSongModel>();
         }
+
+        public event PropertyChangedEventHandler PropertyChanged;
     }
 }

@@ -175,7 +175,7 @@ namespace MusicWeb.Repositories.Repositories.Base
         {
             IQueryable<TEntity> query = _dbContext.Set<TEntity>();
 
-            return await query.Where(predicate).FirstOrDefaultAsync();
+            return await query.Where(predicate).AsNoTracking().FirstOrDefaultAsync();
         }
 
         public async Task<TEntity> GetByIdNoTrackingAsync(int id)

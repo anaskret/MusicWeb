@@ -16,6 +16,8 @@ using MusicWeb.Admin.Pages.Albums.Factories;
 using MusicWeb.Admin.Pages.Albums.Factories.Interfaces;
 using MusicWeb.Admin.Pages.Artists.Factories;
 using MusicWeb.Admin.Pages.Artists.Factories.Interfaces;
+using MusicWeb.Admin.Pages.GlobalSettings.Factories;
+using MusicWeb.Admin.Pages.GlobalSettings.Factories.Interfaces;
 using MusicWeb.Admin.Pages.Settings.Factories;
 using MusicWeb.Admin.Pages.Settings.Factories.Interfaces;
 using MusicWeb.DataAccess.Data;
@@ -116,6 +118,7 @@ namespace MusicWeb.Admin
             services.AddScoped<IUserModelFactory, UserModelFactory>();
             services.AddTransient<IArtistModelFactory, ArtistModelFactory>();
             services.AddTransient<IAlbumFactory, AlbumFactory>();
+            services.AddTransient<IGenreFactory, GenreFactory>();
 
         }
 
@@ -155,14 +158,10 @@ namespace MusicWeb.Admin
             var context = scope.ServiceProvider.GetService<AppDbContext>();
             var userManager = scope.ServiceProvider.GetService<UserManager<ApplicationUser>>();
             var roleManager = scope.ServiceProvider.GetService<RoleManager<IdentityRole>>();
+            var roleService = scope.ServiceProvider.GetService<IRolesService>();
 
-            if (!context.Database.EnsureCreated())
+            if (!context.Database.EnsureCreated() || userManager.FindByNameAsync("admin").Result == null)
             {
-                var adminUser = userManager.FindByNameAsync("admin").Result;
-
-                if (adminUser != null)
-                    return;
-
                 var user = new ApplicationUser
                 {
                     FirstName = "Admin",
@@ -176,10 +175,8 @@ namespace MusicWeb.Admin
                 var result = userManager.CreateAsync(user, "Admin123").Result;
                 if (result.Succeeded)
                 {
-                    result = userManager.AddToRoleAsync(user, "Admin").Result;
-
                     user.LockoutEnabled = false;
-                    result = userManager.UpdateAsync(user).Result;
+                    roleService.SetAdminRoles(user.Id);
                 }
             }
         }

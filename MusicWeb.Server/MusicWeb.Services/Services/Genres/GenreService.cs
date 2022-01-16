@@ -1,4 +1,5 @@
-﻿using MusicWeb.Models.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using MusicWeb.Models.Entities;
 using MusicWeb.Repositories.Interfaces.Genres;
 using MusicWeb.Services.Interfaces.Genres;
 using System;
@@ -20,6 +21,7 @@ namespace MusicWeb.Services.Services.Genres
 
         public async Task AddAsync(Genre entity)
         {
+            await CheckIfNameExists(entity);
             await _genreRepository.AddAsync(entity);
         }
 
@@ -31,17 +33,25 @@ namespace MusicWeb.Services.Services.Genres
 
         public async Task<IList<Genre>> GetAllAsync()
         {
-            return await _genreRepository.GetAllAsync(prp => prp);
+            return await _genreRepository.GetAllAsync(prp => prp.AsNoTracking());
         }
 
         public async Task<Genre> GetByIdAsync(int id)
         {
-            return await _genreRepository.GetByIdAsync(id);
+            return await _genreRepository.GetByIdNoTrackingAsync(id);
         }
 
         public async Task UpdateAsync(Genre entity)
         {
+            await CheckIfNameExists(entity);
             await _genreRepository.UpdateAsync(entity);
+        }
+
+        public async Task CheckIfNameExists(Genre entity)
+        {
+            var doesNameExists = await _genreRepository.GetSingleAsync(prp => prp.Name == entity.Name && prp.Id != entity.Id);
+            if (doesNameExists != null)
+                throw new ArgumentException("Name already exists");
         }
     }
 }

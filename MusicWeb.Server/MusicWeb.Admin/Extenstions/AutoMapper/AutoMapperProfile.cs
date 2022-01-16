@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using MusicWeb.Admin.Pages.Albums.Models;
 using MusicWeb.Admin.Pages.Artists.Models;
+using MusicWeb.Admin.Pages.GlobalSettings.Models;
 using MusicWeb.Admin.Pages.Settings.Models;
 using MusicWeb.Models.Entities;
 using MusicWeb.Models.Entities.Artists;
@@ -37,6 +38,10 @@ namespace MusicWeb.Admin.Extenstions.AutoMapper
                 .ForMember(prp => prp.AlbumGenreName, obj => obj.MapFrom(src => src.AlbumGenre.Name))
                 .ForMember(prp => prp.ArtistName, obj => obj.MapFrom(src => src.Artist.Name));
             CreateMap<Song, SongPageModel>();
+
+            CreateMap<Genre, GenrePageModel>();
+            CreateMap<GenrePageModel, Genre>();
+            CreateMap<Genre, GenreSelectModel>();
         }
     }
 }
