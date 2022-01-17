@@ -39,6 +39,12 @@ FROM(
 	LEFT JOIN AspNetUsers T2 ON T2.Id = T0.PosterId
 	WHERE T1.UserId = '{userId}'
 	UNION
+	SELECT T0.Id, Text, CreateDate, PosterId, T2.UserName, null as Artist, null as ArtistId, null as Album, null as AlbumId, T2.ImagePath as Image, null as AlbumImage
+	FROM Post T0
+	LEFT JOIN UserFriend T1 ON T1.UserId = T0.PosterId
+	LEFT JOIN AspNetUsers T2 ON T2.Id = T0.PosterId
+	WHERE T1.FriendId = '{userId}'
+	UNION
 	SELECT T0.Id, Text, CreateDate, null as PosterId, null as UserName, T2.Name as Artist, T2.Id as ArtistId, T3.Name as Album, T3.Id as AlbumId, T2.ImagePath as Image, T3.ImagePath as AlbumImage
 	FROM Post T0
 	LEFT JOIN UserObservedArtist T1 ON T1.ArtistId = T0.ArtistPosterId
