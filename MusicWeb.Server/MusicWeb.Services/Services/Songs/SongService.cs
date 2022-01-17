@@ -139,7 +139,15 @@ namespace MusicWeb.Services.Services.Songs
 
         public async Task UploadAdminSongsImagesAsync(List<AdminSongCreateDto> dtoList)
         {
+            foreach(var item in dtoList)
+            {
+                var song = _mapper.Map<Song>(item);
+                await AddAsync(song);
+                item.Id = song.Id;
+            }
+
             var uploadList = dtoList.Where(prp => prp.ImageBytes.Length > 0).ToList();
+
             await UploadImageAsync(uploadList);
         }
 

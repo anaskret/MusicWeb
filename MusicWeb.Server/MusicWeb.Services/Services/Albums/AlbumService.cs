@@ -178,7 +178,10 @@ namespace MusicWeb.Services.Services.Albums
         public async Task CreateAdminAlbum(AdminAlbumCreateDto dto)
         {
             dto.Duration = dto.Songs.Sum(prp => prp.Length);
+            
             var entity = _mapper.Map<Album>(dto);
+            entity.Songs = null;
+
             await AddAsync(entity);
 
             if (dto.ImageBytes.Length > 0)
