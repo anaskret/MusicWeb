@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MusicWeb.Models.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,6 +14,8 @@ namespace MusicWeb.Models.Dtos.Users
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string ImagePath { get; set; }
+        public UserType Type { get; set; }
+        public int? ArtistId { get; set; }
 
         /*public virtual ICollection<AlbumReviewDto> AlbumReviews { get; set; }
         public virtual ICollection<SongReview> SongReviews { get; set; }

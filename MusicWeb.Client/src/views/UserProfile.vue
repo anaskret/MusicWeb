@@ -230,6 +230,7 @@ export default {
     const getAccount = function () {
       getAccountById(localStorage.getItem("user-id")).then((response) => {
         this.account = response;
+        console.log(this.account);
       });
     };
 
