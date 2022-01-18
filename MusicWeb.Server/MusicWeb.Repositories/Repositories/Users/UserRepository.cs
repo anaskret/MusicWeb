@@ -32,6 +32,9 @@ namespace MusicWeb.Repositories.Repositories.Users
                                              .ThenInclude(prp => prp.Song)
                                              .Include(prp => prp.UserFriends)
                                              .ThenInclude(prp => prp.Friend)
+                                             .Include(prp => prp.UserObservedArtists)
+                                             .Include(prp => prp.AlbumReviews)
+                                             .Include(prp => prp.SongReviews)
                                              .FirstOrDefaultAsync(prp => prp.Id == id);
 
             return user;

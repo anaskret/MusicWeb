@@ -71,16 +71,23 @@
       </v-col>
       <v-col md="10">
         <ItemCarousel
-          :items="artists"
+          :items="this.account.userFavoriteArtists"
           :component_title="artists_title"
           :component_link_title="artists_link_title"
         />
       </v-col>
       <v-col md="10">
         <ItemCarousel
-          :items="genres"
-          :component_title="genres_title"
-          :component_link_title="genres_link_title"
+          :items="this.account.userFavoriteAlbums"
+          :component_title="albums_title"
+          :component_link_title="albums_link_title"
+        />
+      </v-col>
+      <v-col md="10">
+        <ItemCarousel
+          :items="this.account.userFavoriteSongs"
+          :component_title="songs_title"
+          :component_link_title="songs_link_title"
         />
       </v-col>
     </v-row>
@@ -104,10 +111,12 @@ export default {
       reviews: [],
       artists: [],
       genres: [],
-      artists_title: "Ulubieni artyści",
-      genres_title: "Ulubione gatunki",
-      artists_link_title: "Zobacz wszystko",
-      genres_link_title: "Zobacz wszystko",
+      artists_title: "Favorite artists",
+      albums_title: "Favorite albums",
+      songs_title: "Favorite songs",
+      artists_link_title: "Show all favorite artists",
+      albums_link_title: "Show all favorite albums",
+      songs_link_title: "Show all favorite songs",
       account: new Account(),
       edit_dialog: false,
     };

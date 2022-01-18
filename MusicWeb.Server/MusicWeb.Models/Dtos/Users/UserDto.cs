@@ -1,4 +1,7 @@
-﻿using MusicWeb.Models.Enums;
+﻿using MusicWeb.Models.Dtos.Albums;
+using MusicWeb.Models.Dtos.Songs;
+using MusicWeb.Models.Entities;
+using MusicWeb.Models.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,10 +20,10 @@ namespace MusicWeb.Models.Dtos.Users
         public UserType Type { get; set; }
         public int? ArtistId { get; set; }
 
-        /*public virtual ICollection<AlbumReviewDto> AlbumReviews { get; set; }
-        public virtual ICollection<SongReview> SongReviews { get; set; }
-        public virtual ICollection<ArtistComment> ArtistComments { get; set; }
-        public virtual ICollection<UserObservedArtist> UserObservedArtists { get; set; }*/
+        public virtual ICollection<AlbumReviewDto> AlbumReviews { get; set; }
+        public virtual ICollection<SongReviewDto> SongReviews { get; set; }
+        //public virtual ICollection<ArtistComment> ArtistComments { get; set; }
+        public virtual ICollection<UserFavoriteDto> UserObservedArtists { get; set; }
         public virtual ICollection<UserFavoriteDto> UserFavoriteAlbums { get; set; }
         public virtual ICollection<UserFavoriteDto> UserFavoriteArtists { get; set; }
         public virtual ICollection<UserFavoriteDto> UserFavoriteSongs { get; set; }
