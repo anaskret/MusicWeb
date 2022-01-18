@@ -10,6 +10,7 @@ export default new Vuex.Store({
   state: {
     tokenExpired: false,
     searchingValue: "",
+    searching_type: "",
     serverUrl: "http://localhost:5000",
     album: {},
     rank_artists: [],
@@ -29,7 +30,8 @@ export default new Vuex.Store({
     setArtist(state, artist) {
       state.artist = artist;
     },
-    setSearchingValue(state, search) {
+    setSearching(state, search, type) {
+      state.searchingType = type;
       state.searchingValue = search;
     },
   },
@@ -48,6 +50,9 @@ export default new Vuex.Store({
     },
     searchingValue(state) {
       return state.searchingValue;
+    },
+    searchingType(state) {
+      return state.searching_type;
     },
   },
 });

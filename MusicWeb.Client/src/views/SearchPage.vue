@@ -10,8 +10,10 @@
     @set-filters="setFilters"
     :redirect_module_name="redirect_module_artist"
     :module_name="module_name"
+    v-if="this.searchingType == 'Artist'"
   />
-  <InfiniteScrollList
+  <!-- <InfiniteScrollList
+  v-if="this.searchingType == 'Album'"
     :items="albums"
     :scroll_settings="scroll_settings"
     :getPagedItemList="getPagedAlbumList"
@@ -22,6 +24,7 @@
     :module_name="module_name"
   />
   <InfiniteScrollList
+  v-else
     :items="songs"
     :scroll_settings="scroll_settings"
     :getPagedItemList="getPagedSongList"
@@ -30,7 +33,7 @@
     @set-filters="setFilters"
     :redirect_module_name="redirect_module_song"
     :module_name="module_name"
-  />
+  /> -->
 
 </div>
 </template>
@@ -114,7 +117,8 @@ export default {
   },
   computed: {
     ...mapGetters([
-      'searchingValue'
+      'searchingValue',
+      'searchingType'
     ])
   },
 

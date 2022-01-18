@@ -14,6 +14,8 @@
 <script>
 import useAlbums from "@/modules/albums";
 import InfiniteScrollList from "@/components/InfiniteScrollList";
+import {mapGetters, mapMutations} from "vuex";
+
 
 export default {
   name: "AlbumListPage",
@@ -43,14 +45,18 @@ export default {
     };
   },
   watch: {
-    "$store.state.searchingValue": function () {
+    searchingValue: {
+      immediate: true,
+      handler() {
       if (
-        this.last_search !== this.$store.state.searchingValue &&
-        this.$store.state.searchingValue
-      ) {
-        this.albums = [];
-        this.getPagedAlbumList("", "", true);
-        this.$store.state.searchingValue = "";
+          this.searchingValue && this.last_search != this.searchingValue
+        ) {
+          debugger;
+          this.albums = [];
+          this.scroll_settings.page = 0;
+          this.intersection_active = true;
+         this.getPagedAlbumList("", "", true);
+        }
       }
     },
   },
@@ -66,6 +72,17 @@ export default {
     setFilters(filters) {
       this.filters = filters;
     },
+    ...mapMutations([
+      "setSearching",
+    ])
+  },
+  computed: {
+    ...mapGetters([
+      'searchingValue', 
+      'searchingType',
+      'intersection',
+    ]),
+
   },
 
   setup() {
@@ -77,20 +94,18 @@ export default {
           this.scroll_settings.page,
           this.scroll_settings.records_quantity,
           this.scroll_settings.selected_sort_type,
-          '1990-12-13T16:26:14.374Z',
-          // this.parseDate(this.filters.release_date_from),
-          this.parseDate(this.filters.release_date_to),
-          this.$store.state.searchingValue
+          '1900-01-01',
+          '2200-01-01',
+          this.searchingValue
         )
           .then((response) => {
             if (response.length > 0) {
               response.forEach((item) => {
                 return this.albums.push(item);
               });
-              this.last_search = this.$store.state.searchingValue;
-              this.$store.state.searchingValue = "";
+              this.last_search = this.searchingValue;
             } else {
-              this.intersection_active = false;
+             this.intersection_active = false;
             }
           })
           .catch((err) => {

@@ -14,6 +14,8 @@
 <script>
 import useArtists from "@/modules/artists";
 import InfiniteScrollList from "@/components/InfiniteScrollList";
+import {mapGetters, mapMutations} from "vuex";
+
 
 export default {
   name: "ArtistListPage",
@@ -43,15 +45,17 @@ export default {
     };
   },
   watch: {
-    "$store.state.searchingValue": function () {
-      debugger;
+    searchingValue: {
+      immediate: true,
+      handler() {
       if (
-        this.last_search !== this.$store.state.searchingValue &&
-        this.$store.state.searchingValue
-      ) {
-        this.artists = [];
-        this.getPagedArtistList("", "", true);
-        this.$store.state.searchingValue = "";
+          this.searchingValue && this.last_search != this.searchingValue
+        ) {
+          this.artists = [];
+          this.scroll_settings.page = 0;
+          this.intersection_active = true;
+         this.getPagedArtistList("", "", true);
+        }
       }
     },
   },
@@ -67,6 +71,17 @@ export default {
     setFilters(filters) {
       this.filters = filters;
     },
+    ...mapMutations([
+      "setSearching",
+    ])
+  },
+  computed: {
+    ...mapGetters([
+      'searchingValue', 
+      'searchingType',
+      'intersection',
+    ]),
+
   },
 
   setup() {
@@ -78,19 +93,19 @@ export default {
           this.scroll_settings.page,
           this.scroll_settings.records_quantity,
           this.scroll_settings.selected_sort_type,
-          this.parseDate(this.filters.establishment_date_from),
-          this.parseDate(this.filters.establishment_date_to),
-          this.$store.state.searchingValue
+          '1900-01-01',
+          '2200-01-01',
+          this.searchingValue
         )
           .then((response) => {
             if (response.length > 0) {
               response.forEach((item) => {
                 return this.artists.push(item);
               });
-              this.last_search = this.$store.state.searchingValue;
-              this.$store.state.searchingValue = "";
+              this.last_search = this.searchingValue;
             } else {
-              this.intersection_active = false;
+             this.intersection_active = false;
+             console.log(false);
             }
           })
           .catch((err) => {
