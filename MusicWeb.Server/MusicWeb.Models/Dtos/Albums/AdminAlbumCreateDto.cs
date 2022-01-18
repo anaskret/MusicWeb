@@ -17,6 +17,7 @@ namespace MusicWeb.Models.Dtos.Albums
         public int AlbumGenreId { get; set; }
         public double Duration { get; set; }
         public string Description { get; set; }
+        public bool IsConfirmed { get; set; }
 
         public List<AdminSongCreateDto> Songs { get; set; }
     }

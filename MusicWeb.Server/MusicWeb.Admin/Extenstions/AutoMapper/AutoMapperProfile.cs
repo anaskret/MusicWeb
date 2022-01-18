@@ -42,7 +42,8 @@ namespace MusicWeb.Admin.Extenstions.AutoMapper
             CreateMap<Song, SongPageModel>();
             CreateMap<AdminSongCreateDto, SongFileUpdateDto>()
                 .ForMember(prp => prp.SongId, obj => obj.MapFrom(src => src.Id));
-            CreateMap<AdminAlbumCreateDto, Album>();
+            CreateMap<AdminAlbumCreateDto, Album>()
+                .ForMember(prp => prp.Songs, member => member.Ignore());
             CreateMap<AdminSongCreateDto, Song>();
             CreateMap<CreatorSongModel, AdminSongCreateDto>();
             CreateMap<CreatorAlbumModel, AdminAlbumCreateDto>();

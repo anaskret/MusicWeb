@@ -22,7 +22,7 @@
     </div>
     <div class="row d-flex align-items-center justify-content-between mb-3">
         <div class="col-sm-12 col-md-6">
-            <select class="form-select" @bind="Filter">
+            <select class="form-select" @onchange="(async (e) => await PageFilter(e))" >
                 <option value="0">All</option>
                 <option value="1">Unconfirmed</option>
                 <option value="2">Confirmed</option>
@@ -200,6 +200,21 @@
         {
             _logger.LogError(ex.Message);
             StatusMessage.Show("Error Wystąpił niespodziewany błąd podczas usuwania danych");
+        }
+    }
+
+    async Task PageFilter(ChangeEventArgs e)
+    {
+        try
+        {
+            List = new List<AlbumPageModel>();
+            var value = Convert.ToInt32(e.Value);
+            List = await _albumFactory.PrepareAlbums(value);
+            await InvokeAsync(() => StateHasChanged());
+        }
+        catch(Exception ex)
+        {
+
         }
     }
 

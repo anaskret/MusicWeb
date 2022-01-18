@@ -126,7 +126,7 @@ namespace MusicWeb.Services.Services.Songs
             foreach(var dto in dtoList)
             {
                 if (dto.ImageBytes.Length == 0)
-                    throw new ArgumentException("File is empty");
+                    continue;
 
                 var filePath = await _fileService.UploadFile(dto.ImageBytes, FilePathConsts.SongPath);
 
@@ -137,18 +137,20 @@ namespace MusicWeb.Services.Services.Songs
             }
         }
 
-        public async Task UploadAdminSongsImagesAsync(List<AdminSongCreateDto> dtoList)
+        public async Task UploadAdminSongsImagesAsync(List<AdminSongCreateDto> dtoList, int albumId)
         {
             foreach(var item in dtoList)
             {
                 var song = _mapper.Map<Song>(item);
+                song.AlbumId = albumId;
                 await AddAsync(song);
                 item.Id = song.Id;
             }
 
             var uploadList = dtoList.Where(prp => prp.ImageBytes.Length > 0).ToList();
 
-            await UploadImageAsync(uploadList);
+            if(uploadList.Count > 0)
+                await UploadImageAsync(uploadList);
         }
 
         private async Task<string> UploadImageAsync(List<AdminSongCreateDto> dtos)

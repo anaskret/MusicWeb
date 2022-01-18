@@ -180,7 +180,6 @@ namespace MusicWeb.Services.Services.Albums
             dto.Duration = dto.Songs.Sum(prp => prp.Length);
             
             var entity = _mapper.Map<Album>(dto);
-            entity.Songs = null;
 
             await AddAsync(entity);
 
@@ -189,7 +188,7 @@ namespace MusicWeb.Services.Services.Albums
                 await UploadImageAsync(entity.Id, dto.ImageBytes);
             }
 
-            await _songService.UploadAdminSongsImagesAsync(dto.Songs);
+            await _songService.UploadAdminSongsImagesAsync(dto.Songs, entity.Id);
         }
 
         private async Task<string> UploadImageAsync(int albumId, byte[] imageBytes)
