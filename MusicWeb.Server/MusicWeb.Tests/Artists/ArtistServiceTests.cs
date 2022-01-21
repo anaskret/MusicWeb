@@ -29,7 +29,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Xunit;
-/*
+
 namespace MusicWeb.Tests.Artists
 {
     public class ArtistServiceTests
@@ -65,7 +65,7 @@ namespace MusicWeb.Tests.Artists
         {
             _artistRepository
                 .Setup(x => x.AddAsync(It.IsAny<Artist>()))
-                .Returns(Task.FromResult((Artist) null))
+                .Returns(Task.FromResult((Artist)null))
                 .Verifiable();
             _artistRepository
                 .Setup(x => x.GetByIdAsync(It.IsAny<int>()))
@@ -144,7 +144,7 @@ namespace MusicWeb.Tests.Artists
                 _songService.Object,
                 _configuration.Object,
                 _authenticationStateProvider.Object,
-                _identityService.Object, 
+                _identityService.Object,
                 _emailSender.Object);
 
             var artist = new ArtistWithUserModel();
@@ -158,7 +158,7 @@ namespace MusicWeb.Tests.Artists
             _userManager.Verify(x => x.FindByEmailAsync(It.IsAny<string>()), Times.Once);
         }
 
-       
+
         [Fact]
         public async Task AddArtist_UserNameExists_ShouldThrowArgumentException()
         {
@@ -214,7 +214,7 @@ namespace MusicWeb.Tests.Artists
                 .Verifiable();
             _artistRepository
                 .Setup(x => x.GetByIdAsync(It.IsAny<int>()))
-                .Returns(Task.FromResult((Artist) null));
+                .Returns(Task.FromResult((Artist)null));
 
             var artistService = new ArtistService(
                 _artistRepository.Object,
@@ -228,7 +228,7 @@ namespace MusicWeb.Tests.Artists
                 _identityService.Object,
                 _emailSender.Object);
 
-            
+
             Func<Task> act = async () => await artistService.AddAsync(new Artist() { Type = ArtistType.BandMember }, Array.Empty<byte>());
 
             await act
@@ -241,4 +241,3 @@ namespace MusicWeb.Tests.Artists
         }
     }
 }
-*/
