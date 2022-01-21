@@ -3,27 +3,27 @@
     <v-row justify="center">
       <v-col md="3" sm="6" class="py-lg-9 pr-lg-10">
         <span class="border-right border-dark"></span>
-        <h1 class="title font-weight-bold pb-lg-5">Informacje</h1>
+        <h1 class="title font-weight-bold pb-lg-5">Info</h1>
         <div v-if="module_name == 'Artist'">
           <p>
-            Rok założenia:
+            Establishment Date:
             <span>{{ moment(parent.establishmentDate).format("L") }}</span>
           </p>
           <p>
-            Pochodzenie:
+            Origin:
             <span>
               {{ parent.country }}
             </span>
           </p>
           <p>
-            Gatunek muzyczny:
+            Music Genre:
             <span v-for="(genre, index) in parent.genres" :key="index">
               {{ genre
               }}<span v-if="index != parent.genres.length - 1">,</span></span
             >
           </p>
           <p v-if="parent.bandId == null">
-            Członkowie:
+            Participants:
             <span v-for="(member, index) in parent.members" :key="index">
               {{ member
               }}<span v-if="index != parent.members.length - 1">,</span></span
@@ -32,19 +32,19 @@
         </div>
         <div v-else-if="module_name == 'Album'">
           <p>
-            Artysta:
+            Artist:
             <span>{{ parent.artist.name }}</span>
           </p>
           <p>
-            Data wydania:
+            Release Date:
             <span>{{ moment(parent.releaseDate).format("L") }} </span>
           </p>
           <p>
-            Czas trwania:
+            Duration:
             <span>{{ parent.duration }} min</span>
           </p>
           <p>
-            Gatunek muzyczny:
+            Music Genre:
             <span>{{ parent.albumGenre.name }}</span>
           </p>
         </div>
@@ -54,15 +54,15 @@
             <span>{{ parent.album.name }} - {{ parent.composer.name }} </span>
           </p>
           <p>
-            Data wydania:
+            Release Date:
             <span>{{ moment(parent.releaseDate).format("L") }} </span>
           </p>
           <p>
-            Czas trwania:
+            Duration:
             <span>{{ parent.duration }} min</span>
           </p>
           <p>
-            Pozycja na albumie:
+            Position:
             <span>{{ parent.positionOnAlbum }}</span>
           </p>
         </div>

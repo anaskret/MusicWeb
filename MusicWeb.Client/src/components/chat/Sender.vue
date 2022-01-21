@@ -1,6 +1,12 @@
 <template>
   <div class="sender-container">
     <div class="message">
+    <v-text-field
+        v-if="sending_photo"
+        v-model="sending_photo"
+        solo
+        clearable
+    ></v-text-field>
       <v-text-field
         :placeholder="placeholder"
         v-model="text_input"
@@ -19,14 +25,13 @@
       v-model="image_input"
       :color="colors.submit_image_icon"
       prepend-icon="mdi-image"
-      @change="sendImage"
+      @change="prepareImage"
     ></v-file-input>
   </div>
 </template>
 
 <script>
-import { mapMutations, mapGetters } from "vuex";
-import moment from "moment";
+import { mapMutations, mapActions, mapGetters } from "vuex";
 export default {
   name: "Sender",
   props: {
@@ -39,48 +44,65 @@ export default {
     return {
       text_input: "",
       image_input: null,
+      sending_photo: ""
     };
   },
   computed: {
     ...mapGetters({
       account: "current_user",
       placeholder: "placeholder",
-      current_chat: "current_chat"
+      current_chat: "current_chat",
+      base64_image: "base64_image"
     }),
   },
   methods: {
-    ...mapMutations(["newMessage"]),
+    ...mapMutations(["newMessage", "clearBase64Image"]),
+    ...mapActions(['setBase64']),
     handleTyping(e) {
       this.$emit("user-typing", e);
     },
     async sendMessage() {
+      let message = {
+          chatId: this.current_chat.id,
+          senderId: this.account.id,
+          text: "",
+          imageBytes: "",
+          imagePath: "",
+          isRead: false
+      };
       const input_text = this.text_input;
       this.text_input = "";
       const text_not_empty = /[^\s]+/i;
       const text_matched = input_text.match(/^\s*((.|\n)+?)\s*$/i);
-      if (input_text && text_not_empty.test(input_text) && text_matched) {
-        let message = {
-          chatId: this.current_chat.id,
-          senderId: this.account.id,
-          text: text_matched[1],
-        };
+      if (this.image_input && this.base64_image && !input_text && !text_not_empty.test(input_text) && !text_matched){
+        message.imageBytes = this.base64_image;
+        message.imagePath = `/Chats/${this.current_chat.id}`;
+        this.$emit("refresh-messages");
+      }
+      else if (input_text && text_not_empty.test(input_text) && text_matched) {
+        message.text = text_matched[1];
+      }
+
+      if((this.image_input && this.base64_image) || (input_text && text_not_empty.test(input_text) && text_matched)){
         this.newMessage(message);
+        this.clearBase64Image();
+        this.sending_photo = "";
       }
     },
-    async sendImage(file) {
-      let message = {
-        type: "image",
-        preview: URL.createObjectURL(file),
-        src: "",
-        content: "image",
-        participant_id: this.account.id,
-        send_date: moment().format(),
-        uploaded: false,
-        viewed: false,
-      };
-      this.newMessage(message);
+    prepareImage(file) {
+      if (file != null && file != "") {
+        this.sending_photo = file.name;
+        this.setBase64(file);
+      }
     },
   },
+  watch: {
+      sending_photo(){
+          if(this.base64_image && !this.sending_photo){
+            this.clearBase64Image();
+          }
+      }
+  }
 };
 </script>
 
@@ -94,7 +116,6 @@ export default {
 .chat-container .sender-container {
   display: flex;
   align-items: center;
-  height: 4rem;
   background: #2c2f33;
   padding: 0 20px 0 20px;
 
