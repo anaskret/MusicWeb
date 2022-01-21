@@ -228,8 +228,8 @@ namespace MusicWeb.Tests.Artists
                 _identityService.Object,
                 _emailSender.Object);
 
-            await artistService.AddAsync(new Artist(), Array.Empty<byte>());
-            Func<Task> act = async () => await artistService.AddAsync(new Artist(), Array.Empty<byte>());
+            
+            Func<Task> act = async () => await artistService.AddAsync(new Artist() { Type = ArtistType.BandMember }, Array.Empty<byte>());
 
             await act
                 .Should()
