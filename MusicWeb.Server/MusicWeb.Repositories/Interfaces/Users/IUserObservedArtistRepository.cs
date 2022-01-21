@@ -1,4 +1,5 @@
 ﻿using MusicWeb.Models.Entities;
+using MusicWeb.Models.Entities.Keyless;
 using MusicWeb.Repositories.Interfaces.Base;
 using System;
 using System.Collections.Generic;
@@ -11,5 +12,6 @@ namespace MusicWeb.Repositories.Interfaces.Users
     public interface IUserObservedArtistRepository : IRepository<UserObservedArtist>
     {
         Task<List<UserObservedArtist>> GetAllWithArtistByUserIdAsync(string userId);
+        Task<List<ArtistRatingAverage>> GetFavoriteArtistData(string userId);
     }
 }

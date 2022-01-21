@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging;
 using MusicWeb.Api.Extensions;
 using MusicWeb.Models.Dtos.Users;
 using MusicWeb.Models.Entities;
+using MusicWeb.Models.Entities.Keyless;
 using MusicWeb.Services.Interfaces.Users;
 using System;
 using System.Collections.Generic;
@@ -83,6 +84,21 @@ namespace MusicWeb.Api.Controllers.Users
                 var models = _mapper.Map<List<UserFavoriteSong>>(await _userFavoriteSongService.GetAllByUserIdAsync(userId));
                 var model = models.Find(prp => prp.SongId == songId);
                 return Ok(model);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [HttpGet(ApiRoutes.UserFavoriteSongs.GetFavoriteData)]
+        public async Task<IActionResult> GetSongsData(string userId)
+        {
+            try
+            {
+                var response = _mapper.Map<List<SongRatingAverage>>(await _userFavoriteSongService.GetFavoriteSongDataAsync(userId));
+                return Ok(response);
             }
             catch (Exception ex)
             {

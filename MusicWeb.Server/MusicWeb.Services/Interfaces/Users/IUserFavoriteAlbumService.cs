@@ -1,4 +1,5 @@
 ﻿using MusicWeb.Models.Entities;
+using MusicWeb.Models.Entities.Keyless;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,5 +15,6 @@ namespace MusicWeb.Services.Interfaces.Users
         Task DeleteAsync(int id);
         Task DeleteRangeByUserIdAsync(string userId);
         Task<IList<UserFavoriteAlbum>> GetUserFavoriteAlbumAsync(string userId, int albumId);
+        Task<List<AlbumRatingAverage>> GetFavoriteAlbumDataAsync(string userId);
     }
 }

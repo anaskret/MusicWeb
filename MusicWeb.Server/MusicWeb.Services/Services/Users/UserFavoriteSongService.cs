@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using MusicWeb.Models.Dtos.Users;
 using MusicWeb.Models.Entities;
+using MusicWeb.Models.Entities.Keyless;
 using MusicWeb.Repositories.Interfaces.Users;
 using MusicWeb.Services.Interfaces.Users;
 using System;
@@ -47,6 +48,12 @@ namespace MusicWeb.Services.Services.Users
         {
             var models = await _userFavoriteSongRepository.GetAllWithSongByUserIdAsync(userId);
             return models;
+        }
+
+        public async Task<List<SongRatingAverage>> GetFavoriteSongDataAsync(string userId)
+        {
+            var response = await _userFavoriteSongRepository.GetFavoriteSongData(userId);
+            return response;
         }
     }
 }
