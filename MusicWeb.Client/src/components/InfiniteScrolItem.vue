@@ -133,21 +133,22 @@
           </v-col>
         </v-row>
         <v-row class="pl-5">
-          <v-expansion-panels enabled>
+          <v-expansion-panels v-model="open_comments" enabled>
             <v-expansion-panel>
               <v-row class="d-flex justify-space-between">
                 <v-col lg="3" sm="3" class="pt-4">
                   <v-btn  @click="likePost(item.id)">
                     <font-awesome-icon
+                      :color="computed_item.isLiked ? '#485e7c' : '#fff'"
                       class="icon pa-1"
                       icon="thumbs-up"
                       size="2x"
                       outlined
                       fab
                     ></font-awesome-icon>
-                    {{item.totalLikes}}
+                    {{computed_item.totalLikes ? computed_item.totalLikes : ''}}
                   </v-btn>
-                  <v-btn>
+                  <v-btn @click="toggleComments">
                     <font-awesome-icon
                       class="icon pa-1"
                       icon="comment"
@@ -159,17 +160,53 @@
                 </v-col>
                 <v-col lg="3" sm="3">
                   <v-expansion-panel-header hide-actions class="justify-end">
-                    2 comments
+                    {{item.comments.length > 0 ? item.comments.length : ''}} comments
                   </v-expansion-panel-header>
                 </v-col>
               </v-row>
               <v-row>
                 <v-col lg="12">
                   <v-expansion-panel-content>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                    do eiusmod tempor incididunt ut labore et dolore magna
-                    aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                    ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                    <v-text-field
+                        placeholder="Add Comment..."
+                        v-model="comment_input"
+                        color="white"
+                        @keyup.enter.exact="addComment(item.id)"
+                    />
+                    <div v-for="(comment, index) in item.comments" :key="index" class="comment-container">
+                        <div class="thumb-img-container">
+                        <!-- <v-img
+                            v-if="participant.imagePath"
+                            class="participant-thumb"
+                            :src="`${server_url}/${participant.imagePath}`"
+                        >
+                        </v-img> -->
+                        <v-img
+                            class="comment-thumb"
+                            :src="require(`@/assets/unknownUser.svg`)"
+                        >
+                        </v-img>
+                        </div>
+                        <div class="comment-content">
+                            <div
+                            class="comment-text"
+                            >
+                                <p
+                                    class="comment-username"
+                                >
+                                    {{comment.userName}}
+                                </p>
+                                <p>
+                                    {{ comment.text }}
+                                </p>
+                            </div>
+                            <div class="comment-post-date">
+                                <template>
+                                {{ moment(comment.postDate).format("LLL") }}
+                                </template>
+                            </div>
+                        </div>
+                    </div>
                   </v-expansion-panel-content>
                 </v-col>
               </v-row>
@@ -228,21 +265,22 @@
           </v-col>
         </v-row>
         <v-row class="pl-5">
-          <v-expansion-panels enabled>
+          <v-expansion-panels v-model="open_comments" enabled>
             <v-expansion-panel>
               <v-row class="d-flex justify-space-between">
                 <v-col lg="3" sm="3" class="pt-4">
                   <v-btn @click="likePost(item.id)">
                     <font-awesome-icon
+                      :color="computed_item.isLiked ? '#485e7c' : '#fff'"
                       class="icon pa-1"
                       icon="thumbs-up"
                       size="2x"
                       outlined
                       fab
                     ></font-awesome-icon>
-                    {{computed_item.totalLikes}}
+                    {{computed_item.totalLikes ? computed_item.totalLikes : ''}}
                   </v-btn>
-                  <v-btn>
+                  <v-btn @click="toggleComments">
                     <font-awesome-icon
                       class="icon pa-1"
                       icon="comment"
@@ -254,17 +292,53 @@
                 </v-col>
                 <v-col lg="3" sm="3">
                   <v-expansion-panel-header hide-actions class="justify-end">
-                    2 comments
+                    {{item.comments.length > 0 ? item.comments.length : ''}} comments
                   </v-expansion-panel-header>
                 </v-col>
               </v-row>
               <v-row>
                 <v-col lg="12">
                   <v-expansion-panel-content>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                    do eiusmod tempor incididunt ut labore et dolore magna
-                    aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                    ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                    <v-text-field
+                        placeholder="Add Comment..."
+                        v-model="comment_input"
+                        color="white"
+                        @keyup.enter.exact="addComment(item.id)"
+                    />
+                    <div v-for="(comment, index) in item.comments" :key="index" class="comment-container">
+                        <div class="thumb-img-container">
+                        <!-- <v-img
+                            v-if="participant.imagePath"
+                            class="participant-thumb"
+                            :src="`${server_url}/${participant.imagePath}`"
+                        >
+                        </v-img> -->
+                        <v-img
+                            class="comment-thumb"
+                            :src="require(`@/assets/unknownUser.svg`)"
+                        >
+                        </v-img>
+                        </div>
+                        <div class="comment-content">
+                            <div
+                            class="comment-text"
+                            >
+                                <p
+                                    class="comment-username"
+                                >
+                                    {{comment.userName}}
+                                </p>
+                                <p>
+                                    {{ comment.text }}
+                                </p>
+                            </div>
+                            <div class="comment-post-date">
+                                <template>
+                                {{ moment(comment.postDate).format("LLL") }}
+                                </template>
+                            </div>
+                        </div>
+                    </div>
                   </v-expansion-panel-content>
                 </v-col>
               </v-row>
@@ -290,7 +364,9 @@ export default {
         { color: "white" },
         { color: "gray" },
       ],
-      temp_item: this.item
+      temp_item: this.item,
+      open_comments: [],
+      comment_input: ''
     };
   },
   props: {
@@ -299,6 +375,9 @@ export default {
     redirect_module_name: String,
   },
   created() {
+    if(this.item.establishmentDate == null || this.item.establishmentDate == ''){
+        this.item.establishmentDate = this.item.createDate;
+    }
     this.prepareDate();
   },
   computed: {
@@ -368,12 +447,33 @@ export default {
     likePost(post_id){
         this.computed_item.totalLikes += 1;
         this.$emit("like-post", post_id);
+    },
+    toggleComments(){
+        if(this.open_comments === 0){
+            this.open_comments = undefined;
+        } else {
+            this.open_comments = 0;
+        }
+    },
+    addComment(post_id){
+        let new_comment = {
+            userName: this.account.username,
+            id: this.item.comments.length > 0 ? this.item.comments.at(-1).id + 1 : 1,
+            postDate: this.moment(),
+            postId: post_id,
+            userId: this.account.id,
+            text: this.comment_input
+        };
+        this.item.comments.push(new_comment);
+
+        this.$emit("add-comment", new_comment);
+        this.comment_input = '';
     }
   },
 };
 </script>
 
-<style scoped>
+<style lang="less">
 .ratings {
   display: flex;
   justify-content: flex-end;
@@ -399,4 +499,56 @@ p {
 .post-thumb-img{
   border-radius: 50%;
 }
+.comment-container {
+  display: flex;
+  align-items: flex-end;
+  padding-left: 10px;
+
+  .comment-content {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-direction: column;
+    flex-grow: 1;
+  }
+
+  .comment-thumb {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+    margin-bottom: 10%;
+  }
+
+  .comment-text {
+    background-color: rgb(44, 47, 51);
+    overflow-wrap: break-word;
+    text-align: left;
+    white-space: pre-wrap;
+    word-break: break-word;
+    padding: 6px 10px;
+    line-height: 14px;
+    border-radius: 15px;
+    margin: 5px 0 5px 0;
+    max-width: 70%;
+    border-bottom-left-radius: 0px;
+  }
+  .comment-text > p{
+      color: #fff;
+  }
+  .comment-post-date {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    overflow-wrap: break-word;
+    width: 100%;
+    padding: 2px 7px;
+    border-radius: 15px;
+    margin: 0;
+    max-width: 70%;
+    font-size: 10px;
+    color: #bdb8b8;
+  }
+}
 </style>
+

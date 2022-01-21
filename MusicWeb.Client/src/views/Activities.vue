@@ -10,6 +10,7 @@
     :module_name="module_name"
     v-on="$listeners"
     @like-post="likeUserPost"
+    @add-comment="addComment"
   />
 </template>
 
@@ -64,7 +65,7 @@ export default {
   },
   setup() {
     const { getPaged } = useAccounts();
-    const { likePost } = usePosts();
+    const { likePost, getCommentsByPostId, addNewComment } = usePosts();
 
     const getPagedPostList = function (entries, observer, is_intersecting) {
       if (is_intersecting) {
@@ -76,9 +77,10 @@ export default {
         )
           .then((response) => {
             if (response.length > 0) {
-              response.forEach((item) => {
+              response.forEach(async function(item){
+                item.comments = await getCommentsByPostId(item.id).then(response);
                 return this.posts.push(item);
-              });
+              }.bind(this));
             } else {
               this.intersection_active = false;
             }
@@ -117,9 +119,31 @@ export default {
          );
     }
 
+    const addComment = function (comment) {
+        addNewComment({postId: comment.postId, userId: comment.userId, text: comment.text}).then(
+            (response) => {
+               if (response.status != 200) {
+                  this.$emit(
+                  "show-alert",
+                  `Something went wrong. Error ${response.status}`,
+                  "error"
+                  );
+               }
+            },
+            (error) => {
+               this.$emit(
+                  "show-alert",
+                  `Something went wrong. ${error.response.status} ${error.response.data}`,
+                  "error"
+               );
+            }
+         );
+    }
+
     return {
       getPagedPostList,
-      likeUserPost
+      likeUserPost,
+      addComment
     };
   },
 };
