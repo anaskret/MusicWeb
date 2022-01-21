@@ -16,6 +16,7 @@
       :items="artist.albums"
       :component_title="component_title"
       :component_link_title="component_link_title"
+      :redirect_to="album_redirect"
     />
     <ItemList
       :items="songs"
@@ -65,6 +66,7 @@ export default {
       vote_title: "Oceń artystę:",
       module_name: "Artist",
       description_title: "Biografia",
+      album_redirect: "AlbumPage",
     };
   },
     watch: {

@@ -12,6 +12,9 @@ export default class account {
   userFavoriteArtists = [];
   userFavoriteSongs = [];
   userFriends = [];
+  albumReviews = [];
+  songReviews = [];
+  userObservedArtists = [];
   constructor($data) {
     if ($data) {
       this.username = $data.userName;
@@ -27,6 +30,9 @@ export default class account {
       this.userFavoriteArtists = $data.userFavoriteArtists;
       this.userFavoriteSongs = $data.userFavoriteSongs;
       this.userFriends = $data.userFriends;
+      this.albumReviews = $data.albumReviews;
+      this.songReviews = $data.songReviews;
+      this.userObservedArtists = $data.userObservedArtists;
     }
   }
 }

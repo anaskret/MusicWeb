@@ -1,22 +1,24 @@
 <template>
-  <v-container fluid class="py-16 d-flex justify-center">
-    <v-row justify="center">
-      <v-col md="2" sm="6">
+  <v-container fluid class="py-16">
+    <v-row justify="center"> 
+      <v-col md="10">
+        <div style="display: flex; justify-content: center; align-items:center;">
           <v-avatar size="250">
             <v-img v-if="account.imagePath" :src="`${this.$store.state.serverUrl}/${account.imagePath}`" :alt="`${account.firstname}`" class="rounded-circle" />
             <v-img v-else src="@/assets/defaut_user.png" :alt="`${account.firstname}`" class="rounded-circle" />
           </v-avatar>
-      </v-col>
-      <v-col md="4" sm="9">
-        <div class="profile-header">
+        <div class="profile-header pl-lg-5">
           <p>Profil</p>
           <h1 class="profile-title">
             <span class="text-uppercase display-2">
               {{ account.firstname }} {{ account.lastname }}
             </span>
+            </h1>
+        </div>
+        <div>
             <v-dialog v-model="edit_dialog" persistent max-width="600px">
               <template v-slot:activator="{ on, attrs }">
-                <v-btn text v-bind="attrs" v-on="on">
+                <v-btn text v-bind="attrs" v-on="on" class="mt-12">
                   <font-awesome-icon class="icon" icon="pen" color="#white" />
                 </v-btn>
               </template>
@@ -63,31 +65,56 @@
                 </v-card-actions>
               </v-card>
             </v-dialog>
-          </h1>
+        </div>
         </div>
       </v-col>
-      <v-col md="9">
-        <ReviewList :reviews="reviews" />
+    </v-row> 
+    <v-row>
+      <v-col>
+        <ReviewList :reviews="this.account.albumReviews.concat(...this.account.songReviews)" />
       </v-col>
-      <v-col md="10">
+    </v-row>
+    <v-row>
+      <v-col>
         <ItemCarousel
           :items="this.account.userFavoriteArtists"
           :component_title="artists_title"
           :component_link_title="artists_link_title"
+          :redirect_to="artist_redirect"
+          :component_type="component"
         />
       </v-col>
-      <v-col md="10">
+    </v-row>
+    <v-row>
+      <v-col>
         <ItemCarousel
           :items="this.account.userFavoriteAlbums"
           :component_title="albums_title"
           :component_link_title="albums_link_title"
+          :redirect_to="album_redirect"
+          :component_type="component"
         />
       </v-col>
-      <v-col md="10">
+    </v-row>
+    <v-row>
+      <v-col>
         <ItemCarousel
           :items="this.account.userFavoriteSongs"
           :component_title="songs_title"
           :component_link_title="songs_link_title"
+          :redirect_to="album_redirect"
+          :component_type="component"
+        />
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col>
+        <ItemCarousel
+          :items="this.account.userObservedArtists"
+          :component_title="observed_title"
+          :component_link_title="observed_link_title"
+          :redirect_to="artist_redirect"
+          :component_type="component"
         />
       </v-col>
     </v-row>
@@ -114,11 +141,19 @@ export default {
       artists_title: "Favorite artists",
       albums_title: "Favorite albums",
       songs_title: "Favorite songs",
+      observed_title: "Observed artists",
+      reviews_title: "Reviews",
       artists_link_title: "Show all favorite artists",
       albums_link_title: "Show all favorite albums",
       songs_link_title: "Show all favorite songs",
+      observed_link_title: "Show all observed artists",
+      reviews_link_title: "Show all reviews",
+      artist_redirect: "ArtistPage",
+      album_redirect: "AlbumPage", 
+      song_redirect: "SongPage",
       account: new Account(),
       edit_dialog: false,
+      component: "favorite_component",
     };
   },
   created() {
