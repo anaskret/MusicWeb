@@ -24,7 +24,7 @@
               </template>
               <v-card class="editDialog">
                 <v-card-title>
-                  <span class="text-h5">Update your credits</span>
+                  <span class="text-h5">Wprowadź nowe dane</span>
                 </v-card-title>
                 <v-card-text>
                   <v-container>
@@ -60,8 +60,8 @@
                 </v-card-text>
                 <v-card-actions>
                   <v-spacer></v-spacer>
-                  <v-btn @click="edit_dialog = false"> Close </v-btn>
-                  <v-btn @click="updateNamesDialog"> Save </v-btn>
+                  <v-btn @click="edit_dialog = false"> Anuluj </v-btn>
+                  <v-btn @click="updateNamesDialog"> Zapisz </v-btn>
                 </v-card-actions>
               </v-card>
             </v-dialog>
@@ -129,8 +129,8 @@
 import ReviewList from "@/components/ReviewList";
 import ItemCarousel from "../components/ItemCarousel.vue";
 import useAccounts from "@/modules/accounts";
+import Account from "@/models/Account";
 import { required, minLength, maxLength } from "vuelidate/lib/validators";
-import { mapGetters } from "vuex";
 export default {
   name: "UserProfile",
   components: {
@@ -168,12 +168,9 @@ export default {
     this.getReviews();
     this.getArtists();
     this.getGenres();
+    this.getAccount();
   },
   computed: {
-    ...mapGetters({
-      account: "current_user",
-      server_url: "server_url",
-    }),
     isDisabled() {
       return this.$v.$invalid;
     },
@@ -289,17 +286,21 @@ export default {
         console.log(this.account);
       });
     };
-    const { updateAccountNames } = useAccounts();
 
     const updateNames = function () {
+      this.account.id = localStorage.getItem("user-id");
       updateAccountNames(this.account).then(
         (response) => {
           if (response.status == 200) {
-            this.$emit("show-alert", "Data updated successfuly.", "success");
+            this.$emit(
+              "show-alert",
+              "Dane zostały zaktualizowane pomyślnie.",
+              "success"
+            );
           } else {
             this.$emit(
               "show-alert",
-              `Something went wrong. Error ${response.status}`,
+              `Nie udało się zaktualizować. Błąd ${response.status}`,
               "error"
             );
           }
@@ -307,7 +308,7 @@ export default {
         (error) => {
           this.$emit(
             "show-alert",
-            `Something went wrong. ${error.response.status} ${error.response.data}`,
+            `Nie udało się zaktualizować. ${error.response.status} ${error.response.data}`,
             "error"
           );
         }
@@ -315,8 +316,8 @@ export default {
     };
 
     return {
+      getAccount,
       updateNames,
-      getAccount
     };
   },
 };
