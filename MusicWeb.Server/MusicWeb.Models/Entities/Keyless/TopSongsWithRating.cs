@@ -14,10 +14,10 @@ namespace MusicWeb.Models.Entities.Keyless
         public string ImagePath { get; set; }
         public int PositionOnAlbum { get; set; }
         public string Text { get; set; }
-
         public int AlbumId { get; set; }
+        public string AlbumName { get; set; }
         public int ComposerId { get; set; }
-
+        public string ArtistName { get; set; }
         public decimal Rating { get; set; }
     }
 }

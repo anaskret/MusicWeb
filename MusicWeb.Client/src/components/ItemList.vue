@@ -64,7 +64,7 @@
                       lg="3"
                       sm="3"
                     >
-                      <p>{{ item.album }}</p>
+                      <p>{{ item.albumName }}</p>
                     </v-col>
                     <v-col
                       class="d-flex justify-center align-center"
@@ -77,7 +77,7 @@
                         size="1x"
                         color="#868263"
                       />
-                      5.0
+                      {{item.rating}}
                     </v-col>
                   </v-row>
                 </v-list-item-content>

@@ -121,6 +121,12 @@ namespace MusicWeb.Services.Services.Songs
             });
         }
 
+        public async Task<List<SongRatingAverage>> GetPagedRankingAsync(RankSortType sortType, int pageNum = 0, int pageSize = 5)
+        {
+            var response = await _songRepository.GetSongRankingAsync(sortType, pageNum, pageSize);
+            return response;
+        }
+           
         public async Task UpdateImageAsync(List<SongFileUpdateDto> dtoList)
         {
             foreach(var dto in dtoList)

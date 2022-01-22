@@ -16,5 +16,6 @@ namespace MusicWeb.Repositories.Interfaces.Artists
         Task<Artist> GetFullArtistDataByIdAsync(int id);
         Task<ArtistRatingAverage> GetArtistAverageRating(int id);
         Task<List<ArtistRatingAverage>> GetArtistsPagedAsync(SortType sortType, DateTime startDate, DateTime endDate, int pageNum = 0, int pageSize = 15, string searchString = "");
+        Task<List<ArtistRatingAverage>> GetArtistRankingAsync(RankSortType sortType, int pageNum = 0, int pageSize = 10);
     }
 }

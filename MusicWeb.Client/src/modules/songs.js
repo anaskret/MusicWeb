@@ -14,9 +14,9 @@ export default function useSongs() {
       });
     }
   };
-  const getSongsByArtistId = function (artist_id) {
-    if (artist_id) {
-      return songServices.getSongsByArtistId(artist_id).then((response) => {
+  const getTopArtistSongs = function (id) {
+    if (id) {
+      return songServices.getTopArtistSongs(id).then((response) => {
         let res = response.data;
         let songs = [];
         res.forEach((song) => {
@@ -26,6 +26,7 @@ export default function useSongs() {
       });
     }
   };
+
   const getSongRatingAverage = function (id) {
     if (id) {
       return songServices.getSongRatingAverage(id).then((response) => {
@@ -64,8 +65,8 @@ export default function useSongs() {
   return {
     getAll,
     getSongFullData,
-    getSongsByArtistId,
     getSongRatingAverage,
     getPagedSongs,
+    getTopArtistSongs,
   };
 }

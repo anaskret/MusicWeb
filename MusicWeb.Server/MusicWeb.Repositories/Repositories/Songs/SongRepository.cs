@@ -48,7 +48,7 @@ namespace MusicWeb.Repositories.Repositories.Songs
         public async Task<List<TopSongsWithRating>> GetTopSongsWithRatingsAsync(int artistId)
         {
             var sql = @$"
-SELECT TOP 3 T0.*, CAST(COALESCE(T3.AvgRating, 0) as numeric) as Rating
+SELECT TOP 3 T0.*, CAST(COALESCE(T3.AvgRating, 0) as numeric) as Rating, T1.Name as AlbumName, T2.Name as ArtistName
 FROM Song T0
 INNER JOIN Album T1 ON T1.Id = T0.AlbumId
 INNER JOIN Artist T2 ON T2.Id = T1.ArtistId
@@ -58,7 +58,7 @@ LEFT JOIN
 	FROM SongRating
 	GROUP BY SongId
 ) T3 ON T3.SongId = T0.Id
-WHERE T2.Id = {artistId}
+WHERE T2.Id = 2
 ORDER BY COALESCE(T3.AvgRating, 0) DESC, T0.Name";
 
             var query = _dbContext.TopSongsWithRating.FromSqlRaw(sql);
@@ -99,6 +99,57 @@ ORDER BY COALESCE(T3.AvgRating, 0) DESC, T0.Name";
                     break;
                 default:
                     query = query.OrderBy(prp => prp.Name);
+                    break;
+            }
+
+            query = query.Skip(pageNum * pageSize);
+            query = query.Take(pageSize);
+
+            var entities = await query.ToListAsync();
+            return entities;
+        }
+
+        public async Task<List<SongRatingAverage>> GetSongRankingAsync(RankSortType sortType, int pageNum = 0, int pageSize = 10)
+        {
+            var sql = @$"SELECT T0.*, ROUND(Coalesce(T1.Rating, 0), 2) as Rating, 
+            COALESCE(T1.RatingsCount,0) as RatingsCount, 
+            COALESCE(T2.Favorite, 0) as FavoriteCount, 
+            COALESCE(T3.Reviews, 0) as ReviewsCount
+            FROM Song T0
+            LEFT JOIN(SELECT SongId, AVG(Cast(Rating as float)) as Rating, COUNT(Rating) as RatingsCount FROM SongRating GROUP BY SongId) T1 ON T1.SongId = T0.Id
+            LEFT JOIN (SELECT SongId, COUNT(SongId) as Favorite FROM UserFavoriteSong GROUP BY SongId) T2 ON T0.Id = T2.SongId
+            LEFT JOIN (SELECT SongId, COUNT(SongId) as Reviews FROM SongReview GROUP BY SongId) T3 ON T0.Id = T3.SongId";
+
+            var query = _dbContext.SongRatingAverage.FromSqlRaw(sql);
+
+            switch (sortType)
+            {
+                case RankSortType.RatingAsc:
+                    query = query.OrderBy(prp => prp.Rating);
+                    break;
+                case RankSortType.RatingDesc:
+                    query = query.OrderByDescending(prp => prp.Rating);
+                    break;
+                case RankSortType.PopularityAsc:
+                    query = query.OrderBy(prp => prp.RatingsCount);
+                    break;
+                case RankSortType.PopularityDesc:
+                    query = query.OrderByDescending(prp => prp.RatingsCount);
+                    break;
+                case RankSortType.FavoriteAsc:
+                    query = query.OrderBy(prp => prp.FavoriteCount);
+                    break;
+                case RankSortType.FavoriteDesc:
+                    query = query.OrderByDescending(prp => prp.FavoriteCount);
+                    break;
+                case RankSortType.ReviewsAsc:
+                    query = query.OrderBy(prp => prp.ReviewsCount);
+                    break;
+                case RankSortType.ReviewsDesc:
+                    query = query.OrderByDescending(prp => prp.ReviewsCount);
+                    break;
+                default:
+                    query = query.OrderByDescending(prp => prp.Rating);
                     break;
             }
 

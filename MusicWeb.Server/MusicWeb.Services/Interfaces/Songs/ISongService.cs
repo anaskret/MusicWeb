@@ -27,5 +27,7 @@ namespace MusicWeb.Services.Interfaces
         Task<IPagedList<Song>> GetIPagedAsync(string searchString, int pageNum = 0, int pageSize = int.MaxValue);
         Task UpdateImageAsync(List<SongFileUpdateDto> dtoList);
         Task UploadAdminSongsImagesAsync(List<AdminSongCreateDto> dtoList, int albumId);
+        Task<List<SongRatingAverage>> GetPagedRankingAsync(RankSortType sortType, int pageNum = 0, int pageSize = 5);
+
     }
 }

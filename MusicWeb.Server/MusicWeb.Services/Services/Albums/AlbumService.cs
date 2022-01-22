@@ -229,5 +229,10 @@ namespace MusicWeb.Services.Services.Albums
 
             return token;
         }
+        public async Task<List<AlbumRatingAverage>> GetPagedRankingAsync(RankSortType sortType, int pageNum = 0, int pageSize = 5)
+        {
+            var response = await _albumRepository.GetAlbumRankingAsync(sortType, pageNum, pageSize);
+            return response;
+        }
     }
 }
