@@ -29,4 +29,14 @@ export default {
       );
     }
   },
+  getPagedAlbumsRanking(
+    sort_type,
+    page_num,
+    page_size
+  ) {
+    return ApiService.authRequest(
+    `/albumranking/${sort_type}/${page_num}/${page_size}`,
+    ApiService.get
+    );
+  },
 };

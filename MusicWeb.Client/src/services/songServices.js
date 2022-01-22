@@ -35,4 +35,14 @@ export default {
       );
     }
   },
+  getPagedSongsRanking(
+    sort_type,
+    page_num,
+    page_size
+  ) {
+    return ApiService.authRequest(
+    `/songranking/${sort_type}/${page_num}/${page_size}`,
+    ApiService.get
+    );
+  },
 };
