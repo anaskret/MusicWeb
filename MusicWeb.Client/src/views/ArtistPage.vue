@@ -4,6 +4,7 @@
       :parent="artist"
       :show_observe_button="show_observe_button"
       :vote_title="vote_title"
+      v-on="$listeners"
       :module_name="module_name"
       @getRating="getArtistRating"
     />
@@ -109,12 +110,11 @@ export default {
         response.forEach((song) => this.songs.push(song));
       });
     };
-        const getArtistRating = function () {
+    const getArtistRating = function () {
       getArtistRatingAverage(this.id).then((response) => {
-        console.log(response);
-          this.$set(this.artist, 'rating', response.rating);
-          this.$set(this.artist, 'ratingsCount', response.ratingsCount);
-          this.$set(this.artist, 'favoriteCount', response.favoriteCount);
+        this.$set(this.artist, 'rating', response.rating);
+        this.$set(this.artist, 'ratingsCount', response.ratingsCount);
+        this.$set(this.artist, 'favoriteCount', response.favoriteCount);
      })
     }
 

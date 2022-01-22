@@ -9,7 +9,7 @@ export default function useComments() {
         let res = response.data;
         let comments = [];
         res.forEach((comment) => {
-          comment.postDate = moment.utc(comment.postDate).format("LLL");
+          comment.postDate = moment(comment.postDate).format("LLL");
           comments.push(new Comment(comment));
         });
         return comments;

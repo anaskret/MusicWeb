@@ -9,5 +9,8 @@ namespace MusicWeb.Models.Dtos.Users
     public class UserFriendDto : CreateUserFriendDto
     {
         public string FriendName { get; set; }
+        public string UserName { get; set; }
+        public string CreatedByUserId { get; set; }
+        public bool IsAccepted { get; set; }
     }
 }

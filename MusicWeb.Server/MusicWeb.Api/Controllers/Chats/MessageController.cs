@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using MusicWeb.Api.Extensions;
+using MusicWeb.Models.Constants;
 using MusicWeb.Models.Dtos.Chats;
 using MusicWeb.Models.Dtos.Chats.Base;
 using MusicWeb.Models.Entities;
@@ -28,7 +28,7 @@ namespace MusicWeb.Api.Controllers.Chats
         {
             try
             {
-                var entites = await _messageService.GetMessagesByChatIdAsync(id);
+                var entites = await _messageService.GetMessagesByChatIdAsync(id, page, pageSize);
                 var models = _mapper.Map<List<MessageDto>>(entites);
                 return Ok(models);
             }
@@ -62,9 +62,24 @@ namespace MusicWeb.Api.Controllers.Chats
             try
             {
                 var entity = _mapper.Map<Message>(model);
-                await _messageService.SendMessageAsync(entity);
+                await _messageService.SendMessageAsync(entity, model.ImageBytes);
 
                 return Ok(model);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPut(ApiRoutes.Messages.MessagesRead)]
+        public async Task<IActionResult> MessagesRead([FromBody] MessagesReadDto dto)
+        {
+            try
+            {
+                await _messageService.ReadMessagesAsync(dto.ChatId, dto.UserId);
+
+                return Ok();
             }
             catch (Exception ex)
             {

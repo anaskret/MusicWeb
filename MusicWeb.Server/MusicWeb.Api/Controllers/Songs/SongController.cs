@@ -1,7 +1,8 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using MusicWeb.Api.Extensions;
+using MusicWeb.Models.Constants;
 using MusicWeb.Models.Dtos.Songs;
 using MusicWeb.Models.Entities;
 using MusicWeb.Models.Entities.Keyless;
@@ -14,6 +15,8 @@ using System.Threading.Tasks;
 
 namespace MusicWeb.Api.Controllers.Songs
 {
+    [ApiController]
+    [Authorize]
     public class SongController : Controller
     {
         private readonly ISongService _songService;
@@ -174,6 +177,38 @@ namespace MusicWeb.Api.Controllers.Songs
             try
             {
                 var response = _mapper.Map<List<SongRatingAverage>>(await _songService.GetPagedAsync(sortType, createDateStart, createDateEnd, pageNum, pageSize));
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [HttpPut(ApiRoutes.Songs.UpdateImage)]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> UpdateArtistImage([FromBody] List<SongFileUpdateDto> dto)
+        {
+            try
+            {
+                await _songService.UpdateImageAsync(dto);
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return StatusCode(500, ex.Message);
+            }
+        }
+        
+        [HttpGet(ApiRoutes.Songs.GetRankingPaged)]
+        public async Task<IActionResult> GetRankingPaged([FromRoute] RankSortType sortType, [FromRoute] int pageNum, [FromRoute] int pageSize)
+        {
+            try
+            {
+                var response = await _songService.GetPagedRankingAsync(sortType, pageNum, pageSize);
                 return Ok(response);
             }
             catch (Exception ex)

@@ -1,0 +1,157 @@
+﻿@using Admin.Pages.Albums.Models
+@using Admin.Pages.Albums.Factories.Interfaces
+@using Admin.Pages.Albums.Components
+@using MusicWeb.Models.Entities
+@using MusicWeb.Services.Interfaces
+
+@inject IAlbumFactory _albumFactory;
+@inject ILogger<SongPopupComponent> _logger;
+@inject IMapper _mapper;
+
+@if (ShowCreator)
+{
+    <div class="modal fade show d-block" id="exampleModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Song Editor</h5>
+
+                    <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"
+                            @onclick="() => OnClose()">
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <EditForm Model="Model" OnValidSubmit="Post">
+                        <StatusMessageComponent @ref="StatusMessageComponent" />
+                        <DataAnnotationsValidator></DataAnnotationsValidator>
+                        <div class="mb-1">
+                            <div class="form-group mb-3">
+                                <label class="form-label text-muted">Name</label>
+                                <InputText @bind-Value="Model.Name" class="form-control" />
+                                <div class="text-danger">
+                                    <ValidationMessage For="@(() => Model.Name)" />
+                                </div>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label class="form-label text-muted">Release Date</label>
+                                <InputDate @bind-Value="Model.ReleaseDate" class="form-control" />
+                                <div class="text-danger">
+                                    <ValidationMessage For="@(() => Model.ReleaseDate)" />
+                                </div>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label class="form-label text-muted">Length</label>
+                                <InputNumber type="numeric" @bind-Value="Model.Length" class="form-control" />
+                                <div class="text-danger">
+                                    <ValidationMessage For="@(() => Model.Length)" />
+                                </div>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label class="form-label text-muted">Position on the album</label>
+                                <InputNumber type="numeric" @bind-Value="Model.PositionOnAlbum" class="form-control" />
+                                <div class="text-danger">
+                                    <ValidationMessage For="@(() => Model.PositionOnAlbum)" />
+                                </div>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label class="form-label text-muted">Text</label>
+                                <InputTextArea type="numeric" @bind-Value="Model.Text" class="form-control" />
+                                <div class="text-danger">
+                                    <ValidationMessage For="@(() => Model.Text)" />
+                                </div>
+                            </div>
+                            <div class="mb-4 row form-group">
+                                <label class="col-md-2 col-form-label text-muted">Song Photo</label>
+                                <div class="col-md-10">
+                                    <InputFile OnChange="@LoadFile" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label class="form-label text-muted">Composer</label>
+                                <InputSelect @bind-Value="Model.ComposerId" class="form-select">
+                                    @foreach (var composer in Composers)
+                                        {
+                                        <option value="@composer.Id">@composer.Name</option>
+                                        }
+                                </InputSelect>
+                            </div>
+                            <div class="text-danger">
+                                <ValidationMessage For="@(() => Model.ComposerId)" />
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary waves-effect waves-light" data-dismiss="modal"
+                                    @onclick="() => OnClose()">
+                                Cancel
+                            </button>
+                            <button type="submit" class="btn btn-danger waves-effect waves-light">
+                                Save
+                            </button>
+                        </div>
+                    </EditForm>
+                </div>
+            </div>
+        </div>
+    </div>
+<div class="modal-backdrop fade show"></div>
+}
+@code {
+    [Parameter]
+    public CreatorSongModel Model { get; set; }
+    [Parameter]
+    public bool ShowCreator { get; set; }
+    [Parameter]
+    public List<ArtistSelectModel> Composers { get; set; }
+    [Parameter]
+    public List<CreatorSongModel> SongList { get; set; }
+    [CascadingParameter]
+    public SongTableComponent Parent { get; set; }
+
+    private StatusMessageComponent StatusMessageComponent;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        Model = new CreatorSongModel();
+    }
+
+    private void Post()
+    {
+        try
+        {
+            SongList.Add(Model);
+            OnClose();
+            Parent.RefreshData();
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex.Message);
+        }
+    }
+
+    public void Show(CreatorSongModel model)
+    {
+        try
+        {
+            ShowCreator = true;
+            Model = model;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex.Message);
+            StatusMessageComponent.Show("Error Something went wrong while loading the data");
+        }
+    }
+
+    protected void OnClose()
+    {
+        ShowCreator = false;
+        Model = new CreatorSongModel();
+    }
+
+    private async Task LoadFile(InputFileChangeEventArgs e)
+    {
+        Model.ImageBytes = new byte[e.File.Size];
+        await e.File.OpenReadStream(int.MaxValue).ReadAsync(Model.ImageBytes);
+    }
+}

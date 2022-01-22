@@ -6,7 +6,13 @@ axios.interceptors.response.use(
     return response;
   },
   (error) => {
-    if (error.response.status === 401) {
+    if (
+      error.message == "Network Error" &&
+      (error.response == null || error.response == "")
+    ) {
+      store.state.connectionError = true;
+      store.dispatch("auth/logout");
+    } else if (error.response.status === 401) {
       store.state.tokenExpired = true;
       store.dispatch("auth/logout");
     } else {

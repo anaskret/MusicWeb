@@ -1,0 +1,94 @@
+﻿@using Admin.Pages.Albums.Models
+
+<div class="table-responsive">
+    <div class="d-flex align-items-end mb-3">
+        <button type="button" class="btn btn-xs-block btn-primary waves-effect waves-light" @onclick="AddNewLine">
+            Add a new song
+        </button>
+    </div>
+    <table class="table m-0 mb-3 table-striped table-bordered" id="table-example">
+        <thead class="thead-themed">
+            <tr>
+                <th>Name</th>
+                <th>Realese Date</th>
+                <th>Length</th>
+                <th>Position on the album</th>
+                <th>Text</th>
+                <th>Composer</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var line in Songs)
+            {
+                <tr>
+                    <td>
+                        @line.Name
+                    </td>
+                    <td>
+                        @line.ReleaseDate
+                    </td>
+                    <td>
+                        @line.Length
+                    </td>
+                    <td>
+                        @line.PositionOnAlbum
+                    </td>
+                    <td>
+                        @line.Text
+                    </td>
+                    <td>
+                        @Composers.FirstOrDefault(prp => prp.Id == line.ComposerId).Name
+                    </td>
+                    <td>
+                        <div class="text-center">
+                            <form>
+                                <a href="#" title="Edit" @onclick="() => EditClick(line)" @onclick:preventDefault>
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                <a href="#" title="Delete" @onclick="() => DeleteClick(line)" @onclick:preventDefault>
+                                    <i class="fas fa-trash-alt"></i>
+                                </a>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<CascadingValue Value="this">
+    <SongPopupComponent @ref="Creator" Composers="Composers" SongList="Songs"></SongPopupComponent>
+</CascadingValue>
+@code {
+    [Parameter]
+    public List<ArtistSelectModel> Composers { get; set; }
+    [Parameter]
+    public List<CreatorSongModel> Songs { get; set; }
+
+    public SongPopupComponent Creator { get; set; }
+
+    private void DeleteClick(CreatorSongModel song)
+    {
+        Songs.Remove(song);
+        StateHasChanged();
+    }
+
+    private void EditClick(CreatorSongModel song)
+    {
+        Creator.Show(song);
+        StateHasChanged();
+    }
+
+    private void AddNewLine()
+    {
+        var newSong = new CreatorSongModel();
+        Creator.Show(newSong);
+    }
+
+    public void RefreshData()
+    {
+        StateHasChanged();
+    }
+}

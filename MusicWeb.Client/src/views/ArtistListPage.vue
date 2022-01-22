@@ -61,7 +61,7 @@ export default {
   },
   methods: {
     parseDate(date) {
-      return this.moment.utc(date).format();
+      return this.moment(date).format();
     },
     filterList() {
       this.artists = [];

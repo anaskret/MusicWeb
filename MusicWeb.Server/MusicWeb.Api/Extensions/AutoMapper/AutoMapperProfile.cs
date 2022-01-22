@@ -124,7 +124,8 @@ namespace MusicWeb.Api.Extensions.AutoMapper
                 .ForMember(prp => prp.Name, obj => obj.MapFrom(src => src.Artist.Name));
 
             CreateMap<UserFriend, UserFriendDto>()
-                .ForMember(prp => prp.FriendName, prop => prop.MapFrom(src => src.Friend.UserName));
+                .ForMember(prp => prp.FriendName, prop => prop.MapFrom(src => src.Friend.UserName))
+                .ForMember(prp => prp.UserName, prop => prop.MapFrom(src => src.User.UserName));
             CreateMap<UserFriendDto, UserFriend>();
             CreateMap<CreateUserFriendDto, UserFriend>();
 
@@ -160,8 +161,11 @@ namespace MusicWeb.Api.Extensions.AutoMapper
             CreateMap<ChatDto, Chat>();
             CreateMap<Chat, ChatWithUserNamesDto>()
                 .ForMember(prp => prp.UserName, obj => obj.MapFrom(src => src.User.UserName))
-                .ForMember(prp => prp.FriendName, obj => obj.MapFrom(src => src.Friend.UserName));
+                .ForMember(prp => prp.FriendName, obj => obj.MapFrom(src => src.Friend.UserName))
+                .ForMember(prp => prp.FullName, obj => obj.MapFrom(src => src.User.FirstName + " " + src.User.LastName))
+                .ForMember(prp => prp.FriendFullName, obj => obj.MapFrom(src => src.Friend.FirstName + " " + src.Friend.LastName));
 
+            CreateMap<BaseMessageDto, Message>();
             CreateMap<Message, MessageDto>()
                 .ForMember(prp => prp.SenderName, obj => obj.MapFrom(src => src.Sender != null ? src.Sender.UserName : ""));
         }

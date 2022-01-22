@@ -22,6 +22,14 @@ namespace MusicWeb.Repositories.Repositories.Base
             _dbContext = dbContext;
         }
 
+        public async Task<IList<TEntity>> GetAllAsync(Func<IQueryable<TEntity>, IQueryable<TEntity>> func = null)
+        {
+            var query = GetAll();
+            query = func != null ? func(query) : query;
+
+            return await query.ToListAsync();
+        }
+
         public IQueryable<TEntity> GetAll()
         {
             try
@@ -34,13 +42,6 @@ namespace MusicWeb.Repositories.Repositories.Base
             }
         }
 
-        public async Task<IList<TEntity>> GetAllAsync(Func<IQueryable<TEntity>, IQueryable<TEntity>> func = null)
-        {
-            var query = GetAll();
-            query = func != null ? func(query) : query;
-
-            return await query.ToListAsync();
-        }
 
         public async Task<IPagedList<TEntity>> GetAllPagedAsync(Func<IQueryable<TEntity>, IQueryable<TEntity>> func = null,
             int pageIndex = 0, int pageSize = int.MaxValue, bool getOnlyTotalCount = false)
@@ -174,7 +175,7 @@ namespace MusicWeb.Repositories.Repositories.Base
         {
             IQueryable<TEntity> query = _dbContext.Set<TEntity>();
 
-            return await query.Where(predicate).FirstOrDefaultAsync();
+            return await query.Where(predicate).AsNoTracking().FirstOrDefaultAsync();
         }
 
         public async Task<TEntity> GetByIdNoTrackingAsync(int id)

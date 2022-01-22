@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using MusicWeb.Api.Extensions;
+using MusicWeb.Models.Constants;
 using MusicWeb.Models.Dtos.Albums;
 using MusicWeb.Models.Dtos.Albums.Create;
 using MusicWeb.Models.Entities;
@@ -172,5 +172,36 @@ namespace MusicWeb.Api.Controllers.Albums
             }
         }
 
+        [HttpPut(ApiRoutes.Albums.UpdateImage)]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> UpdateArtistImage([FromBody] AlbumFileUpdateDto dto)
+        {
+            try
+            {
+                var path = await _albumService.UpdateImageAsync(dto);
+
+                return Ok(path);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return StatusCode(500, ex.Message);
+            }
+        }
+        
+        [HttpGet(ApiRoutes.Albums.GetRankingPaged)]
+        public async Task<IActionResult> GetRankingPaged([FromRoute] RankSortType sortType, [FromRoute] int pageNum, [FromRoute] int pageSize)
+        {
+            try
+            {
+                var response = await _albumService.GetPagedRankingAsync(sortType, pageNum, pageSize);
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return StatusCode(500, ex.Message);
+            }
+        }
     }
 }

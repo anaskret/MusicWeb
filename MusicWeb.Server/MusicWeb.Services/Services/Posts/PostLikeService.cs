@@ -30,9 +30,9 @@ namespace MusicWeb.Services.Services.Posts
             var post = await _postService.GetByIdAsync(entity.PostId);
             var user = await _userManager.FindByIdAsync(entity.UserId);
             if (post == null)
-                throw new Exception("Post doesn't exist");
+                throw new Exception("Post doesn't exists");
             if (user == null)
-                throw new Exception("User doesn't exist");
+                throw new Exception("User doesn't exists");
 
             await _postLikeRepository.AddAsync(entity);
         }

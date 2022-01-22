@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using MusicWeb.Api.Extensions;
+using MusicWeb.Models.Constants;
 using MusicWeb.Models.Dtos.Artists;
 using MusicWeb.Models.Dtos.Artists.Create;
 using MusicWeb.Models.Entities;
@@ -120,11 +120,46 @@ namespace MusicWeb.Api.Controllers.Artists
         }
 
         [HttpGet(ApiRoutes.Artists.GetArtistRatingAverage)]
-        public async Task<IActionResult> GetAlbumRatingAverage([FromRoute] int id)
+        public async Task<IActionResult> GetArtistRatingAverage([FromRoute] int id)
         {
             try
             {
-                var response = await _artistService.GetArtistRatingAverage(id);
+                var response = await _artistService.GetArtistRatingAverageAsync(id);
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Updates artist image
+        /// </summary>
+        [HttpPut(ApiRoutes.Artists.UpdateImage)]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> UpdateArtistImage([FromBody] ArtistFileUpdateDto dto)
+        {
+            try
+            {
+                var path = await _artistService.UpdateImageAsync(dto);
+
+                return Ok(path);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return StatusCode(500, ex.Message);
+            }
+        }
+        
+        [HttpGet(ApiRoutes.Artists.GetRankingPaged)]
+        public async Task<IActionResult> GetRankingPaged([FromRoute] RankSortType sortType, [FromRoute] int pageNum, [FromRoute] int pageSize)
+        {
+            try
+            {
+                var response = await _artistService.GetPagedRankingAsync(sortType, pageNum, pageSize);
                 return Ok(response);
             }
             catch (Exception ex)
@@ -168,25 +203,6 @@ namespace MusicWeb.Api.Controllers.Artists
                     {
                         var entity = _mapper.Map<Artist>(dto);
                         await _artistService.UpdateAsync(entity);
-
-                        return Ok();
-                    }
-                    catch (Exception ex)
-                    {
-                        _logger.LogError(ex.Message);
-                        return StatusCode(500, ex.Message);
-                    }
-                }
-
-                /// <summary>
-                /// Updates artist image
-                /// </summary>
-                [HttpPut(ApiRoutes.Artists.UpdateImage)]
-                public async Task<IActionResult> UpdateArtistImage([FromBody] ArtistFileUpdateDto dto)
-                {
-                    try
-                    {
-                        await _artistService.UpdateImageAsync(dto);
 
                         return Ok();
                     }

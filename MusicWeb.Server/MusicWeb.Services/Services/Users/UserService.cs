@@ -106,7 +106,7 @@ namespace MusicWeb.Services.Services.Users
                 throw new ArgumentException("User with that email already exists!");
 
             user.Email = dto.Email;
-            await _userManager.UpdateNormalizedEmailAsync(user);
+            await _userManager.UpdateAsync(user);
         }
 
         public async Task UpdateImageAsync(UserImageDto dto)

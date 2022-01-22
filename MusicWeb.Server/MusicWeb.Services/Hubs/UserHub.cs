@@ -9,9 +9,9 @@ namespace MusicWeb.Services.Hubs
 {
     public class UserHub : Hub<IUserHub>
     {
-        public async Task SubscribeUserGroup(string userId)
+        public async Task SubscribeUserGroup(string userName)
         {
-            await Groups.AddToGroupAsync(Context.ConnectionId, userId);
+            await Groups.AddToGroupAsync(Context.ConnectionId, userName);
         }
     }
 }

@@ -7,9 +7,15 @@ p {
   margin: 0;
   word-break: break-word;
 }
+p > span{
+  color: white;
+}
 .v-card__title {
   word-break: break-word;
   &.v-card__subtitle{
     word-break: break-word;
   }
+}
+.link-to-item{
+  cursor: pointer;
 }

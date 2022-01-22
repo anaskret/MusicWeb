@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using MusicWeb.Api.Extensions;
+using MusicWeb.Models.Constants;
 using MusicWeb.Models.Dtos.Users;
 using MusicWeb.Models.Entities;
 using MusicWeb.Services.Interfaces.Users;
@@ -48,7 +48,7 @@ namespace MusicWeb.Api.Controllers.Users
             try
             {
                 var entity = _mapper.Map<UserFriend>(model);
-                await _userFriendService.CreateAsync(entity);
+                await _userFriendService.CreateNewRequestAsync(entity);
                 return Ok();
             }
             catch (Exception ex)
@@ -82,11 +82,11 @@ namespace MusicWeb.Api.Controllers.Users
         }
 
         [HttpDelete(ApiRoutes.UserFriends.Delete)]
-        public async Task<IActionResult> Delete([FromRoute] int id)
+        public async Task<IActionResult> Delete([FromRoute] string userId, string friendId)
         {
             try
             {
-                await _userFriendService.DeleteAsync(id);
+                await _userFriendService.DeleteAsync(userId, friendId);
                 return Ok();
             }
             catch (Exception ex)

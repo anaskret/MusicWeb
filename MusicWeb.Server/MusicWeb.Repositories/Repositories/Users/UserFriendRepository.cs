@@ -20,7 +20,9 @@ namespace MusicWeb.Repositories.Repositories.Users
         public async Task<UserFriend> GetUserFriendByIdsWithFriendDataAsync(string userId, string friendId)
         {
             return await _dbContext.UserFriend.Include(prp => prp.Friend)
-                                              .FirstOrDefaultAsync(prp => string.Equals(prp.FriendId, friendId) && string.Equals(prp.UserId, userId));
+                                              .Include(prp => prp.User)
+                                              .FirstOrDefaultAsync(prp => string.Equals(prp.FriendId, friendId) && string.Equals(prp.UserId, userId)
+                                                                       || string.Equals(prp.FriendId, userId) && string.Equals(prp.UserId, friendId));
         }
     }
 }

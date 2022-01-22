@@ -12,6 +12,6 @@ namespace MusicWeb.Repositories.Interfaces.Posts
 {
     public interface IPostRepository : IRepository<Post>
     {
-        Task<List<UserAndArtistPost>> GetPostForUserAsync(string userId, int page = 0, int pageSize = int.MaxValue);
+        Task<List<UserAndArtistPost>> GetPostForUserAsync(string userId, DateTime pageInitializeDate, int page = 0, int pageSize = int.MaxValue);
     }
 }

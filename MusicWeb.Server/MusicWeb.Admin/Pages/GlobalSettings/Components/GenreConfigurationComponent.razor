@@ -1,0 +1,181 @@
+﻿@using MusicWeb.Admin.Pages.GlobalSettings.Models
+@using MusicWeb.Admin.Pages.GlobalSettings.Factories.Interfaces
+@using MusicWeb.Models.Entities
+@using MusicWeb.Services.Interfaces.Genres
+@using System
+
+@inject IMapper _mapper;
+@inject ILogger<GenreConfigurationComponent> _logger;
+@inject IGenreFactory _genreFactory;
+@inject IGenreService _genreService;
+
+<div class="row">
+    <div class="panel-hdr text-center">
+        <div class="col-12 mb-1">
+            <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                <h4 class="mb-sm-0">Genres</h4>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="card mb-g">
+                <div class="card-body">
+                    <div class="frame-wrap p-0 border-0 m-0">
+                        <StatusMessageComponent @ref="StatusMessageList" />
+                        <div class="table-responsive">
+                            <table class="table m-0 table-striped table-bordered" id="table-example">
+                                <thead class="thead-themed">
+                                    <tr>
+                                        <th>Kolor</th>
+                                        <th>Działania</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in List)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @item.Name
+                                            </td>
+
+                                            <td>
+                                                <div class="text-center">
+                                                    <a href="#" title="Edit" @onclick="@(async () => await StartEdit(item.Id))" @onclick:preventDefault>
+                                                        <i class="fas fa-edit"></i>
+                                                    </a>
+                                                    <a href="#" title="Delete" @onclick="() => DeleteClick(item.Id)" @onclick:preventDefault>
+                                                        <i class="fas fa-trash-alt"></i>
+                                                    </a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-body">
+                    <EditForm Model="Input" OnValidSubmit="@Post" autocomplete="off" method="post">
+                        <StatusMessageComponent @ref="StatusMessage" />
+                        <DataAnnotationsValidator />
+                        <div class="row">
+                            <div class="ml-auto mr-auto">
+                                <div row>
+                                    <div class="mb-3 form-group">
+                                        <label class="form-label text-muted">Name</label>
+                                        <InputText @bind-Value="Input.Name" type="text" class="form-control" />
+                                        <div class="text-danger">
+                                            <ValidationMessage For="@(() => Input.Name)" />
+                                        </div>
+                                    </div>
+                                    <div class="d-grid ml-auto mr-auto">
+                                        <button type="submit" class="btn mb-3 btn-primary btn-lg waves-effect waves-light">
+                                            Save
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </EditForm>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<ConfirmComponent ConfirmationChanged="ConfirmDelete_Click" @ref="DeleteConfirmation"></ConfirmComponent>
+
+@code {
+    [Parameter]
+    public List<GenrePageModel> List { get; set; }
+
+    [Parameter]
+    public GenrePageModel Input { get; set; }
+
+    public StatusMessageComponent StatusMessage { get; set; }
+    public StatusMessageComponent StatusMessageList { get; set; }
+
+    private int idToDelete;
+    protected ConfirmComponent DeleteConfirmation { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+
+        Input = new GenrePageModel();
+        List = new List<GenrePageModel>();
+
+        await _genreFactory.PrepareList(List);
+    }
+
+    public async Task StartEdit(int id)
+    {
+        try
+        {
+            Input = await _genreFactory.PrepareModel(id);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex.Message);
+            StatusMessage.Show("Error An error occurred while loading the data");
+        }
+    }
+
+    public async Task Post()
+    {
+        try
+        {
+            var mappedModel = _mapper.Map<Genre>(Input);
+
+            if (Input.Id > 0)
+                await _genreService.UpdateAsync(mappedModel);
+            else
+                await _genreService.AddAsync(mappedModel);
+
+            Input = new GenrePageModel();
+
+            List = new List<GenrePageModel>();
+            await _genreFactory.PrepareList(List);
+        }
+        catch (ArgumentException)
+        {
+            StatusMessage.Show("Error Genre with that name already exists");
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex.Message);
+            StatusMessage.Show("Error Failed to add the genre");
+        }
+    }
+
+    public async Task DeleteClick(int id)
+    {
+        idToDelete = id;
+        DeleteConfirmation.Show();
+    }
+
+    protected async Task ConfirmDelete_Click(bool deleteConfirmed)
+    {
+        try
+        {
+            if (deleteConfirmed)
+            {
+                await _genreService.DeleteAsync(idToDelete);
+
+                List = new List<GenrePageModel>();
+                await _genreFactory.PrepareList(List);
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex.Message);
+            StatusMessageList.Show("Error An exception occurred while deleting the genre");
+        }
+    }
+}
+

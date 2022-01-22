@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using MusicWeb.Api.Extensions;
+using MusicWeb.Models.Constants;
 using MusicWeb.Models.Dtos.Posts;
 using MusicWeb.Models.Entities.Posts;
 using MusicWeb.Services.Interfaces.Posts;
@@ -32,11 +32,11 @@ namespace MusicWeb.Api.Controllers.Posts
         /// WIP
         /// </summary>
         [HttpGet(ApiRoutes.Posts.GetUserPosts)]
-        public async Task<IActionResult> GetUserPosts([FromRoute] string userId, [FromRoute] int page, [FromRoute] int pageSize)
+        public async Task<IActionResult> GetUserPosts([FromRoute] string userId, [FromRoute] DateTime pageInitializeDate, [FromRoute] int page, [FromRoute] int pageSize)
         {
             try
             {
-                var entities = await _postService.GetUserPostsAsync(userId, page, pageSize);
+                var entities = await _postService.GetUserPostsAsync(userId, pageInitializeDate, page, pageSize);
                 var models = _mapper.Map<List<GetPostDto>>(entities);
 
                 return Ok(models);

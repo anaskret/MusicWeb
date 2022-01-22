@@ -1,0 +1,78 @@
+﻿@page "/integration";
+
+@using MusicWeb.Services.Interfaces.ApiIntegration
+
+@inject ILogger<Integration> _logger;
+@inject IApiIntegrationService _integrationService;
+@inject IMapper _mapper;
+
+@attribute [Authorize(Roles = "Admin")]
+
+<title>Prospero - Ustawienia ogólne</title>
+
+<div class="row">
+    <div class="panel-hdr text-center mb-3">
+        <div class="col-12">
+            <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                <h4 class="mb-sm-0">Global Settings</h4>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-12">
+        <div class="card mb-g">
+            <div class="card-body">
+                <div class="frame-wrap p-0 border-0 m-0">
+                    <StatusMessageComponent @ref="StatusMessage" />
+                    <div class="row d-flex justify-content-center">
+                        <div class="ml-auto mr-auto">
+                            <div class="mb-2 row form-group">
+                                <label class="col-md-6 col-form-label text-muted">Intagrate countries with an api</label>
+                                <div class="col-md-6">
+                                    <button type="button" @onclick="IntegrateClick" class="btn btn-xs-block btn-danger waves-effect waves-light">
+                                        Start
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <MusicWeb.Admin.Pages.GlobalSettings.Components.GenreConfigurationComponent></MusicWeb.Admin.Pages.GlobalSettings.Components.GenreConfigurationComponent>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<ConfirmComponent @ref="ConfirmComponent" ConfirmationChanged="Confirm_Click"></ConfirmComponent>
+
+@code {
+    public StatusMessageComponent StatusMessage { get; set; }
+    public ConfirmComponent ConfirmComponent { get; set; }
+
+    public async Task StartIntegration()
+    {
+        try
+        {
+            await _integrationService.IntegrateCountriesAsync();
+
+            StatusMessage.Show("Country Integration was successful");
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex.Message, ex);
+            StatusMessage.Show("Error Coś poszło nie tak podczas dodawania receptur do Optimy, błąd:\n" + ex.Message);
+        }
+
+    }
+
+    private void IntegrateClick()
+    {
+        ConfirmComponent.Show();
+    }
+
+    private async Task Confirm_Click(bool isConfirmed)
+    {
+        if (isConfirmed)
+        {
+            await StartIntegration();
+        }
+    }
+}

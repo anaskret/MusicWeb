@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using MusicWeb.Models.Dtos.Users;
 using MusicWeb.Models.Entities;
+using MusicWeb.Models.Identity;
 using MusicWeb.Repositories.Interfaces.Users;
 using MusicWeb.Services.Hubs;
 using MusicWeb.Services.Interfaces.Hubs;
@@ -19,22 +21,56 @@ namespace MusicWeb.Services.Services.Users
     {
         private readonly IUserFriendRepository _userFriendRepository;
         private readonly IMapper _mapper;
+        private readonly UserManager<ApplicationUser> _userManager;
         private readonly IHubContext<FriendsHub, IFriendsHub> _hubContext;
 
-        public UserFriendService(IUserFriendRepository userFriendRepository, 
-            IMapper mapper, 
-            IHubContext<FriendsHub, IFriendsHub> hubContext)
+        public UserFriendService(IUserFriendRepository userFriendRepository,
+            IMapper mapper,
+            IHubContext<FriendsHub, IFriendsHub> hubContext, 
+            UserManager<ApplicationUser> userManager)
         {
             _userFriendRepository = userFriendRepository;
             _mapper = mapper;
             _hubContext = hubContext;
+            _userManager = userManager;
         }
 
         public async Task CreateNewRequestAsync(UserFriend entity)
         {
+            var doesExist = await _userFriendRepository.GetSingleAsync(prp => (string.Equals(prp.UserId, entity.UserId) && string.Equals(prp.FriendId, entity.FriendId))
+                                                                           || (string.Equals(prp.FriendId, entity.UserId) && string.Equals(prp.UserId, entity.FriendId)));
+            if (doesExist != null)
+                throw new ArgumentException("You already have that user in your friend list or the invite is already sent");
+
+            entity.CreatedByUserId = entity.UserId;
+
             await CreateAsync(entity);
 
-            await _hubContext.Clients.Group(entity.FriendId).SendFriendRequest(entity.UserId, entity.FriendId);
+            var user = await _userManager.FindByIdAsync(entity.UserId);
+            if (user == null)
+                throw new Exception("Friend Request was created, but notification was not sent as user was not found");
+            var friend = await _userManager.FindByIdAsync(entity.FriendId);
+            if (friend == null)
+                throw new Exception("Friend Request was created, but notification was not sent as friend was not found");
+
+            var fullName = user.FirstName + " " + user.LastName;
+            await _hubContext.Clients.Group(friend.UserName).SendFriendRequest(user.UserName, friend.UserName, fullName);
+        }
+
+        public async Task AcceptFriendRequestAsync(UserFriend entity)
+        {
+            var sender = await GetSingleByUserIdAndFriendIdAsync(entity.FriendId, entity.UserId);
+            if (sender == null)
+                throw new ArgumentException("UserFriendRequest with this userId and friendId doesn't exist");
+            if (sender.IsAccepted)
+                throw new ArgumentException("UserFriendRequest is already accepted");
+
+            sender.IsAccepted = true;
+
+            await UpdateAsync(sender);
+
+            var fullName = sender.Friend.FirstName + " " + sender.Friend.LastName;
+            await _hubContext.Clients.Group(sender.User.UserName).FriendRequestAccepted(sender.User.UserName, sender.Friend.UserName, fullName);
         }
 
         public async Task CreateAsync(UserFriend entity)
@@ -42,10 +78,13 @@ namespace MusicWeb.Services.Services.Users
             await _userFriendRepository.AddAsync(entity);
         }
 
-        public async Task DeleteAsync(int id)
+        public async Task DeleteAsync(string userId, string friendId)
         {
-            var entity = await _userFriendRepository.GetByIdAsync(id);
-            await _userFriendRepository.DeleteAsync(entity);
+            var entity = await _userFriendRepository.GetSingleAsync(prp => string.Equals(prp.UserId, userId) && string.Equals(prp.FriendId, friendId)
+                                                                        || string.Equals(prp.FriendId, userId) && string.Equals(prp.UserId, friendId));
+
+            if(entity != null)
+                await _userFriendRepository.DeleteAsync(entity);
         }
 
         public async Task DeleteRangeByUserIdAsync(string userId)
@@ -61,7 +100,10 @@ namespace MusicWeb.Services.Services.Users
 
         public async Task<IList<UserFriend>> GetAllByUserIdAsync(string userId)
         {
-            return await _userFriendRepository.GetAllAsync(entity => entity.Where(prp => string.Equals(prp.UserId, userId)).Include(prp => prp.Friend));
+            return await _userFriendRepository.GetAllAsync(entity => entity.Where(prp => string.Equals(prp.UserId, userId)
+                                                                  || string.Equals(prp.FriendId, userId))
+                                                                           .Include(prp => prp.Friend)
+                                                                           .Include(prp => prp.User));
         }
 
         public async Task<UserFriend> GetByIdAsync(int id)
@@ -72,21 +114,6 @@ namespace MusicWeb.Services.Services.Users
         public async Task<UserFriend> GetSingleByUserIdAndFriendIdAsync(string userId, string friendId)
         {
             return await _userFriendRepository.GetUserFriendByIdsWithFriendDataAsync(userId, friendId);
-        }
-
-        public async Task AcceptFriendRequestAsync(UserFriend entity)
-        {
-            var sender = await GetSingleByUserIdAndFriendIdAsync(entity.FriendId, entity.UserId);
-            if (sender == null)
-                throw new ArgumentException("UserFriendRequest with this userId and friendId doesn't exist");
-
-            sender.IsAccepted = true;
-            entity.IsAccepted = true;
-
-            await UpdateAsync(sender);
-            await CreateAsync(entity);
-
-            await _hubContext.Clients.Group(entity.FriendId).FriendRequestAccepted(entity.FriendId, entity.UserId);
         }
 
         public async Task UpdateAsync(UserFriend entity)

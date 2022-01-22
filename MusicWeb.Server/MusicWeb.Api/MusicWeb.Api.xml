@@ -63,6 +63,11 @@
                 3 - Popularity Descending &#xA;
             </remarks>
         </member>
+        <member name="M:MusicWeb.Api.Controllers.Artists.ArtistsController.UpdateArtistImage(MusicWeb.Models.Dtos.Artists.ArtistFileUpdateDto)">
+            <summary>
+            Updates artist image
+            </summary>
+        </member>
         <member name="M:MusicWeb.Api.Controllers.Genres.GenreController.GetAll">
             <summary>
             Gets all music genres
@@ -113,7 +118,7 @@
             Deletes a country with all its states and citites
             </summary>
         </member>
-        <member name="M:MusicWeb.Api.Controllers.Posts.PostController.GetUserPosts(System.String,System.Int32,System.Int32)">
+        <member name="M:MusicWeb.Api.Controllers.Posts.PostController.GetUserPosts(System.String,System.DateTime,System.Int32,System.Int32)">
             <summary>
             WIP
             </summary>

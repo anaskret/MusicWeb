@@ -43,7 +43,7 @@ namespace MusicWeb.Services.Services.Files
             await using FileStream fs = new(filePath, FileMode.Create);
             new MemoryStream(fileBytes).CopyTo(fs);
 
-            return Path.Combine(dir, fileName);
+            return dir + "/" + fileName;
         }
 
         public void DeleteFile(string name, string dir)

@@ -148,6 +148,7 @@ import useAlbumReviews from "@/modules/albumReviews";
 import SongReview from "@/models/SongReview";
 import useSongReviews from "@/modules/songReviews";
 import moment from "moment";
+import { mapGetters } from "vuex";
 export default {
   name: "ReviewList",
   props: {
@@ -176,32 +177,33 @@ export default {
       ],
     };
   },
+  computed: {
+      ...mapGetters({
+         account: "current_user",
+      }),
+  },
   methods: {
     addReviewDialog() {
       this.dialog = false;
-      if (this.module_name == "Album")
-      {
+      if (this.module_name == "Album") {
         this.addNewAlbumReview();
-      } 
-      else
-      {
+      } else {
         this.addNewSongReview();
       }
     },
     redirectToItem(itemId) {
       this.$router.push({
         name: `${this.redirect_module_name}`,
-        params: { id: itemId,
-        module_name: this.module_name },
+        params: { id: itemId, module_name: this.module_name },
       });
     },
   },
   setup() {
-      const { addSongReview } = useSongReviews();
-      const { addAlbumReview } = useAlbumReviews();
+    const { addSongReview } = useSongReviews();
+    const { addAlbumReview } = useAlbumReviews();
 
-      const addNewSongReview = function () {
-      this.songReview.userId = this.$store.state.auth.userId;
+    const addNewSongReview = function () {
+      this.songReview.userId = this.account.id
       this.songReview.songId = this.$route.params.id;
       this.songReview.postDate = moment.utc().format();
       delete this.songReview.id;
@@ -239,10 +241,10 @@ export default {
         );
       }
     };
-      const addNewAlbumReview = function () {
-      this.albumReview.userId = this.$store.state.auth.userId;
+    const addNewAlbumReview = function () {
+      this.albumReview.userId = this.account.id;
       this.albumReview.albumId = this.$route.params.id;
-      this.albumReview.postDate = moment.utc().format();
+      this.albumReview.postDate = moment().format();
       delete this.albumReview.album;
       delete this.albumReview.user;
       delete this.albumReview.id;
@@ -285,8 +287,6 @@ export default {
       addNewAlbumReview,
     };
     // const { addReview } = useAlbumReviews();
-
-  
   },
 };
 </script>

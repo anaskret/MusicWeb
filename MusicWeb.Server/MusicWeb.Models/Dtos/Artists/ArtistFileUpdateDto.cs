@@ -10,6 +10,5 @@ namespace MusicWeb.Models.Dtos.Artists
     {
         public int ArtistId { get; set; }
         public byte[] ImageBytes { get; set; }
-        public string ImagePath { get; set; }
     }
 }

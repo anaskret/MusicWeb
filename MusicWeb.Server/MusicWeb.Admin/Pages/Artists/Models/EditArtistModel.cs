@@ -20,7 +20,9 @@ namespace MusicWeb.Admin.Pages.Artists.Models
         [MaxLength(500, ErrorMessage = "Bio's max length is 500 characters")]
         public string Bio { get; set; }
 
+        public IBrowserFile Image { get; set; }
         public string ImagePath { get; set; }
+        public byte[] ImageBytes { get; set; }
 
 
         public ArtistType Type { get; set; }

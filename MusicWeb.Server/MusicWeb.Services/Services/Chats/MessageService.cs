@@ -10,6 +10,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.SignalR;
 using MusicWeb.Services.Interfaces.Hubs;
 using MusicWeb.Services.Hubs;
+using Microsoft.AspNetCore.Identity;
+using MusicWeb.Models.Identity;
+using MusicWeb.Services.Interfaces.Files;
+using System.IO;
+using MusicWeb.Models.Constants;
 
 namespace MusicWeb.Services.Services.Chats
 {
@@ -18,14 +23,20 @@ namespace MusicWeb.Services.Services.Chats
         private readonly IMessageRepository _messageRepository;
         private readonly IChatService _chatService;
         private readonly IHubContext<MessageHub, IMessageHub> _messageHub;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IFileService _fileService;
 
         public MessageService(IMessageRepository messageRepository,
-            IChatService chatService, 
-            IHubContext<MessageHub, IMessageHub> messageHub)
+            IChatService chatService,
+            IHubContext<MessageHub, IMessageHub> messageHub,
+            UserManager<ApplicationUser> userManager, 
+            IFileService fileService)
         {
             _messageRepository = messageRepository;
             _chatService = chatService;
             _messageHub = messageHub;
+            _userManager = userManager;
+            _fileService = fileService;
         }
 
         public async Task<Message> GetByIdAsync(int id)
@@ -33,22 +44,33 @@ namespace MusicWeb.Services.Services.Chats
             return await _messageRepository.GetByIdAsync(id);
         }
 
-        public async Task<List<Message>> GetMessagesByChatIdAsync(int chatId, int page = 0, int pageSize = int.MaxValue)
+        public async Task UpdateRangeAsync(List<Message> entites)
         {
-            var entities = await _messageRepository.GetAllAsync(obj => obj.Where(prp => prp.Id == chatId)
-                                                                          .Include(prp => prp.Sender)
-                                                                          .Skip(page * pageSize)
-                                                                          .Take(pageSize)
-                                                                          .OrderByDescending(prp => prp.SendDate));
-
-            return entities.ToList();
+            await _messageRepository.UpdateRangeAsync(entites);
         }
 
-        public async Task SendMessageAsync(Message entity)
+        public async Task<List<Message>> GetMessagesByChatIdAsync(int chatId, int page = 0, int pageSize = int.MaxValue)
+        {
+            var entities = await _messageRepository.GetAllAsync(obj => obj.Where(prp => prp.ChatId == chatId)
+                                                                          .Include(prp => prp.Sender)
+                                                                          .OrderByDescending(prp => prp.SendDate)
+                                                                          .Skip(page * pageSize)
+                                                                          .Take(pageSize));
+
+            return entities.Reverse().ToList();
+        }
+
+        public async Task SendMessageAsync(Message entity, byte[] imageBytes)
         {
             var chatEntity = await _chatService.GetByIdAsync(entity.ChatId);
             if (chatEntity == null)
                 throw new ArgumentException("Chat doesn't exist!");
+
+            if(imageBytes.Length > 0)
+            {
+                var path = Path.Combine(FilePathConsts.UserMessagesPath, entity.SenderId);
+                entity.ImagePath = await _fileService.UploadFile(imageBytes, path);
+            }
 
             entity.SendDate = DateTime.Now;
             await _messageRepository.AddAsync(entity);
@@ -59,7 +81,32 @@ namespace MusicWeb.Services.Services.Chats
             else
                 friendId = chatEntity.FriendId;
 
-            await _messageHub.Clients.Group(friendId).SendMessage(friendId, chatEntity.Id);
+            var friend = await _userManager.FindByIdAsync(friendId);
+            if (friend == null)
+                throw new Exception("Signal not sent as friend was not found");
+
+            await _messageHub.Clients.Group(friend.UserName).SendMessage(friend.UserName, chatEntity.Id);
+        }
+
+        public async Task ReadMessagesAsync(int chatId, string userId)
+        {
+            var chatEntity = await _chatService.GetByIdAsync(chatId);
+            if (chatEntity == null)
+                throw new ArgumentException("Chat doesn't exist!");
+
+            string senderId;
+            if (string.Equals(chatEntity.FriendId, userId))
+                senderId = chatEntity.UserId;
+            else
+                senderId = chatEntity.FriendId;
+
+            var messages = await _messageRepository.GetAllAsync(obj => obj.Where(prp => prp.ChatId == chatId && string.Equals(prp.SenderId, senderId)));
+            var messageList = messages.ToList();
+
+            messageList.ForEach(obj => obj.IsRead = true);
+            await UpdateRangeAsync(messageList);
+
+            await _messageHub.Clients.Group(senderId).MessagesRead(senderId, chatId);
         }
     }
 }

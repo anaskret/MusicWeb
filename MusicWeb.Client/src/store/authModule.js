@@ -1,12 +1,14 @@
 import useAccounts from "@/modules/accounts";
 import axios from "axios";
+import Vue from "vue";
 
 const { loginAccount, logoutAccount, registerAccount } = useAccounts();
 const token = localStorage.getItem("user-token");
 const userId = localStorage.getItem("user-id");
+const userName = localStorage.getItem("user-name");
 const initialState = token
-  ? { status: { loggedIn: true }, token, userId }
-  : { status: { loggedIn: false }, token: null, userId: null };
+  ? { status: { loggedIn: true }, token, userId, userName }
+  : { status: { loggedIn: false }, token: null, userId: null, userName };
 
 export const auth = {
   namespaced: true,
@@ -17,9 +19,10 @@ export const auth = {
         (response) => {
           localStorage.setItem("user-token", response.data.token);
           localStorage.setItem("user-id", response.data.userId);
+          localStorage.setItem("user-name", response.data.userName);
           axios.defaults.headers.common["Authorization"] =
             "Bearer " + localStorage.getItem("user-token");
-          commit("loginSuccess", response.data.token);
+          commit("loginSuccess", response.data);
           return Promise.resolve(response);
         },
         (error) => {
@@ -30,6 +33,7 @@ export const auth = {
     },
     logout({ commit }) {
       commit("logout");
+      localStorage.clear();
       return logoutAccount();
     },
     register({ commit }, user) {
@@ -46,13 +50,18 @@ export const auth = {
     },
   },
   mutations: {
-    loginSuccess(state, token) {
+    loginSuccess(state, data) {
       state.status.loggedIn = true;
-      state.token = token;
+      state.token = data.token;
+      state.userId = data.userId;
+      state.userName = data.userName;
+      this.commit("setCurrentUser");
+      Vue.prototype.$friendsHub.subscribeUserGroup(state.userName);
     },
     loginFailure(state) {
       state.status.loggedIn = false;
       state.token = null;
+      state.userId = null;
     },
     logout(state) {
       state.status.loggedIn = false;

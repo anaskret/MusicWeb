@@ -8,6 +8,8 @@ namespace MusicWeb.Services.Interfaces.Hubs
 {
     public interface IMessageHub
     {
-        Task SendMessage(string friendId, int messageId);
+        Task SendMessage(string friendUserName, int messageId);
+        Task SubscribeUserGroup(string userName);
+        Task MessagesRead(string senderId, int chatId);
     }
 }

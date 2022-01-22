@@ -1,4 +1,5 @@
 export default class account {
+  id = null;
   username = "";
   password = "";
   firstname = "";
@@ -17,6 +18,7 @@ export default class account {
   userObservedArtists = [];
   constructor($data) {
     if ($data) {
+      this.id = $data.id;
       this.username = $data.userName;
       this.password = $data.password;
       this.firstname = $data.firstName;

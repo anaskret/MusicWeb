@@ -80,7 +80,8 @@ class FetchHttpClient extends HttpClient_1.HttpClient {
                     ...request.headers,
                 },
                 method: request.method,
-                mode: "cors",
+                mode: "
+                ",
                 redirect: "follow",
                 signal: abortController.signal,
             });

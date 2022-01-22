@@ -127,13 +127,56 @@
 
       <v-col lg="8">
           <v-list v-if="module_name == 'Activities'">
+            <div class="text-center">
+              <v-dialog v-model="new_post_dialog" width="70vw">
+                <template v-slot:activator="{ on, attrs }">
+                  <v-text-field
+                    label="What happened today?"
+                    class="pb-1"
+                    v-model="post.text"
+                    color="white"
+                    v-bind="attrs"
+                    v-on="on"
+                    readonly
+                    @click="focusTextarea"
+                  />
+                </template>
+
+                <form id="newPostForm" @submit.prevent="addPost">
+                  <v-card style="background-color: #1e1e1e" class="px-16">
+                    <v-card-title class="px-0 pt-8 pb-4">Add Post</v-card-title>
+                    <div>
+                      <v-textarea
+                        ref="textarea"
+                        v-model="post.text"
+                        auto-grow
+                        filled
+                        color="inherit"
+                        label="What happened today?"
+                        rows="5"
+                      ></v-textarea>
+                    </div>
+                    <v-card-actions>
+                      <v-btn
+                        color="grey"
+                        height="30px"
+                        class="text-uppercase align-self-center pa-3"
+                        type="submit"
+                        outlined
+                        >Add</v-btn
+                      >
+                    </v-card-actions>
+                  </v-card>
+                </form>
+              </v-dialog>
+            </div>
             <v-list-item
               class="item"
               v-for="(item, index) in items"
               :key="index"
             >
               <v-list-item-content>
-                <InfiniteScrolItem :item="item" :page_name="module_name" />
+                <InfiniteScrolItem :item="item" :page_name="module_name" v-on="$listeners"/>
               </v-list-item-content>
             </v-list-item>
           </v-list>
@@ -176,6 +219,10 @@
 <script>
 import { required } from "vuelidate/lib/validators";
 import InfiniteScrolItem from "@/components/InfiniteScrolItem";
+import useAccounts from "@/modules/accounts";
+import Post from "@/models/Post";
+import moment from "moment";
+import { mapGetters } from "vuex";
 export default {
   name: "InfiniteScrollList",
   data() {
@@ -184,6 +231,8 @@ export default {
       is_date_picker_from: false,
       is_date_picker_to: false,
       show_list: null,
+      new_post_dialog: false,
+      post: new Post(),
     };
   },
   props: {
@@ -201,6 +250,9 @@ export default {
     InfiniteScrolItem,
   },
   computed: {
+    ...mapGetters({
+        account: "current_user",
+    }),
     isDisabled() {
       return this.$v.$invalid;
     },
@@ -254,6 +306,49 @@ export default {
         this.$emit("set-filters", this.filters);
       this.updateDefaultSortType = "Alfabetycznie malejąco";
     },
+    focusTextarea() {
+      this.$refs.textarea.$el.focus();
+    },
+  },
+
+  setup() {
+    const { addAccountPost } = useAccounts();
+
+    const addPost = function () {
+      this.post.createDate = moment().format();
+      this.post.posterId = this.account.id;
+      if (this.post.text == null || this.post.text == "") {
+        this.$emit("show-alert", "Post cannot be empty.", "error");
+        this.new_post_dialog = true;
+      } else {
+        addAccountPost(this.post).then(
+          (response) => {
+            if (response.status == 200) {
+              this.getPagedItemList();
+              this.post.text = null;
+              this.new_post_dialog = false;
+              this.$emit("show-alert", "Post added.", "success");
+            } else {
+              this.$emit(
+                "show-alert",
+                `Something went wrong. Error ${response.status}`,
+                "error"
+              );
+            }
+          },
+          (error) => {
+            this.$emit(
+              "show-alert",
+              `Something went wrong. ${error.response.status} ${error.response.data}`,
+              "error"
+            );
+          }
+        );
+      }
+    };
+    return {
+      addPost,
+    };
   },
 };
 </script>

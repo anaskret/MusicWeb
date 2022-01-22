@@ -14,11 +14,11 @@
             {{ message }}
           </h5>
         </div>
-        <v-card-title class="mt-10">Zarejestruj się</v-card-title>
+        <v-card-title class="mt-10">Sign In</v-card-title>
         <form @submit.prevent="onSubmit">
           <v-text-field
             class="p-4"
-            label="Podaj login*"
+            label="Type Login*"
             prepend-icon="mdi-account"
             type="text"
             v-model.trim="$v.account.username.$model"
@@ -30,7 +30,7 @@
           ></v-text-field>
           <v-text-field
             class="p-4"
-            label="Podaj hasło*"
+            label="Type Password*"
             prepend-icon="mdi-lock"
             type="password"
             v-model.trim="$v.account.password.$model"
@@ -42,7 +42,7 @@
           ></v-text-field>
           <v-text-field
             class="p-4"
-            label="Podaj Imię*"
+            label="Type First Name*"
             prepend-icon="mdi-lock"
             type="text"
             v-model.trim="$v.account.firstname.$model"
@@ -54,7 +54,7 @@
           ></v-text-field>
           <v-text-field
             class="p-4"
-            label="Podaj Nazwisko*"
+            label="Type Last Name*"
             prepend-icon="mdi-lock"
             type="text"
             v-model.trim="$v.account.lastname.$model"
@@ -66,7 +66,7 @@
           ></v-text-field>
           <v-text-field
             class="p-4"
-            label="Podaj Email*"
+            label="Type Email*"
             prepend-icon="mdi-lock"
             type="text"
             v-model.trim="$v.account.email.$model"
@@ -87,7 +87,7 @@
             <template v-slot:activator="{ on, attrs }">
               <v-text-field
                 class="p-4"
-                label="Podaj Datę Urodzenia*"
+                label="Type Birthdate*"
                 prepend-icon="mdi-calendar"
                 v-model.trim="$v.account.birthdate.$model"
                 :error-messages="birthDateErrors"
@@ -116,11 +116,11 @@
               :loading="is_logging"
               width="40%"
             >
-              Zarejestruj
+              Sign In
             </v-btn>
             <div></div>
             <v-btn class="mt-4" @click="redirect" outlined width="40%">
-              Zaloguj się</v-btn
+              Log In</v-btn
             >
           </div>
         </form>
@@ -220,30 +220,30 @@ export default {
     prepareErrorArray(field) {
       const errors = [];
       if (!this.$v.account[field].$dirty) return errors;
-      !this.$v.account[field].required && errors.push("Pole jest wymagane.");
+      !this.$v.account[field].required && errors.push("Field is required.");
       if (
         this.$v.account[field].maxLength != undefined &&
         this.$v.account[field].minLength != undefined
       ) {
         !this.$v.account[field].maxLength &&
           errors.push(
-            `Pole nie może być dłuższe niż ${this.$v.account[field].$params.maxLength.max} znaków.`
+            `Field cannot be longer than ${this.$v.account[field].$params.maxLength.max} characters.`
           );
         !this.$v.account[field].minLength &&
           errors.push(
-            `Pole musi mieć przynajmniej ${this.$v.account[field].$params.minLength.min} znaków.`
+            `Field must contain at least ${this.$v.account[field].$params.minLength.min} characters.`
           );
       }
       if (this.$v.account[field].email != undefined) {
         !this.$v.account[field].email &&
           errors.push(
-            `Pole musi być uzupełnione według szablonu "example@ex.pl".`
+            `The field must be completed according to the template "example@ex.pl".`
           );
       }
 
       if (this.$v.account[field].maxValue != undefined) {
         !this.$v.account[field].maxValue &&
-          errors.push(`Data urodzenia nie może być w przyszłości.`);
+          errors.push(`Birthdate cannot be in the future.`);
       }
       return errors;
     },
@@ -266,8 +266,7 @@ export default {
               "User creation failed! Please check user details and try again."
           ) {
             this.is_logging = false;
-            this.message =
-              "Nie udało się utworzyć użytkownika! Sprawdź poprawność danych.";
+            this.message = error.response.data;
           } else if (error.response.status == 400) {
             this.message = error.response.data;
           }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using MusicWeb.Api.Extensions;
+using MusicWeb.Models.Constants;
+using MusicWeb.Models.Dtos.Users;
 using MusicWeb.Models.Models.Identity;
 using MusicWeb.Services.Interfaces.Identity;
 using System;
@@ -41,6 +42,24 @@ namespace MusicWeb.Api.Controllers.Identity
             {
                 var response = await _identityService.RegisterUser(model);
                 return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [HttpPost(ApiRoutes.Identity.PasswordReset)]
+        public async Task<IActionResult> PasswordReset([FromBody] PasswordChangeDto dto)
+        {
+            try
+            {
+                await _identityService.ResetPasswordAsync(dto.UserName);
+                return Ok();
+            }
+            catch(ArgumentException)
+            {
+                return Ok();
             }
             catch (Exception ex)
             {

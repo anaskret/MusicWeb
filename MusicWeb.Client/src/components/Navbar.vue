@@ -1,29 +1,84 @@
 <template>
   <v-app-bar
-    v-if="!['Login', 'Register'].includes(this.$route.name)"
+    v-if="!['Login', 'Register', 'PasswordReset'].includes(this.$route.name)"
     app
     color="#2C2F33"
     shrink-on-scroll
     dense
     scroll-threshold="500"
-    height="20%"
   >
     <div class="d-flex align-center">
       <v-img
         alt="MusicWeb"
-        class="shrink"
+        class="shrink link-to-item"
         contain
         src="@/assets/logo-navbar.png"
         transition="scale-transition"
         width="150"
+        @click="redirectToActivities"
       />
     </div>
     <v-spacer></v-spacer>
-    <template v-slot:extension>
+    <template>
       <v-tabs class="d-flex justify-center" v-model="active_tab">
         <v-tab v-for="tab of tabs" :key="tab.id" @click="tab.method">
           {{ tab.name }}
         </v-tab>
+        <v-menu
+              v-for="list_tab in tabs_with_list"
+              :key="list_tab.id"
+              open-on-hover
+              bottom
+              offset-y
+            >
+              <template v-slot:activator="{ on, attrs }">
+                <v-tab 
+                    v-if="list_tab.id == 1"
+                    v-bind="attrs" 
+                    v-on="on" 
+                    @click="ranking_pages[0].method">
+                    {{ list_tab.name }}
+                    <v-icon right>
+                        mdi-menu-down
+                    </v-icon>
+                </v-tab>
+                <v-tab 
+                    v-if="list_tab.id == 2"
+                    v-bind="attrs" 
+                    v-on="on" 
+                    @click="base_pages[0].method">
+                    {{ list_tab.name }}
+                    <v-icon right>
+                        mdi-menu-down
+                    </v-icon>
+                </v-tab>
+              </template>
+  
+              <v-list
+                v-if="list_tab.id == 1"
+                color="#2C2F33"
+              >
+                <v-list-item
+                  v-for="(page, index) in ranking_pages"
+                  :key="index"
+                  @click="page.method"
+                >
+                  {{ page.name }}
+                </v-list-item>
+              </v-list>
+              <v-list
+                v-else-if="list_tab.id == 2"
+                color="#2C2F33"
+              >
+                <v-list-item
+                  v-for="(page, index) in base_pages"
+                  :key="index"
+                  @click="page.method"
+                >
+                  {{ page.name }}
+                </v-list-item>
+              </v-list>
+            </v-menu>
       </v-tabs>
     </template>
     <v-spacer></v-spacer>
@@ -54,14 +109,14 @@
           <v-list-item>
             <v-list-item-avatar>
               <img
-                v-if="account.imagePath"
-                :src="`${this.$store.state.serverUrl}/${account.imagePath}`"
-                :alt="`${account.firstname}`"
+                v-if="current_user.imagePath"
+                :src="`${server_url}/${current_user.imagePath}`"
+                :alt="`${current_user.firstname}`"
               />
               <img
                 v-else
                 src="@/assets/defaut_user.png"
-                :alt="`${account.firstname}`"
+                :alt="`${current_user.firstname}`"
               />
             </v-list-item-avatar>
 
@@ -113,7 +168,7 @@
                   <v-tab-item>
                     <v-card flat class="settingsDialog">
                       <v-card-title>
-                        <span class="text-h5">Zmień hasło</span>
+                        <span class="text-h5">Change Password</span>
                       </v-card-title>
                       <v-card-text>
                         <v-container>
@@ -121,32 +176,41 @@
                             <v-col cols="12" md="12">
                               <v-text-field
                                 class="p-4"
-                                label="Stare Hasło"
+                                label="Old Password"
                                 v-model.trim="$v.oldPassword.$model"
                                 :error-messages="oldPasswordErrors"
                                 required
                                 @input="$v.oldPassword.$touch()"
                                 @blur="$v.oldPassword.$touch()"
+                                :type="show_old_password ? 'text' : 'password'"
+                                :append-icon="show_old_password ? 'mdi-eye' : 'mdi-eye-off'"
+                                @click:append="show_old_password = !show_old_password"
                               ></v-text-field>
                               <v-text-field
                                 class="p-4"
-                                label="Nowe Hasło"
+                                label="New Password"
                                 v-model.trim="$v.account.password.$model"
                                 :error-messages="passwordErrors"
                                 :counter="25"
                                 required
                                 @input="$v.account.password.$touch()"
                                 @blur="$v.account.password.$touch()"
+                                :type="show_new_password ? 'text' : 'password'"
+                                :append-icon="show_new_password ? 'mdi-eye' : 'mdi-eye-off'"
+                                @click:append="show_new_password = !show_new_password"
                               ></v-text-field>
                               <v-text-field
                                 class="p-4"
-                                label="Potwierdź hasło"
+                                label="Confirm Password"
                                 v-model.trim="$v.confirmPassword.$model"
                                 :error-messages="confirmPasswordErrors"
                                 :counter="25"
                                 required
                                 @input="$v.confirmPassword.$touch()"
                                 @blur="$v.confirmPassword.$touch()"
+                                :type="show_confirm_password ? 'text' : 'password'"
+                                :append-icon="show_confirm_password ? 'mdi-eye' : 'mdi-eye-off'"
+                                @click:append="show_confirm_password = !show_confirm_password"
                               ></v-text-field>
                             </v-col>
                           </v-row>
@@ -154,15 +218,15 @@
                       </v-card-text>
                       <v-card-actions>
                         <v-spacer></v-spacer>
-                        <v-btn @click="settings_dialog = false"> Anuluj </v-btn>
-                        <v-btn @click="updatePasswordDialog"> Zapisz </v-btn>
+                        <v-btn @click="settings_dialog = false"> Close </v-btn>
+                        <v-btn @click="updatePasswordDialog"> Send </v-btn>
                       </v-card-actions>
                     </v-card>
                   </v-tab-item>
                   <v-tab-item>
                     <v-card flat class="settingsDialog">
                       <v-card-title>
-                        <span class="text-h5">Zmień maila</span>
+                        <span class="text-h5">Change Email</span>
                       </v-card-title>
                       <v-card-text>
                         <v-container>
@@ -171,12 +235,12 @@
                               <v-text-field
                                 class="p-4"
                                 label="Email"
-                                v-model.trim="$v.account.email.$model"
+                                v-model.trim="$v.email.$model"
                                 :error-messages="emailErrors"
                                 :counter="25"
                                 required
-                                @input="$v.account.email.$touch()"
-                                @blur="$v.account.email.$touch()"
+                                @input="$v.email.$touch()"
+                                @blur="$v.email.$touch()"
                               ></v-text-field>
                             </v-col>
                           </v-row>
@@ -184,33 +248,17 @@
                       </v-card-text>
                       <v-card-actions>
                         <v-spacer></v-spacer>
-                        <v-btn @click="settings_dialog = false"> Anuluj </v-btn>
-                        <v-btn @click="updateEmailDialog"> Zapisz </v-btn>
+                        <v-btn @click="settings_dialog = false"> Close </v-btn>
+                        <v-btn @click="updateEmailDialog"> Send </v-btn>
                       </v-card-actions>
                     </v-card>
                   </v-tab-item>
                   <v-tab-item>
                     <v-card flat class="settingsDialog">
                       <v-card-title>
-                        <span class="text-h5">Zmień zdjęcie</span>
+                        <span class="text-h5">Change Photo</span>
                       </v-card-title>
                       <v-card-text>
-                        <!-- <v-container>
-                            <v-row>
-                                <v-col cols="12" md="12">
-                                    <v-text-field
-                                    class="p-4"
-                                    label="Email"
-                                    v-model.trim="$v.account.email.$model"
-                                    :error-messages="emailErrors"
-                                    :counter="25"
-                                    required
-                                    @input="$v.account.email.$touch()"
-                                    @blur="$v.account.email.$touch()"
-                                    ></v-text-field>
-                                </v-col>
-                            </v-row>
-                        </v-container> -->
                         <div class="uploader">
                           <v-file-input
                             label="File input"
@@ -221,8 +269,8 @@
                       </v-card-text>
                       <v-card-actions>
                         <v-spacer></v-spacer>
-                        <v-btn @click="settings_dialog = false"> Anuluj </v-btn>
-                        <v-btn @click="updateImageDialog"> Upload </v-btn>
+                        <v-btn @click="settings_dialog = false"> Close </v-btn>
+                        <v-btn @click="updateImageDialog" :disabled="!base64_image"> Send </v-btn>
                       </v-card-actions>
                     </v-card>
                   </v-tab-item>
@@ -257,7 +305,6 @@
 <script>
 import useAccounts from "@/modules/accounts";
 import SearchBar from "@/components/SearchBar";
-import Account from "@/models/Account";
 import {
   required,
   minLength,
@@ -265,6 +312,7 @@ import {
   email,
   sameAs,
 } from "vuelidate/lib/validators";
+import { mapGetters, mapMutations, mapActions } from "vuex";
 export default {
   name: "Navbar",
   components: {
@@ -272,24 +320,44 @@ export default {
   },
   data() {
     return {
-      user_id: localStorage.getItem("user-id"),
       drawer: null,
       group: null,
       settings_dialog: false,
-      account: new Account(),
       oldPassword: "",
       confirmPassword: "",
+      email: "",
       active_tab: 0,
       tabs: [
         { id: 0, name: "Activities", method: this.redirectToActivities },
-        { id: 1, name: "Ranking", method: this.redirectToRankList },
-        { id: 2, name: "Base", method: this.redirectToArtistList },
+      ],
+      tabs_with_list:[
+        { id: 1, name: "Ranking"},
+        { id: 2, name: "Base"},
+      ],
+      base_pages: [
+        { name: "Artists", method: this.redirectToArtistList },
+        { name: "Albums", method: this.redirectToAlbumList },
+        { name: "Songs", method: this.redirectToSongList },
+      ],
+      ranking_pages: [
+        { name: "Artist Ranking", method: this.redirectToArtistRanking },
+        { name: "Albums Ranking", method: this.redirectToAlbumRanking },
+        { name: "Songs Ranking", method: this.redirectToSongRanking },
       ],
       files: new FormData(),
       file: {},
+      account: {},
+      show_old_password: false,
+      show_new_password: false,
+      show_confirm_password: false,
     };
   },
   computed: {
+    ...mapGetters({
+      current_user: "current_user",
+      server_url: "server_url",
+      base64_image: "base64_image"
+    }),
     isDisabled() {
       return this.$v.$invalid;
     },
@@ -313,12 +381,12 @@ export default {
         minLength: minLength(8),
         maxLength: maxLength(25),
       },
-      email: {
-        email,
-        required,
-        minLength: minLength(8),
-        maxLength: maxLength(25),
-      },
+    },
+    email: {
+      email,
+      required,
+      minLength: minLength(8),
+      maxLength: maxLength(25),
     },
     oldPassword: {
       required,
@@ -331,52 +399,67 @@ export default {
     },
   },
   methods: {
+    ...mapMutations(["setCurrentUser"]),
+    ...mapActions(['setBase64']),
     redirectToProfile() {
       this.drawer = !this.drawer;
       this.$router.push({ name: "UserProfile" });
     },
-    redirectToArtistList() {
-      this.$router.push({ name: "ArtistListPage" });
-    },
     redirectToActivities() {
       this.$router.push({ name: "Activities" });
     },
-    redirectToRankList() {
-      this.$router.push({ name: "RankingPage" });
+    redirectToArtistRanking() {
+      this.$router.push({ name: "ArtistRankingPage" });
+    },
+    redirectToAlbumRanking() {
+      this.$router.push({ name: "AlbumRankingPage" });
+    },
+    redirectToSongRanking() {
+      this.$router.push({ name: "SongRankingPage" });
+    },
+    redirectToArtistList() {
+      this.$router.push({ name: "ArtistListPage" });
+    },
+    redirectToAlbumList() {
+      this.$router.push({ name: "AlbumListPage" });
+    },
+    redirectToSongList() {
+      this.$router.push({ name: "SongListPage" });
     },
     prepareErrorArray(field) {
       const errors = [];
       if (field == "oldPassword") {
         if (!this.$v.oldPassword.$dirty) return errors;
-        !this.$v.oldPassword.required && errors.push("Pole jest wymagane.");
+        !this.$v.oldPassword.required && errors.push("Field required.");
       } else if (field == "confirmPassword") {
         if (!this.$v.confirmPassword.$dirty) return errors;
-        !this.$v.confirmPassword.required && errors.push("Pole jest wymagane.");
+        !this.$v.confirmPassword.required && errors.push("Field required.");
 
         if (this.$v.confirmPassword.sameAsPassword != undefined) {
           !this.$v.confirmPassword.sameAsPassword &&
-            errors.push(`Pole musi być takie same jak pole "Hasło".`);
+            errors.push(`Field must be same as "New Password"`);
+        }
+      } else if(field == "email"){
+        if (this.$v.email.email != undefined) {
+          !this.$v.email.email &&
+            errors.push(
+              `The field must be completed according to the template "example@ex.pl".`
+            );
         }
       } else {
         if (!this.$v.account[field].$dirty) return errors;
-        !this.$v.account[field].required && errors.push("Pole jest wymagane.");
+        !this.$v.account[field].required && errors.push("Field required.");
         if (
           this.$v.account[field].maxLength != undefined &&
           this.$v.account[field].minLength != undefined
         ) {
           !this.$v.account[field].maxLength &&
             errors.push(
-              `Pole nie może być dłuższe niż ${this.$v.account[field].$params.maxLength.max} znaków.`
+              `Field can't be longer than ${this.$v.account[field].$params.maxLength.max} characters.`
             );
           !this.$v.account[field].minLength &&
             errors.push(
-              `Pole musi mieć przynajmniej ${this.$v.account[field].$params.minLength.min} znaków.`
-            );
-        }
-        if (this.$v.account[field].email != undefined) {
-          !this.$v.account[field].email &&
-            errors.push(
-              `Pole musi być uzupełnione według szablonu "example@ex.pl".`
+              `Field must have at least ${this.$v.account[field].$params.minLength.min} characters.`
             );
         }
       }
@@ -396,87 +479,70 @@ export default {
     },
     fileChange(file) {
       if (file != null && file != "") {
-        this.getBase64(file).then((res) => {
-          let start = res.search(",");
-          this.file.imageBytes = res.substr(start + 1, res.length);
-        });
+        this.setBase64(file);
       }
     },
-    getBase64(file) {
-      return new Promise(function (resolve, reject) {
-        let reader = new FileReader();
-        let imgResult = "";
-        reader.readAsDataURL(file);
-        reader.onload = function () {
-          imgResult = reader.result;
-        };
-        reader.onerror = function (error) {
-          reject(error);
-        };
-        reader.onloadend = function () {
-          resolve(imgResult);
-        };
-      });
-    },
     clearSettings() {
-      this.account = new Account();
+      this.account = this.current_user;
+      this.account.password = "";
       this.oldPassword = "";
       this.confirmPassword = "";
+      this.$v.$touch();
     },
   },
   watch: {
     $route(to, from) {
-      if (from.path === "/" && to.path === "/artists") {
-        this.getAccount();
+      if (from.path === "/" && to.path === "/activities") {
+        this.setCurrentUser();
       }
-      if (to.path === "/activities") {
+      if (to.name === "Activities") {
         this.active_tab = 0;
-      } else if (to.path === "/artists") {
+      } else if (
+        to.name === "ArtistRankingPage"
+        || to.name === "AlbumRankingPage"
+        || to.name === "SongRankingPage"
+        ) {
+        this.active_tab = 1;
+      } else if (
+        to.name == "ArtistListPage" 
+        || to.name === "ArtistPage" 
+        || to.name === "AlbumListPage" 
+        || to.name === "AlbumPage"
+        || to.name === "SongListPage" 
+        || to.name === "SongPage"
+      ) {
         this.active_tab = 2;
       }
     },
-  },
-  created() {
-    if (!["Login", "Register"].includes(this.$route.name)) {
-      this.getAccount();
+    current_user(){
+      this.account = this.current_user;
+    },
+    base64_image(){
+      this.file.imageBytes = this.base64_image;
     }
   },
   setup() {
-    const {
-      getAccountById,
-      updateAccountPassword,
-      updateAccountEmail,
-      updateAccountImage,
-    } = useAccounts();
+    const { updateAccountPassword, updateAccountEmail, updateAccountImage } =
+      useAccounts();
 
     const onLogout = function () {
       this.$store.dispatch("auth/logout");
     };
 
-    const getAccount = function () {
-      getAccountById(this.user_id).then((response) => {
-        this.account = response;
-      });
-    };
-
     const updatePassword = function () {
-      this.account.id = this.user_id;
+      this.account.id = this.current_user.id;
       this.account.oldPassword = this.oldPassword;
       this.account.newPassword = this.account.password;
       this.account.confirmPassword = this.confirmPassword;
       updateAccountPassword(this.account).then(
         (response) => {
           if (response.status == 200) {
-            this.$emit(
-              "show-alert",
-              "Dane zostały zaktualizowane pomyślnie.",
-              "success"
-            );
+            this.$emit("show-alert", "Data updated successfuly.", "success");
             this.clearSettings();
           } else {
             this.$emit(
               "show-alert",
-              `Nie udało się zaktualizować. Błąd ${response.status}`,
+              `Something went wrong. Error ${response.status}`,
               "error"
             );
             this.clearSettings();
@@ -485,7 +551,7 @@ export default {
         (error) => {
           this.$emit(
             "show-alert",
-            `Nie udało się zaktualizować. ${error.response.status} ${error.response.data}`,
+            `Something went wrong. ${error.response.status} ${error.response.data}`,
             "error"
           );
           this.clearSettings();
@@ -494,20 +560,17 @@ export default {
     };
 
     const updateEmail = function () {
-      this.account.id = this.user_id;
+      this.account.id = this.current_user.id;
+      this.account.email = this.email;
       updateAccountEmail(this.account).then(
         (response) => {
           if (response.status == 200) {
-            this.$emit(
-              "show-alert",
-              "Dane zostały zaktualizowane pomyślnie.",
-              "success"
-            );
+            this.$emit("show-alert", "Data updated successfuly.", "success");
             this.clearSettings();
           } else {
             this.$emit(
               "show-alert",
-              `Nie udało się zaktualizować. Błąd ${response.status}`,
+              `Something went wrong. Error ${response.status}`,
               "error"
             );
             this.clearSettings();
@@ -516,7 +579,7 @@ export default {
         (error) => {
           this.$emit(
             "show-alert",
-            `Nie udało się zaktualizować. ${error.response.status} ${error.response.data}`,
+            `Something went wrong. ${error.response.status} ${error.response.data}`,
             "error"
           );
           this.clearSettings();
@@ -525,22 +588,18 @@ export default {
     };
 
     const updateImage = function () {
-      this.file.userid = this.user_id;
-      this.file.imagePath = "/Users/";
+      this.file.userid = this.current_user.id;
+      this.file.imagePath = "/Users";
       updateAccountImage(this.file).then(
         (response) => {
           if (response.status == 200) {
-            this.$emit(
-              "show-alert",
-              "Dane zostały zaktualizowane pomyślnie.",
-              "success"
-            );
+            this.$emit("show-alert", "Data updated successfuly.", "success");
             this.clearSettings();
             this.$router.go();
           } else {
             this.$emit(
               "show-alert",
-              `Nie udało się zaktualizować. Błąd ${response.status}`,
+              `Something went wrong. Error ${response.status}`,
               "error"
             );
             this.clearSettings();
@@ -549,7 +608,7 @@ export default {
         (error) => {
           this.$emit(
             "show-alert",
-            `Nie udało się zaktualizować. ${error.response.status} ${error.response.data}`,
+            `Something went wrong. ${error.response.status} ${error.response.data}`,
             "error"
           );
           this.clearSettings();
@@ -559,7 +618,6 @@ export default {
 
     return {
       onLogout,
-      getAccount,
       updatePassword,
       updateEmail,
       updateImage,

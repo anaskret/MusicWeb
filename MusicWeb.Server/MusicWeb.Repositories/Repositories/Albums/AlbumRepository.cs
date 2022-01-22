@@ -89,6 +89,57 @@ namespace MusicWeb.Repositories.Repositories.Albums
             var entities = await query.ToListAsync();
             return entities;
         }
+
+        public async Task<List<AlbumRatingAverage>> GetAlbumRankingAsync(RankSortType sortType, int pageNum = 0, int pageSize = 10)
+        {
+            var sql = @$"SELECT T0.*, ROUND(Coalesce(T1.Rating, 0), 2) as Rating, 
+            COALESCE(T1.RatingsCount,0) as RatingsCount, 
+            COALESCE(T2.Favorite, 0) as FavoriteCount, 
+            COALESCE(T3.Reviews, 0) as ReviewsCount
+            FROM Album T0
+            LEFT JOIN(SELECT AlbumId, AVG(Cast(Rating as float)) as Rating, COUNT(Rating) as RatingsCount FROM AlbumRating GROUP BY AlbumId) T1 ON T1.AlbumId = T0.Id
+            LEFT JOIN (SELECT AlbumId, COUNT(AlbumId) as Favorite FROM UserFavoriteAlbum GROUP BY AlbumId) T2 ON T0.Id = T2.AlbumId
+            LEFT JOIN (SELECT AlbumId, COUNT(AlbumId) as Reviews FROM AlbumReview GROUP BY AlbumId) T3 ON T0.Id = T3.AlbumId";
+
+            var query = _dbContext.AlbumRatingAverage.FromSqlRaw(sql);
+
+            switch (sortType)
+            {
+                case RankSortType.RatingAsc:
+                    query = query.OrderBy(prp => prp.Rating);
+                    break;
+                case RankSortType.RatingDesc:
+                    query = query.OrderByDescending(prp => prp.Rating);
+                    break;
+                case RankSortType.PopularityAsc:
+                    query = query.OrderBy(prp => prp.RatingsCount);
+                    break;
+                case RankSortType.PopularityDesc:
+                    query = query.OrderByDescending(prp => prp.RatingsCount);
+                    break;
+                case RankSortType.FavoriteAsc:
+                    query = query.OrderBy(prp => prp.FavoriteCount);
+                    break;
+                case RankSortType.FavoriteDesc:
+                    query = query.OrderByDescending(prp => prp.FavoriteCount);
+                    break;
+                case RankSortType.ReviewsAsc:
+                    query = query.OrderBy(prp => prp.ReviewsCount);
+                    break;
+                case RankSortType.ReviewsDesc:
+                    query = query.OrderByDescending(prp => prp.ReviewsCount);
+                    break;
+                default:
+                    query = query.OrderByDescending(prp => prp.Rating);
+                    break;
+            }
+
+            query = query.Skip(pageNum * pageSize);
+            query = query.Take(pageSize);
+
+            var entities = await query.ToListAsync();
+            return entities;
+        }
     }
 
 }
