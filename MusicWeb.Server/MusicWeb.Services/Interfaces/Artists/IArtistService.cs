@@ -18,6 +18,7 @@ namespace MusicWeb.Services.Interfaces.Artists
         Task<IList<Artist>> GetAllAsync();
         Task<IList<Artist>> GetAllBandsAsync();
         Task<Artist> GetByIdAsync(int id);
+        Task<bool> DoesArtistExistsByNameAsync(string name);
         Task<List<ArtistRatingAverage>> GetPagedAsync(SortType sortType, DateTime startDate, DateTime endDate, int pageNum = 0, int pageSize = 15, string searchString = "");
         Task<IPagedList<Artist>> GetIPagedAsync(string searchString, int pageNum = 0, int pageSize = int.MaxValue);
        Task AddAsync(Artist entity, byte[] imageBytes);

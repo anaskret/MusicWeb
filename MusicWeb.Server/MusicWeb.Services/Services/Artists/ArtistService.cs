@@ -270,5 +270,10 @@ namespace MusicWeb.Services.Services.Artists
 
             return token;
         }
+
+        public async Task<bool> DoesArtistExistsByNameAsync(string name)
+        {
+            return await _artistRepository.DoesArtistWithNameExistsAsync(name);   
+        }
     }
 }

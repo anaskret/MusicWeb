@@ -8,6 +8,6 @@ namespace MusicWeb.Services.Interfaces.ApiIntegration
 {
     public interface IApiIntegrationService
     {
-        Task IntegrateCountriesAsync();
+        Task IntegrateAsync();
     }
 }

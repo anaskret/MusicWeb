@@ -18,6 +18,7 @@ namespace MusicWeb.Services.Interfaces
         Task<List<Album>> GetAllFilteredAsync(int filter);
         Task<AlbumFullDataDto> GetFullAlbumDataByIdAsync(int id);
         Task AddAsync(Album entity);
+        Task AddRangeAsync(List<Album> entities);
         Task UpdateAsync(Album entity);
         Task DeleteAsync(int id);
         Task ConfirmAlbumAsync(int id);

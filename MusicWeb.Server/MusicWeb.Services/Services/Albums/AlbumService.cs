@@ -229,5 +229,10 @@ namespace MusicWeb.Services.Services.Albums
 
             return token;
         }
+
+        public async Task AddRangeAsync(List<Album> entities)
+        {
+            await _albumRepository.AddRangeAsync(entities);
+        }
     }
 }
