@@ -15,6 +15,7 @@ namespace MusicWeb.Services.Interfaces.Origins
         Task UpdateCountryAsync(Country entity);
         Task DeleteCountryAsync(int id);
         Task<Country> GetCountryByIdAsync(int id);
+        Task<Country> GetCountryByCodeAsync(string code);
         Task<IList<Country>> GetAllCountriesAsync();
 
     }

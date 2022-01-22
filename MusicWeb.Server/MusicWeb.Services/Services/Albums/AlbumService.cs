@@ -234,5 +234,10 @@ namespace MusicWeb.Services.Services.Albums
             var response = await _albumRepository.GetAlbumRankingAsync(sortType, pageNum, pageSize);
             return response;
         }
+
+        public async Task AddRangeAsync(List<Album> entities)
+        {
+            await _albumRepository.AddRangeAsync(entities);
+        }
     }
 }

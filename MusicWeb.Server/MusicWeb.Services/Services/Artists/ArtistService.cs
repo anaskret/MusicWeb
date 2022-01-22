@@ -279,5 +279,10 @@ namespace MusicWeb.Services.Services.Artists
         {
             return _mapper.Map<ArtistRatingAverage>(await _artistRepository.GetArtistAverageRating(id));
         }
+
+        public async Task<bool> DoesArtistExistsByNameAsync(string name)
+        {
+            return await _artistRepository.DoesArtistWithNameExistsAsync(name);   
+        }
     }
 }

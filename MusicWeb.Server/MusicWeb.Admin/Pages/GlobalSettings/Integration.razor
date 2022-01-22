@@ -51,21 +51,21 @@
     {
         try
         {
-            await _integrationService.IntegrateCountriesAsync();
+            await _integrationService.IntegrateAsync();
 
-            StatusMessage.Show("Country Integration was successful");
+            StatusMessage.Show("Integration was successful");
         }
         catch (Exception ex)
         {
             _logger.LogError(ex.Message, ex);
-            StatusMessage.Show("Error Coś poszło nie tak podczas dodawania receptur do Optimy, błąd:\n" + ex.Message);
+            StatusMessage.Show("Error Something went wrong while integrating the data with the APIs");
         }
 
     }
 
     private void IntegrateClick()
     {
-        ConfirmComponent.Show();
+        ConfirmComponent.Show("Are you sure you want to integrate current database with external APIs? The proccess will run in the background");
     }
 
     private async Task Confirm_Click(bool isConfirmed)

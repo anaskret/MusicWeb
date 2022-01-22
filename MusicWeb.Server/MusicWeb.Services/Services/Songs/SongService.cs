@@ -197,5 +197,10 @@ namespace MusicWeb.Services.Services.Songs
 
             return token;
         }
+
+        public async Task AddRangeAsync(List<Song> entities)
+        {
+            await _songRepository.AddRangeAsync(entities);
+        }
     }
 }

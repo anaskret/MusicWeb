@@ -9,10 +9,11 @@ namespace MusicWeb.Services.Interfaces.Genres
 {
     public interface IGenreService
     {
-        Task AddAsync(Genre entity);
+        Task<Genre> AddAsync(Genre entity);
         Task UpdateAsync(Genre entity);
         Task DeleteAsync(int id);
         Task<Genre> GetByIdAsync(int id);
         Task<IList<Genre>> GetAllAsync();
+        Task<Genre> GetByNameAsync(string name);
     }
 }

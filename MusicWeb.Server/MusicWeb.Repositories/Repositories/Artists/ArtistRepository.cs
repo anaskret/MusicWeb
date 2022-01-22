@@ -142,5 +142,9 @@ namespace MusicWeb.Repositories.Repositories.Artists
             return entities;
         }
 
+        public async Task<bool> DoesArtistWithNameExistsAsync(string name)
+        {
+            return await _dbContext.Artist.AnyAsync(prp => string.Equals(prp.Name, name));
+        }
     }
 }

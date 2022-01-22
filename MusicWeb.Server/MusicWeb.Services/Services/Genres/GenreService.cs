@@ -19,10 +19,12 @@ namespace MusicWeb.Services.Services.Genres
             _genreRepository = genreRepository;
         }
 
-        public async Task AddAsync(Genre entity)
+        public async Task<Genre> AddAsync(Genre entity)
         {
             await CheckIfNameExists(entity);
             await _genreRepository.AddAsync(entity);
+
+            return entity;
         }
 
         public async Task DeleteAsync(int id)
@@ -52,6 +54,11 @@ namespace MusicWeb.Services.Services.Genres
             var doesNameExists = await _genreRepository.GetSingleAsync(prp => prp.Name == entity.Name && prp.Id != entity.Id);
             if (doesNameExists != null)
                 throw new ArgumentException("Name already exists");
+        }
+
+        public async Task<Genre> GetByNameAsync(string name)
+        {
+            return await _genreRepository.GetSingleAsync(prp => string.Equals(prp.Name, name));
         }
     }
 }
