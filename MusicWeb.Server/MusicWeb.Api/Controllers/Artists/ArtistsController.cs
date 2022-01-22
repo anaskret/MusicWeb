@@ -120,7 +120,7 @@ namespace MusicWeb.Api.Controllers.Artists
         }
 
         [HttpGet(ApiRoutes.Artists.GetArtistRatingAverage)]
-        public async Task<IActionResult> GetAlbumRatingAverage([FromRoute] int id)
+        public async Task<IActionResult> GetArtistRatingAverage([FromRoute] int id)
         {
             try
             {

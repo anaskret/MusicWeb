@@ -275,5 +275,9 @@ namespace MusicWeb.Services.Services.Artists
             var response = await _artistRepository.GetArtistRankingAsync(sortType, pageNum, pageSize);
             return response;
         }
+        public async Task<ArtistRatingAverage> GetArtistRatingAverage(int id)
+        {
+            return _mapper.Map<ArtistRatingAverage>(await _artistRepository.GetArtistAverageRating(id));
+        }
     }
 }
