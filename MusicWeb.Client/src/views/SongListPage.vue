@@ -51,7 +51,6 @@ export default {
       if (
           this.searchingValue && this.last_search != this.searchingValue
         ) {
-          debugger;
           this.songs = [];
           this.scroll_settings.page = 0;
           this.intersection_active = true;

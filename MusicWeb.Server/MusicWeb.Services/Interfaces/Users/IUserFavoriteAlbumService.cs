@@ -15,6 +15,6 @@ namespace MusicWeb.Services.Interfaces.Users
         Task DeleteAsync(int id);
         Task DeleteRangeByUserIdAsync(string userId);
         Task<IList<UserFavoriteAlbum>> GetUserFavoriteAlbumAsync(string userId, int albumId);
-        Task<List<AlbumRatingAverage>> GetFavoriteAlbumDataAsync(string userId);
+        Task<List<AlbumRatingAverage>> GetFavoriteAlbumDataAsync(string userId, int pageNum = 0, int pageSize = 15);
     }
 }

@@ -49,7 +49,7 @@ namespace MusicWeb.Services.Services.Users
             var models = await _userObservedArtistRepository.GetAllWithArtistByUserIdAsync(userId);
             return models;
         }
-        public async Task<List<ArtistRatingAverage>> GetFavoriteArtistDataAsync(string userId)
+        public async Task<List<ArtistRatingAverage>> GetFavoriteArtistDataAsync(string userId, int pageNum = 0, int pageSize = int.MaxValue)
         {
             var response = await _userObservedArtistRepository.GetFavoriteArtistData(userId);
             return response;

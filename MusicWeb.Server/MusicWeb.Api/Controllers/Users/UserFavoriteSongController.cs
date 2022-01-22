@@ -93,11 +93,11 @@ namespace MusicWeb.Api.Controllers.Users
         }
 
         [HttpGet(ApiRoutes.UserFavoriteSongs.GetFavoriteData)]
-        public async Task<IActionResult> GetSongsData(string userId)
+        public async Task<IActionResult> GetSongsData([FromRoute] string userId, [FromRoute] int pageNum, [FromRoute] int pageSize)
         {
             try
             {
-                var response = _mapper.Map<List<SongRatingAverage>>(await _userFavoriteSongService.GetFavoriteSongDataAsync(userId));
+                var response = _mapper.Map<List<SongRatingAverage>>(await _userFavoriteSongService.GetFavoriteSongDataAsync(userId, pageNum, pageSize));
                 return Ok(response);
             }
             catch (Exception ex)

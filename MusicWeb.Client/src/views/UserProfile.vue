@@ -81,7 +81,8 @@
           :component_title="artists_title"
           :component_link_title="artists_link_title"
           :redirect_to="artist_redirect"
-          :component_type="component"
+          :component_type="favorite_component"
+          :redirect_to_list="artist_list_redirect"
         />
       </v-col>
     </v-row>
@@ -92,7 +93,8 @@
           :component_title="albums_title"
           :component_link_title="albums_link_title"
           :redirect_to="album_redirect"
-          :component_type="component"
+          :component_type="favorite_component"
+          :redirect_to_list="album_list_redirect"
         />
       </v-col>
     </v-row>
@@ -103,7 +105,8 @@
           :component_title="songs_title"
           :component_link_title="songs_link_title"
           :redirect_to="album_redirect"
-          :component_type="component"
+          :component_type="favorite_component"
+          :redirect_to_list="song_list_redirect"
         />
       </v-col>
     </v-row>
@@ -114,7 +117,8 @@
           :component_title="observed_title"
           :component_link_title="observed_link_title"
           :redirect_to="artist_redirect"
-          :component_type="component"
+          :component_type="observed_component"
+          :redirect_to_list="artist_list_redirect"
         />
       </v-col>
     </v-row>
@@ -149,11 +153,15 @@ export default {
       observed_link_title: "Show all observed artists",
       reviews_link_title: "Show all reviews",
       artist_redirect: "ArtistPage",
+      artist_list_redirect: "ArtistListPage",
+      album_list_redirect: "AlbumListPage",
+      song_list_redirect: "SongListPage",
       album_redirect: "AlbumPage", 
       song_redirect: "SongPage",
       account: new Account(),
       edit_dialog: false,
-      component: "favorite_component",
+      favorite_component: "favorite",
+      observed_component: "observed",
     };
   },
   created() {
@@ -267,6 +275,7 @@ export default {
       this.edit_dialog = false;
       this.updateNames();
     },
+
   },
   setup() {
     const { getAccountById, updateAccountNames } = useAccounts();

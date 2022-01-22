@@ -22,7 +22,7 @@ namespace MusicWeb.Repositories.Repositories.Users
         {
             return await _dbContext.UserFavoriteArtist.Include(prp => prp.Artist).Where(prp => string.Equals(prp.UserId, userId)).ToListAsync();
         }
-        public async Task<List<ArtistRatingAverage>> GetFavoriteArtistData(string userId)
+        public async Task<List<ArtistRatingAverage>> GetFavoriteArtistData(string userId, int pageNum = 0, int pageSize = 15)
         {
             var sql = $@"SELECT T0.*, ROUND(Coalesce(T1.Rating, 0), 2) as Rating, 
             COALESCE(T1.RatingsCount,0) as RatingsCount, 
@@ -35,6 +35,8 @@ namespace MusicWeb.Repositories.Repositories.Users
             RIGHT JOIN UserFavoriteArtist T4 ON T0.Id = T4.ArtistId AND T4.userId = '{userId}'";
 
             var query = _dbContext.ArtistRatingAverage.FromSqlRaw(sql);
+            query = query.Skip(pageNum * pageSize);
+            query = query.Take(pageSize);
             var entities = await query.ToListAsync();
             return entities;
         }

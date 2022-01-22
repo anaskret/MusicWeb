@@ -6,15 +6,17 @@
           <h1 class="display-1 font-weight-bold text-left">
             {{ component_title }}
           </h1>
-          <p class="component_link_title ml-lg-10">
+          <a class="component_link_title ml-lg-10" 
+          @click="redirectToList(component_type)">
             {{ component_link_title }}
             <font-awesome-icon
               class="icon"
               icon="chevron-right"
               size="1x"
               color="gray"
+
             />
-          </p>
+          </a>
         </div>
       </v-col>
     </v-row>
@@ -32,7 +34,7 @@
                     width="200"
                     :elevation="hover ? 12 : 2"
                     :class="{ 'on-hover': hover }"
-                    @click="redirectToItem(component_type == 'favorite_component' ? item.favoriteId : item.id)"
+                    @click="redirectToItem(component_type == 'favorite' || component_type == 'observed' ? item.favoriteId : item.id)"
                   >
                     <div class="read-more-icon">
                       <v-btn
@@ -73,6 +75,7 @@ export default {
     component_link_title: String,
     redirect_to: String,
     component_type: String,
+    redirect_to_list: String, 
   },
   data() {
     return {
@@ -84,6 +87,9 @@ export default {
   methods: {
     redirectToItem(itemId) {
       this.$router.push({ name: this.redirect_to, params: { id: itemId } });
+    },
+    redirectToList(list_type) {
+      this.$router.push({ name: this.redirect_to_list, params: { type: list_type } });
     },
   },
 

@@ -53,7 +53,6 @@ export default function useSongs() {
           search_string
         )
         .then((response) => {
-          debugger;
           let res = response.data;
           let songs = [];
           res.forEach((song) => {

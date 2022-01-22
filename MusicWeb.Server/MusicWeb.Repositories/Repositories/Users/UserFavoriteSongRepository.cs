@@ -23,7 +23,7 @@ namespace MusicWeb.Repositories.Repositories.Users
             return await _dbContext.UserFavoriteSong.Include(prp => prp.Song).Where(prp => prp.UserId == userId).ToListAsync();
         }
 
-        public async Task<List<SongRatingAverage>> GetFavoriteSongData(string userId)
+        public async Task<List<SongRatingAverage>> GetFavoriteSongData(string userId, int pageNum = 0, int pageSize = 15)
         {
             var sql = $@"SELECT T0.*, ROUND(Coalesce(T1.Rating, 0), 2) as Rating, 
             COALESCE(T1.RatingsCount,0) as RatingsCount, 

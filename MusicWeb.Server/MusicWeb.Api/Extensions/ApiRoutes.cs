@@ -160,7 +160,7 @@ namespace MusicWeb.Api.Extensions
             public const string GetById = Root + "/userobservedartists/{id}";
             public const string Delete = Root + "/userobservedartists/{id}";
             public const string GetUserArtist = Root + "/userobservedartists/{userId}/{artistId}";
-            public const string GetFavoriteData = Root + "/userobservedartistsdata/{userId}";
+            public const string GetFavoriteData = Root + "/userobservedartistsdata/{userId}/{pageNum}/{pageSize}";
         }
 
         public static class UserFavoriteArtists
@@ -170,7 +170,7 @@ namespace MusicWeb.Api.Extensions
             public const string GetById = Root + "/userfavoriteartists/{userId}";
             public const string Delete = Root + "/userfavoriteartists/{id}";
             public const string GetUserArtist = Root + "/userfavoriteartists/{userId}/{artistId}";
-            public const string GetFavoriteData = Root + "/userfavoriteartistsdata/{userId}";
+            public const string GetFavoriteData = Root + "/userfavoriteartistsdata/{userId}/{pageNum}/{pageSize}";
         }
 
         public static class UserFavoriteAlbums
@@ -180,7 +180,7 @@ namespace MusicWeb.Api.Extensions
             public const string GetById = Root + "/userfavoritealbums/{userId}";
             public const string Delete = Root + "/userfavoritealbums/{id}";
             public const string GetUserAlbum = Root + "/userfavoritealbums/{userId}/{albumId}";
-            public const string GetFavoriteData = Root + "/userfavoritealbumsdata/{userId}";
+            public const string GetFavoriteData = Root + "/userfavoritealbumsdata/{userId}/{pageNum}/{pageSize}";
         }
 
         public static class UserFavoriteSongs
@@ -190,7 +190,7 @@ namespace MusicWeb.Api.Extensions
             public const string GetAll = Root + "/userfavoritesongsbyuser/{userId}";
             public const string Delete = Root + "/userfavoritesongs/{id}";
             public const string GetUserSong = Root + "/userfavoritesongs/{userId}/{songId}";
-            public const string GetFavoriteData = Root + "/userfavoritesongssdata/{userId}";
+            public const string GetFavoriteData = Root + "/userfavoritesongssdata/{userId}/{pageNum}/{pageSize}";
 
         }
 

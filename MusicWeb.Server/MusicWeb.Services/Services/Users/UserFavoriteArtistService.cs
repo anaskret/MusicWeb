@@ -56,9 +56,9 @@ namespace MusicWeb.Services.Services.Users
             await _userFavoriteArtistRepository.DeleteRangeAsync(entities.ToList());
         }
 
-        public async Task<List<ArtistRatingAverage>> GetFavoriteArtistDataAsync(string userId)
+        public async Task<List<ArtistRatingAverage>> GetFavoriteArtistDataAsync(string userId, int pageNum = 0, int pageSize = int.MaxValue)
         {
-            var response = await _userFavoriteArtistRepository.GetFavoriteArtistData(userId);
+            var response = await _userFavoriteArtistRepository.GetFavoriteArtistData(userId, pageNum, pageSize);
             return response;
         }
 

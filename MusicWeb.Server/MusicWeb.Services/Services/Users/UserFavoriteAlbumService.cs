@@ -50,7 +50,7 @@ namespace MusicWeb.Services.Services.Users
             var entities = await GetAllByUserIdAsync(userId);
             await _userFavoriteAlbumRepository.DeleteRangeAsync(entities.ToList());
         }
-        public async Task<List<AlbumRatingAverage>> GetFavoriteAlbumDataAsync(string userId)
+        public async Task<List<AlbumRatingAverage>> GetFavoriteAlbumDataAsync(string userId, int pageNum = 0, int pageSize = int.MaxValue)
         {
             var response = await _userFavoriteAlbumRepository.GetFavoriteAlbumData(userId);
             return response;

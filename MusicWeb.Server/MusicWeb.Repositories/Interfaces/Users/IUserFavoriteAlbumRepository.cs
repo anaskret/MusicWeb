@@ -12,6 +12,6 @@ namespace MusicWeb.Repositories.Interfaces.Users
     public interface IUserFavoriteAlbumRepository : IRepository<UserFavoriteAlbum>
     {
         Task<List<UserFavoriteAlbum>> GetAllWithAlbumByUserIdAsync(string userId);
-        Task<List<AlbumRatingAverage>> GetFavoriteAlbumData(string userId);
+        Task<List<AlbumRatingAverage>> GetFavoriteAlbumData(string userId, int pageNum = 0, int pageSize = 15);
     }
 }

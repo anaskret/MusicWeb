@@ -50,7 +50,7 @@ namespace MusicWeb.Services.Services.Users
             return models;
         }
 
-        public async Task<List<SongRatingAverage>> GetFavoriteSongDataAsync(string userId)
+        public async Task<List<SongRatingAverage>> GetFavoriteSongDataAsync(string userId, int pageNum = 0,int pageSize = int.MaxValue)
         {
             var response = await _userFavoriteSongRepository.GetFavoriteSongData(userId);
             return response;

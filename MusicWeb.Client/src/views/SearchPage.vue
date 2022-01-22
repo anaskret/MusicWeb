@@ -83,12 +83,10 @@ export default {
     searchingValue: {
       immediate: true,
       handler() {
-      debugger;
       if (
         // this.last_search !== this.searchingValue &&
           this.searchingValue
         ) {
-          debugger;
           this.artists = [];
           this.albums = [];
           this.songs = [];
@@ -128,7 +126,6 @@ export default {
     const { getPagedSongs } = useSongs();
 
     const getPagedArtistList = function (entries, observer, is_intersecting) {
-            debugger;
             console.log(this.scroll_settings.artist_page)
       if (is_intersecting) {
         if(this.artists.length <= 0 && this.scroll_settings.artist_page > 0){
@@ -143,7 +140,6 @@ export default {
           this.searchingValue
         )
           .then((response) => {
-                  debugger;
             if (response.length > 0) {
               response.forEach((item) => {
                 return this.artists.push(item);
@@ -161,7 +157,6 @@ export default {
     };
 
      const getPagedAlbumList = function (entries, observer, is_intersecting) {
-             debugger;
       if (is_intersecting) {
         if(this.albums.length <= 0 && this.scroll_settings.album_page > 0){
           this.scroll_settings.album_page = 0;
@@ -175,7 +170,6 @@ export default {
           this.searchingValue
         )
           .then((response) => {
-                  debugger;
             if (response.length > 0) {
               response.forEach((item) => {
                 return this.albums.push(item);
@@ -193,7 +187,6 @@ export default {
     };
 
     const getPagedSongList = function (entries, observer, is_intersecting) {
-      debugger;
       if (is_intersecting) {
         if(this.songs.length <= 0 && this.scroll_settings.song_page > 0){
           this.scroll_settings.song_page = 0;
@@ -208,7 +201,6 @@ export default {
           this.searchingValue
         )
           .then((response) => {
-            debugger;
             if (response.length > 0) {
               response.forEach((item) => {
                 return this.songs.push(item);
