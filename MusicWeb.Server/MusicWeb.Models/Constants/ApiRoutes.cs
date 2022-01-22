@@ -20,6 +20,7 @@ namespace MusicWeb.Models.Constants
             public const string GetById = Root + "/artists/{id}";
             public const string Delete = Root + "/artists/{id}";
             public const string GetArtistRatingAverage = Root + "/artistaveragerating/{id}";
+            public const string GetRankingPaged = Root + "/artistranking/{sortType}/{pageNum}/{pageSize}";
         }
 
         public static class ArtistComments
@@ -52,6 +53,7 @@ namespace MusicWeb.Models.Constants
             public const string GetAlbumRatingAverage = Root + "/albumaveragerating/{id}";
             public const string GetAllPagedSearchString = Root + "/albums/{pageNum}/{pageSize}/{sortType}/{createDateStart}/{createDateEnd}/{searchString}";
             public const string GetAllPaged = Root + "/albums/{pageNum}/{pageSize}/{sortType}/{createDateStart}/{createDateEnd}";
+            public const string GetRankingPaged = Root + "/albumranking/{sortType}/{pageNum}/{pageSize}";
 
         }
 
@@ -82,6 +84,8 @@ namespace MusicWeb.Models.Constants
             public const string GetSongRatingAverage = Root + "/songaveragerating/{id}";
             public const string GetAllPagedSearchString = Root + "/songs/{pageNum}/{pageSize}/{sortType}/{createDateStart}/{createDateEnd}/{searchString}";
             public const string GetAllPaged = Root + "/songs/{pageNum}/{pageSize}/{sortType}/{createDateStart}/{createDateEnd}";
+            public const string GetTopSongs = Root + "/topsongs/{artistId}";
+            public const string GetRankingPaged = Root + "/songranking/{sortType}/{pageNum}/{pageSize}";
 
         }
 

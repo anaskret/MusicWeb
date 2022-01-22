@@ -120,7 +120,7 @@ namespace MusicWeb.Api.Controllers.Artists
         }
 
         [HttpGet(ApiRoutes.Artists.GetArtistRatingAverage)]
-        public async Task<IActionResult> GetAlbumRatingAverage([FromRoute] int id)
+        public async Task<IActionResult> GetArtistRatingAverage([FromRoute] int id)
         {
             try
             {
@@ -146,6 +146,21 @@ namespace MusicWeb.Api.Controllers.Artists
                 var path = await _artistService.UpdateImageAsync(dto);
 
                 return Ok(path);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return StatusCode(500, ex.Message);
+            }
+        }
+        
+        [HttpGet(ApiRoutes.Artists.GetRankingPaged)]
+        public async Task<IActionResult> GetRankingPaged([FromRoute] RankSortType sortType, [FromRoute] int pageNum, [FromRoute] int pageSize)
+        {
+            try
+            {
+                var response = await _artistService.GetPagedRankingAsync(sortType, pageNum, pageSize);
+                return Ok(response);
             }
             catch (Exception ex)
             {

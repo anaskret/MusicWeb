@@ -16,6 +16,6 @@ namespace MusicWeb.Repositories.Interfaces.Songs
         Task<List<TopSongsWithRating>> GetTopSongsWithRatingsAsync(int artistId);
         Task<SongRatingAverage> GetSongAverageRating(int id);
         Task<List<SongRatingAverage>> GetSongsPagedAsync(SortType sortType, DateTime startDate, DateTime endDate, int pageNum = 0, int pageSize = 15, string searchString = "");
-
+        Task<List<SongRatingAverage>> GetSongRankingAsync(RankSortType sortType, int pageNum = 0, int pageSize = 10);
     }
 }

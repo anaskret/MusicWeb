@@ -8,7 +8,23 @@ export default function useAccounts() {
     }
   };
 
+  const getCommentsByPostId = (post_id) => {
+    if (post_id) {
+      return postServices.getCommentsByPostId(post_id).then((response) => {
+        return response.data;
+      });
+    }
+  };
+
+  const addNewComment = function (data) {
+    if (data) {
+      return postServices.addNewComment(data);
+    }
+  };
+  
   return {
     likePost,
+    getCommentsByPostId,
+    addNewComment
   };
 }

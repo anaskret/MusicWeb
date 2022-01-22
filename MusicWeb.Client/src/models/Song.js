@@ -14,6 +14,8 @@ export default class Song {
   ratingsCount = null;
   favoriteCount = null;
   reviewsCount = null;
+  albumName = "";
+  artistName = "";
 
   constructor($data) {
     if ($data) {
@@ -25,6 +27,8 @@ export default class Song {
       this.description = $data.text;
       this.albumId = $data.albumId;
       this.composerId = $data.composerId;
+      this.albumName = $data.albumName;
+      this.artistName = $data.artistName;
       this.album = $data.album ? $data.album : {};
       this.composer = $data.composer ? $data.composer : {};
       this.songReviews = $data.songReviews ? $data.songReviews : [];
