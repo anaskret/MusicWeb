@@ -30,7 +30,7 @@
         <v-row>
           <v-col md="12" class="d-flex flex-row pr-lg-5">
             <div>
-              <p>Dodaj do ulubionych</p>
+              <p>Add to favorites:</p>
               <div class="d-flex flex-row">
                 <div align-content="center" class="mr-lg-3">
                   <font-awesome-icon
@@ -42,8 +42,7 @@
                   ></font-awesome-icon>
                 </div>
                 <div align-items="center" class="align-center">
-                  <span class="feature-text pr-1">{{parent.favoriteCount }} osób </span> dodało do
-                  ulubionych
+                  <span class="feature-text pr-1">{{parent.favoriteCount }} persons </span> added to favorites
                 </div>
               </div>
             </div>
@@ -163,7 +162,7 @@ export default {
             } else {
               this.$emit(
                 "show-alert",
-                `Nie udało się dodać recenzji. Błąd ${response.status}`,
+                `Error while adding review. Error ${response.status}`,
                 "error"
               );
             }
@@ -171,7 +170,7 @@ export default {
           (error) => {
             this.$emit(
               "show-alert",
-              `Nie udało się dodać recenzji. ${error.response.status} ${error.response.data}`,
+              `Error while adding review. ${error.response.status} ${error.response.data}`,
               "error"
             );
           }
@@ -189,7 +188,7 @@ export default {
             } else {
               this.$emit(
                 "show-alert",
-                `Nie udało się dodać recenzji. Błąd ${response.status}`,
+                `Error while adding review. Error ${response.status}`,
                 "error"
               );
             }
@@ -197,7 +196,7 @@ export default {
           (error) => {
             this.$emit(
               "show-alert",
-              `Nie udało się dodać recenzji. ${error.response.status} ${error.response.data}`,
+              `Error while adding review. ${error.response.status} ${error.response.data}`,
               "error"
             );
           }
@@ -217,7 +216,7 @@ const addNewArtistRating = function (ratingId) {
             } else {
               this.$emit(
                 "show-alert",
-                `Nie udało się dodać recenzji. Błąd ${response.status}`,
+                `Error while adding review. Error ${response.status}`,
                 "error"
               );
             }
@@ -225,7 +224,7 @@ const addNewArtistRating = function (ratingId) {
           (error) => {
             this.$emit(
               "show-alert",
-              `Nie udało się dodać recenzji. ${error.response.status} ${error.response.data}`,
+              `Error while adding review. ${error.response.status} ${error.response.data}`,
               "error"
             );
           }
@@ -243,7 +242,7 @@ const addNewArtistRating = function (ratingId) {
             } else {
               this.$emit(
                 "show-alert",
-                `Nie udało się dodać recenzji. Błąd ${response.status}`,
+                `Error while adding review. Error ${response.status}`,
                 "error"
               );
             }
@@ -251,7 +250,7 @@ const addNewArtistRating = function (ratingId) {
           (error) => {
             this.$emit(
               "show-alert",
-              `Nie udało się dodać recenzji. ${error.response.status} ${error.response.data}`,
+              `Error while adding review. ${error.response.status} ${error.response.data}`,
               "error"
             );
           }
@@ -269,7 +268,7 @@ const addNewArtistRating = function (ratingId) {
             } else {
               this.$emit(
                 "show-alert",
-                `Nie udało się dodać recenzji. Błąd ${response.status}`,
+                `Error while adding review. Error ${response.status}`,
                 "error"
               );
             }
@@ -277,7 +276,7 @@ const addNewArtistRating = function (ratingId) {
           (error) => {
             this.$emit(
               "show-alert",
-              `Nie udało się dodać recenzji. ${error.response.status} ${error.response.data}`,
+              `Error while adding review. ${error.response.status} ${error.response.data}`,
               "error"
             );
           }
@@ -298,7 +297,7 @@ const addNewArtistRating = function (ratingId) {
             } else {
               this.$emit(
                 "show-alert",
-                `Nie udało się dodać recenzji. Błąd ${response.status}`,
+                `Error while adding review. Error ${response.status}`,
                 "error"
               );
             }
@@ -306,7 +305,7 @@ const addNewArtistRating = function (ratingId) {
           (error) => {
             this.$emit(
               "show-alert",
-              `Nie udało się dodać recenzji. ${error.response.status} ${error.response.data}`,
+              `Error while adding review.  ${error.response.status} ${error.response.data}`,
               "error"
             );
           }
@@ -370,7 +369,7 @@ const addNewArtistRating = function (ratingId) {
             } else {
               this.$emit(
                 "show-alert",
-                `Nie udało się dodać recenzji. Błąd ${response.status}`,
+                `Error while adding review. Error ${response.status}`,
                 "error"
               );
             }
@@ -378,7 +377,7 @@ const addNewArtistRating = function (ratingId) {
           (error) => {
             this.$emit(
               "show-alert",
-              `Nie udało się dodać recenzji. ${error.response.status} ${error.response.data}`,
+              `Error while adding review.  ${error.response.status} ${error.response.data}`,
               "error"
             );
           }
@@ -419,7 +418,7 @@ const addNewArtistRating = function (ratingId) {
             } else {
               this.$emit(
                 "show-alert",
-                `Nie udało się dodać recenzji. Błąd ${response.status}`,
+                `Error while adding review. Error ${response.status}`,
                 "error"
               );
             }
@@ -427,7 +426,7 @@ const addNewArtistRating = function (ratingId) {
           (error) => {
             this.$emit(
               "show-alert",
-              `Nie udało się dodać recenzji. ${error.response.status} ${error.response.data}`,
+              `Error while adding review.  ${error.response.status} ${error.response.data}`,
               "error"
             );
           }
@@ -467,7 +466,7 @@ const addNewArtistRating = function (ratingId) {
             } else {
               this.$emit(
                 "show-alert",
-                `Nie udało się dodać recenzji. Błąd ${response.status}`,
+                `Error while adding review. Error ${response.status}`,
                 "error"
               );
             }
@@ -475,7 +474,7 @@ const addNewArtistRating = function (ratingId) {
           (error) => {
             this.$emit(
               "show-alert",
-              `Nie udało się dodać recenzji. ${error.response.status} ${error.response.data}`,
+              `Error while adding review.  ${error.response.status} ${error.response.data}`,
               "error"
             );
           }
@@ -500,7 +499,7 @@ const addNewArtistRating = function (ratingId) {
             } else {
               this.$emit(
                 "show-alert",
-                `Nie udało się dodać recenzji. Błąd ${response.status}`,
+                `Error while adding review. Error ${response.status}`,
                 "error"
               );
             }
@@ -508,7 +507,7 @@ const addNewArtistRating = function (ratingId) {
           (error) => {
             this.$emit(
               "show-alert",
-              `Nie udało się dodać recenzji. ${error.response.status} ${error.response.data}`,
+              `Error while adding review.  ${error.response.status} ${error.response.data}`,
               "error"
             );
           }
@@ -746,7 +745,6 @@ const addNewArtistRating = function (ratingId) {
 </script>
 
 <style scoped>
-@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;700&display=swap");
 .artist-title {
   letter-spacing: 5px;
   font-size: 3.2rem;

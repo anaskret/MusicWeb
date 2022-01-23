@@ -75,18 +75,44 @@ export default {
 };
 </script>
 
-<style lang="sass">
-.SearchBar
-    display: flex
-    align-items: center
-.v-input.search
-    transition: max-width 0.3s ease-in-out
-    animation-direction: reverse
-    .v-input__slot
-        cursor: pointer
-        &:before, &:after
-            border-color: transparent
-    &.closed
-        max-width: 45px
-  
+<style lang="scss">
+.SearchBar{
+    display: flex;
+    align-items: center;
+    position: absolute;
+    right: 3%;
+}
+.v-input.search{
+    transition: max-width 0.3s ease-in-out;
+    animation-direction: reverse;
+    .v-input__slot{
+        cursor: pointer;
+        &:before, &:after{
+            border-color: transparent;
+        }
+    }
+    &.closed{
+        max-width: 45px;
+    }
+}
+@media (min-width: 1300px) and (max-width: 1600px){
+    .SearchBar{
+        right: 4%;
+    }
+}
+@media (min-width: 1000px) and (max-width: 1300px){
+    .SearchBar{
+        right: 5%;
+    }
+}
+@media (min-width: 850px) and (max-width: 1000px){
+    .SearchBar{
+        right: 6%;
+    }
+}
+@media (min-width: 700px) and (max-width: 850px){
+    .SearchBar{
+        right: 7%;
+    }
+}
 </style>

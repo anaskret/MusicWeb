@@ -65,7 +65,7 @@
                 <template v-slot:activator="{ on, attrs }">
                   <v-text-field
                     class="p-4"
-                    label="Filtruj po dacie od"
+                    label="Filter Date From"
                     prepend-icon="mdi-calendar"
                     v-model.trim="$v.filters.establishment_date_from.$model"
                     :error-messages="establishmentDateFromErrors"
@@ -95,7 +95,7 @@
                 <template v-slot:activator="{ on, attrs }">
                   <v-text-field
                     class="p-4"
-                    label="Filtruj po dacie do"
+                    label="Filter Date To"
                     prepend-icon="mdi-calendar"
                     v-model.trim="$v.filters.establishment_date_to.$model"
                     :error-messages="establishmentDateToErrors"
@@ -218,7 +218,6 @@
               </v-list-item>
             </v-list-item-group>
           </v-list>
-        <!-- </div> -->
       </v-col>
     </v-row>
     <div
@@ -324,7 +323,7 @@ export default {
         establishment_date_to: this.moment().add(10, "y").format("YYYY-MM-DD"),
       }),
         this.$emit("set-filters", this.filters);
-      this.updateDefaultSortType = "Alfabetycznie malejąco";
+      this.updateDefaultSortType = "Descending Alfabetical";
     },
     focusTextarea() {
       this.$refs.textarea.$el.focus();
