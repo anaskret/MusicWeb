@@ -1,5 +1,29 @@
 <template>
+<div>
   <InfiniteScrollList
+  v-if="this.type == 'favorite'"
+    :items="artists"
+    :scroll_settings="scroll_settings"
+    :getPagedItemList="getFavoriteList"
+    :filterList="filterList"
+    :intersection_active="intersection_active"
+    @set-filters="setFilters"
+    :redirect_module_name="redirect_module_name"
+    :module_name="favorite_module_name"
+  />
+  <InfiniteScrollList
+  v-else-if="this.type == 'observed'"
+    :items="artists"
+    :scroll_settings="scroll_settings"
+    :getPagedItemList="getObservedList"
+    :filterList="filterList"
+    :intersection_active="intersection_active"
+    @set-filters="setFilters"
+    :redirect_module_name="redirect_module_name"
+    :module_name="observed_module_name"
+  />
+  <InfiniteScrollList
+  v-else
     :items="artists"
     :scroll_settings="scroll_settings"
     :getPagedItemList="getPagedArtistList"
@@ -9,10 +33,13 @@
     :redirect_module_name="redirect_module_name"
     :module_name="module_name"
   />
+</div>
 </template>
 
 <script>
 import useArtists from "@/modules/artists";
+import useUserFavoriteArtists from "@/modules/userFavoriteArtists.js";
+import useUserObservedArtists from "@/modules/userObservedArtists.js";
 import InfiniteScrollList from "@/components/InfiniteScrollList";
 import {mapGetters, mapMutations} from "vuex";
 
@@ -42,6 +69,9 @@ export default {
       redirect_module_name: "ArtistPage",
       last_search: "",
       module_name: "ArtistList",
+      favorite_module_name: "ArtistFavoriteList", 
+      observed_module_name: "ArtistObservedList",
+      type: this.$route.params.type,
     };
   },
   watch: {
@@ -73,19 +103,32 @@ export default {
     },
     ...mapMutations([
       "setSearching",
-    ])
+    ]), 
+    checkListType() {
+      if (this.type == "favorite")
+      {
+        console.log(this.type);
+      }
+      else if (this.type == "observed")
+      {
+        console.log(this.type);
+      }
+    }
   },
   computed: {
     ...mapGetters([
       'searchingValue', 
       'searchingType',
       'intersection',
-    ]),
-
+    ]),    
   },
-
+  created() {
+    this.checkListType();
+  },
   setup() {
     const { getPagedArtists } = useArtists();
+    const { getUserFavoriteArtists } = useUserFavoriteArtists();
+    const { getUserObservedArtists } = useUserObservedArtists();
 
     const getPagedArtistList = function (entries, observer, is_intersecting) {
       if (is_intersecting) {
@@ -115,8 +158,53 @@ export default {
       }
     };
 
+     const getFavoriteList = function (entries, observer, is_intersecting) {
+      if (is_intersecting) {
+        getUserFavoriteArtists(
+          this.$store.state.auth.userId,
+          this.scroll_settings.page,
+          this.scroll_settings.records_quantity
+        )
+          .then((response) => {
+            debugger;
+            if (response.length > 0) {
+              this.artists = response;
+            } else {
+             this.intersection_active = false;
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+        this.scroll_settings.page++;
+      }
+    };
+     const getObservedList = function (entries, observer, is_intersecting) {
+      if (is_intersecting) {
+        getUserObservedArtists(
+          this.$store.state.auth.userId,
+          this.scroll_settings.page,
+          this.scroll_settings.records_quantity
+        )
+          .then((response) => {
+            debugger;
+            if (response.length > 0) {
+              this.artists = response;
+            } else {
+             this.intersection_active = false;
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+        this.scroll_settings.page++;
+      }
+    };
+
     return {
       getPagedArtistList,
+      getFavoriteList,
+      getObservedList,
     };
   },
 };

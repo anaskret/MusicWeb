@@ -1,5 +1,7 @@
 import userObservedArtistServices from "@/services/userObservedArtistServices";
 import UserObservedArtist from "@/models/UserObservedArtist.js";
+import Artist from "@/models/Artist.js";
+
 export default function useUserObservedArtists() {
   const addUserObservedArtist = function (data) {
     if (data) {
@@ -16,6 +18,21 @@ export default function useUserObservedArtists() {
     }
   };
 
+  const getUserObservedArtists = function (userId, pageNum, pageSize) {
+    if (userId && pageNum > -1 && pageSize) {
+      return userObservedArtistServices
+        .getUserObservedArtists(userId, pageNum, pageSize)
+        .then((response) => {
+          let res = response.data;
+          let artists = [];
+          res.forEach((artist) => {
+            artists.push(new Artist(artist));
+          });
+          return artists;
+        });
+    }
+  };
+
   const deleteUserObservedArtist = function (id) {
     if (id) {
       return userObservedArtistServices.deleteUserObservedArtist(id);
@@ -25,5 +42,6 @@ export default function useUserObservedArtists() {
     addUserObservedArtist,
     getUserObservedArtist,
     deleteUserObservedArtist,
+    getUserObservedArtists,
   };
 }

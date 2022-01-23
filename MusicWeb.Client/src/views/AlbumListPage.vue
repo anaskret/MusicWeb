@@ -1,5 +1,19 @@
 <template>
+<div>
+
   <InfiniteScrollList
+  v-if="this.type == 'favorite'"
+    :items="albums"
+    :scroll_settings="scroll_settings"
+    :getPagedItemList="getFavoriteList"
+    :filterList="filterList"
+    :intersection_active="intersection_active"
+    @set-filters="setFilters"
+    :redirect_module_name="redirect_module_name"
+    :module_name="module_name"
+  />
+  <InfiniteScrollList
+  v-else
     :items="albums"
     :scroll_settings="scroll_settings"
     :getPagedItemList="getPagedAlbumList"
@@ -9,10 +23,12 @@
     :redirect_module_name="redirect_module_name"
     :module_name="module_name"
   />
+</div>
 </template>
 
 <script>
 import useAlbums from "@/modules/albums";
+import useUserFavoriteAlbums from "@/modules/userFavoriteAlbums.js";
 import InfiniteScrollList from "@/components/InfiniteScrollList";
 import {mapGetters, mapMutations} from "vuex";
 
@@ -42,6 +58,7 @@ export default {
       redirect_module_name: "AlbumPage",
       last_search: "",
       module_name: "AlbumList",
+      type: this.$route.params.type,
     };
   },
   watch: {
@@ -73,7 +90,8 @@ export default {
     },
     ...mapMutations([
       "setSearching",
-    ])
+    ]),
+    
   },
   computed: {
     ...mapGetters([
@@ -86,6 +104,7 @@ export default {
 
   setup() {
     const { getPagedAlbums } = useAlbums();
+    const { getUserFavoriteAlbums } = useUserFavoriteAlbums();
 
     const getPagedAlbumList = function (entries, observer, is_intersecting) {
       if (is_intersecting) {
@@ -113,9 +132,31 @@ export default {
         this.scroll_settings.page++;
       }
     };
+    const getFavoriteList = function (entries, observer, is_intersecting) {
+      if (is_intersecting) {
+        getUserFavoriteAlbums(
+          this.$store.state.auth.userId,
+          this.scroll_settings.page,
+          this.scroll_settings.records_quantity
+        )
+          .then((response) => {
+            debugger;
+            if (response.length > 0) {
+              this.albums = response;
+            } else {
+             this.intersection_active = false;
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+        this.scroll_settings.page++;
+      }
+    };
 
     return {
       getPagedAlbumList,
+      getFavoriteList,
     };
   },
 };

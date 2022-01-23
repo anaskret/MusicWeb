@@ -15,6 +15,16 @@ export default {
       artistId
     );
   },
+  getUserFavoriteArtists(userId, pageNum, pageSize) {
+    return ApiService.authRequest(
+      `/userfavoriteartistsdata/${userId}/${pageNum}/${pageSize}`,
+      ApiService.get,
+      userId,
+      pageNum,
+      pageSize
+    );
+  },
+
   deleteUserFavoriteArtist(id) {
     return ApiService.authRequest(
       `/userfavoriteartists/${id}`,

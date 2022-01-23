@@ -1,5 +1,6 @@
 import userFavoriteArtistServices from "@/services/userFavoriteArtistServices";
 import UserFavoriteArtist from "@/models/UserFavoriteArtist.js";
+import Artist from "@/models/Artist.js";
 export default function useUserFavoriteArtists() {
   const addUserFavoriteArtist = function (data) {
     if (data) {
@@ -16,6 +17,21 @@ export default function useUserFavoriteArtists() {
     }
   };
 
+  const getUserFavoriteArtists = function (userId, pageNum, pageSize) {
+    if (userId && pageNum > -1 && pageSize) {
+      return userFavoriteArtistServices
+        .getUserFavoriteArtists(userId, pageNum, pageSize)
+        .then((response) => {
+          let res = response.data;
+          let artists = [];
+          res.forEach((artist) => {
+            artists.push(new Artist(artist));
+          });
+          return artists;
+        });
+    }
+  };
+
   const deleteUserFavoriteArtist = function (id) {
     if (id) {
       return userFavoriteArtistServices.deleteUserFavoriteArtist(id);
@@ -25,5 +41,6 @@ export default function useUserFavoriteArtists() {
     addUserFavoriteArtist,
     getUserFavoriteArtist,
     deleteUserFavoriteArtist,
+    getUserFavoriteArtists,
   };
 }

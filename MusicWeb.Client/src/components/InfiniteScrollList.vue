@@ -5,12 +5,7 @@
             <thead>
           <tr>
             <th v-for="(column, index) in columns_list" :key="index">{{column}}</th>
-            <!-- <th class="text-left">
-              Name
-            </th>
-            <th class="text-left">
-              Calories
-            </th> -->
+
           </tr>
         </thead>
         <tbody>
@@ -34,7 +29,7 @@
     <v-row justify="center" v-else>
       <v-col lg="8">
         <div class="mx-auto">
-          <div v-if="module_name != 'Activities'">
+          <div v-if="module_name != 'Activities' && module_name != 'ArtistFavoriteList' && module_name != 'ArtistObservedList'">
             <div class="d-flex">
               <v-menu
                 v-model="is_date_picker_from"
@@ -123,7 +118,7 @@
         </div>
       </v-col>
     </v-row>
-    <v-row justify="center" v-if="module_name != 'ArtistRanking' && module_name != 'AlbumRanking' && module_name != 'SongRanking'">
+    <v-row justify="center" v-if="module_name != 'ArtistRanking' && module_name != 'AlbumRanking' && module_name != 'SongRanking' " >
 
       <v-col lg="8">
           <v-list v-if="module_name == 'Activities'">

@@ -11,6 +11,15 @@ export default {
       albumId
     );
   },
+  getUserFavoriteAlbums(userId, pageNum, pageSize) {
+    return ApiService.authRequest(
+      `/userfavoritealbumsdata/${userId}/${pageNum}/${pageSize}`,
+      ApiService.get,
+      userId,
+      pageNum,
+      pageSize
+    );
+  },
   deleteUserFavoriteAlbum(id) {
     return ApiService.authRequest(
       `/userfavoritealbums/${id}`,

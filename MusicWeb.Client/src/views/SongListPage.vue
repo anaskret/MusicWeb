@@ -1,5 +1,19 @@
 <template>
+<div>
+
   <InfiniteScrollList
+  v-if="this.type == 'favorite'"
+    :items="songs"
+    :scroll_settings="scroll_settings"
+    :getPagedItemList="getFavoriteList"
+    :filterList="filterList"
+    :intersection_active="intersection_active"
+    @set-filters="setFilters"
+    :redirect_module_name="redirect_module_name"
+    :module_name="module_name"
+  />
+   <InfiniteScrollList
+  v-else
     :items="songs"
     :scroll_settings="scroll_settings"
     :getPagedItemList="getPagedSongList"
@@ -9,12 +23,15 @@
     :redirect_module_name="redirect_module_name"
     :module_name="module_name"
   />
+</div>
 </template>
 
 <script>
 import useSongs from "@/modules/songs";
 import InfiniteScrollList from "@/components/InfiniteScrollList";
+import useUserFavoriteSongs from "@/modules/userFavoriteSongs.js";
 import {mapGetters, mapMutations} from "vuex";
+
 
 
 export default {
@@ -42,6 +59,7 @@ export default {
       redirect_module_name: "SongPage",
       last_search: "",
       module_name: "SongList",
+      type: this.$route.params.type,
     };
   },
   watch: {
@@ -86,6 +104,7 @@ export default {
 
   setup() {
     const { getPagedSongs } = useSongs();
+    const { getUserFavoriteSongs } = useUserFavoriteSongs();
 
     const getPagedSongList = function (entries, observer, is_intersecting) {
       if (is_intersecting) {
@@ -113,9 +132,32 @@ export default {
         this.scroll_settings.page++;
       }
     };
+    const getFavoriteList = function (entries, observer, is_intersecting) {
+      if (is_intersecting) {
+        getUserFavoriteSongs(
+          this.$store.state.auth.userId,
+          this.scroll_settings.page,
+          this.scroll_settings.records_quantity
+        )
+          .then((response) => {
+            debugger;
+            if (response.length > 0) {
+              this.songs = response;
+            } else {
+             this.intersection_active = false;
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+        this.scroll_settings.page++;
+      }
+    };
+
 
     return {
       getPagedSongList,
+      getFavoriteList
     };
   },
 };

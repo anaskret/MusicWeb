@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="page_name == 'ArtistList' || page_name == 'SongList' || page_name == 'SearchPage'">
+    <div v-if="page_name == 'ArtistList' || page_name == 'SongList' || page_name == 'AlbumList' || page_name == 'ArtistFavoriteList' || page_name == 'ArtistObservedList'">
       <v-card @click="redirectToItem(item.id)">
         <div class="d-flex flex-no-wrap justify-space-between">
           <div>
@@ -31,11 +31,12 @@
           </div>
 
           <v-avatar class="ma-3" size="125" tile> 
-            <v-img
+            <!-- <v-img
                 class="pl-8"
                 :src="`${server_url}/${item.image}`"
             >
-            </v-img>
+            </v-img> -->
+            <v-img :src="require('@/assets/BandPhoto.svg')" style = "width: 50px;"/>
           </v-avatar>
         </div>
       </v-card>

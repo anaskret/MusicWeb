@@ -10,8 +10,7 @@ namespace MusicWeb.Models.Entities.Ratings
     {
         public int AlbumId { get; set; }
         public virtual Album Album { get; set; }
-        public int? ReviewId { get; set; }
-        public virtual AlbumReview AlbumReview { get; set; }
+
 
     }
 }
