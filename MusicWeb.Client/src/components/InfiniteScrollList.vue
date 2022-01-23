@@ -29,7 +29,7 @@
     <v-row justify="center" v-else>
       <v-col lg="8">
         <div class="mx-auto">
-          <div v-if="module_name != 'Activities' && module_name != 'ArtistFavoriteList' && module_name != 'ArtistObservedList'">
+          <div v-if="module_name != 'Activities' && module_name != 'ArtistFavoriteList' && module_name != 'ArtistObservedList' && module_name != 'AlbumFavoriteList' && module_name != 'SongFavoriteList'">
             <div class="d-flex">
               <v-menu
                 v-model="is_date_picker_from"

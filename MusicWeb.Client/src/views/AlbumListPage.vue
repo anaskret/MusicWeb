@@ -10,7 +10,7 @@
     :intersection_active="intersection_active"
     @set-filters="setFilters"
     :redirect_module_name="redirect_module_name"
-    :module_name="module_name"
+    :module_name="favorite_module_name"
   />
   <InfiniteScrollList
   v-else
@@ -58,6 +58,7 @@ export default {
       redirect_module_name: "AlbumPage",
       last_search: "",
       module_name: "AlbumList",
+      favorite_module_name: "AlbumFavoriteList",
       type: this.$route.params.type,
     };
   },
