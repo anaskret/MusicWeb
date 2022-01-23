@@ -44,6 +44,7 @@ namespace MusicWeb.Tests.Artists
         private Mock<AuthenticationStateProvider> _authenticationStateProvider;
         private Mock<IIdentityService> _identityService;
         private Mock<IEmailSender> _emailSender;
+        private Mock<IAlbumService> _albumService;
 
         public ArtistServiceTests()
         {
@@ -58,6 +59,7 @@ namespace MusicWeb.Tests.Artists
             _authenticationStateProvider = new Mock<AuthenticationStateProvider>();
             _identityService = new Mock<IIdentityService>();
             _emailSender = new Mock<IEmailSender>();
+            _albumService = new Mock<IAlbumService>();
         }
 
         [Fact]
@@ -106,7 +108,8 @@ namespace MusicWeb.Tests.Artists
                 _configuration.Object,
                 _authenticationStateProvider.Object,
                 _identityService.Object,
-                _emailSender.Object);
+                _emailSender.Object,
+                _albumService.Object);
 
             var bandMember = new ArtistWithUserModel
             {
@@ -145,7 +148,8 @@ namespace MusicWeb.Tests.Artists
                 _configuration.Object,
                 _authenticationStateProvider.Object,
                 _identityService.Object,
-                _emailSender.Object);
+                _emailSender.Object,
+                _albumService.Object);
 
             var artist = new ArtistWithUserModel();
 
@@ -181,7 +185,8 @@ namespace MusicWeb.Tests.Artists
                 _configuration.Object,
                 _authenticationStateProvider.Object,
                 _identityService.Object,
-                _emailSender.Object);
+                _emailSender.Object,
+                _albumService.Object);
 
             var artist = new ArtistWithUserModel
             {
@@ -226,7 +231,8 @@ namespace MusicWeb.Tests.Artists
                 _configuration.Object,
                 _authenticationStateProvider.Object,
                 _identityService.Object,
-                _emailSender.Object);
+                _emailSender.Object,
+                _albumService.Object);
 
 
             Func<Task> act = async () => await artistService.AddAsync(new Artist() { Type = ArtistType.BandMember }, Array.Empty<byte>());
