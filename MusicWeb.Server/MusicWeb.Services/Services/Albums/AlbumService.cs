@@ -234,5 +234,11 @@ namespace MusicWeb.Services.Services.Albums
             var response = await _albumRepository.GetAlbumRankingAsync(sortType, pageNum, pageSize);
             return response;
         }
+
+        public async Task<List<SongRatingAverage>> GetAlbumSongsAsync(int albumId, int pageNum = 0, int pageSize = int.MaxValue)
+        {
+            var response = await _albumRepository.GetAlbumSongsAsync(albumId, pageNum, pageSize);
+            return response;
+        }
     }
 }

@@ -1,5 +1,6 @@
 export default class Artist {
   id = null;
+  imagePath = "";
   name = "";
   establishmentDate = "";
   description = "";
@@ -20,6 +21,7 @@ export default class Artist {
   constructor($data) {
     if ($data) {
       this.id = $data.id;
+      this.imagePath = $data.imagePath;
       this.name = $data.name;
       this.establishmentDate = $data.establishmentDate;
       this.description = $data.bio;

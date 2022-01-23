@@ -67,5 +67,23 @@ namespace MusicWeb.Repositories.Repositories.Songs
            var entities = await query.ToListAsync();
            return entities;
         }
+
+        public async Task<List<SongReviewRating>> GetSongReviewsPagedAsync(int songId, int pageNum = 0, int pageSize = 15)
+        {
+
+            var sql = @$"SELECT AlbumReview.Id, AlbumReview.Title, AlbumReview.Content, AlbumReview.PostDate, AlbumReview.AlbumId, AlbumReview.UserId, AlbumRating.Rating as Rating FROM AlbumReview
+            LEFT JOIN AlbumRating
+            ON AlbumReview.AlbumId = AlbumRating.AlbumId AND AlbumReview.UserId = AlbumRating.UserId
+            WHERE AlbumRating.AlbumId = '{songId}'";
+
+            var query = _dbContext.SongReviewRating.FromSqlRaw(sql);
+            query = query.OrderByDescending(prp => prp.PostDate);
+
+            query = query.Skip(pageNum * pageSize);
+            query = query.Take(pageSize);
+
+            var entities = await query.ToListAsync();
+            return entities;
+        }
     }
 }

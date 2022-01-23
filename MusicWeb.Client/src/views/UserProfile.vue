@@ -1,5 +1,6 @@
 <template>
   <v-container fluid class="py-16">
+    {{this.account}}
     <v-row justify="center"> 
       <v-col md="10">
         <div style="display: flex; justify-content: center; align-items:center;">
@@ -165,9 +166,6 @@ export default {
     };
   },
   created() {
-    this.getReviews();
-    this.getArtists();
-    this.getGenres();
     this.getAccount();
   },
   computed: {
@@ -196,62 +194,6 @@ export default {
     },
   },
   methods: {
-    getReviews() {
-      this.reviews = [
-        {
-          img: "weather",
-          album: "Weather Systems",
-          band: "Anathema",
-          title: "Dzieło sztuki!",
-          content:
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec fringilla magna fringilla nisi tristique, vel tempus risus malesuada. Fusce venenatis, orci eget blandit mollis, diam nisl interdum nulla, a convallis purus augue ut odio. Cras urna sapien, faucibus tincidunt placerat non, laoreet nec nunc.",
-        },
-        {
-          img: "werehere",
-          album: "We're Here Because We're Here",
-          band: "Anathema",
-          title: "Dzieło sztuki!",
-          content:
-            "2Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec fringilla magna fringilla nisi tristique, vel tempus risus malesuada. Fusce venenatis, orci eget blandit mollis, diam nisl interdum nulla, a convallis purus augue ut odio. Cras urna sapien, faucibus tincidunt placerat non, laoreet nec nunc. Praesent felis nibh, laoreet et sapien in, tincidunt eleifend tellus. Morbi ante urna, mollis quis eros sed, pulvinar venenatis lacus. Quisque interdum urna molestie porta auctor. Aliquam erat volutpat. Integer in aliquam sem. Quisque varius purus eu eros elementum varius. ",
-        },
-        {
-          img: "naturaldisaster",
-          album: "A Natural Disaster",
-          band: "Anathema",
-          title: "Dzieło sztuki!",
-          content:
-            "3Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec fringilla magna fringilla nisi tristique, vel tempus risus malesuada. Fusce venenatis, orci eget blandit mollis, diam nisl interdum nulla, a convallis purus augue ut odio. Cras urna sapien, faucibus tincidunt placerat non, laoreet nec nunc. Praesent felis nibh, laoreet et sapien in, tincidunt eleifend tellus. Morbi ante urna, mollis quis eros sed, pulvinar venenatis lacus. Quisque interdum urna molestie porta auctor. Aliquam erat volutpat. Integer in aliquam sem. Quisque varius purus eu eros elementum varius. ",
-        },
-      ];
-    },
-    getArtists() {
-      this.artists = [
-        { img: "BandPhoto", name: "Anathema" },
-        {
-          img: "BandPhoto",
-          name: "Anathema",
-        },
-        {
-          img: "BandPhoto",
-          name: "Anathema",
-        },
-        { img: "BandPhoto", name: "Anathema" },
-      ];
-    },
-    getGenres() {
-      this.genres = [
-        { img: "BandPhoto", name: "Rock/Metal" },
-        {
-          img: "BandPhoto",
-          name: "Klasyczna",
-        },
-        {
-          img: "BandPhoto",
-          name: "Jazz",
-        },
-        { img: "BandPhoto", name: "Pop" },
-      ];
-    },
     prepareErrorArray(field) {
       const errors = [];
       if (!this.$v.account[field].$dirty) return errors;

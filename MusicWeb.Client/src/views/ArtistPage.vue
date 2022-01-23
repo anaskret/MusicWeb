@@ -1,5 +1,6 @@
 <template>
-  <div>
+  <div> 
+    {{this.artist}}
     <Header
       :parent="artist"
       :show_observe_button="show_observe_button"

@@ -142,5 +142,50 @@ namespace MusicWeb.Repositories.Repositories.Artists
             return entities;
         }
 
+
+        public async Task<List<AlbumRatingAverage>> GetArtistDiscographyAsync(int artistId, int pageNum = 0, int pageSize = 15)
+        {
+            var sql = @$"SELECT T0.*, ROUND(Coalesce(T1.Rating, 0), 2) as Rating, 
+            COALESCE(T1.RatingsCount,0) as RatingsCount, 
+            COALESCE(T2.Favorite, 0) as FavoriteCount, 
+            COALESCE(T3.Reviews, 0) as ReviewsCount
+            FROM Album T0
+            LEFT JOIN(SELECT AlbumId, AVG(Cast(Rating as float)) as Rating, COUNT(Rating) as RatingsCount FROM AlbumRating GROUP BY AlbumId) T1 ON T1.AlbumId = T0.Id
+            LEFT JOIN (SELECT AlbumId, COUNT(AlbumId) as Favorite FROM UserFavoriteAlbum GROUP BY AlbumId) T2 ON T0.Id = T2.AlbumId
+            LEFT JOIN (SELECT AlbumId, COUNT(AlbumId) as Reviews FROM AlbumReview GROUP BY AlbumId) T3 ON T0.Id = T3.AlbumId
+            WHERE T0.ArtistId = '{artistId}'
+            ";
+
+            var query = _dbContext.AlbumRatingAverage.FromSqlRaw(sql);
+            query = query.OrderByDescending(prp => prp.ReleaseDate);
+            query = query.Skip(pageNum * pageSize);
+            query = query.Take(pageSize);
+
+            var entities = await query.ToListAsync();
+            return entities;
+        }
+        
+        public async Task<List<SongRatingAverage>> GetArtistSongsAsync(int artistId, int pageNum = 0, int pageSize = 15)
+        {
+            var sql = @$"SELECT T0.*, ROUND(Coalesce(T1.Rating, 0), 2) as Rating, 
+            COALESCE(T1.RatingsCount, 0) as RatingsCount,
+            COALESCE(T2.Favorite, 0) as FavoriteCount,
+            COALESCE(T3.Reviews, 0) as ReviewsCount
+            FROM Song T0
+            LEFT JOIN(SELECT SongId, AVG(Cast(Rating as float)) as Rating, COUNT(Rating) as RatingsCount FROM SongRating GROUP BY SongId) T1 ON T1.SongId = T0.Id
+            LEFT JOIN (SELECT SongId, COUNT(SongId) as Favorite FROM UserFavoriteSong GROUP BY SongId) T2 ON T0.Id = T2.SongId
+            LEFT JOIN (SELECT SongId, COUNT(SongId) as Reviews FROM SongReview GROUP BY SongId) T3 ON T0.Id = T3.SongId
+             WHERE T0.ComposerId = '{artistId}'
+            ";
+
+            var query = _dbContext.SongRatingAverage.FromSqlRaw(sql);
+            query = query.OrderByDescending(prp => prp.ReleaseDate);
+            query = query.Skip(pageNum * pageSize);
+            query = query.Take(pageSize);
+
+            var entities = await query.ToListAsync();
+            return entities;
+        }
+
     }
 }

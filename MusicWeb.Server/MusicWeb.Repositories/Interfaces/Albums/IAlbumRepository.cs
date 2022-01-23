@@ -17,5 +17,6 @@ namespace MusicWeb.Repositories.Interfaces.Albums
         Task<AlbumRatingAverage> GetAlbumAverageRating(int id);
         Task<List<AlbumRatingAverage>> GetAlbumsPagedAsync(SortType sortType, DateTime startDate, DateTime endDate, int pageNum = 0, int pageSize = 15, string searchString = "");
         Task<List<AlbumRatingAverage>> GetAlbumRankingAsync(RankSortType sortType, int pageNum = 0, int pageSize = 10);
+        Task<List<SongRatingAverage>> GetAlbumSongsAsync(int albumId, int pageNum = 0, int pageSize = 10);
     }
 }

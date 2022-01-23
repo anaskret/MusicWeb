@@ -203,5 +203,20 @@ namespace MusicWeb.Api.Controllers.Albums
                 return StatusCode(500, ex.Message);
             }
         }
+
+        [HttpGet(ApiRoutes.Albums.GetSongs)]
+        public async Task<IActionResult> GetSongs([FromRoute] int albumId, [FromRoute] int pageNum, [FromRoute] int pageSize)
+        {
+            try
+            {
+                var response = await _albumService.GetAlbumSongsAsync(albumId, pageNum, pageSize);
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return StatusCode(500, ex.Message);
+            }
+        }
     }
 }

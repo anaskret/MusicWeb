@@ -70,6 +70,12 @@ namespace MusicWeb.Services.Services.Albums
             var response = await _albumReviewRepository.GetAlbumsPagedAsync(sortType, startDate, endDate, pageNum, pageSize);
             return _mapper.Map<List<AlbumReviewRating>>(response);
         }
+        
+        public async Task<List<AlbumReviewRating>> GetAlbumReviewsPagedAsync(int albumId, int pageNum = 0, int pageSize = int.MaxValue)
+        {
+            var response = await _albumReviewRepository.GetAlbumReviewsPagedAsync(albumId, pageNum, pageSize);
+            return _mapper.Map<List<AlbumReviewRating>>(response);
+        }
 
         public async Task<IPagedList<AlbumReview>> GetIPagedAsync(int pageNum = 0, int pageSize = int.MaxValue)
         {

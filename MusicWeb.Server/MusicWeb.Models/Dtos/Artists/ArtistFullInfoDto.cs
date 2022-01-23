@@ -14,6 +14,7 @@ namespace MusicWeb.Models.Models.Artists
     public class ArtistFullInfoDto
     {
         public int Id { get; set; }
+        public string ImagePath { get; set; }
         public string Name { get; set; }
         public DateTime EstablishmentDate { get; set; }
         public string Bio { get; set; }

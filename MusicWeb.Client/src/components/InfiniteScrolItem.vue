@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="page_name == 'ArtistList' || page_name == 'SongList' || page_name == 'AlbumList' || page_name == 'ArtistFavoriteList' || page_name == 'ArtistObservedList' || page_name == 'AlbumFavoriteList' || page_name == 'SongFavoriteList'">
+    <div v-if="page_name == 'AlbumReviewList' || page_name == 'ArtistList' || page_name == 'SongList' || page_name == 'AlbumList' || page_name == 'ArtistFavoriteList' || page_name == 'ArtistObservedList' || page_name == 'AlbumFavoriteList' || page_name == 'SongFavoriteList'">
       <v-card @click="redirectToItem(item.id)">
         <div class="d-flex flex-no-wrap justify-space-between">
           <div>
