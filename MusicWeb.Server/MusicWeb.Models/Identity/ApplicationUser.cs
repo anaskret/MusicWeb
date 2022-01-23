@@ -21,6 +21,8 @@ namespace MusicWeb.Models.Identity
         public UserType Type { get; set; }
         public int? ArtistId { get; set; }
 
+        public int LastChatOpenedId { get; set; }
+
         public virtual Artist Artist{ get; set; }
         public virtual ICollection<AlbumReview> AlbumReviews{ get; set; }
         public virtual ICollection<SongReview> SongReviews{ get; set; }
