@@ -85,5 +85,20 @@ namespace MusicWeb.Api.Controllers.Chats
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpPut(ApiRoutes.Chats.ChatOpened)]
+        public async Task<IActionResult> ChatOpened([FromBody] ChatOpenedDto dto)
+        {
+            try
+            {
+                await _chatService.ChatOpenedAsync(dto.ChatId, dto.UserId);
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

@@ -11,6 +11,15 @@ export default {
       songId
     );
   },
+  getUserFavoriteSongs(userId, pageNum, pageSize) {
+    return ApiService.authRequest(
+      `/userfavoritesongssdata/${userId}/${pageNum}/${pageSize}`,
+      ApiService.get,
+      userId,
+      pageNum,
+      pageSize
+    );
+  },
   deleteUserFavoriteSong(id) {
     return ApiService.authRequest(
       `/userfavoritesongs/${id}`,

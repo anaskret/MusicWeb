@@ -15,6 +15,15 @@ export default {
       artistId
     );
   },
+  getUserObservedArtists(userId, pageNum, pageSize) {
+    return ApiService.authRequest(
+      `/userobservedartistsdata/${userId}/${pageNum}/${pageSize}`,
+      ApiService.get,
+      userId,
+      pageNum,
+      pageSize
+    );
+  },
   deleteUserObservedArtist(id) {
     return ApiService.authRequest(
       `/userobservedartists/${id}`,

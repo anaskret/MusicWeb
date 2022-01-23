@@ -2,27 +2,28 @@
   <v-container fluid class="mb-lg-16">
     <v-row justify="center" class="pb-lg-3">
       <v-col lg="8">
-        <!-- TODO : wyśrodkować w pionie -->
         <div class="d-flex flex-row" style="align-items: center">
           <h1 class="display-1 font-weight-bold text-left">
             {{ component_title }}
           </h1>
-          <p class="pl-lg-16">
+          <a class="component_link_title ml-lg-10" 
+          @click="redirectToList(component_type)">
             {{ component_link_title }}
             <font-awesome-icon
               class="icon"
               icon="chevron-right"
               size="1x"
               color="gray"
+
             />
-          </p>
+          </a>
         </div>
       </v-col>
     </v-row>
     <v-row justify="center">
-      <v-col lg="12">
+      <v-col lg="8">
         <v-sheet class="mx-auto">
-          <v-slide-group class="px-4" show-arrows="true" center>
+          <v-slide-group class="px-4" show-arrows="true">
             <v-slide-item v-for="(item, index) in items" :key="index">
               <v-hover v-slot="{ hover }">
                 <v-card>
@@ -33,7 +34,7 @@
                     width="200"
                     :elevation="hover ? 12 : 2"
                     :class="{ 'on-hover': hover }"
-                    @click="redirectToItem(item.id)"
+                    @click="redirectToItem(component_type == 'favorite' || component_type == 'observed' ? item.favoriteId : item.id)"
                   >
                     <div class="read-more-icon">
                       <v-btn
@@ -72,18 +73,26 @@ export default {
     items: Array,
     component_title: String,
     component_link_title: String,
+    redirect_to: String,
+    component_type: String,
+    redirect_to_list: String, 
   },
   data() {
     return {
       show: null,
       transparent: "rgba(255, 255, 255, 0)",
+      itemId: null
     };
   },
   methods: {
     redirectToItem(itemId) {
-      this.$router.push({ name: "AlbumPage", params: { id: itemId } });
+      this.$router.push({ name: this.redirect_to, params: { id: itemId } });
+    },
+    redirectToList(list_type) {
+      this.$router.push({ name: this.redirect_to_list, params: { type: list_type } });
     },
   },
+
 };
 </script>
 <style scoped>
@@ -107,4 +116,8 @@ export default {
 .underline {
   border-bottom: solid gray 1px;
 }
+.component_link_title {
+  margin: 0px;
+}
+
 </style>

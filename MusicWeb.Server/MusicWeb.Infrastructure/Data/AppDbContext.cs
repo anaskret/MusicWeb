@@ -117,13 +117,6 @@ namespace MusicWeb.DataAccess.Data
                     .HasForeignKey(e => e.UserId)
                     .OnDelete(DeleteBehavior.NoAction)
                     .IsRequired();
-
-                entity.HasOne(e => e.AlbumRating)
-                    .WithOne(a => a.AlbumReview)
-                    .HasForeignKey<AlbumReview>(e => e.RatingId)
-                    .OnDelete(DeleteBehavior.NoAction)
-                    .IsRequired(false);
-                   // .HasForeignKey<AlbumReview>(e => e.RatingId);
             });
 
             modelBuilder.Entity<ArtistsOnTheAlbum>(entity =>
@@ -477,9 +470,6 @@ namespace MusicWeb.DataAccess.Data
                 .OnDelete(DeleteBehavior.NoAction)
                 .IsRequired(true);
 
-                entity.HasOne(e => e.AlbumReview)
-                .WithOne(a => a.AlbumRating)
-                .HasForeignKey<AlbumRating>(e => e.ReviewId);
             });
 
             modelBuilder.Entity<SongRating>(entity =>

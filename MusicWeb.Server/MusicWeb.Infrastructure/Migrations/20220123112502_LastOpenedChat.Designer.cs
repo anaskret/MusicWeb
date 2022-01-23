@@ -10,8 +10,8 @@ using MusicWeb.DataAccess.Data;
 namespace MusicWeb.DataAccess.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20220122141557_Initial")]
-    partial class Initial
+    [Migration("20220123112502_LastOpenedChat")]
+    partial class LastOpenedChat
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -211,6 +211,9 @@ namespace MusicWeb.DataAccess.Migrations
 
                     b.Property<DateTime>("PostDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<int?>("RatingId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -808,9 +811,6 @@ namespace MusicWeb.DataAccess.Migrations
                     b.Property<int>("AlbumId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("AlbumReviewId")
-                        .HasColumnType("int");
-
                     b.Property<int>("Rating")
                         .HasColumnType("int");
 
@@ -825,7 +825,9 @@ namespace MusicWeb.DataAccess.Migrations
 
                     b.HasIndex("AlbumId");
 
-                    b.HasIndex("AlbumReviewId");
+                    b.HasIndex("ReviewId")
+                        .IsUnique()
+                        .HasFilter("[ReviewId] IS NOT NULL");
 
                     b.HasIndex("UserId");
 
@@ -1154,6 +1156,9 @@ namespace MusicWeb.DataAccess.Migrations
                     b.Property<string>("ImagePath")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("LastChatOpenedId")
+                        .HasColumnType("int");
+
                     b.Property<string>("LastName")
                         .HasColumnType("nvarchar(max)");
 
@@ -1480,8 +1485,9 @@ namespace MusicWeb.DataAccess.Migrations
                         .IsRequired();
 
                     b.HasOne("MusicWeb.Models.Entities.AlbumReview", "AlbumReview")
-                        .WithMany()
-                        .HasForeignKey("AlbumReviewId");
+                        .WithOne("AlbumRating")
+                        .HasForeignKey("MusicWeb.Models.Entities.Ratings.AlbumRating", "ReviewId")
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("MusicWeb.Models.Identity.ApplicationUser", "User")
                         .WithMany("AlbumRatings")
@@ -1703,6 +1709,11 @@ namespace MusicWeb.DataAccess.Migrations
                     b.Navigation("Songs");
 
                     b.Navigation("UserFavoriteAlbums");
+                });
+
+            modelBuilder.Entity("MusicWeb.Models.Entities.AlbumReview", b =>
+                {
+                    b.Navigation("AlbumRating");
                 });
 
             modelBuilder.Entity("MusicWeb.Models.Entities.Artists.Artist", b =>

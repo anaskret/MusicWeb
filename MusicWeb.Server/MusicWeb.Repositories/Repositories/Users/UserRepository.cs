@@ -25,6 +25,8 @@ namespace MusicWeb.Repositories.Repositories.Users
         public async Task<ApplicationUser> GetUserByIdAsync(string id)
         {
             var user = await _dbContext.Users.Include(prp => prp.UserFavoriteArtists)
+                                              .ThenInclude(prp => prp.Artist)
+                                             .Include(prp => prp.UserObservedArtists)
                                              .ThenInclude(prp => prp.Artist)
                                              .Include(prp => prp.UserFavoriteAlbums)
                                              .ThenInclude(prp => prp.Album)
@@ -32,6 +34,8 @@ namespace MusicWeb.Repositories.Repositories.Users
                                              .ThenInclude(prp => prp.Song)
                                              .Include(prp => prp.UserFriends)
                                              .ThenInclude(prp => prp.Friend)
+                                             .Include(prp => prp.AlbumReviews)
+                                             .Include(prp => prp.SongReviews)
                                              .FirstOrDefaultAsync(prp => prp.Id == id);
 
             return user;

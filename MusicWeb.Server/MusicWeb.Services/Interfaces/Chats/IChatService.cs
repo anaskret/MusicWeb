@@ -15,5 +15,6 @@ namespace MusicWeb.Services.Interfaces.Chats
         Task<int> AddChat(Chat entity);
         Task UpdateChat(Chat entity);
         Task DeleteChat(int id);
+        Task ChatOpenedAsync(int chatId, string userId);
     }
 }

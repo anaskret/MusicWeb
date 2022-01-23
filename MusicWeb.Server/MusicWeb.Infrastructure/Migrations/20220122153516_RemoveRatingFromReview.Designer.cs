@@ -10,8 +10,8 @@ using MusicWeb.DataAccess.Data;
 namespace MusicWeb.DataAccess.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20220122141557_Initial")]
-    partial class Initial
+    [Migration("20220122153516_RemoveRatingFromReview")]
+    partial class RemoveRatingFromReview
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -808,13 +808,7 @@ namespace MusicWeb.DataAccess.Migrations
                     b.Property<int>("AlbumId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("AlbumReviewId")
-                        .HasColumnType("int");
-
                     b.Property<int>("Rating")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("ReviewId")
                         .HasColumnType("int");
 
                     b.Property<string>("UserId")
@@ -824,8 +818,6 @@ namespace MusicWeb.DataAccess.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("AlbumId");
-
-                    b.HasIndex("AlbumReviewId");
 
                     b.HasIndex("UserId");
 
@@ -1479,10 +1471,6 @@ namespace MusicWeb.DataAccess.Migrations
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.HasOne("MusicWeb.Models.Entities.AlbumReview", "AlbumReview")
-                        .WithMany()
-                        .HasForeignKey("AlbumReviewId");
-
                     b.HasOne("MusicWeb.Models.Identity.ApplicationUser", "User")
                         .WithMany("AlbumRatings")
                         .HasForeignKey("UserId")
@@ -1490,8 +1478,6 @@ namespace MusicWeb.DataAccess.Migrations
                         .IsRequired();
 
                     b.Navigation("Album");
-
-                    b.Navigation("AlbumReview");
 
                     b.Navigation("User");
                 });

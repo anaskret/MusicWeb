@@ -15,6 +15,11 @@ export default new Vuex.Store({
     connectionError: false,
     tokenExpired: false,
     searchingValue: "",
+    searching_type: "",
+    album: {},
+    rank_artists: [],
+    artist: {},
+    song: {},
     serverUrl: "https://localhost:5001",
     messages: [],
     current_user: {},
@@ -117,10 +122,14 @@ export default new Vuex.Store({
     setArtist(state, artist) {
       state.artist = artist;
     },
-    setBase64Image(state, image){
+    setSearching(state, search, type) {
+      state.searchingType = type;
+      state.searchingValue = search;
+    },
+    setBase64Image(state, image) {
       state.base64_image = image;
     },
-    clearBase64Image(state){
+    clearBase64Image(state) {
       state.base64_image = null;
     },
     toggleChatVisability(state, is_visable){
@@ -128,29 +137,31 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    encodeIntoBase64(action, payload){
-        () => {action};
-        return new Promise(function (resolve, reject) {
-            let reader = new FileReader();
-            let imgResult = "";
-            reader.readAsDataURL(payload);
-            reader.onload = function () {
-            imgResult = reader.result;
-            };
-            reader.onerror = function (error) {
-            reject(error);
-            };
-            reader.onloadend = function () {
-            resolve(imgResult);
-            };
-        });
+    encodeIntoBase64(action, payload) {
+      () => {
+        action;
+      };
+      return new Promise(function (resolve, reject) {
+        let reader = new FileReader();
+        let imgResult = "";
+        reader.readAsDataURL(payload);
+        reader.onload = function () {
+          imgResult = reader.result;
+        };
+        reader.onerror = function (error) {
+          reject(error);
+        };
+        reader.onloadend = function () {
+          resolve(imgResult);
+        };
+      });
     },
-    setBase64({ dispatch, commit }, payload){
-        dispatch("encodeIntoBase64", payload).then((res) => {
-            let start = res.search(",");
-            commit('setBase64Image', res.substr(start + 1, res.length));
-        });
-    }
+    setBase64({ dispatch, commit }, payload) {
+      dispatch("encodeIntoBase64", payload).then((res) => {
+        let start = res.search(",");
+        commit("setBase64Image", res.substr(start + 1, res.length));
+      });
+    },
   },
   getters: {
     server_url(state) {
@@ -191,7 +202,13 @@ export default new Vuex.Store({
     artist(state) {
       return state.artist;
     },
-    base64_image(state){
+    searchingValue(state) {
+      return state.searchingValue;
+    },
+    searchingType(state) {
+      return state.searching_type;
+    },
+    base64_image(state) {
       return state.base64_image;
     },
     chat_visibility(state){
