@@ -456,8 +456,7 @@ const addNewArtistRating = function (ratingId) {
       this.userFavoriteArtist.favoriteId = this.$route.params.id;
       delete this.userFavoriteArtist.id;
       delete this.userFavoriteArtist.user;
-      delete this.userFavoriteArtist.artist;
-      
+      delete this.userFavoriteArtist.artist;      
       
         addUserFavoriteArtist(this.userFavoriteArtist).then(
           (response) => {
