@@ -18,10 +18,12 @@ export default {
   computed: {
     ...mapGetters({
       account: "current_user",
+      last_open_chat_id: "last_open_chat_id",
     }),
   },
   methods: {
     openChat() {
+      this.$root.$emit('get-last-chat', this.last_open_chat_id);
       this.$emit("open-chat");
     },
   },

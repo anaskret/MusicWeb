@@ -35,12 +35,19 @@ export default function useAccounts() {
         return await chatServices.readFriendMessages(data);
     }
   };
+  
+  const assignLastOpenChat = async (data) => {
+    if (data) {
+        return await chatServices.assignLastOpenChat(data);
+    }
+  };
 
   return {
     getChatByUserId,
     getPagedMessages,
     addNewMessage,
     createNewChat,
-    readFriendMessages
+    readFriendMessages,
+    assignLastOpenChat
   };
 }

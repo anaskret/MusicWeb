@@ -116,6 +116,7 @@ export default {
       ...mapGetters({
          account: "current_user",
          server_url: "server_url",
+         current_chat: "current_chat"
       }),
       friend_list_visability: {
          get(){
@@ -132,21 +133,30 @@ export default {
    methods: {
        async openChat(friend){
          await this.getChat(friend);
+         await this.sendLastOpenChat(this.current_chat.id);
+         await this.setSetLastOpenChatId(this.current_chat.id);
          this.$emit("open-chat");
        },
         ...mapMutations([
             "setCurrentChat",
-            "setParticipant"
-        ])
+            "setParticipant",
+            "setSetLastOpenChatId"
+        ]),
+        
    },
    watch: {
       account(){
          this.getFriendsList();
       }
    },
+   mounted() {
+      this.$root.$on('get-last-chat', (last_open_chat_id) => {
+        this.getChat('', last_open_chat_id);
+      });
+   },
    setup() {
-      const { getAccounts, getFriends, addFriendRequest, acceptFriendRequest, discardFriendRequest } = useAccounts();
-      const { getChatByUserId, createNewChat } = useChats();
+      const { getAccounts, getFriends, addFriendRequest, acceptFriendRequest, discardFriendRequest, getAccountById} = useAccounts();
+      const { getChatByUserId, createNewChat, assignLastOpenChat } = useChats();
 
       const getFriendsList = async function () {
          let friend_requests = await getFriends(this.account.id).then((response) => response.data);
@@ -269,11 +279,30 @@ export default {
             }
          );
       }
-      const getChat = async function (friend){
-         let chat = await getChatByUserId(this.account.id).then((response) => 
+      
+      const getChat = async function (friend, last_open_chat_id = null){
+         let chat = await getChatByUserId(this.account.id).then(async (response) => 
          {
             let chats = response.data;
-            return chats.find(function (chat){
+            if(!friend && last_open_chat_id){
+                let last_open_chat = chats.find(function (chat){
+                    if(chat.id == last_open_chat_id)
+                    {
+                        return chat;
+                    }
+                });
+                let friend_id = null;
+                if(last_open_chat.userId == this.account.id){
+                    friend_id = last_open_chat.friendId;
+                } else {
+                    friend_id = last_open_chat.userId;
+                }
+                friend = await getAccountById(friend_id).then(friend => 
+                {
+                    return friend;
+                });
+            }
+            return await chats.find(function (chat){
                if(chat.friendName == friend.username && chat.userName == this.account.username)
                {
                   return chat;
@@ -300,12 +329,34 @@ export default {
          }
       }
 
+      const sendLastOpenChat = function (chat_id) {
+         assignLastOpenChat({chatId: chat_id, userId: this.account.id}).then(
+            (response) => {
+               if (response.status != 200) {
+                  this.$emit(
+                  "show-alert",
+                  `Something went wrong. Error ${response.status}`,
+                  "error"
+                  );
+               }
+            },
+            (error) => {
+               this.$emit(
+                  "show-alert",
+                  `Something went wrong. ${error.response.status} ${error.response.data}`,
+                  "error"
+               );
+            }
+         );
+      };
+
       return {
          getFriendsList,
          addFriend,
          acceptRequest,
          discardRequest,
-         getChat
+         getChat,
+         sendLastOpenChat
       }
    }
 };
