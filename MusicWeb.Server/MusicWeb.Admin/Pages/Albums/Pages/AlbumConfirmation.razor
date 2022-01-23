@@ -18,7 +18,7 @@
     <div class="panel-hdr text-center mb-3">
         <div class="col-12">
             <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                <h4 class="mb-sm-0">Unconfirmed albums</h4>
+                <h4 class="mb-sm-0">Albums</h4>
             </div>
         </div>
     </div>
@@ -139,7 +139,7 @@
                                                 @line.Name
                                             </td>
                                             <td>
-                                                @TimeSpan.FromMilliseconds(line.Length)
+                                                @TimeSpan.FromMilliseconds(line.Length).ToString(@"hh\:mm\:ss")
                                             </td>
                                             <td>
 
@@ -241,7 +241,7 @@
         catch (Exception ex)
         {
             _logger.LogError(ex.Message);
-            StatusMessage.Show("Error Wystąpił niespodziewany błąd podczas usuwania danych");
+            StatusMessage.Show("Error An error occured while deleting the data");
         }
     }
 
