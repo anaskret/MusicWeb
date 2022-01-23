@@ -16,7 +16,6 @@ namespace MusicWeb.Models.Identity
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public DateTime BirthDate { get; set; }
         public string ImagePath { get; set; }
         public UserType Type { get; set; }
         public int? ArtistId { get; set; }

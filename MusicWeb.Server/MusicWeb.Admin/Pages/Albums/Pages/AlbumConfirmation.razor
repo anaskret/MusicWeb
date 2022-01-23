@@ -3,10 +3,12 @@
 @using MusicWeb.Admin.Pages.Albums.Factories.Interfaces
 @using MusicWeb.Admin.Pages.Albums.Models
 @using MusicWeb.Services.Interfaces
+@using MusicWeb.Services.Interfaces.Songs
 
 @inject IAlbumFactory _albumFactory;
 @inject IMapper _mapper;
 @inject IAlbumService _albumService;
+@inject ISongService _songService;
 @inject NavigationManager NavManager;
 @inject ILogger<AlbumConfirmation> _logger;
 
@@ -46,7 +48,6 @@
                                         <th>Artist</th>
                                         <th>Genre</th>
                                         <th>Release Date</th>
-                                        <th>Description</th>
                                         <th>Is confirmed</th>
                                         <th class="text-center">Actions</th>
                                     </tr>
@@ -75,9 +76,6 @@
                                                 }
                                             </td>
                                             <td>
-                                                @album.Description
-                                            </td>
-                                            <td>
                                                 @(album.IsConfirmed ? "Yes" : "No")
                                             </td>
                                             <td>
@@ -86,6 +84,9 @@
                                                     {
                                                         <a href="#" title="Check songs" @onclick="() => LoadLines(album)" @onclick:preventDefault>
                                                             <i class="fas fa-eye"></i>
+                                                        </a>
+                                                        <a href="/albums/edit/@album.Id" title="Edit">
+                                                            <i class="fas fa-edit"></i>
                                                         </a>
                                                         <a href="#" title="Confirm" @onclick="() => ConfirmAlbum(album.Id)" @onclick:preventDefault>
                                                             <i class="fas fa-check"></i>
@@ -98,6 +99,9 @@
                                                     {
                                                         <a href="#" title="Check songs" @onclick="() => LoadLines(album)" @onclick:preventDefault>
                                                             <i class="fas fa-eye"></i>
+                                                        </a>
+                                                        <a href="/albums/edit/@album.Id" title="Edit">
+                                                            <i class="fas fa-edit"></i>
                                                         </a>
                                                         <a href="#" title="Delete" @onclick="() => DeleteClick(album.Id)" @onclick:preventDefault>
                                                             <i class="fas fa-trash-alt"></i>
@@ -124,6 +128,7 @@
                                     <tr>
                                         <th>Name</th>
                                         <th>Length</th>
+                                        <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -134,7 +139,16 @@
                                                 @line.Name
                                             </td>
                                             <td>
-                                                @line.Length
+                                                @TimeSpan.FromMilliseconds(line.Length)
+                                            </td>
+                                            <td>
+
+                                                <a href="/songs/edit/@line.Id" title="Edit">
+                                                    <i class="fas fa-edit"></i>
+                                                </a>
+                                                <a href="#" title="Delete" @onclick="() => DeleteSongClick(line.Id, line.AlbumId)" @onclick:preventDefault>
+                                                    <i class="fas fa-trash-alt"></i>
+                                                </a>
                                             </td>
                                         </tr>
                                     }
@@ -159,6 +173,8 @@
     public StatusMessageComponent StatusMessage { get; set; }
 
     private int idToDelete;
+    private int songIdToDelete;
+    private int albumId;
     protected ConfirmComponent DeleteConfirmation { get; set; }
 
     protected override async Task OnInitializedAsync()
@@ -193,14 +209,33 @@
         DeleteConfirmation.Show();
     }
 
+    public async Task DeleteSongClick(int id, int albumToDeleteId)
+    {
+        songIdToDelete = id;
+        albumId = albumToDeleteId;
+        DeleteConfirmation.Show();
+    }
+
     protected async Task ConfirmDelete_Click(bool deleteConfirmed)
     {
         try
         {
-            if (deleteConfirmed)
+            if (deleteConfirmed && idToDelete > 0)
             {
                 await _albumService.DeleteAsync(idToDelete);
                 List.Remove(List.FirstOrDefault(prp => prp.Id == idToDelete));
+                idToDelete = 0;
+                return;
+            }
+            if (deleteConfirmed && songIdToDelete > 0)
+            {
+                await _songService.DeleteAsync(songIdToDelete);
+                var album = List.FirstOrDefault(prp => prp.Id == albumId);
+                if(album != null)
+                    album.SongList.Remove(album.SongList.FirstOrDefault(prp => prp.Id == songIdToDelete));
+
+                songIdToDelete = 0;
+                albumId = 0;
             }
         }
         catch (Exception ex)

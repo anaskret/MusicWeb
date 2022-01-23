@@ -11,6 +11,7 @@ namespace MusicWeb.Admin.Pages.Albums.Models
     {
         private List<CreatorSongModel> _songs;
 
+        public int Id { get; set; }
         [Required(ErrorMessage = "Name is required")]
         public string Name { get; set; }
 
@@ -26,8 +27,6 @@ namespace MusicWeb.Admin.Pages.Albums.Models
         public int AlbumGenreId { get; set; }
 
         public double Duration { get; set; }
-
-        [Required(ErrorMessage = "Description is required")]
         public string Description { get; set; }
         public bool IsConfirmed { get; set; } = true;
 

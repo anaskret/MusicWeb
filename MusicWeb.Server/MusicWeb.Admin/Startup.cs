@@ -119,7 +119,7 @@ namespace MusicWeb.Admin
             services.AddTransient<IArtistModelFactory, ArtistModelFactory>();
             services.AddTransient<IAlbumFactory, AlbumFactory>();
             services.AddTransient<IGenreFactory, GenreFactory>();
-
+            services.AddTransient<ISongFactory, SongFactory>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

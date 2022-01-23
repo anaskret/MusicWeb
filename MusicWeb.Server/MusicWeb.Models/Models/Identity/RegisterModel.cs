@@ -24,8 +24,5 @@ namespace MusicWeb.Models.Models.Identity
         [Required(ErrorMessage = "Email is required")]
         [EmailAddress]
         public string Email { get; set; }
-
-        [Required(ErrorMessage = "BirthDate is required")]
-        public DateTime BirthDate { get; set; } = DateTime.Now;
     }
 }

@@ -11,5 +11,6 @@ namespace MusicWeb.Admin.Pages.Albums.Factories.Interfaces
         Task PrepareCreator(List<ArtistSelectModel> artists, List<GenreSelectModel> genres);
         Task<List<AlbumPageModel>> PrepareAlbums(int filter);
         Task PrepareSongs(AlbumPageModel model);
+        Task<CreatorAlbumModel> PrepareEditCreator(int id, List<ArtistSelectModel> artists, List<GenreSelectModel> genres);
     }
 }

@@ -141,9 +141,12 @@ namespace MusicWeb.Services.Services.ApiIntegration
 
             foreach(var album in result.album)
             {
-                var genre = await _genreService.GetByNameAsync(album.strGenre);
+                var genreName = album.strGenre;
+                if (string.IsNullOrEmpty(genreName))
+                    genreName = "Not Set";
+                var genre = await _genreService.GetByNameAsync(genreName);
                 if (genre == null)
-                    genre = await _genreService.AddAsync(new Genre() { Name = album.strGenre });
+                    genre = await _genreService.AddAsync(new Genre() { Name = genreName });
 
                 var albumEntity = new Album()
                 {
@@ -175,18 +178,21 @@ namespace MusicWeb.Services.Services.ApiIntegration
             var result = JsonConvert.DeserializeObject<SongResponseRoot>(await response.Content.ReadAsStringAsync());
 
             var songEntityList = new List<Song>();
+            int i = 1;
             foreach(var song in result.track)
             {
                 var songEntity = new Song()
                 {
                     AlbumId = musicWebAlbumId,
                     Name = song.strTrack,
+                    PositionOnAlbum = i,
                     Length = Convert.ToDouble(song.intDuration),
                     ReleaseDate = releaseDate,
                     ComposerId = musicWebArtistId
                 };
 
                 songEntityList.Add(songEntity);
+                i++;
             }
             await _songService.AddRangeAsync(songEntityList);
         }

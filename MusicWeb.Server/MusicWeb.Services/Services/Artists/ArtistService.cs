@@ -43,6 +43,7 @@ namespace MusicWeb.Services.Services.Artists
         private readonly AuthenticationStateProvider _authenticationStateProvider;
         private readonly IIdentityService _identityService;
         private readonly IEmailSender _emailSender;
+        private readonly IAlbumService _albumService;
 
         public ArtistService(IArtistRepository artistRepository,
                              IMapper mapper,
@@ -52,8 +53,9 @@ namespace MusicWeb.Services.Services.Artists
                              ISongService songService,
                              IConfiguration configuration,
                              AuthenticationStateProvider authenticationStateProvider,
-                             IIdentityService identityService, 
-                             IEmailSender emailSender)
+                             IIdentityService identityService,
+                             IEmailSender emailSender, 
+                             IAlbumService albumService)
         {
             _artistRepository = artistRepository;
             _mapper = mapper;
@@ -65,6 +67,7 @@ namespace MusicWeb.Services.Services.Artists
             _authenticationStateProvider = authenticationStateProvider;
             _identityService = identityService;
             _emailSender = emailSender;
+            _albumService = albumService;
         }
 
         public async Task<Artist> GetByIdAsync(int id)
@@ -102,6 +105,8 @@ namespace MusicWeb.Services.Services.Artists
         public async Task DeleteAsync(int id)
         {
             var entity = await GetByIdAsync(id);
+
+            await _albumService.DeleteByArtistIdAsync(id);
 
             if (entity.Type == ArtistType.BandMember)
                 await _bandService.DeleteAsync(entity.BandId.GetValueOrDefault(), entity.Id);
@@ -199,7 +204,6 @@ namespace MusicWeb.Services.Services.Artists
                 UserName = model.UserName,
                 FirstName = model.Name,
                 LastName = string.IsNullOrEmpty(model.LastName) ? model.LastName : model.Name,
-                BirthDate = model.EstablishmentDate,
                 ArtistId = artistEntity.Id,
                 Type = UserType.Artist
             };

@@ -91,7 +91,6 @@ namespace MusicWeb.Repositories.Repositories.Identity
                 FirstName = model.FirstName,
                 LastName = model.LastName,
                 Email = model.Email,
-                BirthDate = model.BirthDate,
                 Type = UserType.Standard,
                 ArtistId = 0
             };
