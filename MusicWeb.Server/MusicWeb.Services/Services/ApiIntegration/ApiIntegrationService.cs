@@ -50,7 +50,7 @@ namespace MusicWeb.Services.Services.ApiIntegration
         public async Task IntegrateAsync()
         {
             await IntegrateCountriesAsync();
-            Task.Run(async () => await IntegrateArtistsAsync());
+            await Task.Run(async () => await IntegrateArtistsAsync());
         }
 
         private async Task IntegrateCountriesAsync()

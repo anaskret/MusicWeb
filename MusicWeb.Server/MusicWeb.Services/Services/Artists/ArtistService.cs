@@ -169,7 +169,7 @@ namespace MusicWeb.Services.Services.Artists
                     query = query.Where(prp => prp.Name.Contains(searchString));
 
                 return query.OrderByDescending(prp => prp.Name);
-            });
+            }, pageNum, pageSize);
         }
 
         public async Task<IList<Artist>> GetAllBandsAsync()
