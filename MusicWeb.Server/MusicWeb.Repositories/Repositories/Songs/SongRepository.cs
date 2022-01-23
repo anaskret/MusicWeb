@@ -22,7 +22,7 @@ namespace MusicWeb.Repositories.Repositories.Songs
         public async Task<SongRatingAverage> GetSongAverageRating(int id)
         {
             var sql = $@"SELECT T0.*, ROUND(Coalesce(T1.Rating, 0), 2) as Rating, 
-            T1.RatingsCount,
+        COALESCE(T1.RatingsCount, 0) as RatingsCount,
         COALESCE(T2.Favorite, 0) as FavoriteCount,
         COALESCE(T3.Reviews, 0) as ReviewsCount
         FROM Song T0
@@ -69,7 +69,7 @@ ORDER BY COALESCE(T3.AvgRating, 0) DESC, T0.Name";
         public async Task<List<SongRatingAverage>> GetSongsPagedAsync(SortType sortType, DateTime startDate, DateTime endDate, int pageNum = 0, int pageSize = 15, string searchString = "")
         {
             var sql = @$"SELECT T0.*, ROUND(Coalesce(T1.Rating, 0), 2) as Rating, 
-            T1.RatingsCount,
+            COALESCE(T1.RatingsCount, 0) as RatingsCount,
             COALESCE(T2.Favorite, 0) as FavoriteCount,
             COALESCE(T3.Reviews, 0) as ReviewsCount
             FROM Song T0

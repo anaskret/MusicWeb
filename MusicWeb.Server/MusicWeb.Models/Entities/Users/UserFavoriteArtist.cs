@@ -12,10 +12,8 @@ namespace MusicWeb.Models.Entities
     public class UserFavoriteArtist : BaseEntity
     {
         public DateTime FavoriteDate { get; set; }
-
         public string UserId { get; set; }
         public int ArtistId { get; set; }
-
         public virtual Artist Artist { get; set; }
         public virtual ApplicationUser User { get; set; }
     }

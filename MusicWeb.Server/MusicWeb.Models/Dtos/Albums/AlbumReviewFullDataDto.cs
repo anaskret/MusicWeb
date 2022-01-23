@@ -18,12 +18,10 @@ namespace MusicWeb.Models.Dtos.Albums
         public string UserName { get; set; }
         public AlbumDto Album { get; set; }
         public string Artist { get; set; }
-        public AlbumRating Rating { get; set; } 
 
         public AlbumReviewFullDataDto()
         {
             Album = new AlbumDto();
-            Rating = new AlbumRating();
         }
     }
 }

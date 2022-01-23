@@ -17,12 +17,12 @@ const routes = [
     component: () => import("@/views/Register.vue"),
   },
   {
-    path: "/artists",
+    path: "/artists/:type?",
     name: "ArtistListPage",
     component: () => import("@/views/ArtistListPage.vue"),
   },
   {
-    path: "/albums",
+    path: "/albums/:type?",
     name: "AlbumListPage",
     component: () => import("@/views/AlbumListPage.vue"),
   },
@@ -52,7 +52,7 @@ const routes = [
     component: () => import("@/views/SongPage.vue"),
   },
   {
-    path: "/songs",
+    path: "/songs/:type?",
     name: "SongListPage",
     component: () => import("@/views/SongListPage.vue"),
   },

@@ -49,10 +49,33 @@ export default function useAlbums() {
         });
     }
   };
+  const getPagedAlbumsRanking = function (
+    sort_type,
+    page_num,
+    page_size
+  ) {
+    if (page_num > -1 && page_size) {
+      return albumServices
+        .getPagedAlbumsRanking(
+            sort_type,
+            page_num,
+            page_size
+        )
+        .then((response) => {
+          let res = response.data;
+          let albums = [];
+          res.forEach((album) => {
+            albums.push(new Album(album));
+          });
+          return albums;
+        });
+    }
+  };
   return {
     getAll,
     getAlbumFullData,
     getAlbumRatingAverage,
     getPagedAlbums,
+    getPagedAlbumsRanking
   };
 }

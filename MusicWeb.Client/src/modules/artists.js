@@ -44,9 +44,32 @@ export default function useArtists() {
       });
     }
   };
+  const getPagedArtistsRanking = function (
+    sort_type,
+    page_num,
+    page_size
+  ) {
+    if (page_num > -1 && page_size) {
+      return artistServices
+        .getPagedArtistsRanking(
+            sort_type,
+            page_num,
+            page_size
+        )
+        .then((response) => {
+          let res = response.data;
+          let artists = [];
+          res.forEach((artist) => {
+            artists.push(new Artist(artist));
+          });
+          return artists;
+        });
+    }
+  };
   return {
     getArtistById,
     getPagedArtists,
     getArtistRatingAverage,
+    getPagedArtistsRanking
   };
 }

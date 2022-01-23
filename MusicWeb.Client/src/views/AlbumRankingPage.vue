@@ -9,6 +9,7 @@
     :redirect_module_name="redirect_module_name"
     :module_name="module_name"
     :columns_list="columns_list"
+    @sort-list="sortList"
   />
 </template>
 
@@ -33,7 +34,15 @@ export default {
       intersection_active: true,
       redirect_module_name: "AlbumPage",
       module_name: "AlbumRanking",
-      columns_list: ["Position", "", "Album", "Rating", "Amount of ratings", "Favorite", "Reviews"],
+      columns_list: [
+          {name: "Position"}, 
+          {name: ""}, 
+          {name: "Album"}, 
+          {name: "Rating", sort_type_asc: 0, sort_type_desc: 1}, 
+          {name: "Amount of ratings", sort_type_asc: 2, sort_type_desc: 3}, 
+          {name: "Favorite", sort_type_asc: 4, sort_type_desc: 5}, 
+          {name: "Reviews", sort_type_asc: 6, sort_type_desc: 7}
+      ],
     };
   },
   methods: {
@@ -48,21 +57,23 @@ export default {
     setFilters(filters) {
       this.filters = filters;
     },
+    sortList(sort_type){
+        this.scroll_settings.selected_sort_type = sort_type;
+        this.filterList();
+        this.getPagedAlbumList('', '', true);
+    }
   },
 
   setup() {
-    const { getPagedAlbums } = useAlbums();
+    const { getPagedAlbumsRanking } = useAlbums();
 
     const getPagedAlbumList = function (entries, observer, is_intersecting) {
       if (is_intersecting) {
-        getPagedAlbums(
+        getPagedAlbumsRanking(
+          this.scroll_settings.selected_sort_type,
           this.scroll_settings.page,
-          this.scroll_settings.records_quantity,
-          3,
-          '1970-12-13T16:26:14.374Z',
-          '2030-12-13T16:26:14.374Z'
-        )
-          .then((response) => {
+          this.scroll_settings.records_quantity
+        ).then((response) => {
             if (response.length > 0) {
               response.forEach((item) => {
                 return this.albums.push(item);
