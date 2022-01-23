@@ -42,15 +42,19 @@
     </div>
 </div>
 <ConfirmComponent @ref="ConfirmComponent" ConfirmationChanged="Confirm_Click"></ConfirmComponent>
+<WaitMessageComponent @ref="WaitMessageComponent" ></WaitMessageComponent>
 
 @code {
     public StatusMessageComponent StatusMessage { get; set; }
     public ConfirmComponent ConfirmComponent { get; set; }
+    public WaitMessageComponent WaitMessageComponent { get; set; }
 
     public async Task StartIntegration()
     {
         try
         {
+            WaitMessageComponent.Show();
+
             await _integrationService.IntegrateAsync();
 
             StatusMessage.Show("Integration was successful");
@@ -60,7 +64,10 @@
             _logger.LogError(ex.Message, ex);
             StatusMessage.Show("Error Something went wrong while integrating the data with the APIs");
         }
-
+        finally
+        {
+            WaitMessageComponent.Close();
+        }
     }
 
     private void IntegrateClick()

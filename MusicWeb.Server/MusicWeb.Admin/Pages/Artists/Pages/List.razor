@@ -1,4 +1,5 @@
 ﻿@page "/artists/list"
+@page "/artists/list/{PageNum:int}"
 @page "/artists/list/{PageNum:int}/{SearchString}"
 
 @using Admin.Pages.Artists.Models
@@ -59,20 +60,29 @@
                                 <tbody>
                                     @foreach (var artist in ArtistList)
                                     {
-                                        <tr>
-                                            <td>@artist.Name</td>
-                                            <td>@artist.EstablishmentDate.ToShortDateString()</td>
-                                            <td>
-                                                <div class="text-center">
-                                                    <a href="/artists/edit/@artist.Id" title="Edit">
-                                                        <i class="fas fa-edit"></i>
-                                                    </a>
-                                                    <a href="#" @onclick="() => DeleteClick(artist.UserId)" @onclick:preventDefault title="Delete">
-                                                        <i class="fas fa-trash-alt"></i>
-                                                    </a>
-                                                </div>
-                                            </td>
-                                        </tr>
+                                    <tr>
+                                        <td>@artist.Name</td>
+                                        <td>
+                                            @if (artist.EstablishmentDate == DateTime.MinValue)
+                                            {
+                                                @:Not set
+                                            }
+                                            else
+                                            {
+                                                @artist.EstablishmentDate.ToShortDateString()
+                                            }
+                                        </td>
+                                        <td>
+                                            <div class="text-center">
+                                                <a href="/artists/edit/@artist.Id" title="Edit">
+                                                    <i class="fas fa-edit"></i>
+                                                </a>
+                                                <a href="#" @onclick="() => DeleteClick(artist.UserId)" @onclick:preventDefault title="Delete">
+                                                    <i class="fas fa-trash-alt"></i>
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
                                     }
                                 </tbody>
                             </table>
