@@ -18,7 +18,7 @@
         <form @submit.prevent="onSubmit">
           <v-text-field
             class="p-4"
-            label="Type Login"
+            label="Enter Login"
             prepend-icon="mdi-account"
             type="text"
             v-model.trim="$v.account.username.$model"
@@ -30,7 +30,7 @@
           ></v-text-field>
           <v-text-field
             class="p-4"
-            label="Type Password"
+            label="Enter Password"
             prepend-icon="mdi-lock"
             type="password"
             v-model.trim="$v.account.password.$model"

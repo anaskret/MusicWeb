@@ -5,7 +5,6 @@ export default class account {
   firstname = "";
   lastname = "";
   email = "";
-  birthdate = "";
   imagePath = "";
   userType = null;
   artistId = null;
@@ -24,7 +23,6 @@ export default class account {
       this.firstname = $data.firstName;
       this.lastname = $data.lastName;
       this.email = $data.email;
-      this.birthdate = $data.birthDate;
       this.imagePath = $data.imagePath;
       this.userType = $data.type;
       this.artistId = $data.artistId;

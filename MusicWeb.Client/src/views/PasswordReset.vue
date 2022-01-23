@@ -18,7 +18,7 @@
         <form @submit.prevent="onSubmit">
           <v-text-field
             class="p-4"
-            label="Type Username"
+            label="Enter Username"
             prepend-icon="mdi-account"
             type="text"
             v-model.trim="$v.account.username.$model"

@@ -18,4 +18,7 @@ export default {
   readFriendMessages(data) {
     return ApiService.authRequest(`/messages`, ApiService.put, data);
   },
+  assignLastOpenChat(data){
+    return ApiService.authRequest(`/chats/opened`, ApiService.put, data);
+  }
 };
