@@ -130,8 +130,8 @@ export default {
       }
    },
    methods: {
-       async openChat(user_id){
-         await this.getChat(user_id);
+       async openChat(friend){
+         await this.getChat(friend);
          this.$emit("open-chat");
        },
         ...mapMutations([

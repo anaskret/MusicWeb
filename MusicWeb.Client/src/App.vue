@@ -17,7 +17,7 @@
     </v-snackbar>
     <div class="chat" v-if="!['Login', 'Register', 'PasswordReset'].includes(this.$route.name)">
       <Chat
-        v-if="chatVisibility"
+        v-if="chat_visibility"
         @user-typing="userTyping"
         @close-chat="closeChat"
         @show-alert="showAlert"
@@ -69,12 +69,11 @@ export default {
       alert_show: false,
       timeout: 2500,
       alert_type: "",
-      chatVisibility: false,
       drawer: null,
     };
   },
   computed: {
-    ...mapGetters(["current_chat", "current_user"]),
+    ...mapGetters(["current_chat", "current_user", "chat_visibility"]),
   },
   mounted() {
     this.$friendsHub.$on(
@@ -91,14 +90,14 @@ export default {
     );
   },
   methods: {
-    ...mapMutations(["setMessages"]),
+    ...mapMutations(["setMessages", "toggleChatVisability"]),
     showAlert(message, type) {
       this.alert_show = true;
       this.alert_message = message;
       this.alert_type = type;
     },
     openChat() {
-      this.chatVisibility = true;
+      this.toggleChatVisability(true);
     },
     prepareFriendRequestAlert(userId, friendId, fullName) {
       console.log(userId, friendId);
@@ -118,7 +117,7 @@ export default {
       console.log("typing", e);
     },
     closeChat() {
-      this.chatVisibility = false;
+      this.toggleChatVisability(false);
     },
     setDrawer(drawer) {
       this.drawer = drawer;

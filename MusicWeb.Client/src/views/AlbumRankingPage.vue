@@ -1,16 +1,25 @@
 <template>
-  <InfiniteScrollList
-    :items="albums"
-    :scroll_settings="scroll_settings"
-    :getPagedItemList="getPagedAlbumList"
-    :filterList="filterList"
-    :intersection_active="intersection_active"
-    @set-filters="setFilters"
-    :redirect_module_name="redirect_module_name"
-    :module_name="module_name"
-    :columns_list="columns_list"
-    @sort-list="sortList"
-  />
+    <v-container fluid class="py-16">
+        <v-row>
+            <v-col lg="12" sm="12" class="ranking-header">
+                <h1>
+                    <span>Album</span> <span class="ranking-header-second">Ranking</span>
+                </h1>
+            </v-col>
+        </v-row>
+    <InfiniteScrollList
+        :items="albums"
+        :scroll_settings="scroll_settings"
+        :getPagedItemList="getPagedAlbumList"
+        :filterList="filterList"
+        :intersection_active="intersection_active"
+        @set-filters="setFilters"
+        :redirect_module_name="redirect_module_name"
+        :module_name="module_name"
+        :columns_list="columns_list"
+        @sort-list="sortList"
+    />
+    </v-container>
 </template>
 
 <script>
@@ -99,5 +108,12 @@ export default {
 <style scoped>
 .theme--light.v-card {
   background-color: #f5f5f5;
+}
+.ranking-header{
+    display: flex;
+    justify-content: center;
+}
+.ranking-header-second{
+    font-weight: 300;
 }
 </style>
