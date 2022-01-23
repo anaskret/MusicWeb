@@ -3,9 +3,9 @@
     <v-row justify="center" class="pb-lg-2">
       <v-col lg="8" class="d-flex flex-row justify-space-between">
         <div class="d-flex flex-row" style="align-items: center">
-          <h1 class="display-1 font-weight-bold text-left">Recenzje</h1>
+          <h1 class="display-1 font-weight-bold text-left">Reviews</h1>
           <p class="pl-lg-16">
-            Wyświetl wszystkie recenzje
+            View all Reviews
             <font-awesome-icon
               class="icon"
               icon="chevron-right"
@@ -26,7 +26,7 @@
                 v-bind="attrs"
                 v-on="on"
               >
-                Napisz recenzję
+                Write Review
               </v-btn>
             </template>
 
@@ -132,7 +132,7 @@
                 height="25px"
                 class="text-uppercase align-self-center mt-5"
                 @click="redirectToItem(review.id)"
-                >Czytaj dalej
+                >Read More
               </v-btn>
             </div>
           </v-col>
@@ -226,7 +226,7 @@ export default {
             } else {
               this.$emit(
                 "show-alert",
-                `Nie udało się dodać recenzji. Błąd ${response.status}`,
+                `Error while adding review. Error ${response.status}`,
                 "error"
               );
             }
@@ -234,7 +234,7 @@ export default {
           (error) => {
             this.$emit(
               "show-alert",
-              `Nie udało się dodać recenzji. ${error.response.status} ${error.response.data}`,
+              `Error while adding review. ${error.response.status} ${error.response.data}`,
               "error"
             );
           }
@@ -267,7 +267,7 @@ export default {
             } else {
               this.$emit(
                 "show-alert",
-                `Nie udało się dodać recenzji. Błąd ${response.status}`,
+                `Error while adding review. Error ${response.status}`,
                 "error"
               );
             }
@@ -275,7 +275,7 @@ export default {
           (error) => {
             this.$emit(
               "show-alert",
-              `Nie udało się dodać recenzji. ${error.response.status} ${error.response.data}`,
+              `Error while adding review. ${error.response.status} ${error.response.data}`,
               "error"
             );
           }
@@ -286,7 +286,6 @@ export default {
       addNewSongReview,
       addNewAlbumReview,
     };
-    // const { addReview } = useAlbumReviews();
   },
 };
 </script>

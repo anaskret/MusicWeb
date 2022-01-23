@@ -42,10 +42,10 @@ export default {
       id: this.$route.params.id,
       song: {},
       show_observe_button: false,
-      vote_title: "Oceń piosenkę",
+      vote_title: "Review Song",
       module_name: "Song",
       redirect_module_name: "SongReviewPage",
-      description_title: "Tekst utworu",
+      description_title: "Song Text",
       reviews_desc: {},
     };
   },

@@ -38,7 +38,6 @@ export default {
       scroll_settings: {
         page: 0,
         records_quantity: 10,
-        default_ranking_type: "Po popularności malejąco",
         selected_sort_type: 1,
       },
       intersection_active: true,

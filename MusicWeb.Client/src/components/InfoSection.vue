@@ -41,7 +41,7 @@
           </p>
           <p>
             Duration:
-            <span>{{ parent.duration }} min</span>
+            <span>{{ parent.duration }} mins</span>
           </p>
           <p>
             Music Genre:
@@ -59,7 +59,7 @@
           </p>
           <p>
             Duration:
-            <span>{{ parent.duration }} min</span>
+            <span>{{ parent.duration }} mins</span>
           </p>
           <p>
             Position:
@@ -90,7 +90,7 @@ export default {
     },
     description_title: {
       type: String,
-      default: "Opis",
+      default: "Description",
     },
   },
   data() {

@@ -2,7 +2,6 @@
   <v-container fluid class="mb-lg-16">
     <v-row justify="center" class="pb-lg-2">
       <v-col lg="8">
-        <!-- TODO : wyśrodkować w pionie -->
         <div class="d-flex flex-row" style="align-items: center">
           <h1 class="display-1 font-weight-bold text-left">{{ list_title }}</h1>
           <p class="pl-lg-16">
