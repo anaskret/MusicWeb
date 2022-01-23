@@ -23,7 +23,8 @@ export default new Vuex.Store({
     placeholder: "",
     current_chat: {},
     chat_page: 0,
-    base64_image: ""
+    base64_image: "",
+    chat_visibility: false
   },
   mutations: {
     newMessage(state, message) {
@@ -121,6 +122,9 @@ export default new Vuex.Store({
     },
     clearBase64Image(state){
       state.base64_image = null;
+    },
+    toggleChatVisability(state, is_visable){
+      state.chat_visibility = is_visable;
     }
   },
   actions: {
@@ -189,6 +193,9 @@ export default new Vuex.Store({
     },
     base64_image(state){
       return state.base64_image;
+    },
+    chat_visibility(state){
+        return state.chat_visibility;
     }
   },
 });
