@@ -86,6 +86,32 @@
         />
       </v-col>
     </v-row>
+    <!-- jeżeli artysta -->
+    <v-row>
+      <v-col>
+        <ItemCarousel
+          :items="this.account.userFavoriteArtists"
+          :component_title="artists_title"
+          :component_link_title="artists_link_title"
+          :redirect_to="artist_redirect"
+          :component_type="favorite_component"
+          :redirect_to_list="artist_list_redirect"
+        />
+      </v-col>
+    </v-row>
+    <!-- koniec -->
+    <v-row>
+      <v-col>
+        <ItemCarousel
+          :items="this.account.userFavoriteArtists"
+          :component_title="artists_title"
+          :component_link_title="artists_link_title"
+          :redirect_to="artist_redirect"
+          :component_type="favorite_component"
+          :redirect_to_list="artist_list_redirect"
+        />
+      </v-col>
+    </v-row>
     <v-row>
       <v-col>
         <ItemCarousel

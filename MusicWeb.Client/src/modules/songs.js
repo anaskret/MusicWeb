@@ -62,11 +62,18 @@ export default function useSongs() {
         });
     }
   };
+
+  const addSong = function (data) {
+    if (data) {
+      return songServices.addSong(data);
+    }
+  };
   return {
     getAll,
     getSongFullData,
     getSongRatingAverage,
     getPagedSongs,
     getTopArtistSongs,
+    addSong,
   };
 }

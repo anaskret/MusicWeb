@@ -96,6 +96,16 @@ const routes = [
     name: "PasswordReset",
     component: () => import("@/views/PasswordReset.vue"),
   },
+  {
+    path: "/manage",
+    name: "ManageArtistPage",
+    component: () => import("@/views/ManageArtistPage.vue"),
+  },
+  {
+    path: "/showitems",
+    name: "ArtistItemsPage",
+    component: () => import("@/views/ArtistItemsPage.vue"),
+  },
 ];
 
 const router = new VueRouter({

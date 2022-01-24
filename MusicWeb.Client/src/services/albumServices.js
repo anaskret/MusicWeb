@@ -38,4 +38,7 @@ export default {
       pageSize
     );
   },
+  addAlbum(data) {
+    return ApiService.authRequest(`/albums`, ApiService.post, data);
+  },
 };

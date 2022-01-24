@@ -242,12 +242,13 @@ export default {
       }
     };
     const addNewAlbumReview = function () {
-      this.albumReview.userId = this.account.id;
+      this.albumReview.userId = "d5beb617-32ee-42c1-bfb8-607c8f38afcc";
       this.albumReview.albumId = this.$route.params.id;
       this.albumReview.postDate = moment().format();
       delete this.albumReview.album;
       delete this.albumReview.user;
       delete this.albumReview.id;
+        console.log(this.albumReview);
       if (
         this.albumReview.title == null ||
         this.albumReview.title == "" ||

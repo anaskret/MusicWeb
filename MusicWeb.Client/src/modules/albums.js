@@ -64,11 +64,18 @@ export default function useAlbums() {
         });
     }
   };
+
+  const addAlbum = function (data) {
+    if (data) {
+      return albumServices.addAlbum(data);
+    }
+  };
   return {
     getAll,
     getAlbumFullData,
     getAlbumRatingAverage,
     getPagedAlbums,
     getAlbumSongs,
+    addAlbum,
   };
 }
