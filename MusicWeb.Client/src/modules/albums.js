@@ -1,5 +1,6 @@
 import albumServices from "@/services/albumServices";
 import Album from "@/models/Album.js";
+import Song from "@/models/Song.js";
 
 export default function useAlbums() {
   const getAll = () => {
@@ -49,10 +50,25 @@ export default function useAlbums() {
         });
     }
   };
+  const getAlbumSongs = function (albumId, pageNum, pageSize) {
+    if (albumId && pageNum > -1 && pageSize) {
+      return albumServices
+        .getAlbumSongs(albumId, pageNum, pageSize)
+        .then((response) => {
+          let res = response.data;
+          let songs = [];
+          res.forEach((song) => {
+            songs.push(new Song(song));
+          });
+          return songs;
+        });
+    }
+  };
   return {
     getAll,
     getAlbumFullData,
     getAlbumRatingAverage,
     getPagedAlbums,
+    getAlbumSongs,
   };
 }

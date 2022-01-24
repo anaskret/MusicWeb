@@ -165,11 +165,12 @@ export default {
           this.scroll_settings.page,
           this.scroll_settings.records_quantity
         )
-          .then((response) => {
-            debugger;
+         .then((response) => {
             if (response.length > 0) {
-              this.artists = response;
-            } else {
+              response.forEach((item) => {
+                return this.artists.push(item);
+              });
+            }else {
              this.intersection_active = false;
             }
           })
@@ -187,10 +188,13 @@ export default {
           this.scroll_settings.records_quantity
         )
           .then((response) => {
-            debugger;
             if (response.length > 0) {
-              this.artists = response;
-            } else {
+              response.forEach((item) => {
+                return this.artists.push(item);
+              });
+              this.last_search = this.searchingValue;
+            }
+             else {
              this.intersection_active = false;
             }
           })

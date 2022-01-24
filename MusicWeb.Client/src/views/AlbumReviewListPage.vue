@@ -1,5 +1,20 @@
 <template>
+<div>
+
+   <InfiniteScrollList
+    v-if="id != null"
+    :items="albumReviews"
+    :scroll_settings="scroll_settings"
+    :getPagedItemList="getAlbumReviewsList"
+    :filterList="filterList"
+    :intersection_active="intersection_active"
+    @set-filters="setFilters"
+    :redirect_module_name="redirect_module_name"
+    :module_name="module_name"
+    :page="page_name"
+  />
   <InfiniteScrollList
+  v-else
     :items="albumReviews"
     :scroll_settings="scroll_settings"
     :getPagedItemList="getPagedAlbumReviewList"
@@ -8,7 +23,8 @@
     @set-filters="setFilters"
     :redirect_module_name="redirect_module_name"
     :module_name="module_name"
-  />
+  /> 
+</div>
 </template>
 
 <script>
@@ -40,6 +56,9 @@ export default {
       redirect_module_name: "AlbumReviewPage",
       last_search: "",
       module_name: "AlbumReviewList",
+      album_module_name: "ReviewForAlbumList",
+      id: this.$route.params.id,
+      page_name: "ReviewsForAlbum",
     };
   },
   watch: {
@@ -69,7 +88,7 @@ export default {
   },
 
   setup() {
-    const { getPaged } = useAlbumReviews();
+    const { getPaged, getAlbumReviews } = useAlbumReviews();
 
     const getPagedAlbumReviewList = function (entries, observer, is_intersecting) {
       if (is_intersecting) {
@@ -80,15 +99,35 @@ export default {
           '1990-12-13T16:26:14.374Z',
           // this.parseDate(this.filters.release_date_from),
           this.parseDate(this.filters.release_date_to),
-          this.scroll_settings.searchingValue
+          " "
         )
           .then((response) => {
             if (response.length > 0) {
               response.forEach((item) => {
                 return this.albumReviews.push(item);
               });
-              this.last_search = this.$store.state.searchingValue;
-              this.$store.state.searchingValue = "";
+            } else {
+              this.intersection_active = false;
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+        this.scroll_settings.page++;
+      }
+    };
+    const getAlbumReviewsList = function (entries, observer, is_intersecting) {
+      if (is_intersecting) {
+        getAlbumReviews(
+          this.id,
+          this.scroll_settings.page,
+          this.scroll_settings.records_quantity
+        )
+          .then((response) => {
+            if (response.length > 0) {
+              response.forEach((item) => {
+                return this.albumReviews.push(item);
+              });
             } else {
               this.intersection_active = false;
             }
@@ -102,6 +141,7 @@ export default {
 
     return {
       getPagedAlbumReviewList,
+      getAlbumReviewsList,
     };
   },
 };

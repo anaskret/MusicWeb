@@ -29,4 +29,13 @@ export default {
       );
     }
   },
+  getAlbumSongs(albumId, pageNum, pageSize) {
+    return ApiService.authRequest(
+      `/albumsongs/${albumId}/${pageNum}/${pageSize}`,
+      ApiService.get,
+      albumId,
+      pageNum,
+      pageSize
+    );
+  },
 };

@@ -76,7 +76,7 @@ namespace MusicWeb.Services.Services.Albums
             var response = await _albumReviewRepository.GetAlbumReviewsPagedAsync(albumId, pageNum, pageSize);
             return _mapper.Map<List<AlbumReviewRating>>(response);
         }
-
+/*
         public async Task<IPagedList<AlbumReview>> GetIPagedAsync(int pageNum = 0, int pageSize = int.MaxValue)
         {
             return await _albumReviewRepository.GetAllPagedAsync(query =>
@@ -85,5 +85,6 @@ namespace MusicWeb.Services.Services.Albums
                 return query.OrderByDescending(prp => prp.Title);
             });
         }
+*/
     }
 }

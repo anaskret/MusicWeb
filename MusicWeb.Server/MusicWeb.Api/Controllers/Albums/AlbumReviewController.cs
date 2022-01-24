@@ -122,21 +122,6 @@ namespace MusicWeb.Api.Controllers.Albums
             }
         }
 
-       
-        [HttpGet(ApiRoutes.AlbumReviews.GetAllPagedWithRating)]
-        public async Task<IActionResult> GetAllPagedWithRating([FromRoute] int pageNum, [FromRoute] int pageSize, [FromRoute] SortType sortType, [FromRoute] DateTime createDateStart, [FromRoute] DateTime createDateEnd)
-        {
-            try
-            {
-                var response = await _albumReviewService.GetPagedAsync(sortType, createDateStart, createDateEnd, pageNum, pageSize);
-                return Ok(response);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex.Message);
-                return StatusCode(500, ex.Message);
-            }
-        }
         [HttpGet(ApiRoutes.AlbumReviews.GetAlbumReviews)]
         public async Task<IActionResult> GetAlbumReviewsPagedAsync([FromRoute] int albumId, [FromRoute] int pageNum, [FromRoute] int pageSize)
         {

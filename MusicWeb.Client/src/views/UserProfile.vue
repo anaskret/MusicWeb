@@ -1,6 +1,5 @@
 <template>
   <v-container fluid class="py-16">
-    {{this.account}}
     <v-row justify="center"> 
       <v-col md="10">
         <div style="display: flex; justify-content: center; align-items:center;">

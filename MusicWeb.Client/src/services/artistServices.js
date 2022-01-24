@@ -26,4 +26,22 @@ export default {
       );
     }
   },
+  getDiscography(artistId, pageNum, pageSize) {
+    return ApiService.authRequest(
+      `/artistdiscography/${artistId}/${pageNum}/${pageSize}`,
+      ApiService.get,
+      artistId,
+      pageNum,
+      pageSize
+    );
+  },
+  getSongs(artistId, pageNum, pageSize) {
+    return ApiService.authRequest(
+      `/artistsongs/${artistId}/${pageNum}/${pageSize}`,
+      ApiService.get,
+      artistId,
+      pageNum,
+      pageSize
+    );
+  },
 };

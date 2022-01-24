@@ -9,24 +9,20 @@ export default {
   getAlbumReviewFullData(id) {
     return ApiService.authRequest(`/albumreviewsdata/${id}`, ApiService.get);
   },
-  getPaged(
-    page_num,
-    page_size,
-    sort_type,
-    create_date_start,
-    create_date_end,
-    search_string
-  ) {
-    // if (search_string == "" || search_string == null) {
-    //   return ApiService.authRequest(
-    //     `/albumreviews/${page_num}/${page_size}/${sort_type}/${create_date_start}/${create_date_end}`,
-    //     ApiService.get
-    //   );
-    // } else {
+  getPaged(page_num, page_size, sort_type, create_date_start, create_date_end) {
     return ApiService.authRequest(
-      `/albumreviews/${page_num}/${page_size}/${sort_type}/${create_date_start}/${create_date_end}/${search_string}`,
+      `/albumreviews/${page_num}/${page_size}/${sort_type}/${create_date_start}/${create_date_end}`,
       ApiService.get
     );
-    // }
+  },
+
+  getAlbumReviews(albumId, pageNum, pageSize) {
+    return ApiService.authRequest(
+      `/reviewsforalbum/${albumId}/${pageNum}/${pageSize}`,
+      ApiService.get,
+      albumId,
+      pageNum,
+      pageSize
+    );
   },
 };

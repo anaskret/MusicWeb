@@ -11,10 +11,13 @@ namespace MusicWeb.Models.Entities.Keyless
         public int Id { get; set; }
         public string Title { get; set; }
         public string Content { get; set; }
+        public string Name { get; set; }
+        public string Album { get; set; }
+        public string Artist { get; set; }
         public DateTime PostDate { get; set; }
         public int SongId { get; set; }
         public string UserId { get; set; }
+        public string UserName { get; set; }
         public int Rating { get; set; }
-        public int FavoriteCount { get; set; }
     }
 }

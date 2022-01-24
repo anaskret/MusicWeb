@@ -32,9 +32,15 @@ namespace MusicWeb.Repositories.Repositories.Albums
         public async Task<List<AlbumReviewRating>> GetAlbumsPagedAsync(SortType sortType, DateTime startDate, DateTime endDate, int pageNum = 0, int pageSize = 15)
         {
 
-            var sql = @$"SELECT AlbumReview.Id, AlbumReview.Title, AlbumReview.Content, AlbumReview.PostDate, AlbumReview.AlbumId, AlbumReview.UserId, AlbumRating.Rating as Rating FROM AlbumReview
+            var sql = @$"SELECT AlbumReview.Id, AlbumReview.Title, AlbumReview.Content, Album.Name, Artist.Name as Artist, AlbumReview.PostDate, AlbumReview.AlbumId, AlbumReview.UserId, AspNetUsers.UserName, COALESCE(AlbumRating.Rating,0) as Rating FROM AlbumReview
             LEFT JOIN AlbumRating
-            ON AlbumReview.AlbumId = AlbumRating.AlbumId AND AlbumReview.UserId = AlbumRating.UserId";
+            ON AlbumReview.AlbumId = AlbumRating.AlbumId AND AlbumReview.UserId = AlbumRating.UserId
+            LEFT JOIN Album
+            ON AlbumReview.AlbumId = Album.Id
+            LEFT JOIN Artist
+            ON Album.ArtistId = Artist.Id
+            LEFT JOIN AspNetUsers
+            ON AlbumReview.UserId = AspNetUsers.Id";
 
             var query = _dbContext.AlbumReviewRating.FromSqlRaw(sql);
 
@@ -67,10 +73,16 @@ namespace MusicWeb.Repositories.Repositories.Albums
         public async Task<List<AlbumReviewRating>> GetAlbumReviewsPagedAsync(int albumId, int pageNum = 0, int pageSize = 15)
         {
 
-            var sql = @$"SELECT AlbumReview.Id, AlbumReview.Title, AlbumReview.Content, AlbumReview.PostDate, AlbumReview.AlbumId, AlbumReview.UserId, AlbumRating.Rating as Rating FROM AlbumReview
+            var sql = @$"SELECT AlbumReview.Id, AlbumReview.Title, AlbumReview.Content, Album.Name, Artist.Name as Artist, AlbumReview.PostDate, AlbumReview.AlbumId, AlbumReview.UserId, AspNetUsers.UserName, COALESCE(AlbumRating.Rating,0) as Rating FROM AlbumReview
             LEFT JOIN AlbumRating
             ON AlbumReview.AlbumId = AlbumRating.AlbumId AND AlbumReview.UserId = AlbumRating.UserId
-            WHERE AlbumRating.AlbumId = '{albumId}'";
+            LEFT JOIN Album
+            ON AlbumReview.AlbumId = Album.Id
+            LEFT JOIN Artist
+            ON Album.ArtistId = Artist.Id
+            LEFT JOIN AspNetUsers
+            ON AlbumReview.UserId = AspNetUsers.Id
+            WHERE AlbumReview.AlbumId = '{albumId}'";
 
             var query = _dbContext.AlbumReviewRating.FromSqlRaw(sql);
             query = query.OrderByDescending(prp => prp.PostDate);

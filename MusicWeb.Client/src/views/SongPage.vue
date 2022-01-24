@@ -20,6 +20,8 @@
       :album="song.album.name"
       v-on="$listeners"
       :redirect_module_name="redirect_module_name"
+      :redirect_to_list="review_list_redirect"
+      :item_id="id"
     />
   </div>
 </template>
@@ -47,6 +49,7 @@ export default {
       redirect_module_name: "SongReviewPage",
       description_title: "Tekst utworu",
       reviews_desc: {},
+      review_list_redirect: "SongReviewListPage", 
     };
   },
    watch: {
