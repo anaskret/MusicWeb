@@ -69,6 +69,11 @@ namespace MusicWeb.Services.Services.Albums
         {
             return await _albumRepository.GetByIdNoTrackingAsync(id);
         }
+        public async Task<List<Album>> GetAllForArtist(int artistId)
+        {
+            var entities = await _albumRepository.GetAllAsync(obj => obj.Where(prp => prp.Artist.Id == artistId));
+            return entities.ToList();
+        }
 
         public async Task<List<Album>> GetAllAsync()
         {

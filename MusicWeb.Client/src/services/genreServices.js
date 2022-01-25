@@ -1,6 +1,6 @@
 import ApiService from "@/services/apiServices";
 export default {
-  getAll() {
+  getAllGenres() {
     return ApiService.authRequest(`/genres`, ApiService.get);
   },
 };

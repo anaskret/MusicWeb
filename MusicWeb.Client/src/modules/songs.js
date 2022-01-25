@@ -68,6 +68,12 @@ export default function useSongs() {
       return songServices.addSong(data);
     }
   };
+
+  const updateSong = function (data) {
+    if (data) {
+      return songServices.updateSong(data);
+    }
+  };
   return {
     getAll,
     getSongFullData,
@@ -75,5 +81,6 @@ export default function useSongs() {
     getPagedSongs,
     getTopArtistSongs,
     addSong,
+    updateSong,
   };
 }

@@ -76,6 +76,21 @@ namespace MusicWeb.Api.Controllers.Albums
                 return StatusCode(500, ex.Message);
             }
         }
+        
+        [HttpGet(ApiRoutes.Albums.GetAllForArtist)]
+        public async Task<IActionResult> GetAllForArtist(int artistId)
+        {
+            try
+            {
+                var response = _mapper.Map<List<AlbumDto>>(await _albumService.GetAllAsync());
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return StatusCode(500, ex.Message);
+            }
+        }
 
         [HttpGet(ApiRoutes.Albums.GetFullData)]
         public async Task<IActionResult> GetFullAlbumDataByIdAsync([FromRoute] int id)

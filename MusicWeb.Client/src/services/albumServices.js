@@ -41,4 +41,14 @@ export default {
   addAlbum(data) {
     return ApiService.authRequest(`/albums`, ApiService.post, data);
   },
+  updateAlbum(data) {
+    return ApiService.authRequest(`/albums`, ApiService.put, data);
+  },
+  getAllForArtist(artistId) {
+    return ApiService.authRequest(
+      `/albums/artist/${artistId}`,
+      ApiService.get,
+      artistId
+    );
+  },
 };

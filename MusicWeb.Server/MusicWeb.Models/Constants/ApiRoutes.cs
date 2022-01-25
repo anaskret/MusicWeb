@@ -47,6 +47,7 @@ namespace MusicWeb.Models.Constants
         {
             public const string Create = Root + "/albums";
             public const string GetAll = Root + "/albums";
+            public const string GetAllForArtist = Root + "/albums/artist/{artistId}";
             public const string Update = Root + "/albums";
             public const string UpdateImage = Root + "/albums/image";
             public const string GetById = Root + "/albums/{id}";

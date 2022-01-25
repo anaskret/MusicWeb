@@ -8,6 +8,11 @@ export default function useAlbums() {
       return response.data;
     });
   };
+  const getAllForArtist = (artistId) => {
+    return albumServices.getAllForArtist(artistId).then((response) => {
+      return response.data;
+    });
+  };
   const getAlbumFullData = function (id) {
     if (id) {
       return albumServices.getAlbumFullData(id).then((response) => {
@@ -70,6 +75,11 @@ export default function useAlbums() {
       return albumServices.addAlbum(data);
     }
   };
+  const updateAlbum = function (data) {
+    if (data) {
+      return albumServices.updateAlbum(data);
+    }
+  };
   return {
     getAll,
     getAlbumFullData,
@@ -77,5 +87,7 @@ export default function useAlbums() {
     getPagedAlbums,
     getAlbumSongs,
     addAlbum,
+    getAllForArtist,
+    updateAlbum,
   };
 }

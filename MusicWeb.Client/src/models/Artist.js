@@ -11,6 +11,7 @@ export default class Artist {
   state = "";
   city = "";
   albums = [];
+  songs = [];
   members = [];
   genres = [];
   rating = "";
@@ -32,6 +33,7 @@ export default class Artist {
       this.state = $data.state ? $data.state : "";
       this.city = $data.city ? $data.city : "";
       this.albums = $data.albums ? $data.albums : [];
+      this.songs = $data.songs ? $data.songs : [];
       this.members = $data.members
         ? $data.members.map((member) => member.name)
         : [];

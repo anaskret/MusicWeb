@@ -1,12 +1,12 @@
 import genreServices from "@/services/genreServices";
 
 export default function useGenres() {
-  const getAll = () => {
-    return genreServices.getAll().then((response) => {
+  const getAllGenres = () => {
+    return genreServices.getAllGenres().then((response) => {
       return response.data;
     });
   };
   return {
-    getAll,
+    getAllGenres,
   };
 }

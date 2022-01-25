@@ -14,6 +14,7 @@ namespace MusicWeb.Services.Interfaces
     public interface IAlbumService
     {
         Task<Album> GetByIdAsync(int id);
+        Task<List<Album>> GetAllForArtist(int artistId);
         Task<List<Album>> GetAllAsync();
         Task<List<Album>> GetAllFilteredAsync(int filter);
         Task<AlbumFullDataDto> GetFullAlbumDataByIdAsync(int id);

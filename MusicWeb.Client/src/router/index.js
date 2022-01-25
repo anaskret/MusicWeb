@@ -97,7 +97,7 @@ const routes = [
     component: () => import("@/views/PasswordReset.vue"),
   },
   {
-    path: "/manage",
+    path: "/manage/:type/:id?",
     name: "ManageArtistPage",
     component: () => import("@/views/ManageArtistPage.vue"),
   },

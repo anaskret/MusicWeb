@@ -38,4 +38,7 @@ export default {
   addSong(data) {
     return ApiService.authRequest(`/songs`, ApiService.post, data);
   },
+  updateSong(data) {
+    return ApiService.authRequest(`/songs`, ApiService.put, data);
+  },
 };
