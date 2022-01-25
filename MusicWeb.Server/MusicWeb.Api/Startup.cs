@@ -223,6 +223,10 @@ namespace MusicWeb.Api
                 endpoints.MapHub<UserHub>("/userhub");
                 endpoints.MapHub<MessageHub>("/messagehub");
             });
+
+            var scope = app.ApplicationServices.CreateScope();
+            var context = scope.ServiceProvider.GetService<AppDbContext>();
+            context.Database.EnsureCreated();
         }
     }
 }
