@@ -25,6 +25,8 @@ namespace MusicWeb.Repositories.Repositories.Artists
             var entity = await _dbContext.Artist
                                              .Include(origin => origin.Country)
                                              .Include(albums => albums.Albums)
+                                             .ThenInclude(song => song.Songs)
+                                             .Include(albums => albums.Albums)
                                              .ThenInclude(genres => genres.AlbumGenre)
                                              .Include(band => band.Band)
                                              .ThenInclude(member => member.Member)
@@ -187,5 +189,9 @@ namespace MusicWeb.Repositories.Repositories.Artists
             return entities;
         }
 
+        public async Task<bool> DoesArtistWithNameExistsAsync(string name)
+        {
+            return await _dbContext.Artist.AnyAsync(prp => string.Equals(prp.Name, name));
+        }
     }
 }

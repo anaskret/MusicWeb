@@ -18,7 +18,7 @@
         <form @submit.prevent="onSubmit">
           <v-text-field
             class="p-4"
-            label="Type Login*"
+            label="Enter Login*"
             prepend-icon="mdi-account"
             type="text"
             v-model.trim="$v.account.username.$model"
@@ -30,7 +30,7 @@
           ></v-text-field>
           <v-text-field
             class="p-4"
-            label="Type Password*"
+            label="Enter Password*"
             prepend-icon="mdi-lock"
             type="password"
             v-model.trim="$v.account.password.$model"
@@ -42,7 +42,7 @@
           ></v-text-field>
           <v-text-field
             class="p-4"
-            label="Type First Name*"
+            label="Enter First Name*"
             prepend-icon="mdi-lock"
             type="text"
             v-model.trim="$v.account.firstname.$model"
@@ -54,7 +54,7 @@
           ></v-text-field>
           <v-text-field
             class="p-4"
-            label="Type Last Name*"
+            label="Enter Last Name*"
             prepend-icon="mdi-lock"
             type="text"
             v-model.trim="$v.account.lastname.$model"
@@ -66,7 +66,7 @@
           ></v-text-field>
           <v-text-field
             class="p-4"
-            label="Type Email*"
+            label="Enter Email*"
             prepend-icon="mdi-lock"
             type="text"
             v-model.trim="$v.account.email.$model"
@@ -76,35 +76,6 @@
             @input="$v.account.email.$touch()"
             @blur="$v.account.email.$touch()"
           ></v-text-field>
-          <v-menu
-            v-model="is_date_picker"
-            :close-on-content-click="false"
-            :nudge-right="40"
-            transition="scale-transition"
-            offset-y
-            min-width="auto"
-          >
-            <template v-slot:activator="{ on, attrs }">
-              <v-text-field
-                class="p-4"
-                label="Type Birthdate*"
-                prepend-icon="mdi-calendar"
-                v-model.trim="$v.account.birthdate.$model"
-                :error-messages="birthDateErrors"
-                readonly
-                required
-                @input="$v.account.birthdate.$touch()"
-                @blur="$v.account.birthdate.$touch()"
-                v-bind="attrs"
-                v-on="on"
-              ></v-text-field>
-            </template>
-            <v-date-picker
-              color="#647da1"
-              v-model.trim="$v.account.birthdate.$model"
-              @input="is_date_picker = false"
-            ></v-date-picker>
-          </v-menu>
 
           <div class="btns mt-8">
             <v-btn
@@ -167,9 +138,6 @@ export default {
     emailErrors() {
       return this.prepareErrorArray("email");
     },
-    birthDateErrors() {
-      return this.prepareErrorArray("birthdate");
-    },
     loggedIn() {
       return this.$store.state.auth.status.loggedIn;
     },
@@ -207,10 +175,6 @@ export default {
         minLength: minLength(8),
         maxLength: maxLength(25),
       },
-      birthdate: {
-        required,
-        maxValue: (value) => value < new Date().toISOString(),
-      },
     },
   },
   methods: {
@@ -239,11 +203,6 @@ export default {
           errors.push(
             `The field must be completed according to the template "example@ex.pl".`
           );
-      }
-
-      if (this.$v.account[field].maxValue != undefined) {
-        !this.$v.account[field].maxValue &&
-          errors.push(`Birthdate cannot be in the future.`);
       }
       return errors;
     },

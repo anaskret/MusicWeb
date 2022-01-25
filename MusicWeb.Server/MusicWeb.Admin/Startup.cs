@@ -90,7 +90,7 @@ namespace MusicWeb.Admin
         {
             services.AddDbContext<AppDbContext>(options =>
                 options.UseSqlServer(
-                    Configuration.GetConnectionString("LocalConnection")));
+                    Configuration.GetConnectionString("LocalConnection")), ServiceLifetime.Transient);
             services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<AppDbContext>();
@@ -119,7 +119,7 @@ namespace MusicWeb.Admin
             services.AddTransient<IArtistModelFactory, ArtistModelFactory>();
             services.AddTransient<IAlbumFactory, AlbumFactory>();
             services.AddTransient<IGenreFactory, GenreFactory>();
-
+            services.AddTransient<ISongFactory, SongFactory>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

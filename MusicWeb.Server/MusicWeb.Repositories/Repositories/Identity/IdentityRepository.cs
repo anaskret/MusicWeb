@@ -64,6 +64,7 @@ namespace MusicWeb.Repositories.Repositories.Identity
             var response = new LoginResponse()
             {
                 UserId = user.Id,
+                LastOpenedChatId = user.LastChatOpenedId,
                 Token = new JwtSecurityTokenHandler().WriteToken(token),
                 Expiration = token.ValidTo,
                 UserName = user.UserName
@@ -90,7 +91,6 @@ namespace MusicWeb.Repositories.Repositories.Identity
                 FirstName = model.FirstName,
                 LastName = model.LastName,
                 Email = model.Email,
-                BirthDate = model.BirthDate,
                 Type = UserType.Standard,
                 ArtistId = 0
             };

@@ -1,6 +1,8 @@
 ﻿using FluentAssertions;
+using Microsoft.AspNetCore.Identity;
 using Moq;
 using MusicWeb.Models.Entities;
+using MusicWeb.Models.Identity;
 using MusicWeb.Repositories.Interfaces.Chats;
 using MusicWeb.Services.Services.Chats;
 using System;
@@ -16,10 +18,13 @@ namespace MusicWeb.Tests.Chats
     public class ChatServiceTests
     {
         private readonly Mock<IChatRepository> _chatRepository;
+        private readonly Mock<UserManager<ApplicationUser>> _userManager;
 
         public ChatServiceTests()
         {
             _chatRepository = new Mock<IChatRepository>();
+            var store = new Mock<IUserStore<ApplicationUser>>();
+            _userManager = new Mock<UserManager<ApplicationUser>>(store.Object, null, null, null, null, null, null, null, null);
         }
 
         [Fact]
@@ -30,7 +35,7 @@ namespace MusicWeb.Tests.Chats
                 .Returns(Task.FromResult(new Chat()))
                 .Verifiable();
 
-            var chatService = new ChatService(_chatRepository.Object);
+            var chatService = new ChatService(_chatRepository.Object, _userManager.Object);
 
             Func<Task> act = async () => await chatService.AddChat(new Chat());
 

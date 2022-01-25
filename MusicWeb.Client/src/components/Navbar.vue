@@ -7,7 +7,8 @@
     dense
     scroll-threshold="500"
   >
-    <div class="d-flex align-center">
+  <div class="d-flex justify-center align-center navbar-container">
+    <div class="d-flex">
       <v-img
         alt="MusicWeb"
         class="shrink link-to-item"
@@ -18,9 +19,8 @@
         @click="redirectToActivities"
       />
     </div>
-    <v-spacer></v-spacer>
     <template>
-      <v-tabs class="d-flex justify-center" v-model="active_tab">
+      <v-tabs v-model="active_tab">
         <v-tab v-for="tab of tabs" :key="tab.id" @click="tab.method">
           {{ tab.name }}
         </v-tab>
@@ -81,7 +81,6 @@
             </v-menu>
       </v-tabs>
     </template>
-    <v-spacer></v-spacer>
     <SearchBar />
     <v-menu
       v-model="drawer"
@@ -284,11 +283,11 @@
 
         <v-card-actions>
           <v-btn @click="redirectToProfile" text>
-            <span class="mr-2">Profil</span>
+            <span class="mr-2">Profile</span>
           </v-btn>
           <v-spacer></v-spacer>
           <v-btn @click="onLogout" text>
-            <span class="mr-2">Wyloguj</span>
+            <span class="mr-2">Sign Out</span>
             <font-awesome-icon
               class="icon"
               icon="sign-out-alt"
@@ -299,6 +298,7 @@
         </v-card-actions>
       </v-card>
     </v-menu>
+  </div>
   </v-app-bar>
 </template>
 
@@ -627,8 +627,19 @@ export default {
 </script>
 
 <style scoped>
-* >>> .v-toolbar__content {
-  align-items: center !important;
+.v-tabs{
+    width: 0;
+}
+.navbar-container{
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+* >>> .v-slide-group__wrapper{
+    flex: none;
+}
+* >>> .v-slide-group{
+    justify-content: center;
 }
 .settingsDialog {
   background: #1e1e1e;

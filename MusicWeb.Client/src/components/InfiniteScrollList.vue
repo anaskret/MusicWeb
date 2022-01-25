@@ -1,31 +1,53 @@
 <template>
   <v-container fluid grid-list-lg class="py-16">
-              <div v-if="module_name == 'ArtistRanking' || module_name == 'AlbumRanking' || module_name=='SongRanking'">
-            <v-simple-table>
+    <div v-if="module_name == 'ArtistRanking' || module_name == 'AlbumRanking' || module_name=='SongRanking'">
+        <v-simple-table>
             <thead>
-          <tr>
-            <th v-for="(column, index) in columns_list" :key="index">{{column}}</th>
-
-          </tr>
-        </thead>
-        <tbody>
-               <tr v-for="(item, index) in items"
-              :key="index"
-        >
-          <td>{{index + 1}}</td>
-          <td><div>
-          <v-img :src="require('@/assets/BandPhoto.svg')" style = "width: 50px;"/>
-        </div></td>
-          <td>{{ item.name }}</td>
-          <td>{{ item.rating }}</td>
-          <td>{{ item.ratingsCount }}</td>
-          <td>{{item.favoriteCount}}</td>
-          <td v-if="module_name == 'ArtistRanking'">{{item.observedCount}}</td>
-          <td v-else>{{item.reviewsCount}}</td>
-        </tr>
-        </tbody>
-          </v-simple-table>
-          </div>
+                <tr>
+                    <th v-for="(column, index) in columns_list" :key="index">
+                        <v-btn v-if="typeof column.sort_type_asc === 'number'" class="table-sort-btn" :class="scroll_settings.selected_sort_type === column.sort_type_asc || scroll_settings.selected_sort_type === column.sort_type_desc ? 'active-sort' : ''" @click="sortRanking(column.sort_type_asc, column.sort_type_desc)" plain>
+                            {{column.name}} 
+                            <font-awesome-icon
+                                v-if="scroll_settings.selected_sort_type % 2 == 0 && (scroll_settings.selected_sort_type === column.sort_type_asc || scroll_settings.selected_sort_type === column.sort_type_desc)"
+                                class="icon pa-1"
+                                icon="sort-up"
+                                size="2x"
+                                outlined
+                            ></font-awesome-icon>
+                            <font-awesome-icon
+                                v-else
+                                class="icon pa-1"
+                                icon="sort-down"
+                                size="2x"
+                                outlined
+                            ></font-awesome-icon>
+                        </v-btn>
+                        <v-btn v-else class="table-sort-btn disabled-button" plain>
+                            {{column.name}}
+                        </v-btn>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="(item, index) in items"
+                :key="index"
+                >
+            <td>{{index + 1}}</td>
+            <td>
+                <div>
+                    <v-img :src="require('@/assets/BandPhoto.svg')" style = "width: 50px;"/>
+                </div>
+            </td>
+            <td>{{ item.name }}</td>
+            <td>{{ item.rating }}</td>
+            <td>{{ item.ratingsCount }}</td>
+            <td>{{item.favoriteCount}}</td>
+            <td v-if="module_name == 'ArtistRanking'">{{item.observedCount}}</td>
+            <td v-else>{{item.reviewsCount}}</td>
+            </tr>
+            </tbody>
+        </v-simple-table>
+    </div>
     <v-row justify="center" v-else>
       <v-col lg="8">
         <div class="mx-auto">
@@ -43,7 +65,7 @@
                 <template v-slot:activator="{ on, attrs }">
                   <v-text-field
                     class="p-4"
-                    label="Filtruj po dacie od"
+                    label="Filter Date From"
                     prepend-icon="mdi-calendar"
                     v-model.trim="$v.filters.establishment_date_from.$model"
                     :error-messages="establishmentDateFromErrors"
@@ -73,7 +95,7 @@
                 <template v-slot:activator="{ on, attrs }">
                   <v-text-field
                     class="p-4"
-                    label="Filtruj po dacie do"
+                    label="Filter Date To"
                     prepend-icon="mdi-calendar"
                     v-model.trim="$v.filters.establishment_date_to.$model"
                     :error-messages="establishmentDateToErrors"
@@ -196,7 +218,6 @@
               </v-list-item>
             </v-list-item-group>
           </v-list>
-        <!-- </div> -->
       </v-col>
     </v-row>
     <div
@@ -265,6 +286,9 @@ export default {
       set(newType) {
         this.scroll_settings.default_sort_type = newType;
         this.scroll_settings.selected_sort_type = 0;
+        if(['ArtistRanking', 'AlbumRanking', 'SongRanking'].includes(this.module_name)){
+            this.scroll_settings.selected_sort_type = 1;
+        }
       },
     },
   },
@@ -300,11 +324,26 @@ export default {
         establishment_date_to: this.moment().add(10, "y").format("YYYY-MM-DD"),
       }),
         this.$emit("set-filters", this.filters);
-      this.updateDefaultSortType = "Alfabetycznie malejąco";
+      this.updateDefaultSortType = "Descending Alfabetical";
     },
     focusTextarea() {
       this.$refs.textarea.$el.focus();
     },
+    sortRanking(sort_type_asc, sort_type_desc){
+        if(typeof sort_type_asc !== 'number' || typeof sort_type_desc !== 'number'){
+            return;
+        }
+        if(this.scroll_settings.selected_sort_type === sort_type_asc ){
+            this.scroll_settings.selected_sort_type = sort_type_desc;
+            this.$emit("sort-list", sort_type_desc);
+        } else if(
+            this.scroll_settings.selected_sort_type === sort_type_desc
+            || (this.scroll_settings.selected_sort_type !== sort_type_asc && this.scroll_settings.selected_sort_type !== sort_type_desc)
+        ){
+            this.scroll_settings.selected_sort_type = sort_type_asc;
+            this.$emit("sort-list", sort_type_asc);
+        }
+    }
   },
 
   setup() {
@@ -354,6 +393,16 @@ export default {
   background: lighten(#0d1117, 2%);
   border-radius: 2%;
   margin-bottom: 3%;
+}
+.table-sort-btn{
+    padding: 0!important;
+}
+.disabled-button{
+    pointer-events: none!important;
+    color: #fff!important;
+}
+.active-sort{
+    color: #485e7c;
 }
 
 </style>

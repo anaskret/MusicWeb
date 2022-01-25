@@ -16,10 +16,11 @@ namespace MusicWeb.Models.Identity
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public DateTime BirthDate { get; set; }
         public string ImagePath { get; set; }
         public UserType Type { get; set; }
         public int? ArtistId { get; set; }
+
+        public int LastChatOpenedId { get; set; }
 
         public virtual Artist Artist{ get; set; }
         public virtual ICollection<AlbumReview> AlbumReviews{ get; set; }

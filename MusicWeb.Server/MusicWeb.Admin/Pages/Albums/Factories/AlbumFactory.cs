@@ -38,6 +38,15 @@ namespace MusicWeb.Admin.Pages.Albums.Factories
             genres.AddRange(_mapper.Map<List<GenreSelectModel>>(await _genreService.GetAllAsync()));
         }
 
+        public async Task<CreatorAlbumModel> PrepareEditCreator(int id, List<ArtistSelectModel> artists, List<GenreSelectModel> genres)
+        {
+            artists.AddRange(_mapper.Map<List<ArtistSelectModel>>(await _artistService.GetAllAsync()));
+            genres.AddRange(_mapper.Map<List<GenreSelectModel>>(await _genreService.GetAllAsync()));
+
+            var entity = await _albumService.GetByIdAsync(id);
+            return _mapper.Map<CreatorAlbumModel>(entity);
+        }
+
         public async Task<List<AlbumPageModel>> PrepareAlbums(int filter)
         {
             return _mapper.Map<List<AlbumPageModel>>(await _albumService.GetAllFilteredAsync(filter));
@@ -45,7 +54,7 @@ namespace MusicWeb.Admin.Pages.Albums.Factories
 
         public async Task PrepareSongs(AlbumPageModel model)
         {
-            model.SongList = _mapper.Map<List<SongPageModel>>(await _songService.GetAllAsync());
+            model.SongList = _mapper.Map<List<SongPageModel>>(await _songService.GetSongsByAlbumIdAsync(model.Id));
         }
     }
 }

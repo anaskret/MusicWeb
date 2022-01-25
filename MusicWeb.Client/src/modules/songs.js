@@ -74,6 +74,20 @@ export default function useSongs() {
       return songServices.updateSong(data);
     }
   };
+  const getPagedSongsRanking = function (sort_type, page_num, page_size) {
+    if (page_num > -1 && page_size) {
+      return songServices
+        .getPagedSongsRanking(sort_type, page_num, page_size)
+        .then((response) => {
+          let res = response.data;
+          let songs = [];
+          res.forEach((song) => {
+            songs.push(new Song(song));
+          });
+          return songs;
+        });
+    }
+  };
   return {
     getAll,
     getSongFullData,
@@ -82,5 +96,6 @@ export default function useSongs() {
     getTopArtistSongs,
     addSong,
     updateSong,
+    getPagedSongsRanking,
   };
 }

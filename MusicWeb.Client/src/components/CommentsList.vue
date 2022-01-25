@@ -1,9 +1,8 @@
 <template>
-  <!-- TODO Scroll to page bottom -->
   <v-container id="container" fluid class="mb-lg-16">
     <v-row justify="center" class="pb-lg-2">
       <v-col lg="8">
-        <h1 class="display-1 font-weight-bold text-left">Komentarze</h1>
+        <h1 class="display-1 font-weight-bold text-left">Comments</h1>
       </v-col>
     </v-row>
     <v-row justify="center">
@@ -79,7 +78,7 @@
             auto-grow
             filled
             color="inherit"
-            label="Dodaj komentarz..."
+            label="Enter Comment..."
             rows="5"
           ></v-textarea>
         </v-form>
@@ -94,10 +93,10 @@
             class="text-uppercase"
             :loading="loading"
             @click="addComment"
-            >Dodaj
+            >Add
           </v-btn>
           <v-spacer></v-spacer>
-          <v-btn text @click="$refs.form.reset()"> Wyczyść </v-btn>
+          <v-btn text @click="$refs.form.reset()"> Clear </v-btn>
         </v-card-actions>
       </v-col>
     </v-row>
@@ -128,7 +127,7 @@ export default {
   methods: {
     scrollToEnd() {
       var container = document.querySelector("#container");
-      container.scrollTop = container.scrollHeight; //TODO Scroll to page bottom
+      container.scrollTop = container.scrollHeight;
     },
   },
   computed: {
@@ -155,7 +154,7 @@ export default {
       this.comment.artistId = this.artistId;
       this.comment.userId = this.account.id;
       if (this.comment.content == null || this.comment.content == "") {
-        this.$emit("show-alert", "Komentarz nie może być pusty.", "error");
+        this.$emit("show-alert", "Comment cannot be empty.", "error");
         this.loading = false;
       } else {
         postNewComment(this.comment)
@@ -163,14 +162,13 @@ export default {
             if (response.status === 200) {
               this.$emit(
                 "show-alert",
-                "Komentarz został zamieszczony.",
+                "Comment added",
                 "success"
               );
               this.refreshComments();
               this.comment = new Comment();
-              // this.scrollToEnd(); //TODO Scroll to page bottom
             } else {
-              this.$emit("show-alert", "Błąd dodawania komentarza.", "error");
+              this.$emit("show-alert", "Error adding comment.", "error");
             }
           })
           .catch((err) => {

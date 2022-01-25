@@ -70,7 +70,7 @@ namespace MusicWeb.Services.Services.Songs
 
         public async Task<Song> GetByIdAsync(int id)
         {
-            return await _songRepository.GetByIdAsync(id);
+            return await _songRepository.GetByIdNoTrackingAsync(id);
         }
 
         public async Task<SongFullDataDto> GetSongFullDataByIdAsync(int id)
@@ -197,6 +197,10 @@ namespace MusicWeb.Services.Services.Songs
 
             return token;
         }
-       
+
+        public async Task AddRangeAsync(List<Song> entities)
+        {
+            await _songRepository.AddRangeAsync(entities);
+        }
     }
 }

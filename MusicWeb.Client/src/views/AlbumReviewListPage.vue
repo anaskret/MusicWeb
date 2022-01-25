@@ -43,12 +43,12 @@ export default {
       scroll_settings: {
         page: 0,
         records_quantity: 5,
-        default_sort_type: "Alfabetycznie malejąco",
+        default_sort_type: "Descending Alfabetical",
         sort_types: [
-          "Alfabetycznie malejąco",
-          "Alfabetycznie rosnąco",
-          "Po popularności malejąco",
-          "Po popularności rosnąco",
+          "Descending Alfabetical",
+          "Ascending Alfabetical",
+          "Descending Popularity",
+          "Ascending Popularity",
         ],
         selected_sort_type: 0,
       },
@@ -97,7 +97,6 @@ export default {
           this.scroll_settings.records_quantity,
           this.scroll_settings.selected_sort_type,
           '1990-12-13T16:26:14.374Z',
-          // this.parseDate(this.filters.release_date_from),
           this.parseDate(this.filters.release_date_to),
           " "
         )

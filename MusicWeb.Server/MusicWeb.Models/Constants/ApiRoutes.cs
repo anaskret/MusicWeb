@@ -273,6 +273,7 @@ namespace MusicWeb.Models.Constants
         {
             public const string Create = Root + "/chats";
             public const string Update = Root + "/chats";
+            public const string ChatOpened = Root + "/chats/opened";
             public const string Delete = Root + "/chats/{id}";
             public const string GetUserChats = Root + "/chats/user/{id}";
         }

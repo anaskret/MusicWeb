@@ -18,6 +18,7 @@ namespace MusicWeb.Services.Interfaces
         Task<SongFullDataDto> GetSongFullDataByIdAsync(int id);
         Task<List<TopSongsWithRating>> GetTopSongsWithRatingAsync(int artistId);
         Task AddAsync(Song entity);
+        Task AddRangeAsync(List<Song> entities);
         Task UpdateAsync(Song entity);
         Task DeleteAsync(int id);
         Task DeleteRangeAsync(List<Song> entities);

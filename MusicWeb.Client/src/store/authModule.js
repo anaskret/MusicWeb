@@ -57,6 +57,7 @@ export const auth = {
       state.userName = data.userName;
       this.commit("setCurrentUser");
       Vue.prototype.$friendsHub.subscribeUserGroup(state.userName);
+      this.commit("setSetLastOpenChatId", data.lastOpenedChatId);
     },
     loginFailure(state) {
       state.status.loggedIn = false;
@@ -64,6 +65,7 @@ export const auth = {
       state.userId = null;
     },
     logout(state) {
+      this.commit("toggleChatVisability",false);
       state.status.loggedIn = false;
       state.token = null;
     },

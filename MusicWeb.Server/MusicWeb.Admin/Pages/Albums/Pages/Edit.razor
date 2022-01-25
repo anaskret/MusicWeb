@@ -1,0 +1,129 @@
+﻿@page "/albums/edit/{AlbumId:int}"
+
+@using Admin.Pages.Albums.Models
+@using Admin.Pages.Albums.Factories.Interfaces
+@using Admin.Pages.Albums.Components
+@using MusicWeb.Models.Entities
+@using MusicWeb.Models.Dtos.Albums
+@using MusicWeb.Services.Interfaces
+
+@inject IAlbumFactory _factory
+@inject IAlbumService _albumService
+@inject ILogger<Create> _logger
+@inject IMapper _mapper
+@inject NavigationManager NavManager
+
+@attribute [Authorize]
+
+<title>MusicWeb - Edit album</title>
+
+<div class="row">
+    <EditForm Model="@Input" OnValidSubmit="@Post">
+        <div class="panel-hdr text-center mb-3">
+            <div class="col-12">
+                <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                    <h4 class="mb-sm-0">Edit album</h4>
+
+                    <div class="page-title-right row">
+                        <div class="col-lg-6">
+                            <button type="submit" class="btn btn-xs-block btn-primary waves-effect waves-light">
+                                Save
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-12">
+            <div class="card mb-g">
+                <div class="card-body">
+                    <div class="frame-wrap p-0 border-0 m-0">
+                        <StatusMessageComponent @ref="StatusMessageComponent" />
+                        <DataAnnotationsValidator />
+                        <div class="row">
+                            <div class="ml-auto mr-auto">
+                                <div class="mb-3 form-group">
+                                    <label class="form-label text-muted">Name</label>
+                                    <InputText @bind-Value="Input.Name" class="form-control" />
+                                    <div class="text-danger">
+                                        <ValidationMessage For="@(() => Input.Name)" />
+                                    </div>
+                                </div>
+                                <div class="mb-3 form-group">
+                                    <label class="form-label text-muted">Release Date</label>
+                                    <InputDate @bind-Value="Input.ReleaseDate" class="form-control" />
+                                    <div class="text-danger">
+                                        <ValidationMessage For="@(() => Input.ReleaseDate)" />
+                                    </div>
+                                </div>
+                                <div class="mb-3 form-group">
+                                    <label class="form-label text-muted">Description</label>
+                                    <InputTextArea @bind-Value="Input.Description" class="form-control" />
+                                    <div class="text-danger">
+                                        <ValidationMessage For="@(() => Input.Description)" />
+                                    </div>
+                                </div>
+                                <div class="mb-3 form-group">
+                                    <label class="form-label text-muted">Genre</label>
+                                    <InputSelect @bind-Value="Input.AlbumGenreId" class="form-select">
+                                        <option value="0">Select a genre...</option>
+                                        @foreach (var genre in Genres)
+                                        {
+                                            <option value="@genre.Id">@genre.Name</option>
+                                        }
+                                    </InputSelect>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </EditForm>
+</div>
+
+@code
+{
+    [Parameter]
+    public int AlbumId { get; set; }
+
+    public CreatorAlbumModel Input { get; set; }
+
+    public List<ArtistSelectModel> Artists { get; set; }
+    public List<GenreSelectModel> Genres { get; set; }
+
+    private EditContext editContext;
+    private StatusMessageComponent StatusMessageComponent;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+
+        Input = new CreatorAlbumModel();
+        Artists = new List<ArtistSelectModel>();
+        Genres = new List<GenreSelectModel>();
+
+        Input = await _factory.PrepareEditCreator(AlbumId, Artists, Genres);
+    }
+
+    private async Task Post()
+    {
+        try
+        {
+            var mappedOrder = _mapper.Map<Album>(Input);
+
+            await _albumService.UpdateAsync(mappedOrder);
+
+            NavManager.NavigateTo("/albums/list");
+        }
+        catch (ApplicationException ex)
+        {
+            StatusMessageComponent.Show(ex.Message);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex.Message);
+            StatusMessageComponent.Show("Error An error occured while adding the album");
+        }
+    }
+}

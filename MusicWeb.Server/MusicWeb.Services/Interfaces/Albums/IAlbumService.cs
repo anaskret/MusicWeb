@@ -19,8 +19,10 @@ namespace MusicWeb.Services.Interfaces
         Task<List<Album>> GetAllFilteredAsync(int filter);
         Task<AlbumFullDataDto> GetFullAlbumDataByIdAsync(int id);
         Task AddAsync(Album entity);
+        Task AddRangeAsync(List<Album> entities);
         Task UpdateAsync(Album entity);
         Task DeleteAsync(int id);
+        Task DeleteByArtistIdAsync(int id);
         Task ConfirmAlbumAsync(int id);
         Task<List<Album>> GetUnconfirmedAlbumsAsync();
         Task <AlbumRatingAverage> GetAlbumRatingAverage(int id);

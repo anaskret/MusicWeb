@@ -163,7 +163,9 @@ namespace MusicWeb.Api.Extensions.AutoMapper
                 .ForMember(prp => prp.UserName, obj => obj.MapFrom(src => src.User.UserName))
                 .ForMember(prp => prp.FriendName, obj => obj.MapFrom(src => src.Friend.UserName))
                 .ForMember(prp => prp.FullName, obj => obj.MapFrom(src => src.User.FirstName + " " + src.User.LastName))
-                .ForMember(prp => prp.FriendFullName, obj => obj.MapFrom(src => src.Friend.FirstName + " " + src.Friend.LastName));
+                .ForMember(prp => prp.FriendFullName, obj => obj.MapFrom(src => src.Friend.FirstName + " " + src.Friend.LastName))
+                .ForMember(prp => prp.FriendId, obj => obj.MapFrom(src => src.Friend.Id))
+                .ForMember(prp => prp.UserId, obj => obj.MapFrom(src => src.User.Id));
 
             CreateMap<BaseMessageDto, Message>();
             CreateMap<Message, MessageDto>()

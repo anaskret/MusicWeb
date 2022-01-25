@@ -244,6 +244,22 @@ namespace MusicWeb.Services.Services.Albums
         {
             var response = await _albumRepository.GetAlbumSongsAsync(albumId, pageNum, pageSize);
             return response;
+        public async Task AddRangeAsync(List<Album> entities)
+        {
+            await _albumRepository.AddRangeAsync(entities);
+        }
+
+        public async Task DeleteByArtistIdAsync(int id)
+        {
+            var entities = await _albumRepository.GetAllAsync(obj => obj.Where(prp => prp.ArtistId == id));
+
+            foreach(var entity in entities)
+            {
+                var songs = await _songService.GetSongsByAlbumIdAsync(entity.Id);
+                await _songService.DeleteRangeAsync(songs);
+            }
+
+            await _albumRepository.DeleteRangeAsync(entities.ToList());
         }
     }
 }

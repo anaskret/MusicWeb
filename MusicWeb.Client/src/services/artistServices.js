@@ -44,4 +44,10 @@ export default {
       pageSize
     );
   },
+  getPagedArtistsRanking(sort_type, page_num, page_size) {
+    return ApiService.authRequest(
+      `/artistranking/${sort_type}/${page_num}/${page_size}`,
+      ApiService.get
+    );
+  },
 };

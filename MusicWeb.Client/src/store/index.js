@@ -29,6 +29,8 @@ export default new Vuex.Store({
     current_chat: {},
     chat_page: 0,
     base64_image: "",
+    chat_visibility: false,
+    last_open_chat_id: 0
   },
   mutations: {
     newMessage(state, message) {
@@ -131,6 +133,12 @@ export default new Vuex.Store({
     clearBase64Image(state) {
       state.base64_image = null;
     },
+    toggleChatVisability(state, is_visable){
+      state.chat_visibility = is_visable;
+    },
+    setSetLastOpenChatId(state, chat_id) {
+      state.last_open_chat_id = chat_id;
+    },
   },
   actions: {
     encodeIntoBase64(action, payload) {
@@ -207,5 +215,11 @@ export default new Vuex.Store({
     base64_image(state) {
       return state.base64_image;
     },
+    chat_visibility(state){
+        return state.chat_visibility;
+    },
+    last_open_chat_id(state){
+        return state.last_open_chat_id;
+    }
   },
 });

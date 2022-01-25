@@ -96,7 +96,6 @@ namespace MusicWeb.Admin.Pages.Albums.Models
             }
         }
 
-        [Required(ErrorMessage = "Name is required")]
         public string Text
         {
             get => _text;

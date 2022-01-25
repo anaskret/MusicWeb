@@ -1,20 +1,29 @@
 <template>
-  <InfiniteScrollList
-    :items="artists"
-    :scroll_settings="scroll_settings"
-    :getPagedItemList="getPagedArtistList"
-    :filterList="filterList"
-    :intersection_active="intersection_active"
-    @set-filters="setFilters"
-    :redirect_module_name="redirect_module_name"
-    :module_name="module_name"
-    :columns_list="columns_list"
-  />
+    <v-container fluid class="py-16">
+        <v-row>
+            <v-col lg="12" sm="12" class="ranking-header">
+                <h1>
+                    <span>Artist</span> <span class="ranking-header-second">Ranking</span>
+                </h1>
+            </v-col>
+        </v-row>
+        <InfiniteScrollList
+            :items="artists"
+            :scroll_settings="scroll_settings"
+            :getPagedItemList="getPagedArtistList"
+            :filterList="filterList"
+            :intersection_active="intersection_active"
+            @set-filters="setFilters"
+            :redirect_module_name="redirect_module_name"
+            :module_name="module_name"
+            :columns_list="columns_list"
+            @sort-list="sortList"
+        />
+    </v-container>
 </template>
 
 <script>
 import useArtists from "@/modules/artists";
-import useAlbums from "@/modules/albums";
 import InfiniteScrollList from "@/components/InfiniteScrollList";
 
 export default {
@@ -29,13 +38,20 @@ export default {
       scroll_settings: {
         page: 0,
         records_quantity: 10,
-        default_ranking_type: "Po popularności malejąco",
-        selected_sort_type: 3,
+        selected_sort_type: 1,
       },
       intersection_active: true,
       redirect_module_name: "ArtistPage",
       module_name: "ArtistRanking",
-      columns_list: ["Position", "", "Artist", "Rating", "Amount of ratings", "Favorite", "Watched"],
+      columns_list: [
+          {name: "Position"}, 
+          {name: ""}, 
+          {name: "Artist"}, 
+          {name: "Rating", sort_type_asc: 0, sort_type_desc: 1}, 
+          {name: "Amount of ratings", sort_type_asc: 2, sort_type_desc: 3}, 
+          {name: "Favorite", sort_type_asc: 4, sort_type_desc: 5}, 
+          {name: "Watched", sort_type_asc: 6, sort_type_desc: 7}
+      ],
     };
   },
   methods: {
@@ -50,24 +66,23 @@ export default {
     setFilters(filters) {
       this.filters = filters;
     },
+    sortList(sort_type){
+        this.scroll_settings.selected_sort_type = sort_type;
+        this.filterList();
+        this.getPagedArtistList('', '', true);
+    }
   },
 
   setup() {
-    const { getPagedArtists } = useArtists();    
-    const { getPagedAlbums } = useAlbums();
-
+    const { getPagedArtistsRanking } = useArtists();
 
     const getPagedArtistList = function (entries, observer, is_intersecting) {
       if (is_intersecting) {
-        console.log(this.scroll_settings.selected_sort_type)
-        getPagedArtists(
+        getPagedArtistsRanking(
+          this.scroll_settings.selected_sort_type,
           this.scroll_settings.page,
-          this.scroll_settings.records_quantity,
-          3,
-          this.parseDate(this.filters.establishment_date_from),
-          this.parseDate(this.filters.establishment_date_to)
-        )
-          .then((response) => {
+          this.scroll_settings.records_quantity
+        ).then((response) => {
             if (response.length > 0) {
               response.forEach((item) => {
                 return this.artists.push(item);
@@ -83,39 +98,8 @@ export default {
       }
     };
 
-    const getPagedAlbumList = function (entries, observer, is_intersecting) {
-      if (is_intersecting) {
-        getPagedAlbums(
-          this.scroll_settings.page,
-          this.scroll_settings.records_quantity,
-          this.scroll_settings.selected_sort_type,
-          '1990-12-13T16:26:14.374Z',
-          // this.parseDate(this.filters.release_date_from),
-          this.parseDate(this.filters.release_date_to),
-          this.$store.state.searchingValue
-        )
-          .then((response) => {
-            if (response.length > 0) {
-              response.forEach((item) => {
-                return this.albums.push(item);
-              });
-                console.log(this.albums);
-              this.last_search = this.$store.state.searchingValue;
-              this.$store.state.searchingValue = "";
-            } else {
-              this.intersection_active = false;
-            }
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-        this.scroll_settings.page++;
-      }
-    };
-
     return {
       getPagedArtistList,
-      getPagedAlbumList,
     };
   },
 };
@@ -124,5 +108,12 @@ export default {
 <style scoped>
 .theme--light.v-card {
   background-color: #f5f5f5;
+}
+.ranking-header{
+    display: flex;
+    justify-content: center;
+}
+.ranking-header-second{
+    font-weight: 300;
 }
 </style>

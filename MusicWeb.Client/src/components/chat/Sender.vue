@@ -18,7 +18,6 @@
     <div class="send-icon" @click="sendMessage">
       <font-awesome-icon :color="colors.submit_icon" icon="paper-plane" />
     </div>
-    <!-- TODO Not clicable all item only image -->
     <v-file-input
       class="send-icon"
       hide-input

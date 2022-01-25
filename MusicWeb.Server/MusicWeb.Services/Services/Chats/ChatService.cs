@@ -8,16 +8,21 @@ using MusicWeb.Repositories.Interfaces.Chats;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity.UI.Services;
+using Microsoft.AspNetCore.Identity;
+using MusicWeb.Models.Identity;
 
 namespace MusicWeb.Services.Services.Chats
 {
     public class ChatService : IChatService
     {
         private readonly IChatRepository _chatRepository;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public ChatService(IChatRepository chatRepository)
+        public ChatService(IChatRepository chatRepository,
+                           UserManager<ApplicationUser> userManager)
         {
             _chatRepository = chatRepository;
+            _userManager = userManager;
         }
 
         public async Task<int> AddChat(Chat entity)
@@ -65,6 +70,14 @@ namespace MusicWeb.Services.Services.Chats
                 throw new ArgumentException("Chat with this id doesn't exist");
 
             await _chatRepository.UpdateAsync(entity);
+        }
+
+        public async Task ChatOpenedAsync(int chatId, string userId)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+            user.LastChatOpenedId = chatId;
+
+            await _userManager.UpdateAsync(user);
         }
     }
 }

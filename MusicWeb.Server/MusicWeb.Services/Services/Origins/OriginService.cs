@@ -53,5 +53,10 @@ namespace MusicWeb.Services.Services.Origins
         {
             await _countryRepository.AddRangeAsync(entities);
         }
+
+        public async Task<Country> GetCountryByCodeAsync(string code)
+        {
+            return await _countryRepository.GetSingleAsync(prp => string.Equals(prp.Code, code));
+        }
     }
 }
