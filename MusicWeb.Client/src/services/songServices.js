@@ -35,14 +35,19 @@ export default {
       );
     }
   },
-  getPagedSongsRanking(
-    sort_type,
-    page_num,
-    page_size
-  ) {
+  addSong(data) {
+    return ApiService.authRequest(`/songs`, ApiService.post, data);
+  },
+  updateSong(data) {
+    return ApiService.authRequest(`/songs`, ApiService.put, data);
+  },
+  getPagedSongsRanking(sort_type, page_num, page_size) {
     return ApiService.authRequest(
-    `/songranking/${sort_type}/${page_num}/${page_size}`,
-    ApiService.get
+      `/songranking/${sort_type}/${page_num}/${page_size}`,
+      ApiService.get
     );
+  },
+  deleteSong(id) {
+    return ApiService.authRequest(`/songs/${id}`, ApiService.delete, id);
   },
 };

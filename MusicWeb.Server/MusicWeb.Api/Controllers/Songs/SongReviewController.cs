@@ -75,6 +75,21 @@ namespace MusicWeb.Api.Controllers.Songs
             }
         }
 
+        [HttpGet(ApiRoutes.SongReviews.GetSongReviews)]
+        public async Task<IActionResult> GetAlbumReviewsPagedAsync([FromRoute] int songId, [FromRoute] int pageNum, [FromRoute] int pageSize)
+        {
+            try
+            {
+                var response = await _songReviewService.GetSongReviewsPagedAsync(songId, pageNum, pageSize);
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return StatusCode(500, ex.Message);
+            }
+        }
+
         [HttpPost(ApiRoutes.SongReviews.Create)]
         public async Task<IActionResult> CreateSongReview([FromBody] SongReviewDto dto)
         {

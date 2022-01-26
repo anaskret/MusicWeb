@@ -10,7 +10,7 @@ namespace MusicWeb.Models.Dtos.Albums.Create
 {
     public class CreateAlbumDto : BaseAlbumDto
     {
-        public byte[] ImageBytes { get; set; }
+      //  public byte[] ImageBytes { get; set; }
 
     }
 }

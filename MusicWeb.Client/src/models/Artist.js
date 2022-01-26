@@ -1,8 +1,10 @@
 export default class Artist {
   id = null;
+  imagePath = "";
   name = "";
   establishmentDate = "";
   description = "";
+  imagePath = "";
   isIndividual = false;
   isBand = false;
   bandId = 0;
@@ -10,6 +12,7 @@ export default class Artist {
   state = "";
   city = "";
   albums = [];
+  songs = [];
   members = [];
   genres = [];
   rating = "";
@@ -20,9 +23,11 @@ export default class Artist {
   constructor($data) {
     if ($data) {
       this.id = $data.id;
+      this.imagePath = $data.imagePath;
       this.name = $data.name;
       this.establishmentDate = $data.establishmentDate;
       this.description = $data.bio;
+      this.imagePath = $data.imagePath;
       this.isIndividual = $data.isIndividual ? $data.isIndividual : "";
       this.isBand = $data.isBand ? $data.isBand : "";
       this.bandId = $data.bandId;
@@ -30,6 +35,7 @@ export default class Artist {
       this.state = $data.state ? $data.state : "";
       this.city = $data.city ? $data.city : "";
       this.albums = $data.albums ? $data.albums : [];
+      this.songs = $data.songs ? $data.songs : [];
       this.members = $data.members
         ? $data.members.map((member) => member.name)
         : [];

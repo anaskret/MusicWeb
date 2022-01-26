@@ -14,6 +14,7 @@ namespace MusicWeb.Services.Interfaces
     public interface IAlbumService
     {
         Task<Album> GetByIdAsync(int id);
+        Task<List<Album>> GetAllForArtist(int artistId);
         Task<List<Album>> GetAllAsync();
         Task<List<Album>> GetAllFilteredAsync(int filter);
         Task<AlbumFullDataDto> GetFullAlbumDataByIdAsync(int id);
@@ -30,5 +31,6 @@ namespace MusicWeb.Services.Interfaces
         Task CreateAdminAlbum(AdminAlbumCreateDto dto);
         Task<string> UpdateImageAsync(AlbumFileUpdateDto dto);
         Task<List<AlbumRatingAverage>> GetPagedRankingAsync(RankSortType sortType, int pageNum = 0, int pageSize = 5);
+        Task<List<SongRatingAverage>> GetAlbumSongsAsync(int albumId, int pageNum = 0, int pageSize = 15);
     }
 }

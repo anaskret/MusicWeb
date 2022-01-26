@@ -168,6 +168,34 @@ namespace MusicWeb.Api.Controllers.Artists
                 return StatusCode(500, ex.Message);
             }
         }
+        [HttpGet(ApiRoutes.Artists.GetDiscography)]
+        public async Task<IActionResult> GetDiscography([FromRoute] int artistId, [FromRoute] int pageNum, [FromRoute] int pageSize)
+        {
+            try
+            {
+                var response = await _artistService.GetArtistDiscographyAsync(artistId, pageNum, pageSize);
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return StatusCode(500, ex.Message);
+            }
+        }
+        [HttpGet(ApiRoutes.Artists.GetSongs)]
+        public async Task<IActionResult> GetSongs([FromRoute] int artistId, [FromRoute] int pageNum, [FromRoute] int pageSize)
+        {
+            try
+            {
+                var response = await _artistService.GetArtistSongsAsync(artistId, pageNum, pageSize);
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return StatusCode(500, ex.Message);
+            }
+        }
         /*
                 /// <summary>
                 /// Creates an artist or a band.

@@ -76,6 +76,21 @@ namespace MusicWeb.Api.Controllers.Albums
                 return StatusCode(500, ex.Message);
             }
         }
+        
+        [HttpGet(ApiRoutes.Albums.GetAllForArtist)]
+        public async Task<IActionResult> GetAllForArtist(int artistId)
+        {
+            try
+            {
+                var response = _mapper.Map<List<AlbumDto>>(await _albumService.GetAllForArtist(artistId));
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return StatusCode(500, ex.Message);
+            }
+        }
 
         [HttpGet(ApiRoutes.Albums.GetFullData)]
         public async Task<IActionResult> GetFullAlbumDataByIdAsync([FromRoute] int id)
@@ -195,6 +210,21 @@ namespace MusicWeb.Api.Controllers.Albums
             try
             {
                 var response = await _albumService.GetPagedRankingAsync(sortType, pageNum, pageSize);
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [HttpGet(ApiRoutes.Albums.GetSongs)]
+        public async Task<IActionResult> GetSongs([FromRoute] int albumId, [FromRoute] int pageNum, [FromRoute] int pageSize)
+        {
+            try
+            {
+                var response = await _albumService.GetAlbumSongsAsync(albumId, pageNum, pageSize);
                 return Ok(response);
             }
             catch (Exception ex)

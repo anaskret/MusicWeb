@@ -160,6 +160,16 @@ namespace MusicWeb.Services.Services.Artists
             var response = await _artistRepository.GetArtistsPagedAsync(sortType, startDate, endDate, pageNum, pageSize, searchString);
             return response;
         }
+        public async Task<List<AlbumRatingAverage>> GetArtistDiscographyAsync(int artistId, int pageNum = 0, int pageSize = int.MaxValue)
+        {
+            var response = await _artistRepository.GetArtistDiscographyAsync(artistId, pageNum, pageSize);
+            return response;
+        }
+        public async Task<List<SongRatingAverage>> GetArtistSongsAsync(int artistId, int pageNum = 0, int pageSize = int.MaxValue)
+        {
+            var response = await _artistRepository.GetArtistSongsAsync(artistId, pageNum, pageSize);
+            return response;
+        }
 
         public async Task<IPagedList<Artist>> GetIPagedAsync(string searchString, int pageNum = 0, int pageSize = int.MaxValue)
         {

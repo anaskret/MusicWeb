@@ -1,5 +1,20 @@
 <template>
+<div>
+
+   <InfiniteScrollList
+    v-if="id != null"
+    :items="songReviews"
+    :scroll_settings="scroll_settings"
+    :getPagedItemList="getSongReviewsList"
+    :filterList="filterList"
+    :intersection_active="intersection_active"
+    @set-filters="setFilters"
+    :redirect_module_name="redirect_module_name"
+    :module_name="module_name"
+    :page="page_name"
+  />
   <InfiniteScrollList
+  v-else
     :items="songReviews"
     :scroll_settings="scroll_settings"
     :getPagedItemList="getPagedSongReviewList"
@@ -9,6 +24,7 @@
     :redirect_module_name="redirect_module_name"
     :module_name="module_name"
   />
+</div>
 </template>
 
 <script>
@@ -40,6 +56,8 @@ export default {
       redirect_module_name: "SongReviewPage",
       last_search: "",
       module_name: "SongReviewList",
+      id: this.$route.params.id,
+      page_name: "ReviewsForSong"
     };
   },
   watch: {
@@ -69,7 +87,7 @@ export default {
   },
 
   setup() {
-    const { getPaged } = useSongReviews();
+    const { getPaged, getSongReviews } = useSongReviews();
 
     const getPagedSongReviewList = function (entries, observer, is_intersecting) {
       if (is_intersecting) {
@@ -100,8 +118,32 @@ export default {
       }
     };
 
+     const getSongReviewsList = function (entries, observer, is_intersecting) {
+      if (is_intersecting) {
+        getSongReviews(
+          this.id,
+          this.scroll_settings.page,
+          this.scroll_settings.records_quantity
+        )
+          .then((response) => {
+            if (response.length > 0) {
+              response.forEach((item) => {
+                return this.songReviews.push(item);
+              });
+            } else {
+              this.intersection_active = false;
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+        this.scroll_settings.page++;
+      }
+    };
+
     return {
       getPagedSongReviewList,
+      getSongReviewsList,
     };
   },
 };

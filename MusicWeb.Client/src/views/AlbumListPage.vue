@@ -13,6 +13,17 @@
     :module_name="favorite_module_name"
   />
   <InfiniteScrollList
+  v-else-if="this.type == 'discography' && this.item_id != null"
+    :items="albums"
+    :scroll_settings="scroll_settings"
+    :getPagedItemList="getDiscographyList"
+    :filterList="filterList"
+    :intersection_active="intersection_active"
+    @set-filters="setFilters"
+    :redirect_module_name="redirect_module_name"
+    :module_name="favorite_module_name"
+  />
+  <InfiniteScrollList
   v-else
     :items="albums"
     :scroll_settings="scroll_settings"
@@ -28,6 +39,7 @@
 
 <script>
 import useAlbums from "@/modules/albums";
+import useArtists from "@/modules/artists";
 import useUserFavoriteAlbums from "@/modules/userFavoriteAlbums.js";
 import InfiniteScrollList from "@/components/InfiniteScrollList";
 import {mapGetters, mapMutations} from "vuex";
@@ -60,6 +72,7 @@ export default {
       module_name: "AlbumList",
       favorite_module_name: "AlbumFavoriteList",
       type: this.$route.params.type,
+      item_id: this.$route.params.id,
     };
   },
   watch: {
@@ -105,6 +118,7 @@ export default {
 
   setup() {
     const { getPagedAlbums } = useAlbums();
+    const { getDiscography } = useArtists();
     const { getUserFavoriteAlbums } = useUserFavoriteAlbums();
 
     const getPagedAlbumList = function (entries, observer, is_intersecting) {
@@ -133,6 +147,30 @@ export default {
         this.scroll_settings.page++;
       }
     };
+
+    const getDiscographyList = function (entries, observer, is_intersecting) {
+      if (is_intersecting) {
+        getDiscography(
+          this.item_id,
+          this.scroll_settings.page,
+          this.scroll_settings.records_quantity
+        )
+           .then((response) => {
+          if (response.length > 0) {
+            response.forEach((item) => {
+              return this.albums.push(item);
+            });
+          } 
+          else {
+             this.intersection_active = false;
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+        this.scroll_settings.page++;
+      }
+    };
     const getFavoriteList = function (entries, observer, is_intersecting) {
       if (is_intersecting) {
         getUserFavoriteAlbums(
@@ -140,11 +178,12 @@ export default {
           this.scroll_settings.page,
           this.scroll_settings.records_quantity
         )
-          .then((response) => {
-            debugger;
-            if (response.length > 0) {
-              this.albums = response;
-            } else {
+           .then((response) => {
+          if (response.length > 0) {
+            response.forEach((item) => {
+              return this.albums.push(item);
+            });
+          }  else {
              this.intersection_active = false;
             }
           })
@@ -158,6 +197,7 @@ export default {
     return {
       getPagedAlbumList,
       getFavoriteList,
+      getDiscographyList
     };
   },
 };

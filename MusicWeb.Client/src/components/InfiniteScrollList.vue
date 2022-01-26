@@ -51,7 +51,7 @@
     <v-row justify="center" v-else>
       <v-col lg="8">
         <div class="mx-auto">
-          <div v-if="module_name != 'Activities' && module_name != 'ArtistFavoriteList' && module_name != 'ArtistObservedList' && module_name != 'AlbumFavoriteList' && module_name != 'SongFavoriteList'">
+          <div v-if="page != 'ReviewsForAlbum' && page != 'ReviewsForSong' && module_name != 'Activities' && module_name != 'ArtistFavoriteList' && module_name != 'ArtistObservedList' && module_name != 'AlbumFavoriteList' && module_name != 'SongFavoriteList'">
             <div class="d-flex">
               <v-menu
                 v-model="is_date_picker_from"
@@ -260,6 +260,7 @@ export default {
     redirect_module_name: String,
     module_name: String,
     columns_list: Array,
+    page: String,
 
   },
   components: {

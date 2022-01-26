@@ -15,4 +15,13 @@ export default {
       ApiService.get
     );
   },
+  getSongReviews(songId, pageNum, pageSize) {
+    return ApiService.authRequest(
+      `/reviewsforsong/${songId}/${pageNum}/${pageSize}`,
+      ApiService.get,
+      songId,
+      pageNum,
+      pageSize
+    );
+  },
 };

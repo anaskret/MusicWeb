@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div> 
     <Header
       :parent="artist"
       :show_observe_button="show_observe_button"
@@ -17,12 +17,19 @@
       :items="artist.albums"
       :component_title="component_title"
       :component_link_title="component_link_title"
+      :component_type="discography_component"
       :redirect_to="album_redirect"
+      :redirect_to_list="album_list_redirect"
+      :item_id="id"
     />
     <ItemList
       :items="songs"
       :list_title="list_title"
       :list_link_title="list_link_title"
+      :component_type="songs_component"
+      :redirect_to_list="song_list_redirect"
+      :redirect_to="song_redirect"
+      :item_id="id"
     />
     <CommentsList
       :comments="comments"
@@ -68,6 +75,11 @@ export default {
       module_name: "Artist",
       description_title: "Bio",
       album_redirect: "AlbumPage",
+      album_list_redirect: "AlbumListPage",
+      discography_component: "discography",
+      songs_component: "artist", 
+      song_list_redirect: "SongListPage",
+      song_redirect: "SongPage",
     };
   },
     watch: {

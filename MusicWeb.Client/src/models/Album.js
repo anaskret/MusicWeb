@@ -1,5 +1,6 @@
 export default class Album {
   id = null;
+  imagePath = "";
   name = "";
   releaseDate = "";
   artistId = "";
@@ -19,6 +20,7 @@ export default class Album {
   constructor($data) {
     if ($data) {
       this.id = $data.id;
+      this.imagePath = $data.imagePath;
       this.name = $data.name;
       this.releaseDate = $data.releaseDate;
       this.artistId = $data.artistId;
