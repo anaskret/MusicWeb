@@ -218,7 +218,7 @@
                       <v-card-actions>
                         <v-spacer></v-spacer>
                         <v-btn @click="settings_dialog = false"> Close </v-btn>
-                        <v-btn @click="updatePasswordDialog" :disabled="this.isDisabled"> Send </v-btn>
+                        <v-btn @click="updatePasswordDialog"> Send </v-btn>
                       </v-card-actions>
                     </v-card>
                   </v-tab-item>
@@ -248,7 +248,7 @@
                       <v-card-actions>
                         <v-spacer></v-spacer>
                         <v-btn @click="settings_dialog = false"> Close </v-btn>
-                        <v-btn @click="updateEmailDialog" :disabled="this.isDisabled"> Send </v-btn>
+                        <v-btn @click="updateEmailDialog"> Send </v-btn>
                       </v-card-actions>
                     </v-card>
                   </v-tab-item>
@@ -270,7 +270,7 @@
                       <v-card-actions>
                         <v-spacer></v-spacer>
                         <v-btn @click="settings_dialog = false"> Close </v-btn>
-                        <v-btn @click="updateImageDialog" :disabled="!base64_image && accepted_format_show"> Send </v-btn>
+                        <v-btn @click="updateImageDialog"> Send </v-btn>
                       </v-card-actions>
                     </v-card>
                   </v-tab-item>
@@ -573,7 +573,6 @@ export default {
         },
         (error) => {
           let errors = error.response.data.errors;
-          debugger;
           if(errors){
             this.$emit(
                 "show-alert",
@@ -610,10 +609,9 @@ export default {
           }
         },
         (error) => {
-            debugger;
           this.$emit(
             "show-alert",
-            `Something went wrong. ${error.response.status} ${error.response.errors}`,
+            `Something went wrong. ${error.response.data}`,
             "error"
           );
           this.clearSettings();
@@ -641,11 +639,21 @@ export default {
           }
         },
         (error) => {
-          this.$emit(
-            "show-alert",
-            `Something went wrong. ${error.response.status} ${error.response.errors.ConfirmPassword[0]}`,
-            "error"
-          );
+            debugger;
+          let errors = error.response.data.errors;
+          if(errors){
+            this.$emit(
+                "show-alert",
+                `${errors.ConfirmPassword}`,
+                "error"
+            );
+          } else {
+            this.$emit(
+                "show-alert",
+                `${error.response.data}`,
+                "error"
+            );
+          }
           this.clearSettings();
           this.clearBase64Image();
         }

@@ -111,11 +111,9 @@ export default {
   },
   methods: {
     redirectToItem(itemId) {
-      debugger;
       this.$router.push({ name: "SongPage", params: { id: itemId } });
     },
     redirectToList(list_type, item_id) {
-      debugger;
       this.$router.push({ name: this.redirect_to_list, params: { type: list_type, id: item_id } });
     },
   },

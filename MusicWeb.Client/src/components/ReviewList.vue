@@ -194,7 +194,6 @@ export default {
       });
     },
     redirectToList(item_id) {
-      debugger;
       this.$router.push({ name: this.redirect_to_list, params: { id: item_id } });
     },
   },

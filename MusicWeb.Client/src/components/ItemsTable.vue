@@ -55,11 +55,9 @@ export default ({
   },
   methods: {
     redirectToItem(itemId) {
-      debugger;
       this.$router.push({ name: "ManageArtistPage", params: { type: this.type, id: itemId } });
     },
     redirectToList(item_id) {
-      debugger;
       this.$router.push({ name: "ManageArtistPage", params: { id: item_id } });
     },
     deleteAlbumItem(id) {
