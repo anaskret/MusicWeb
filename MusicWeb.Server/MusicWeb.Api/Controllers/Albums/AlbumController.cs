@@ -82,7 +82,7 @@ namespace MusicWeb.Api.Controllers.Albums
         {
             try
             {
-                var response = _mapper.Map<List<AlbumDto>>(await _albumService.GetAllAsync());
+                var response = _mapper.Map<List<AlbumDto>>(await _albumService.GetAllForArtist(artistId));
                 return Ok(response);
             }
             catch (Exception ex)

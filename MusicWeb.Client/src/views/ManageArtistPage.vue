@@ -107,13 +107,14 @@ export default {
     },
   },
   setup() {
-    const { addAlbum, getAllForArtist, getAlbumFullData, updateAlbum } = useAlbums();
+    const { addAlbum, getAllForArtist, getAlbumFullData, updateAlbum} = useAlbums();
     const { addSong, updateSong,  getSongFullData } = useSongs();
     const { getAllGenres } = useGenres();
     
     const getAllAlbums = function () {
       getAllForArtist(1).then((response) => {
         this.albums = response;
+        console.log(this.albums);
     });
     }
 
@@ -306,6 +307,8 @@ export default {
         this.album.releaseDate = moment(this.album.releaseDate).format("YYYY-MM-DD");
       });
     };
+
+ 
 
     return {
       addNewAlbum,

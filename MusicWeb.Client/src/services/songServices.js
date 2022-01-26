@@ -47,4 +47,7 @@ export default {
       ApiService.get
     );
   },
+  deleteSong(id) {
+    return ApiService.authRequest(`/songs/${id}`, ApiService.delete, id);
+  },
 };

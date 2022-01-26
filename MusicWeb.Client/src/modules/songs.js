@@ -88,6 +88,11 @@ export default function useSongs() {
         });
     }
   };
+  const deleteSong = function (id) {
+    if (id) {
+      return songServices.deleteSong(id);
+    }
+  };
   return {
     getAll,
     getSongFullData,
@@ -97,5 +102,6 @@ export default function useSongs() {
     addSong,
     updateSong,
     getPagedSongsRanking,
+    deleteSong,
   };
 }

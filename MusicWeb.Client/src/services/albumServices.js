@@ -57,4 +57,7 @@ export default {
       ApiService.get
     );
   },
+  deleteAlbum(id) {
+    return ApiService.authRequest(`/albums/${id}`, ApiService.delete, id);
+  },
 };

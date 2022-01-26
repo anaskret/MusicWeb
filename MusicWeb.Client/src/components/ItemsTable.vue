@@ -24,7 +24,15 @@
           <td>{{ item.releaseDate }}</td>
           <td v-if="type == 'album'">{{ item.duration }}</td>
           <td v-else-if="type == 'song'">{{ item.length }}</td>
-          <td v-if="type == 'album'" @click="redirectToItem(item.id)">Edit</td>
+          <td v-if="type == 'album'"><a @click="redirectToItem(item.id)">Edit</a> / <a @click="deleteAlbumItem(item.id)" v-on="on">Delete</a></td>
+          <td v-if="type == 'song'"><a @click="redirectToItem(item.id)">Edit</a> / <a @click="deleteSongItem(item.id)" v-on="on">Delete</a></td>
+          <!-- <td v-if="type == 'song'" @click="redirectToItem(item.id)">Edit</td>
+          <td v-if="type == 'album'" @click="deleteAlbumItem(item.id)" v-on="on">Delete</td>
+          <td v-if="type == 'song'" @click="deleteSongItem(item.id)" v-on="on">Delete</td> -->
+          <!-- <td v-if="type == 'album'" @click="redirectToItem(item.id)">Edit</td>
+          <td v-if="type == 'song'" @click="redirectToItem(item.id)">Edit</td>
+          <td v-if="type == 'album'" @click="deleteAlbumItem(item.id)" v-on="on">Delete</td>
+          <td v-if="type == 'song'" @click="deleteSongItem(item.id)" v-on="on">Delete</td> -->
         </tr>
         </tbody>
           </v-simple-table>
@@ -33,6 +41,8 @@
 </template>
 
 <script>
+import useAlbums from "@/modules/albums";
+import useSongs from "@/modules/songs";
 
 export default ({
   name: "ItemsTable",
@@ -41,6 +51,7 @@ export default ({
     columns_list: Array,
     module_name: String,
     type: String,
+    getArtist: Function,
   },
   methods: {
     redirectToItem(itemId) {
@@ -51,6 +62,66 @@ export default ({
       debugger;
       this.$router.push({ name: "ManageArtistPage", params: { id: item_id } });
     },
+    deleteAlbumItem(id) {
+      this.deleteArtistAlbum(id);
+    },
+    deleteSongItem(id) {
+      this.deleteArtistSong(id);
+    }
+  }, 
+  setup() {
+    const { deleteAlbum } = useAlbums();
+    const { deleteSong } = useSongs();
+
+    const deleteArtistAlbum = function (id) {
+      deleteAlbum(id).then((response) => {
+            if (response.status == 200) {
+              this.getArtist();
+              this.$emit("show-alert", "Album deleted.", "success");
+            } else {
+              this.$emit(
+                "show-alert",
+                `Error while removing album. Error ${response.status}`,
+                "error"
+              );
+            }
+          },
+          (error) => {
+            this.$emit(
+              "show-alert",
+              `Error while removing album.  ${error.response.status} ${error.response.data}`,
+              "error"
+            );
+          }
+        );
+      };
+    const deleteArtistSong = function (id) {
+      deleteSong(id).then((response) => {
+            if (response.status == 200) {
+              this.getArtist();
+              this.$emit("show-alert", "Song deleted.", "success");
+            } else {
+              this.$emit(
+                "show-alert",
+                `Error while removing song. Error ${response.status}`,
+                "error"
+              );
+            }
+          },
+          (error) => {
+            this.$emit(
+              "show-alert",
+              `Error while removing song.  ${error.response.status} ${error.response.data}`,
+              "error"
+            );
+          }
+        );
+      };
+    
+    return {
+      deleteArtistAlbum,
+      deleteArtistSong,
+    }
   }
 });
 </script>

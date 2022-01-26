@@ -3,11 +3,15 @@
     <ItemsTable
     :columns_list="album_columns_list"
     :items="albums" 
-    :type="album_type"/>
+    :type="album_type"
+    :getArtist="getArtist"
+    v-on="$listeners"/>
     <ItemsTable
     :columns_list="song_columns_list"
     :items="songs"
-    :type="song_type" />
+    :type="song_type"
+    :getArtist="getArtist" 
+    v-on="$listeners"/>
   </v-container>
 </template>
 <script>
@@ -53,6 +57,7 @@ export default {
     const getArtist = function () {
       getArtistById(1).then((response) => {
         this.albums = response.albums;
+        console.log(this.albums);
         this.songs = response.songs;
     });
     }

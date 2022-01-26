@@ -94,6 +94,12 @@ export default function useAlbums() {
         });
     }
   };
+
+  const deleteAlbum = function (id) {
+    if (id) {
+      return albumServices.deleteAlbum(id);
+    }
+  };
   return {
     getAll,
     getAlbumFullData,
@@ -104,5 +110,6 @@ export default function useAlbums() {
     getAllForArtist,
     updateAlbum,
     getPagedAlbumsRanking,
+    deleteAlbum,
   };
 }

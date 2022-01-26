@@ -70,6 +70,10 @@ namespace MusicWeb.Api.Extensions.AutoMapper
 
             CreateMap<Song, SongDto>();
             CreateMap<SongDto, Song>();
+            CreateMap<Song, SongWithRatingDto>();
+            CreateMap<SongWithRatingDto, Song>();
+            CreateMap<SongDto, SongWithRatingDto>();
+            CreateMap<SongWithRatingDto, SongDto>();
             CreateMap<CreateSongDto, Song>();
             CreateMap<Song, CreateSongDto>();
             CreateMap<SongFullDataDto, Song>();
