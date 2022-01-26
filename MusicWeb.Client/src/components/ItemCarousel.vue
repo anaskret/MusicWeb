@@ -7,6 +7,20 @@
             {{ component_title }}
           </h1>
           <a class="component_link_title ml-lg-10" 
+          v-if="component_type == 'discography'"
+          @click="redirectToList(component_type, item_id)">
+            {{ component_link_title }}
+            <font-awesome-icon
+              class="icon"
+              icon="chevron-right"
+              size="1x"
+              color="gray"
+
+            />
+          </a>          
+          <a 
+          v-else 
+          class="component_link_title ml-lg-10" 
           @click="redirectToList(component_type)">
             {{ component_link_title }}
             <font-awesome-icon
@@ -76,6 +90,7 @@ export default {
     redirect_to: String,
     component_type: String,
     redirect_to_list: String, 
+    item_id: String,
   },
   data() {
     return {
@@ -88,8 +103,9 @@ export default {
     redirectToItem(itemId) {
       this.$router.push({ name: this.redirect_to, params: { id: itemId } });
     },
-    redirectToList(list_type) {
-      this.$router.push({ name: this.redirect_to_list, params: { type: list_type } });
+    redirectToList(list_type, item_id) {
+      debugger;
+      this.$router.push({ name: this.redirect_to_list, params: { type: list_type, id: item_id } });
     },
   },
 

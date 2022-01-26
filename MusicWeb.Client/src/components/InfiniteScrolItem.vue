@@ -41,6 +41,38 @@
         </div>
       </v-card>
     </div>
+    <v-row v-if="page_name == 'AlbumReviewList' || page_name == 'SongReviewList'">
+      <v-col lg="12">
+      <v-card @click="redirectToItem(item.id)">
+        <div class="d-flex">
+          <div>
+            <v-avatar class="ma-3" size="125" tile> 
+            <!-- <v-img
+                class="pl-8"
+                :src="`${server_url}/${item.image}`"
+            >
+            </v-img> -->
+              <v-img :src="require('@/assets/band_logo.jpg')" style = "width: 50px;"/>
+            </v-avatar>
+          <v-card-subtitle>
+            <h4>{{item.name}} - {{item.artist}}</h4>
+            <p>
+              {{ moment(item.establishmentDate).format("L") }}
+            </p>
+              
+          </v-card-subtitle
+            >
+        </div>
+        <div>
+          <v-card-title class="text-h5" v-text="item.title"></v-card-title>
+          <v-card-subtitle class="font-thin font-italic" >by {{item.userName}}</v-card-subtitle>
+          <p>{{ item.content | truncate(reviewTextLength, "...") }}</p>
+        </div>
+      </div>
+
+      </v-card>
+    </v-col>
+  </v-row>
     <div
       v-else-if="
         page_name == 'Activities' &&
@@ -367,7 +399,8 @@ export default {
       ],
       temp_item: this.item,
       open_comments: [],
-      comment_input: ''
+      comment_input: '', 
+      reviewTextLength: 400,
     };
   },
   props: {

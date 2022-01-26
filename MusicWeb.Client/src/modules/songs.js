@@ -62,18 +62,22 @@ export default function useSongs() {
         });
     }
   };
-  const getPagedSongsRanking = function (
-    sort_type,
-    page_num,
-    page_size
-  ) {
+
+  const addSong = function (data) {
+    if (data) {
+      return songServices.addSong(data);
+    }
+  };
+
+  const updateSong = function (data) {
+    if (data) {
+      return songServices.updateSong(data);
+    }
+  };
+  const getPagedSongsRanking = function (sort_type, page_num, page_size) {
     if (page_num > -1 && page_size) {
       return songServices
-        .getPagedSongsRanking(
-            sort_type,
-            page_num,
-            page_size
-        )
+        .getPagedSongsRanking(sort_type, page_num, page_size)
         .then((response) => {
           let res = response.data;
           let songs = [];
@@ -84,12 +88,20 @@ export default function useSongs() {
         });
     }
   };
+  const deleteSong = function (id) {
+    if (id) {
+      return songServices.deleteSong(id);
+    }
+  };
   return {
     getAll,
     getSongFullData,
     getSongRatingAverage,
     getPagedSongs,
     getTopArtistSongs,
-    getPagedSongsRanking
+    addSong,
+    updateSong,
+    getPagedSongsRanking,
+    deleteSong,
   };
 }

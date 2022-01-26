@@ -14,6 +14,6 @@ namespace MusicWeb.Repositories.Interfaces.Songs
     {
         Task<SongReview> GetSongReviewFullDataByIdAsync(int id);
         Task<List<SongReviewRating>> GetSongsPagedAsync(SortType sortType, DateTime startDate, DateTime endDate, int pageNum = 0, int pageSize = 15);
-
+        Task<List<SongReviewRating>> GetSongReviewsPagedAsync(int songId, int pageNum = 0, int pageSize = 15);
     }
 }

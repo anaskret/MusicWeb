@@ -14,6 +14,11 @@
       :album="album.name"
       :list_title="list_title"
       :list_link_title="list_link_title"
+      :component_type="songs_component"
+      :redirect_to_list="song_list_redirect"
+      :redirect_to="song_redirect"
+      :item_id="id"
+      :item_name="album.name"
     />
     <ReviewList
       :reviews="reviews_desc"
@@ -23,6 +28,9 @@
       :module_name="module_name"
       v-on="$listeners"
       :redirect_module_name="redirect_module_name"
+      :redirect_to_list="review_list_redirect"
+      :item_id="id"
+      :item_name="album.name"
     />
   </div>
 </template>
@@ -54,6 +62,10 @@ export default {
       list_title: "Songs",
       list_link_title: "View all Songs",
       redirect_module_name: "AlbumReviewPage",
+      songs_component: "album", 
+      song_list_redirect: "SongListPage",
+      song_redirect: "SongPage",
+      review_list_redirect: "AlbumReviewListPage",
     };
   },
   watch: {

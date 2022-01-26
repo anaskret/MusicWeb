@@ -24,8 +24,7 @@ export default function useAlbumReviews() {
     page_size,
     sort_type,
     create_date_start,
-    create_date_end,
-    search_string
+    create_date_end
   ) {
     if (page_num > -1 && page_size && create_date_start && create_date_end) {
       return albumReviewServices
@@ -34,9 +33,23 @@ export default function useAlbumReviews() {
           page_size,
           sort_type,
           create_date_start,
-          create_date_end,
-          search_string
+          create_date_end
         )
+        .then((response) => {
+          let res = response.data;
+          let albumReviews = [];
+          res.forEach((albumReview) => {
+            albumReviews.push(new AlbumReview(albumReview));
+          });
+          return albumReviews;
+        });
+    }
+  };
+
+  const getAlbumReviews = function (albumId, pageNum, pageSize) {
+    if (albumId && pageNum > -1 && pageSize) {
+      return albumReviewServices
+        .getAlbumReviews(albumId, pageNum, pageSize)
         .then((response) => {
           let res = response.data;
           let albumReviews = [];
@@ -52,5 +65,6 @@ export default function useAlbumReviews() {
     addAlbumReview,
     getAlbumReviewFullData,
     getPaged,
+    getAlbumReviews,
   };
 }

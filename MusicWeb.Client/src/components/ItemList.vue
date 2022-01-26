@@ -4,7 +4,9 @@
       <v-col lg="8">
         <div class="d-flex flex-row" style="align-items: center">
           <h1 class="display-1 font-weight-bold text-left">{{ list_title }}</h1>
-          <p class="pl-lg-16">
+          <a class="pl-lg-16"
+          @click="redirectToList(component_type, item_id)"
+          >
             {{ list_link_title }}
             <font-awesome-icon
               class="icon"
@@ -12,7 +14,7 @@
               size="1x"
               color="gray"
             />
-          </p>
+          </a>
         </div>
       </v-col>
     </v-row>
@@ -96,6 +98,10 @@ export default {
     items: Array,
     list_title: String,
     list_link_title: String,
+    component_type: String,
+    redirect_to_list: String,
+    redirect_to: String,
+    item_id: String,
   },
   data() {
     return {
@@ -105,7 +111,12 @@ export default {
   },
   methods: {
     redirectToItem(itemId) {
+      debugger;
       this.$router.push({ name: "SongPage", params: { id: itemId } });
+    },
+    redirectToList(list_type, item_id) {
+      debugger;
+      this.$router.push({ name: this.redirect_to_list, params: { type: list_type, id: item_id } });
     },
   },
 };

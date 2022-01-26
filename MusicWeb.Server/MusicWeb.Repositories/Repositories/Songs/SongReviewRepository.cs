@@ -34,10 +34,18 @@ namespace MusicWeb.Repositories.Repositories.Songs
         public async Task<List<SongReviewRating>> GetSongsPagedAsync(SortType sortType, DateTime startDate, DateTime endDate, int pageNum = 0, int pageSize = 15)
         {
 
-           var sql = @$"SELECT SongReview.Id, SongReview.Title, SongReview.Content, SongReview.PostDate, SongReview.SongId, SongReview.UserId, 
-           SongRating.Rating as Rating FROM SongReview
+           var sql = @$"SELECT SongReview.Id, SongReview.Title, SongReview.Content, Song.Name, Album.Name as Album, Artist.Name as Artist, SongReview.PostDate, SongReview.SongId, SongReview.UserId, 
+           AspNetUsers.UserName, COALESCE(SongRating.Rating, 0) as Rating FROM SongReview
            LEFT JOIN SongRating
-           ON SongReview.SongId = SongRating.SongId AND SongReview.UserId = SongRating.UserId";
+           ON SongReview.SongId = SongRating.SongId AND SongReview.UserId = SongRating.UserId
+           LEFT JOIN Song
+           ON SongReview.SongId = Song.Id
+           LEFT JOIN Album
+           ON Song.AlbumId = Album.Id
+           LEFT JOIN Artist
+           ON Song.ComposerId = Artist.Id
+           LEFT JOIN AspNetUsers
+           ON SongReview.UserId = AspNetUsers.Id";
 
            var query = _dbContext.SongReviewRating.FromSqlRaw(sql);
 
@@ -66,6 +74,33 @@ namespace MusicWeb.Repositories.Repositories.Songs
 
            var entities = await query.ToListAsync();
            return entities;
+        }
+
+        public async Task<List<SongReviewRating>> GetSongReviewsPagedAsync(int songId, int pageNum = 0, int pageSize = 15)
+        {
+
+            var sql = @$"SELECT SongReview.Id, SongReview.Title, SongReview.Content, Song.Name, Album.Name as Album, Artist.Name as Artist, SongReview.PostDate, SongReview.SongId, SongReview.UserId, 
+           AspNetUsers.UserName, COALESCE(SongRating.Rating, 0) as Rating FROM SongReview
+           LEFT JOIN SongRating
+           ON SongReview.SongId = SongRating.SongId AND SongReview.UserId = SongRating.UserId
+           LEFT JOIN Song
+           ON SongReview.SongId = Song.Id
+           LEFT JOIN Album
+           ON Song.AlbumId = Album.Id
+           LEFT JOIN Artist
+           ON Song.ComposerId = Artist.Id
+           LEFT JOIN AspNetUsers
+           ON SongReview.UserId = AspNetUsers.Id
+           WHERE SongReview.SongId = '{songId}'";
+
+            var query = _dbContext.SongReviewRating.FromSqlRaw(sql);
+            query = query.OrderByDescending(prp => prp.PostDate);
+
+            query = query.Skip(pageNum * pageSize);
+            query = query.Take(pageSize);
+
+            var entities = await query.ToListAsync();
+            return entities;
         }
     }
 }

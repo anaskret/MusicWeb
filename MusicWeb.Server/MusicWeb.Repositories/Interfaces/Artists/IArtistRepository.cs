@@ -18,5 +18,7 @@ namespace MusicWeb.Repositories.Interfaces.Artists
         Task<bool> DoesArtistWithNameExistsAsync(string name);
         Task<List<ArtistRatingAverage>> GetArtistsPagedAsync(SortType sortType, DateTime startDate, DateTime endDate, int pageNum = 0, int pageSize = 15, string searchString = "");
         Task<List<ArtistRatingAverage>> GetArtistRankingAsync(RankSortType sortType, int pageNum = 0, int pageSize = 10);
+        Task<List<AlbumRatingAverage>> GetArtistDiscographyAsync(int artistId, int pageNum = 0, int pageSize = 10);
+        Task<List<SongRatingAverage>> GetArtistSongsAsync(int artistId, int pageNum = 0, int pageSize = 10);
     }
 }

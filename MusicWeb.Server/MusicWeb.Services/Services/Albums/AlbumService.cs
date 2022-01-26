@@ -69,6 +69,11 @@ namespace MusicWeb.Services.Services.Albums
         {
             return await _albumRepository.GetByIdNoTrackingAsync(id);
         }
+        public async Task<List<Album>> GetAllForArtist(int artistId)
+        {
+            var entities = await _albumRepository.GetAllAsync(obj => obj.Where(prp => prp.Artist.Id == artistId));
+            return entities.ToList();
+        }
 
         public async Task<List<Album>> GetAllAsync()
         {
@@ -235,6 +240,11 @@ namespace MusicWeb.Services.Services.Albums
             return response;
         }
 
+        public async Task<List<SongRatingAverage>> GetAlbumSongsAsync(int albumId, int pageNum = 0, int pageSize = int.MaxValue)
+        {
+            var response = await _albumRepository.GetAlbumSongsAsync(albumId, pageNum, pageSize);
+            return response;
+        }
         public async Task AddRangeAsync(List<Album> entities)
         {
             await _albumRepository.AddRangeAsync(entities);

@@ -5,7 +5,7 @@ export default class SongReview {
   postDate = "";
   songId = "";
   userId = "";
-  song = {};
+  name = "";
   userName = "";
   albumName = "";
   artistName = "";
@@ -18,7 +18,9 @@ export default class SongReview {
       this.postDate = $data.postDate;
       this.songId = $data.songId;
       this.userId = $data.userId;
-      this.song = $data.song ? $data.song : {};
+      this.name = $data.name;
+      this.album = $data.album;
+      this.artist = $data.artist;
       this.userName = $data.userName;
       this.albumName = $data.albumName;
       this.artistName = $data.artistName;

@@ -109,13 +109,13 @@ namespace MusicWeb.DataAccess.Data
                 entity.HasOne(e => e.Album)
                     .WithMany(a => a.AlbumReviews)
                     .HasForeignKey(e => e.AlbumId)
-                    .OnDelete(DeleteBehavior.NoAction)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .IsRequired();
 
                 entity.HasOne(e => e.User)
                     .WithMany(u => u.AlbumReviews)
                     .HasForeignKey(e => e.UserId)
-                    .OnDelete(DeleteBehavior.NoAction)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .IsRequired();
             });
 
@@ -150,8 +150,7 @@ namespace MusicWeb.DataAccess.Data
                 entity.HasOne(e => e.Country)
                     .WithMany(a => a.Artists)
                     .HasForeignKey(e => e.CountryId)
-                    .OnDelete(DeleteBehavior.NoAction)
-                    .IsRequired();
+                    .OnDelete(DeleteBehavior.NoAction);
 
 
                 entity.HasOne(e => e.ArtistUser)
@@ -171,13 +170,13 @@ namespace MusicWeb.DataAccess.Data
                 entity.HasOne(e => e.Artist)
                     .WithMany(a => a.ArtistComments)
                     .HasForeignKey(e => e.ArtistId)
-                    .OnDelete(DeleteBehavior.NoAction)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .IsRequired();
 
                 entity.HasOne(e => e.User)
                     .WithMany(a => a.ArtistComments)
                     .HasForeignKey(e => e.UserId)
-                    .OnDelete(DeleteBehavior.NoAction)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .IsRequired();
             });
 
@@ -214,7 +213,7 @@ namespace MusicWeb.DataAccess.Data
                 entity.HasOne(e => e.Chat)
                     .WithMany(a => a.Messages)
                     .HasForeignKey(e => e.ChatId)
-                    .OnDelete(DeleteBehavior.NoAction)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .IsRequired();
             });
 
@@ -406,7 +405,7 @@ namespace MusicWeb.DataAccess.Data
                 .WithMany(p => p.Posts)
                 .HasForeignKey(e => e.AlbumId)
                 .IsRequired(false)
-                .OnDelete(DeleteBehavior.NoAction);
+                .OnDelete(DeleteBehavior.Cascade);
             });
 
             modelBuilder.Entity<PostLike>(entity =>

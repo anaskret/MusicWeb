@@ -4,15 +4,16 @@
       <v-col lg="8" class="d-flex flex-row justify-space-between">
         <div class="d-flex flex-row" style="align-items: center">
           <h1 class="display-1 font-weight-bold text-left">Reviews</h1>
-          <p class="pl-lg-16">
-            View all Reviews
+          <a class="pl-lg-16"
+          @click="redirectToList(item_id)">
+            Show all album reviews
             <font-awesome-icon
               class="icon"
               icon="chevron-right"
               size="1x"
               color="gray"
             />
-          </p>
+          </a>
         </div>
 
         <div class="text-center">
@@ -158,6 +159,8 @@ export default {
     artist: String,
     module_name: String,
     redirect_module_name: String,
+    redirect_to_list: String,
+    item_id: String,
   },
   data() {
     return {
@@ -168,13 +171,6 @@ export default {
       error: {},
       dialog: false,
       user_id: localStorage.getItem("user-id"),
-            stars: [
-        { color: "gray", value:1 },
-        { color: "gray", value:2 },
-        { color: "gray", value:3 },
-        { color: "gray", value:4 },
-        { color: "gray", value:5 },
-      ],
     };
   },
   computed: {
@@ -196,6 +192,10 @@ export default {
         name: `${this.redirect_module_name}`,
         params: { id: itemId, module_name: this.module_name },
       });
+    },
+    redirectToList(item_id) {
+      debugger;
+      this.$router.push({ name: this.redirect_to_list, params: { id: item_id } });
     },
   },
   setup() {
@@ -242,12 +242,13 @@ export default {
       }
     };
     const addNewAlbumReview = function () {
-      this.albumReview.userId = this.account.id;
+      this.albumReview.userId = "d5beb617-32ee-42c1-bfb8-607c8f38afcc";
       this.albumReview.albumId = this.$route.params.id;
       this.albumReview.postDate = moment().format();
       delete this.albumReview.album;
       delete this.albumReview.user;
       delete this.albumReview.id;
+        console.log(this.albumReview);
       if (
         this.albumReview.title == null ||
         this.albumReview.title == "" ||

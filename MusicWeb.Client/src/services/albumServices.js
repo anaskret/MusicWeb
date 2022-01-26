@@ -29,14 +29,35 @@ export default {
       );
     }
   },
-  getPagedAlbumsRanking(
-    sort_type,
-    page_num,
-    page_size
-  ) {
+  getAlbumSongs(albumId, pageNum, pageSize) {
     return ApiService.authRequest(
-    `/albumranking/${sort_type}/${page_num}/${page_size}`,
-    ApiService.get
+      `/albumsongs/${albumId}/${pageNum}/${pageSize}`,
+      ApiService.get,
+      albumId,
+      pageNum,
+      pageSize
     );
+  },
+  addAlbum(data) {
+    return ApiService.authRequest(`/albums`, ApiService.post, data);
+  },
+  updateAlbum(data) {
+    return ApiService.authRequest(`/albums`, ApiService.put, data);
+  },
+  getAllForArtist(artistId) {
+    return ApiService.authRequest(
+      `/albums/artist/${artistId}`,
+      ApiService.get,
+      artistId
+    );
+  },
+  getPagedAlbumsRanking(sort_type, page_num, page_size) {
+    return ApiService.authRequest(
+      `/albumranking/${sort_type}/${page_num}/${page_size}`,
+      ApiService.get
+    );
+  },
+  deleteAlbum(id) {
+    return ApiService.authRequest(`/albums/${id}`, ApiService.delete, id);
   },
 };

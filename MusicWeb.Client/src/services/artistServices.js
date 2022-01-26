@@ -26,14 +26,28 @@ export default {
       );
     }
   },
-  getPagedArtistsRanking(
-    sort_type,
-    page_num,
-    page_size
-  ) {
+  getDiscography(artistId, pageNum, pageSize) {
     return ApiService.authRequest(
-    `/artistranking/${sort_type}/${page_num}/${page_size}`,
-    ApiService.get
+      `/artistdiscography/${artistId}/${pageNum}/${pageSize}`,
+      ApiService.get,
+      artistId,
+      pageNum,
+      pageSize
+    );
+  },
+  getSongs(artistId, pageNum, pageSize) {
+    return ApiService.authRequest(
+      `/artistsongs/${artistId}/${pageNum}/${pageSize}`,
+      ApiService.get,
+      artistId,
+      pageNum,
+      pageSize
+    );
+  },
+  getPagedArtistsRanking(sort_type, page_num, page_size) {
+    return ApiService.authRequest(
+      `/artistranking/${sort_type}/${page_num}/${page_size}`,
+      ApiService.get
     );
   },
 };

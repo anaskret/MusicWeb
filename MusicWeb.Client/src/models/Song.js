@@ -2,9 +2,9 @@ export default class Song {
   id = null;
   name = "";
   releaseDate = "";
-  duration = "";
+  length = "";
   positionOnAlbum = "";
-  description = "";
+  text = "";
   albumId = "";
   composerId = "";
   album = {};
@@ -22,9 +22,9 @@ export default class Song {
       this.id = $data.id;
       this.name = $data.name;
       this.releaseDate = $data.releaseDate;
-      this.duration = $data.length;
+      this.length = $data.length;
       this.positionOnAlbum = $data.positionOnAlbum;
-      this.description = $data.text;
+      this.text = $data.text;
       this.albumId = $data.albumId;
       this.composerId = $data.composerId;
       this.albumName = $data.albumName;
