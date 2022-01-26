@@ -14,7 +14,7 @@
               {{ account.firstname }} {{ account.lastname }}
             </span>
             </h1>
-            <v-btn v-if="account.artistId != null" outlined class="mt-5" color="grey" @click="redirectTo()">Manage your albums and songs</v-btn>
+            <v-btn v-if="account.artistId <=1" outlined class="mt-5" color="grey" @click="redirectTo()">Manage your albums and songs</v-btn>
         </div>
         <div>
             <v-dialog v-model="edit_dialog" persistent max-width="600px">

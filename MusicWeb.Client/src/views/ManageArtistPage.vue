@@ -41,6 +41,7 @@ import Album from "@/models/Album";
 import Song from "@/models/Song";
 import CreateItem from "@/components/CreateItem";
 import moment from "moment";
+import { mapGetters } from "vuex";
 
 export default {
   name: "ManageArtistPage",
@@ -70,6 +71,11 @@ export default {
       update_album_title: "Update album",
       update_song_title: "Update song",
     };
+  },
+   computed: {
+    ...mapGetters({
+      account: "current_user",
+    }),
   },
   created() {
     if (this.type == "song")
@@ -113,13 +119,13 @@ export default {
     const { getAllGenres } = useGenres();
     
     const getAllAlbums = function () {
-      getAllForArtist(1).then((response) => {
+      getAllForArtist(this.account.artistId).then((response) => {
         this.albums = response;
     });
     }
 
      const addNewAlbum = function () {
-      this.album.artistId = 1;
+      this.album.artistId = this.account.artistId;
       this.album.isConfirmed = false;
       if (
         this.album.name == null ||
@@ -161,7 +167,7 @@ export default {
     };
 
      const updateAlbumData = function () {
-      this.album.artistId = 1;
+      this.album.artistId =this.account.artistId;
       this.album.isConfirmed = false;
       this.album.id = this.id;
       if (
@@ -204,7 +210,7 @@ export default {
     };
      const addNewSong = function () {
        delete this.song.id;
-      this.song.composerId = 1;
+      this.song.composerId = this.account.artistId;
        if (
         this.song.name == null ||
         this.song.name == "" ||
@@ -245,7 +251,7 @@ export default {
     };
 
      const updateSongData = function () {
-      this.song.composerId = 1;
+      this.song.composerId = this.account.artistId;
       this.song.id = this.id;
       if (
         this.song.name == null ||
