@@ -105,14 +105,15 @@ namespace MusicWeb.Services.Services.ApiIntegration
                         continue;
 
                     var country = await _originService.GetCountryByCodeAsync("NotSet");
-
+                    
                     var artistEntity = new Artist()
                     {
                         Name = result.strArtist,
                         EstablishmentDate = result.intFormedYear != null && string.IsNullOrEmpty(result.intFormedYear) ? new DateTime(Convert.ToInt32(result.intFormedYear), 1, 1) : new DateTime(),
                         Bio = result.strBiographyEN ?? "",
                         Type = Convert.ToInt32(result.intMembers) > 1 ? ArtistType.Band : ArtistType.Individual,
-                        CountryId = country.Id
+                        CountryId = country.Id,
+                        ImagePath = result.strArtistThumb ?? ""
                     };
                     await _artistService.AddAsync(artistEntity, Array.Empty<byte>());
 
@@ -155,7 +156,8 @@ namespace MusicWeb.Services.Services.ApiIntegration
                     AlbumGenreId = genre.Id,
                     Description = album.strDescriptionEN ?? "",
                     IsConfirmed = true,
-                    ReleaseDate = album.intYearReleased != null && string.IsNullOrEmpty(album.intYearReleased) ? new DateTime(Convert.ToInt32(album.intYearReleased), 1, 1) : new DateTime()
+                    ReleaseDate = album.intYearReleased != null && string.IsNullOrEmpty(album.intYearReleased) ? new DateTime(Convert.ToInt32(album.intYearReleased), 1, 1) : new DateTime(),
+                    ImagePath = album.strAlbumThumb ?? ""
                 };
 
                 await _albumService.AddAsync(albumEntity);
