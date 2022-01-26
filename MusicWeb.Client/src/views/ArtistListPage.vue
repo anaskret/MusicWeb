@@ -104,16 +104,6 @@ export default {
     ...mapMutations([
       "setSearching",
     ]), 
-    checkListType() {
-      if (this.type == "favorite")
-      {
-        console.log(this.type);
-      }
-      else if (this.type == "observed")
-      {
-        console.log(this.type);
-      }
-    }
   },
   computed: {
     ...mapGetters([
@@ -121,9 +111,6 @@ export default {
       'searchingType',
       'intersection',
     ]),    
-  },
-  created() {
-    this.checkListType();
   },
   setup() {
     const { getPagedArtists } = useArtists();

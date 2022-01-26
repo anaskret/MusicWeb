@@ -78,7 +78,6 @@ export default {
       if (this.id != null)
       {
         this.getSongData(this.id);
-        console.log(this.song);
       }
 
     }
@@ -88,7 +87,6 @@ export default {
       if (this.id != null)
       {
         this.getAlbumData(this.id);
-        console.log(this.album);
       }
     }
   },
@@ -105,6 +103,9 @@ export default {
     submitUpdateAlbumForm: function() {
       this.updateAlbumData();
     },
+     redirectTo() {
+        this.$router.push({name: 'ArtistItemsPage'});
+ }
   },
   setup() {
     const { addAlbum, getAllForArtist, getAlbumFullData, updateAlbum} = useAlbums();
@@ -114,15 +115,12 @@ export default {
     const getAllAlbums = function () {
       getAllForArtist(1).then((response) => {
         this.albums = response;
-        console.log(this.albums);
     });
     }
 
      const addNewAlbum = function () {
-       console.log(this.album.name);
       this.album.artistId = 1;
       this.album.isConfirmed = false;
-        console.log(this.album);
       if (
         this.album.name == null ||
         this.album.name == "" ||
@@ -141,6 +139,7 @@ export default {
         addAlbum(this.album).then(
           (response) => {
             if (response.status == 200) {
+              this.redirectTo();
               this.$emit("show-alert", "Album added.", "success");
             } else {
               this.$emit(
@@ -162,11 +161,9 @@ export default {
     };
 
      const updateAlbumData = function () {
-       console.log(this.album.name);
       this.album.artistId = 1;
       this.album.isConfirmed = false;
       this.album.id = this.id;
-        console.log(this.album);
       if (
         this.album.name == null ||
         this.album.name == "" ||
@@ -185,6 +182,7 @@ export default {
         updateAlbum(this.album).then(
           (response) => {
             if (response.status == 200) {
+              this.redirectTo();
               this.$emit("show-alert", "Album updated.", "success");
             } else {
               this.$emit(
@@ -207,8 +205,7 @@ export default {
      const addNewSong = function () {
        delete this.song.id;
       this.song.composerId = 1;
-        console.log(this.song);
-      if (
+       if (
         this.song.name == null ||
         this.song.name == "" ||
         this.song.releaseDate == null ||
@@ -226,6 +223,7 @@ export default {
         addSong(this.song).then(
           (response) => {
             if (response.status == 200) {
+              this.redirectTo();
               this.$emit("show-alert", "Song added.", "success");
             } else {
               this.$emit(
@@ -249,7 +247,6 @@ export default {
      const updateSongData = function () {
       this.song.composerId = 1;
       this.song.id = this.id;
-        console.log(this.song);
       if (
         this.song.name == null ||
         this.song.name == "" ||
@@ -268,6 +265,7 @@ export default {
         updateSong(this.song).then(
           (response) => {
             if (response.status == 200) {
+              this.redirectTo();
               this.$emit("show-alert", "Song updated", "success");
             } else {
               this.$emit(

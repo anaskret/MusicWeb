@@ -72,7 +72,6 @@ export default {
     const { getSongFullData, getSongRatingAverage } = useSongs();
     const getSongData = function () {
       getSongFullData(this.id).then((response) => {
-        console.log(response);
         this.song = response;
         this.prepareReviews();
         this.getSongRating();

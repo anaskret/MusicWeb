@@ -29,8 +29,8 @@ export default {
   data() {
     return {
       artist: {},
-      album_columns_list: [' ', 'Album name', 'Release date', 'Duration', 'Edit', 'Delete'],
-      song_columns_list: [' ', 'Song name', 'Release date', 'Duration', 'Edit', 'Delete'],
+      album_columns_list: [' ', 'Album name', 'Release date', 'Duration', 'Actions'],
+      song_columns_list: [' ', 'Song name', 'Release date', 'Duration', 'Actions'],
       albums: [], 
       songs: [],
       song_type: "song",
@@ -39,7 +39,6 @@ export default {
   },
   created() {
     this.getArtist();
-    console.log(this.artist);
   },
   methods: {
  redirectToItem() {
@@ -57,7 +56,6 @@ export default {
     const getArtist = function () {
       getArtistById(1).then((response) => {
         this.albums = response.albums;
-        console.log(this.albums);
         this.songs = response.songs;
     });
     }

@@ -14,6 +14,7 @@
               {{ account.firstname }} {{ account.lastname }}
             </span>
             </h1>
+            <v-btn v-if="account.artistId != null" outlined class="mt-5" color="grey" @click="redirectTo()">Manage your albums and songs</v-btn>
         </div>
         <div>
             <v-dialog v-model="edit_dialog" persistent max-width="600px">
@@ -86,20 +87,6 @@
         />
       </v-col>
     </v-row>
-    <!-- jeżeli artysta -->
-    <v-row>
-      <v-col>
-        <ItemCarousel
-          :items="this.account.userFavoriteArtists"
-          :component_title="artists_title"
-          :component_link_title="artists_link_title"
-          :redirect_to="artist_redirect"
-          :component_type="favorite_component"
-          :redirect_to_list="artist_list_redirect"
-        />
-      </v-col>
-    </v-row>
-    <!-- koniec -->
     <v-row>
       <v-col>
         <ItemCarousel
@@ -242,6 +229,9 @@ export default {
       this.edit_dialog = false;
       this.updateNames();
     },
+     redirectTo() {
+      this.$router.push({ name: "ArtistItemsPage"});
+    },
 
   },
   setup() {
@@ -250,7 +240,6 @@ export default {
     const getAccount = function () {
       getAccountById(localStorage.getItem("user-id")).then((response) => {
         this.account = response;
-        console.log(this.account);
       });
     };
 
