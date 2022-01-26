@@ -90,7 +90,7 @@ export default {
     );
   },
   methods: {
-    ...mapMutations(["setMessages", "toggleChatVisability"]),
+    ...mapMutations(["setMessages", "toggleChatVisability", "setCurrentUser"]),
     showAlert(message, type) {
       this.alert_show = true;
       this.alert_message = message;
@@ -122,6 +122,9 @@ export default {
     setDrawer(drawer) {
       this.drawer = drawer;
     },
+  },
+  created() { 
+    this.setCurrentUser();
   },
   setup() {
     const { getPagedMessages, readFriendMessages } = useChats();

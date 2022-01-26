@@ -28,23 +28,59 @@
                     </th>
                 </tr>
             </thead>
-            <tbody>
-                <tr v-for="(item, index) in items"
+            <tbody v-if="items == null || items == '' || items == undefined">
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <v-progress-circular
+                        :size="50"
+                        color="primary"
+                        indeterminate
+                        style="display: flex; justify-content: center; width: 45%;"
+                    ></v-progress-circular>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </tbody>
+            <tbody v-else>
+                <tr  v-for="(item, index) in items"
                 :key="index"
                 >
-            <td>{{index + 1}}</td>
-            <td>
-                <div>
-                    <v-img :src="require('@/assets/BandPhoto.svg')" style = "width: 50px;"/>
-                </div>
-            </td>
-            <td>{{ item.name }}</td>
-            <td>{{ item.rating }}</td>
-            <td>{{ item.ratingsCount }}</td>
-            <td>{{item.favoriteCount}}</td>
-            <td v-if="module_name == 'ArtistRanking'">{{item.observedCount}}</td>
-            <td v-else>{{item.reviewsCount}}</td>
-            </tr>
+                    <td>{{index + 1}}</td>
+                    <td>
+                        <div>
+                            <v-img
+                                v-if="item.imagePath == null || item.imagePath == ''"
+                                :src="require(`@/assets/unknownUser.svg`)"
+                                :alt="`${item.name}`"
+                                style = "width: 50px;"
+                                contain
+                            />
+                            <v-img
+                                    v-else-if="item.imagePath.slice(0, 4) == 'http'"
+                                    :src="`${item.imagePath}`"
+                                    :alt="`${item.name}`"
+                                    style = "width: 50px;"
+                                    contain
+                            />
+                            <v-img
+                                    v-else
+                                    :src="`${server_url}/${item.imagePath}`"
+                                    :alt="`${item.name}`"
+                                    style = "width: 50px;"
+                                    contain
+                            />
+                        </div>
+                    </td>
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.rating }}</td>
+                    <td>{{ item.ratingsCount }}</td>
+                    <td>{{item.favoriteCount}}</td>
+                    <td v-if="module_name == 'ArtistRanking'">{{item.observedCount}}</td>
+                    <td v-else>{{item.reviewsCount}}</td>
+                </tr>
             </tbody>
         </v-simple-table>
     </div>

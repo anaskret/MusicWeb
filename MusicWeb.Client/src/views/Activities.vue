@@ -17,7 +17,7 @@
 <script>
 import useAccounts from "@/modules/accounts";
 import InfiniteScrollList from "@/components/InfiniteScrollList";
-import { mapGetters, mapMutations } from "vuex";
+import { mapGetters } from "vuex";
 import moment from "moment";
 import usePosts from "@/modules/posts";
 export default {
@@ -46,7 +46,6 @@ export default {
       }),
   },
   methods: {
-    ...mapMutations(["setCurrentUser"]),
     parseDate(date) {
       return this.moment(date).format();
     },
@@ -61,7 +60,6 @@ export default {
   },
   mounted() {
       this.scroll_settings.page_initialize_date = moment().format();
-      this.setCurrentUser();
   },
   setup() {
     const { getPaged } = useAccounts();

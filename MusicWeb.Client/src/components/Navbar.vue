@@ -7,6 +7,9 @@
     dense
     scroll-threshold="500"
   >
+  <v-app-bar-nav-icon @click="mobile_nav = true" 
+  class="d-flex d-sm-none"
+  ></v-app-bar-nav-icon>
   <div class="d-flex justify-center align-center navbar-container">
     <div class="d-flex">
       <v-img
@@ -351,7 +354,8 @@ export default {
       show_old_password: false,
       show_new_password: false,
       show_confirm_password: false,
-      accepted_format: false
+      accepted_format: false,
+      mobile_nav: false
     };
   },
   computed: {

@@ -3,9 +3,25 @@
     <v-row justify="center">
       <v-col lg="3" sm="6" class="pr-lg-12">
         <div>
+            <v-img
+                v-if="parent.imagePath == null || parent.imagePath == ''"
+                :src="require(`@/assets/unknownUser.svg`)"
+                :alt="`${parent.name}`"
+                class="header-image"
+                contain
+            />
           <v-img
+                v-else-if="parent.imagePath.slice(0, 4) == 'http'"
+                :src="`${parent.imagePath}`"
+                :alt="`${parent.name}`"
+                class="header-image"
+                contain
+            />
+          <v-img
+                v-else
                 :src="`${server_url}/${parent.imagePath}`"
                 :alt="`${parent.name}`"
+                class="header-image"
                 contain
             />
         </div>

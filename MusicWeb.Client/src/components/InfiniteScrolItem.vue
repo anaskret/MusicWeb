@@ -30,13 +30,28 @@
             </v-card-actions>
           </div>
 
-          <v-avatar class="ma-3" size="125" tile> 
-            <!-- <v-img
-                class="pl-8"
-                :src="`${server_url}/${item.image}`"
-            >
-            </v-img> -->
-            <v-img :src="require('@/assets/BandPhoto.svg')" style = "width: 50px;"/>
+          <v-avatar class="ma-3" size="125" tile>
+            <v-img
+                v-if="item.imagePath == null || item.imagePath == ''"
+                :src="require(`@/assets/unknownUser.svg`)"
+                :alt="`${item.name}`"
+                style = "width: 50px;"
+                contain
+            />
+            <v-img
+                    v-else-if="item.imagePath.slice(0, 4) == 'http'"
+                    :src="`${item.imagePath}`"
+                    :alt="`${item.name}`"
+                    style = "width: 50px;"
+                    contain
+            />
+            <v-img
+                    v-else
+                    :src="`${server_url}/${item.imagePath}`"
+                    :alt="`${item.name}`"
+                    style = "width: 50px;"
+                    contain
+            />
           </v-avatar>
         </div>
       </v-card>
@@ -88,17 +103,26 @@
               <v-col lg="2" sm="2">
                 <div class="post-thumb">
                     <v-img
-                        v-if="item.image"
+                        v-if="item.image == null || item.image == ''"
+                        :src="require(`@/assets/unknownUser.svg`)"
+                        :alt="`${item.name}`"
                         class="post-thumb-img"
-                        :src="`${server_url}/${item.image}`"
-                    >
-                    </v-img>
+                        contain
+                    />
+                    <v-img
+                        v-else-if="item.image.slice(0, 4) == 'http'"
+                        :src="`${item.image}`"
+                        :alt="`${item.name}`"
+                        class="post-thumb-img"
+                        contain
+                    />
                     <v-img
                         v-else
+                        :src="`${server_url}/${item.image}`"
+                        :alt="`${item.name}`"
                         class="post-thumb-img"
-                        :src="require(`@/assets/unknownUser.svg`)"
-                    >
-                    </v-img>
+                        contain
+                    />
                 </div>
               </v-col>
               <v-col lg="9" sm="9">
@@ -134,6 +158,28 @@
                     @click="redirectToItem(item.albumId, 'Album')"
                     contain
                   />
+                  
+                    <v-img
+                        v-if="item.albumImage == null || item.albumImage == ''"
+                        :src="require(`@/assets/unknownUser.svg`)"
+                        :alt="`${item.name}`"
+                        class="link-to-item"
+                        contain
+                    />
+                    <v-img
+                        v-else-if="item.albumImage.slice(0, 4) == 'http'"
+                        :src="`${item.albumImage}`"
+                        :alt="`${item.name}`"
+                        class="link-to-item"
+                        contain
+                    />
+                    <v-img
+                        v-else
+                        :src="`${server_url}/${item.albumImage}`"
+                        :alt="`${item.name}`"
+                        class="link-to-item"
+                        contain
+                    />
                 </div>
               </v-col>
               <v-col lg="8" sm="8">
