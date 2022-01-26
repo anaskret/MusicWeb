@@ -158,7 +158,7 @@ export default {
   max-height: 100%;
 
   .message-image {
-    padding: 6px 10px;
+    padding: 18px 10px;
     border-radius: 15px;
     margin: 5px 0 5px 0;
     max-width: 70%;

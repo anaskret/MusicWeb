@@ -218,7 +218,7 @@
                       <v-card-actions>
                         <v-spacer></v-spacer>
                         <v-btn @click="settings_dialog = false"> Close </v-btn>
-                        <v-btn @click="updatePasswordDialog"> Send </v-btn>
+                        <v-btn @click="updatePasswordDialog" :disabled="this.isDisabled"> Send </v-btn>
                       </v-card-actions>
                     </v-card>
                   </v-tab-item>
@@ -248,7 +248,7 @@
                       <v-card-actions>
                         <v-spacer></v-spacer>
                         <v-btn @click="settings_dialog = false"> Close </v-btn>
-                        <v-btn @click="updateEmailDialog"> Send </v-btn>
+                        <v-btn @click="updateEmailDialog" :disabled="this.isDisabled"> Send </v-btn>
                       </v-card-actions>
                     </v-card>
                   </v-tab-item>
@@ -262,6 +262,7 @@
                           <v-file-input
                             label="File input"
                             prepend-icon="mdi-camera"
+                            accept="image/*"
                             @change="fileChange"
                           ></v-file-input>
                         </div>
@@ -269,7 +270,7 @@
                       <v-card-actions>
                         <v-spacer></v-spacer>
                         <v-btn @click="settings_dialog = false"> Close </v-btn>
-                        <v-btn @click="updateImageDialog" :disabled="!base64_image"> Send </v-btn>
+                        <v-btn @click="updateImageDialog" :disabled="!base64_image && accepted_format_show"> Send </v-btn>
                       </v-card-actions>
                     </v-card>
                   </v-tab-item>
@@ -350,6 +351,7 @@ export default {
       show_old_password: false,
       show_new_password: false,
       show_confirm_password: false,
+      accepted_format: false
     };
   },
   computed: {
@@ -373,6 +375,14 @@ export default {
     emailErrors() {
       return this.prepareErrorArray("email");
     },
+    accepted_format_show: {
+        get: function(){
+            return this.accepted_format;
+        },
+        set: function(new_value){
+            this.accepted_format = new_value;
+        }
+    }
   },
   validations: {
     account: {
@@ -399,7 +409,7 @@ export default {
     },
   },
   methods: {
-    ...mapMutations(["setCurrentUser"]),
+    ...mapMutations(["setCurrentUser", "clearBase64Image"]),
     ...mapActions(['setBase64']),
     redirectToProfile() {
       this.drawer = !this.drawer;
@@ -446,6 +456,8 @@ export default {
               `The field must be completed according to the template "example@ex.pl".`
             );
         }
+        if (!this.$v.email.$dirty) return errors;
+        !this.$v.email.required && errors.push("Field required.");
       } else {
         if (!this.$v.account[field].$dirty) return errors;
         !this.$v.account[field].required && errors.push("Field required.");
@@ -479,7 +491,18 @@ export default {
     },
     fileChange(file) {
       if (file != null && file != "") {
-        this.setBase64(file);
+        if(['.jpg', '.png', '.bmp'].includes(file.name.slice(-4))){
+            this.accepted_format_show = true;
+            this.setBase64(file);
+        } else {
+            this.clearBase64Image();
+            this.accepted_format_show = false;
+            this.$emit(
+              "show-alert",
+              `This image format "${file.name.slice(-4)}" is not supported.`,
+              "error"
+            );
+        }
       }
     },
     clearSettings() {
@@ -549,11 +572,21 @@ export default {
           }
         },
         (error) => {
-          this.$emit(
-            "show-alert",
-            `Something went wrong. ${error.response.status} ${error.response.data}`,
-            "error"
-          );
+          let errors = error.response.data.errors;
+          debugger;
+          if(errors){
+            this.$emit(
+                "show-alert",
+                `${errors.ConfirmPassword}, ${errors.NewPassword}, ${errors.OldPassword}`,
+                "error"
+            );
+          } else {
+            this.$emit(
+                "show-alert",
+                `${error.response.data}`,
+                "error"
+            );
+          }
           this.clearSettings();
         }
       );
@@ -577,9 +610,10 @@ export default {
           }
         },
         (error) => {
+            debugger;
           this.$emit(
             "show-alert",
-            `Something went wrong. ${error.response.status} ${error.response.data}`,
+            `Something went wrong. ${error.response.status} ${error.response.errors}`,
             "error"
           );
           this.clearSettings();
@@ -603,15 +637,17 @@ export default {
               "error"
             );
             this.clearSettings();
+            this.clearBase64Image();
           }
         },
         (error) => {
           this.$emit(
             "show-alert",
-            `Something went wrong. ${error.response.status} ${error.response.data}`,
+            `Something went wrong. ${error.response.status} ${error.response.errors.ConfirmPassword[0]}`,
             "error"
           );
           this.clearSettings();
+          this.clearBase64Image();
         }
       );
     };
@@ -627,9 +663,6 @@ export default {
 </script>
 
 <style scoped>
-.v-tabs{
-    width: 0;
-}
 .navbar-container{
   width: 100%;
   height: 100%;

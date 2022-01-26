@@ -3,7 +3,11 @@
     <v-row justify="center">
       <v-col lg="3" sm="6" class="pr-lg-12">
         <div>
-          <v-img :src="require('@/assets/BandPhoto.svg')" contain />
+          <v-img
+                :src="`${server_url}/${parent.imagePath}`"
+                :alt="`${parent.name}`"
+                contain
+            />
         </div>
       </v-col>
       <v-col lg="5" sm="12" class="d-flex flex-column">
@@ -559,6 +563,7 @@ const addNewArtistRating = function (ratingId) {
   computed: {
       ...mapGetters({
          account: "current_user",
+         server_url: "server_url",
       }),
   },
   methods: {
@@ -771,5 +776,8 @@ p {
 }
 .activeHeart {
   color: #865e61;
+}
+.header-image{
+    border-radius: 50%;
 }
 </style>
