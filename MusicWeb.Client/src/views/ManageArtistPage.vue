@@ -119,13 +119,15 @@ export default {
     const { getAllGenres } = useGenres();
     
     const getAllAlbums = function () {
-      getAllForArtist(this.account.artistId).then((response) => {
+      getAllForArtist(1).then((response) => {
+      // getAllForArtist(this.account.artistId).then((response) => {
         this.albums = response;
     });
     }
 
      const addNewAlbum = function () {
-      this.album.artistId = this.account.artistId;
+      // this.album.artistId = this.account.artistId;
+      this.album.artistId = 1;
       this.album.isConfirmed = false;
       if (
         this.album.name == null ||
@@ -210,7 +212,8 @@ export default {
     };
      const addNewSong = function () {
        delete this.song.id;
-      this.song.composerId = this.account.artistId;
+      // this.song.composerId = this.account.artistId;
+      this.song.composerId = 1;
        if (
         this.song.name == null ||
         this.song.name == "" ||

@@ -1,7 +1,53 @@
 <template>
   <div>
-    <div v-if="page_name == 'ArtistList' || page_name == 'SongList' || page_name == 'AlbumList' || page_name == 'ArtistFavoriteList' || page_name == 'ArtistObservedList' || page_name == 'AlbumFavoriteList' || page_name == 'SongFavoriteList'">
+    <v-row v-if="page_name == 'ArtistList' || page_name == 'SongList' || page_name == 'AlbumList' || page_name == 'ArtistFavoriteList' || page_name == 'ArtistObservedList' || page_name == 'AlbumFavoriteList' || page_name == 'SongFavoriteList'">
+      <v-col lg="12">
       <v-card @click="redirectToItem(item.id)">
+        <div class="d-flex">
+          <div>
+            <v-avatar class="ma-3" size="125" tile> 
+            <!-- <v-img
+                class="pl-8"
+                :src="`${server_url}/${item.image}`"
+            >
+            </v-img> -->
+              <v-img :src="require('@/assets/band_logo.jpg')" style = "width: 50px;"/>
+            </v-avatar>
+          <v-card-subtitle>
+            <div class="d-flex flex-row">
+            <div class="d-flex flex-row"><font-awesome-icon
+                  class="star icon pr-2"
+                  icon="star"
+                  size="2x"
+                  color="#868263"
+                ></font-awesome-icon>
+                <h4 class="mt-1">{{item.rating}}</h4></div> 
+              
+            <div class="d-flex flex-row ml-3"><font-awesome-icon
+                  class="star icon pr-2"
+                  icon="heart"
+                  size="2x"
+                  color="#865e61"
+                ></font-awesome-icon>
+                <h4 class="mt-1">{{item.favoriteCount}}</h4></div> 
+              
+              </div>
+          </v-card-subtitle
+            >
+        </div>
+        <div>
+          <v-card-title class="text-h5">{{item.name}}</v-card-title>
+          <v-card-subtitle v-if="page_name == 'SongList' || page_name == 'AlbumList'" class="font-thin font-italic" >by {{item.artistName}}</v-card-subtitle>
+          <p v-if="page_name == 'AlbumList' || page_name == 'AlbumFavoriteList'" class="ml-3">{{ item.description | truncate(reviewTextLength, "...") }}</p>
+          <p v-else-if="page_name == 'SongList' || page_name == 'SongFavoriteList'" class="ml-3">{{ item.text | truncate(reviewTextLength, "...") }}</p>
+          <p v-else-if="page_name == 'ArtistList' || page_name == 'ArtistFavoriteList'" class="ml-3">{{ item.description | truncate(reviewTextLength, "...") }}</p>
+        </div>
+      </div>
+
+      </v-card>
+    </v-col>
+  </v-row>
+      <!-- <v-card @click="redirectToItem(item.id)">
         <div class="d-flex flex-no-wrap justify-space-between">
           <div>
             <v-card-title class="text-h5" v-text="item.name"></v-card-title>
@@ -31,16 +77,16 @@
           </div>
 
           <v-avatar class="ma-3" size="125" tile> 
-            <!-- <v-img
+             <v-img
                 class="pl-8"
                 :src="`${server_url}/${item.image}`"
             >
             </v-img> -->
-            <v-img :src="require('@/assets/BandPhoto.svg')" style = "width: 50px;"/>
+            <!-- <v-img :src="require('@/assets/BandPhoto.svg')" style = "width: 50px;"/>
           </v-avatar>
         </div>
-      </v-card>
-    </div>
+      </v-card> --> 
+    <!-- </div> -->
     <v-row v-if="page_name == 'AlbumReviewList' || page_name == 'SongReviewList'">
       <v-col lg="12">
       <v-card @click="redirectToItem(item.id)">
