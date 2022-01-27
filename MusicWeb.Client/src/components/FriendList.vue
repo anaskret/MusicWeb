@@ -8,11 +8,20 @@
       >
       <v-list>
           <v-list-item>
-        <v-list-item-title>
-            <h1>
-                Friends
-            </h1>
-        </v-list-item-title>
+            <v-list-item-title class="d-flex justify-space-between align-center">
+                <h1>
+                    Friends
+                </h1>
+                <v-btn
+                    fab
+                    text
+                    @click="friend_list_visability = false"
+                >
+                    <v-icon dark>
+                    mdi-close
+                    </v-icon>
+                </v-btn>
+            </v-list-item-title>
           </v-list-item>
         <v-divider></v-divider>
          <v-list-item v-for="(user, index) in visibleUsers" :key="index">
