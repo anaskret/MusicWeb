@@ -64,7 +64,7 @@ LEFT JOIN
 	FROM SongRating
 	GROUP BY SongId
 ) T3 ON T3.SongId = T0.Id
-WHERE T2.Id = '{artistId}'
+WHERE T2.Id = '{artistId}' AND T1.IsConfirmed = 1
 ORDER BY COALESCE(T3.AvgRating, 0) DESC, T0.Name";
 
             var query = _dbContext.TopSongsWithRating.FromSqlRaw(sql);
