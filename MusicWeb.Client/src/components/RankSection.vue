@@ -3,7 +3,7 @@
     <v-row justify="center">
       <v-col>
         <div class="d-flex flex-row justify-space-center">
-          <v-card outlined width="30%" class="py-3 mr-5" height="20%">
+          <v-card outlined width="30%" class="py-3 mr-5">
             <p class="d-flex justify-center rank-number" v-if="module_name == 'Album'">{{ album.rating }}</p>
             <p class="d-flex justify-center rank-number" v-if="module_name == 'Song'">{{ song.rating }}</p>
             <p class="d-flex justify-center rank-number" v-if="module_name == 'Artist'">{{ artist.rating }}</p>
@@ -13,7 +13,7 @@
             <p class="d-flex justify-center rank-number" v-if="module_name == 'Album'">{{ album.ratingsCount }}</p>
             <p class="d-flex justify-center rank-number" v-if="module_name == 'Song'">{{ song.ratingsCount }}</p>
             <p class="d-flex justify-center rank-number" v-if="module_name == 'Artist'">{{ artist.ratingsCount }}</p>
-            <p class="d-flex justify-center rank-caption">Amount of Ratings</p>
+            <p class="d-flex text-center justify-sm-center rank-caption">Amount of Ratings</p>
           </v-card>
           <v-card outlined width="30%" class="py-3">
             <p class="d-flex justify-center rank-number">100</p>

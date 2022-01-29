@@ -247,7 +247,6 @@ export default {
       delete this.albumReview.album;
       delete this.albumReview.user;
       delete this.albumReview.id;
-        console.log(this.albumReview);
       if (
         this.albumReview.title == null ||
         this.albumReview.title == "" ||
