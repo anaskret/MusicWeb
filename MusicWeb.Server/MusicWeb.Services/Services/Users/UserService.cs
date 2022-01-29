@@ -65,6 +65,9 @@ namespace MusicWeb.Services.Services.Users
 
             var user = await _userManager.FindByIdAsync(id);
 
+            if (user == null)
+                return;
+
             if (user.Type == UserType.Artist)
                 await _artistService.DeleteAsync(user.ArtistId.GetValueOrDefault());
 
