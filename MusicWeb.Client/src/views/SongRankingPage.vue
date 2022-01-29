@@ -36,7 +36,7 @@ export default {
       songs: [],
       scroll_settings: {
         page: 0,
-        records_quantity: 10,
+        records_quantity: 15,
         selected_sort_type: 3,
       },
       intersection_active: true,

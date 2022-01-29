@@ -1,47 +1,68 @@
 <template>
   <div>
-    <div v-if="page_name == 'ArtistList' || page_name == 'SongList' || page_name == 'AlbumList' || page_name == 'ArtistFavoriteList' || page_name == 'ArtistObservedList' || page_name == 'AlbumFavoriteList' || page_name == 'SongFavoriteList'">
+    <v-row v-if="page_name == 'ArtistList' || page_name == 'SongList' || page_name == 'AlbumList' || page_name == 'ArtistFavoriteList' || page_name == 'ArtistObservedList' || page_name == 'AlbumFavoriteList' || page_name == 'SongFavoriteList'">
+      <v-col lg="12">
       <v-card @click="redirectToItem(item.id)">
-        <div class="d-flex flex-no-wrap justify-space-between">
+        <div class="d-flex">
           <div>
-            <v-card-title class="text-h5" v-text="item.name"></v-card-title>
-
-            <v-card-subtitle
-              ><p>
-                {{ moment(item.establishmentDate).format("L") }}
-              </p></v-card-subtitle
-            >
-
-            <v-card-actions>
-              <v-btn
-                class="ml-2 mt-3"
-                fab
-                icon
-                height="40px"
-                right
-                width="40px"
-              >
-                <font-awesome-icon
-                  class="icon"
-                  icon="chevron-right"
-                  size="2x"
-                />
-              </v-btn>
-            </v-card-actions>
-          </div>
-
-          <v-avatar class="ma-3" size="125" tile> 
-            <!-- <v-img
-                class="pl-8"
-                :src="`${server_url}/${item.image}`"
-            >
-            </v-img> -->
-            <v-img :src="require('@/assets/BandPhoto.svg')" style = "width: 50px;"/>
+             <v-avatar class="ma-3" size="125" tile>
+            <v-img
+                v-if="item.imagePath == null || item.imagePath == ''"
+                :src="require(`@/assets/unknownUser.svg`)"
+                :alt="`${item.name}`"
+                style = "width: 50px;"
+                contain
+            />
+            <v-img
+                    v-else-if="item.imagePath.slice(0, 4) == 'http'"
+                    :src="`${item.imagePath}`"
+                    :alt="`${item.name}`"
+                    style = "width: 50px;"
+                    contain
+            />
+            <v-img
+                    v-else
+                    :src="`${server_url}/${item.imagePath}`"
+                    :alt="`${item.name}`"
+                    style = "width: 50px;"
+                    contain
+            />
           </v-avatar>
+          <v-card-subtitle>
+            <div class="d-flex flex-row">
+            <div class="d-flex flex-row"><font-awesome-icon
+                  class="star icon pr-2"
+                  icon="star"
+                  size="2x"
+                  color="#868263"
+                ></font-awesome-icon>
+                <h4 class="mt-1">{{item.rating}}</h4></div> 
+              
+            <div class="d-flex flex-row ml-3"><font-awesome-icon
+                  class="star icon pr-2"
+                  icon="heart"
+                  size="2x"
+                  color="#865e61"
+                ></font-awesome-icon>
+                <h4 class="mt-1">{{item.favoriteCount}}</h4></div> 
+              
+              </div>
+          </v-card-subtitle
+            >
         </div>
+        <div>
+          <v-card-title class="text-h5">{{item.name}}</v-card-title>
+          <v-card-subtitle v-if="page_name == 'SongList' || page_name == 'AlbumList'" class="font-thin font-italic" >by {{item.artistName}}</v-card-subtitle>
+          <p v-if="page_name == 'AlbumList' || page_name == 'AlbumFavoriteList'" class="ml-3">{{ item.description | truncate(reviewTextLength, "...") }}</p>
+          <p v-else-if="page_name == 'SongList' || page_name == 'SongFavoriteList'" class="ml-3">{{ item.text | truncate(reviewTextLength, "...") }}</p>
+          <p v-else-if="page_name == 'ArtistList' || page_name == 'ArtistFavoriteList'" class="ml-3">{{ item.description | truncate(reviewTextLength, "...") }}</p>
+        </div>
+      </div>
+
       </v-card>
-    </div>
-    <v-row v-if="page_name == 'AlbumReviewList' || page_name == 'SongReviewList'">
+    </v-col>
+  </v-row>
+    <v-row v-else-if="page_name == 'AlbumReviewList' || page_name == 'SongReviewList'">
       <v-col lg="12">
       <v-card @click="redirectToItem(item.id)">
         <div class="d-flex">
@@ -88,17 +109,26 @@
               <v-col lg="2" sm="2">
                 <div class="post-thumb">
                     <v-img
-                        v-if="item.image"
+                        v-if="item.image == null || item.image == ''"
+                        :src="require(`@/assets/unknownUser.svg`)"
+                        :alt="`${item.name}`"
                         class="post-thumb-img"
-                        :src="`${server_url}/${item.image}`"
-                    >
-                    </v-img>
+                        contain
+                    />
+                    <v-img
+                        v-else-if="item.image.slice(0, 4) == 'http'"
+                        :src="`${item.image}`"
+                        :alt="`${item.name}`"
+                        class="post-thumb-img"
+                        contain
+                    />
                     <v-img
                         v-else
+                        :src="`${server_url}/${item.image}`"
+                        :alt="`${item.name}`"
                         class="post-thumb-img"
-                        :src="require(`@/assets/unknownUser.svg`)"
-                    >
-                    </v-img>
+                        contain
+                    />
                 </div>
               </v-col>
               <v-col lg="9" sm="9">
@@ -134,6 +164,28 @@
                     @click="redirectToItem(item.albumId, 'Album')"
                     contain
                   />
+                  
+                    <v-img
+                        v-if="item.albumImage == null || item.albumImage == ''"
+                        :src="require(`@/assets/unknownUser.svg`)"
+                        :alt="`${item.name}`"
+                        class="link-to-item"
+                        contain
+                    />
+                    <v-img
+                        v-else-if="item.albumImage.slice(0, 4) == 'http'"
+                        :src="`${item.albumImage}`"
+                        :alt="`${item.name}`"
+                        class="link-to-item"
+                        contain
+                    />
+                    <v-img
+                        v-else
+                        :src="`${server_url}/${item.albumImage}`"
+                        :alt="`${item.name}`"
+                        class="link-to-item"
+                        contain
+                    />
                 </div>
               </v-col>
               <v-col lg="8" sm="8">
@@ -208,12 +260,6 @@
                     />
                     <div v-for="(comment, index) in item.comments" :key="index" class="comment-container">
                         <div class="thumb-img-container">
-                        <!-- <v-img
-                            v-if="participant.imagePath"
-                            class="participant-thumb"
-                            :src="`${server_url}/${participant.imagePath}`"
-                        >
-                        </v-img> -->
                         <v-img
                             class="comment-thumb"
                             :src="require(`@/assets/unknownUser.svg`)"
@@ -340,12 +386,6 @@
                     />
                     <div v-for="(comment, index) in item.comments" :key="index" class="comment-container">
                         <div class="thumb-img-container">
-                        <!-- <v-img
-                            v-if="participant.imagePath"
-                            class="participant-thumb"
-                            :src="`${server_url}/${participant.imagePath}`"
-                        >
-                        </v-img> -->
                         <v-img
                             class="comment-thumb"
                             :src="require(`@/assets/unknownUser.svg`)"

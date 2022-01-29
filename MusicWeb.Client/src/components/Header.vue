@@ -1,20 +1,39 @@
 <template>
   <v-container fluid class="py-16">
     <v-row justify="center">
-      <v-col lg="3" sm="6" class="pr-lg-12">
-        <div>
+      <v-col v-col lg="3" md="4">
+        <div class="mediaImage">
+            <v-img
+                v-if="parent.imagePath == null || parent.imagePath == ''"
+                :src="require(`@/assets/unknownUser.svg`)"
+                :alt="`${parent.name}`"
+                class="header-image"
+                max-width="70vw"
+                contain
+            />
           <v-img
+                v-else-if="parent.imagePath.slice(0, 4) == 'http'"
+                :src="`${parent.imagePath}`"
+                :alt="`${parent.name}`"
+                class="header-image"
+                max-width="70vw"
+                contain
+            />
+          <v-img
+                v-else
                 :src="`${server_url}/${parent.imagePath}`"
                 :alt="`${parent.name}`"
+                class="header-image"
+                max-width="70vw"
                 contain
             />
         </div>
       </v-col>
-      <v-col lg="5" sm="12" class="d-flex flex-column">
-        <v-row align-content="end" class="pb-lg-2">
-          <v-col lg="12" sm="7">
-            <div class="d-flex">
-              <div>
+      <v-col lg="5" md="8" class="d-flex flex-column">
+        <v-row align-content="end" class="pb-md-2">
+          <v-col>
+            <div class="d-flex flex-column flex-md-row">
+              <div class="d-flex mediaImage">
                 <h1 class="text-uppercase font-weight-bold artist-title">
                   {{ parent.name }}
                 </h1>
@@ -24,7 +43,7 @@
                 color="grey"
                 height="30px"
                 v-if="show_observe_button"
-                class="text-uppercase align-self-center ml-md-16"
+                class="text-uppercase align-self-sm-center ml-md-16"
                 @click="addToObserved"
                 >{{observe_btn}}
               </v-btn>
@@ -32,11 +51,11 @@
           </v-col>
         </v-row>
         <v-row>
-          <v-col md="12" class="d-flex flex-row pr-lg-5">
-            <div>
+          <v-col md="12" class="d-flex flex-column flex-sm-row pr-lg-5 mediaImage">
+            <div class="mb-5 mb-md-0" >
               <p>Add to favorites:</p>
               <div class="d-flex flex-row">
-                <div align-content="center" class="mr-lg-3">
+                <div align-content="center" class="mr-3">
                   <font-awesome-icon
                     class="heart icon"
                     icon="heart"
@@ -45,12 +64,12 @@
                     @click="updateUserFavorite"
                   ></font-awesome-icon>
                 </div>
-                <div align-items="center" class="align-center">
-                  <span class="feature-text pr-1">{{parent.favoriteCount }} persons </span> added to favorites
+                <div align-items="center" >
+                  <span class="feature-text pr-1">{{parent.favoriteCount }} people </span> added to favorites
                 </div>
               </div>
             </div>
-            <div class="ml-lg-16">
+            <div class="ml-sm-16">
               <p>{{ vote_title }}</p>
               <div class="d-flex flex-row starConteiner" @mouseleave="getDefaultStars">
                 <font-awesome-icon
@@ -779,5 +798,10 @@ p {
 }
 .header-image{
     border-radius: 50%;
+}
+@media (max-width: 900px) {
+  .mediaImage {
+     display: flex;
+     justify-content: center; }
 }
 </style>

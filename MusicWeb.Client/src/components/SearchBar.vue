@@ -3,8 +3,8 @@
     <div v-if="searchClosed">
     <v-text-field
       v-model="search"
-      class="search mt-6"
-      :class="{ closed: searchClosed && !search }"
+      class="search"
+      :class="{ closed: searchClosed && !search}"
       outlined
       placeholder="Search"
       filled
@@ -15,24 +15,20 @@
     </div>
     <div v-else class="d-flex flex-row">
     <v-text-field
-      
       v-model="search"
-      class="search mt-6"
+      class="search"
       placeholder="Search"
       filled
       prepend-inner-icon="mdi-magnify"
       @blur="searchClosed = true"
       clearable
       v-on:keyup.enter="searchData"
-      
-
     ></v-text-field>
      <v-select
      v-model="type"
           :items="items"
           filled
           label="Type"
-          class="mt-6"
         ></v-select>
   </div>
   </div>
@@ -81,6 +77,7 @@ export default {
     align-items: center;
     position: absolute;
     right: 3%;
+    top: 17%;
 }
 .v-input.search{
     transition: max-width 0.3s ease-in-out;
@@ -113,6 +110,12 @@ export default {
 @media (min-width: 700px) and (max-width: 850px){
     .SearchBar{
         right: 7%;
+    }
+}
+@media (max-width: 720px){
+    .SearchBar{
+        right: 47%;
+        top: 38%;
     }
 }
 </style>

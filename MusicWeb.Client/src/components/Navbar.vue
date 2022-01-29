@@ -1,4 +1,5 @@
 <template>
+<div>
   <v-app-bar
     v-if="!['Login', 'Register', 'PasswordReset'].includes(this.$route.name)"
     app
@@ -7,7 +8,7 @@
     dense
     scroll-threshold="500"
   >
-  <div class="d-flex justify-center align-center navbar-container">
+  <div class="d-flex justify-space-between align-center navbar-container">
     <div class="d-flex">
       <v-img
         alt="MusicWeb"
@@ -19,288 +20,573 @@
         @click="redirectToActivities"
       />
     </div>
-    <template>
-      <v-tabs v-model="active_tab">
-        <v-tab v-for="tab of tabs" :key="tab.id" @click="tab.method">
-          {{ tab.name }}
-        </v-tab>
+    <div class="desktop_nav">
+        <template>
+            <v-tabs v-model="active_tab">
+                <v-tab v-for="tab of tabs" :key="tab.id" @click="tab.method">
+                {{ tab.name }}
+                </v-tab>
+                <v-menu
+                    v-for="list_tab in tabs_with_list"
+                    :key="list_tab.id"
+                    open-on-hover
+                    bottom
+                    offset-y
+                    >
+                    <template v-slot:activator="{ on, attrs }">
+                        <v-tab 
+                            v-if="list_tab.id == 1"
+                            v-bind="attrs" 
+                            v-on="on" 
+                            @click="ranking_pages[0].method">
+                            {{ list_tab.name }}
+                            <v-icon right>
+                                mdi-menu-down
+                            </v-icon>
+                        </v-tab>
+                        <v-tab 
+                            v-if="list_tab.id == 2"
+                            v-bind="attrs" 
+                            v-on="on" 
+                            @click="base_pages[0].method">
+                            {{ list_tab.name }}
+                            <v-icon right>
+                                mdi-menu-down
+                            </v-icon>
+                        </v-tab>
+                    </template>
+        
+                    <v-list
+                        v-if="list_tab.id == 1"
+                        color="#2C2F33"
+                    >
+                        <v-list-item
+                        v-for="(page, index) in ranking_pages"
+                        :key="index"
+                        @click="page.method"
+                        >
+                        {{ page.name }}
+                        </v-list-item>
+                    </v-list>
+                    <v-list
+                        v-else-if="list_tab.id == 2"
+                        color="#2C2F33"
+                    >
+                        <v-list-item
+                        v-for="(page, index) in base_pages"
+                        :key="index"
+                        @click="page.method"
+                        >
+                        {{ page.name }}
+                        </v-list-item>
+                    </v-list>
+                    </v-menu>
+            </v-tabs>
+        </template>
+        <SearchBar />
         <v-menu
-              v-for="list_tab in tabs_with_list"
-              :key="list_tab.id"
-              open-on-hover
-              bottom
-              offset-y
-            >
-              <template v-slot:activator="{ on, attrs }">
-                <v-tab 
-                    v-if="list_tab.id == 1"
-                    v-bind="attrs" 
-                    v-on="on" 
-                    @click="ranking_pages[0].method">
-                    {{ list_tab.name }}
-                    <v-icon right>
-                        mdi-menu-down
-                    </v-icon>
-                </v-tab>
-                <v-tab 
-                    v-if="list_tab.id == 2"
-                    v-bind="attrs" 
-                    v-on="on" 
-                    @click="base_pages[0].method">
-                    {{ list_tab.name }}
-                    <v-icon right>
-                        mdi-menu-down
-                    </v-icon>
-                </v-tab>
-              </template>
-  
-              <v-list
-                v-if="list_tab.id == 1"
-                color="#2C2F33"
-              >
-                <v-list-item
-                  v-for="(page, index) in ranking_pages"
-                  :key="index"
-                  @click="page.method"
-                >
-                  {{ page.name }}
-                </v-list-item>
-              </v-list>
-              <v-list
-                v-else-if="list_tab.id == 2"
-                color="#2C2F33"
-              >
-                <v-list-item
-                  v-for="(page, index) in base_pages"
-                  :key="index"
-                  @click="page.method"
-                >
-                  {{ page.name }}
-                </v-list-item>
-              </v-list>
-            </v-menu>
-      </v-tabs>
-    </template>
-    <SearchBar />
-    <v-menu
-      v-model="drawer"
-      :close-on-content-click="false"
-      :nudge-width="200"
-      offset-y
-    >
-      <template v-slot:activator="{ on, attrs }">
-        <v-btn
-          class="mx-2"
-          v-bind="attrs"
-          v-on="on"
-          small
-          fab
-          dark
-          outlined
-          @click.stop="drawer = !drawer"
+        v-model="drawer"
+        :close-on-content-click="false"
+        :nudge-width="200"
+        offset-y
         >
-          <font-awesome-icon class="icon" icon="user" color="#white" />
-        </v-btn>
-      </template>
+        <template v-slot:activator="{ on, attrs }">
+            <v-btn
+            class="mx-2"
+            v-bind="attrs"
+            v-on="on"
+            small
+            fab
+            dark
+            outlined
+            @click.stop="drawer = !drawer"
+            >
+            <font-awesome-icon class="icon" icon="user" color="#white" />
+            </v-btn>
+        </template>
 
-      <v-card color="#2C2F33">
-        <v-list>
-          <v-list-item>
-            <v-list-item-avatar>
-              <img
-                v-if="current_user.imagePath"
-                :src="`${server_url}/${current_user.imagePath}`"
-                :alt="`${current_user.firstname}`"
-              />
-              <img
-                v-else
-                src="@/assets/defaut_user.png"
-                :alt="`${current_user.firstname}`"
-              />
-            </v-list-item-avatar>
+        <v-card color="#2C2F33">
+            <v-list>
+            <v-list-item>
+                <v-list-item-avatar>
+                <img
+                    v-if="current_user.imagePath"
+                    :src="`${server_url}/${current_user.imagePath}`"
+                    :alt="`${current_user.firstname}`"
+                />
+                <img
+                    v-else
+                    src="@/assets/defaut_user.png"
+                    :alt="`${current_user.firstname}`"
+                />
+                </v-list-item-avatar>
 
-            <v-list-item-content>
-              <v-list-item-title
-                >{{ account.firstname }}
-                {{ account.lastname }}</v-list-item-title
-              >
-            </v-list-item-content>
+                <v-list-item-content>
+                <v-list-item-title
+                    >{{ account.firstname }}
+                    {{ account.lastname }}</v-list-item-title
+                >
+                </v-list-item-content>
 
-            <v-list-item-action>
-              <v-dialog v-model="settings_dialog" persistent max-width="600px">
-                <template v-slot:activator="{ on, attrs }">
-                  <v-btn v-bind="attrs" v-on="on" icon>
-                    <font-awesome-icon
-                      size="1x"
-                      class="icon"
-                      icon="cog"
-                      color="#white"
-                    />
-                  </v-btn>
-                </template>
-                <v-tabs class="settingsDialog tabs" grow vertical>
-                  <v-tab>
-                    <font-awesome-icon
-                      size="2x"
-                      class="icon"
-                      icon="lock"
-                      color="#white"
-                    />
-                  </v-tab>
-                  <v-tab>
-                    <font-awesome-icon
-                      size="2x"
-                      class="icon"
-                      icon="envelope"
-                      color="#white"
-                    />
-                  </v-tab>
-                  <v-tab>
-                    <font-awesome-icon
-                      size="2x"
-                      class="icon"
-                      icon="image"
-                      color="#white"
-                    />
-                  </v-tab>
+                <v-list-item-action>
+                <v-dialog v-model="settings_dialog" persistent max-width="600px">
+                    <template v-slot:activator="{ on, attrs }">
+                    <v-btn v-bind="attrs" v-on="on" icon>
+                        <font-awesome-icon
+                        size="1x"
+                        class="icon"
+                        icon="cog"
+                        color="#white"
+                        />
+                    </v-btn>
+                    </template>
+                    <v-tabs class="settingsDialog tabs" grow vertical>
+                    <v-tab>
+                        <font-awesome-icon
+                        size="2x"
+                        class="icon"
+                        icon="lock"
+                        color="#white"
+                        />
+                    </v-tab>
+                    <v-tab>
+                        <font-awesome-icon
+                        size="2x"
+                        class="icon"
+                        icon="envelope"
+                        color="#white"
+                        />
+                    </v-tab>
+                    <v-tab>
+                        <font-awesome-icon
+                        size="2x"
+                        class="icon"
+                        icon="image"
+                        color="#white"
+                        />
+                    </v-tab>
 
-                  <v-tab-item>
-                    <v-card flat class="settingsDialog">
-                      <v-card-title>
-                        <span class="text-h5">Change Password</span>
-                      </v-card-title>
-                      <v-card-text>
-                        <v-container>
-                          <v-row>
-                            <v-col cols="12" md="12">
-                              <v-text-field
-                                class="p-4"
-                                label="Old Password"
-                                v-model.trim="$v.oldPassword.$model"
-                                :error-messages="oldPasswordErrors"
-                                required
-                                @input="$v.oldPassword.$touch()"
-                                @blur="$v.oldPassword.$touch()"
-                                :type="show_old_password ? 'text' : 'password'"
-                                :append-icon="show_old_password ? 'mdi-eye' : 'mdi-eye-off'"
-                                @click:append="show_old_password = !show_old_password"
-                              ></v-text-field>
-                              <v-text-field
-                                class="p-4"
-                                label="New Password"
-                                v-model.trim="$v.account.password.$model"
-                                :error-messages="passwordErrors"
-                                :counter="25"
-                                required
-                                @input="$v.account.password.$touch()"
-                                @blur="$v.account.password.$touch()"
-                                :type="show_new_password ? 'text' : 'password'"
-                                :append-icon="show_new_password ? 'mdi-eye' : 'mdi-eye-off'"
-                                @click:append="show_new_password = !show_new_password"
-                              ></v-text-field>
-                              <v-text-field
-                                class="p-4"
-                                label="Confirm Password"
-                                v-model.trim="$v.confirmPassword.$model"
-                                :error-messages="confirmPasswordErrors"
-                                :counter="25"
-                                required
-                                @input="$v.confirmPassword.$touch()"
-                                @blur="$v.confirmPassword.$touch()"
-                                :type="show_confirm_password ? 'text' : 'password'"
-                                :append-icon="show_confirm_password ? 'mdi-eye' : 'mdi-eye-off'"
-                                @click:append="show_confirm_password = !show_confirm_password"
-                              ></v-text-field>
-                            </v-col>
-                          </v-row>
-                        </v-container>
-                      </v-card-text>
-                      <v-card-actions>
-                        <v-spacer></v-spacer>
-                        <v-btn @click="settings_dialog = false"> Close </v-btn>
-                        <v-btn @click="updatePasswordDialog"> Send </v-btn>
-                      </v-card-actions>
-                    </v-card>
-                  </v-tab-item>
-                  <v-tab-item>
-                    <v-card flat class="settingsDialog">
-                      <v-card-title>
-                        <span class="text-h5">Change Email</span>
-                      </v-card-title>
-                      <v-card-text>
-                        <v-container>
-                          <v-row>
-                            <v-col cols="12" md="12">
-                              <v-text-field
-                                class="p-4"
-                                label="Email"
-                                v-model.trim="$v.email.$model"
-                                :error-messages="emailErrors"
-                                :counter="25"
-                                required
-                                @input="$v.email.$touch()"
-                                @blur="$v.email.$touch()"
-                              ></v-text-field>
-                            </v-col>
-                          </v-row>
-                        </v-container>
-                      </v-card-text>
-                      <v-card-actions>
-                        <v-spacer></v-spacer>
-                        <v-btn @click="settings_dialog = false"> Close </v-btn>
-                        <v-btn @click="updateEmailDialog"> Send </v-btn>
-                      </v-card-actions>
-                    </v-card>
-                  </v-tab-item>
-                  <v-tab-item>
-                    <v-card flat class="settingsDialog">
-                      <v-card-title>
-                        <span class="text-h5">Change Photo</span>
-                      </v-card-title>
-                      <v-card-text>
-                        <div class="uploader">
-                          <v-file-input
-                            label="File input"
-                            prepend-icon="mdi-camera"
-                            accept="image/*"
-                            @change="fileChange"
-                          ></v-file-input>
-                        </div>
-                      </v-card-text>
-                      <v-card-actions>
-                        <v-spacer></v-spacer>
-                        <v-btn @click="settings_dialog = false"> Close </v-btn>
-                        <v-btn @click="updateImageDialog"> Send </v-btn>
-                      </v-card-actions>
-                    </v-card>
-                  </v-tab-item>
-                </v-tabs>
-              </v-dialog>
-            </v-list-item-action>
-          </v-list-item>
-        </v-list>
+                    <v-tab-item>
+                        <v-card flat class="settingsDialog">
+                        <v-card-title>
+                            <span class="text-h5">Change Password</span>
+                        </v-card-title>
+                        <v-card-text>
+                            <v-container>
+                            <v-row>
+                                <v-col cols="12" md="12">
+                                <v-text-field
+                                    class="p-4"
+                                    label="Old Password"
+                                    v-model.trim="$v.oldPassword.$model"
+                                    :error-messages="oldPasswordErrors"
+                                    required
+                                    @input="$v.oldPassword.$touch()"
+                                    @blur="$v.oldPassword.$touch()"
+                                    :type="show_old_password ? 'text' : 'password'"
+                                    :append-icon="show_old_password ? 'mdi-eye' : 'mdi-eye-off'"
+                                    @click:append="show_old_password = !show_old_password"
+                                ></v-text-field>
+                                <v-text-field
+                                    class="p-4"
+                                    label="New Password"
+                                    v-model.trim="$v.account.password.$model"
+                                    :error-messages="passwordErrors"
+                                    :counter="25"
+                                    required
+                                    @input="$v.account.password.$touch()"
+                                    @blur="$v.account.password.$touch()"
+                                    :type="show_new_password ? 'text' : 'password'"
+                                    :append-icon="show_new_password ? 'mdi-eye' : 'mdi-eye-off'"
+                                    @click:append="show_new_password = !show_new_password"
+                                ></v-text-field>
+                                <v-text-field
+                                    class="p-4"
+                                    label="Confirm Password"
+                                    v-model.trim="$v.confirmPassword.$model"
+                                    :error-messages="confirmPasswordErrors"
+                                    :counter="25"
+                                    required
+                                    @input="$v.confirmPassword.$touch()"
+                                    @blur="$v.confirmPassword.$touch()"
+                                    :type="show_confirm_password ? 'text' : 'password'"
+                                    :append-icon="show_confirm_password ? 'mdi-eye' : 'mdi-eye-off'"
+                                    @click:append="show_confirm_password = !show_confirm_password"
+                                ></v-text-field>
+                                </v-col>
+                            </v-row>
+                            </v-container>
+                        </v-card-text>
+                        <v-card-actions>
+                            <v-spacer></v-spacer>
+                            <v-btn @click="settings_dialog = false"> Close </v-btn>
+                            <v-btn @click="updatePasswordDialog"> Send </v-btn>
+                        </v-card-actions>
+                        </v-card>
+                    </v-tab-item>
+                    <v-tab-item>
+                        <v-card flat class="settingsDialog">
+                        <v-card-title>
+                            <span class="text-h5">Change Email</span>
+                        </v-card-title>
+                        <v-card-text>
+                            <v-container>
+                            <v-row>
+                                <v-col cols="12" md="12">
+                                <v-text-field
+                                    class="p-4"
+                                    label="Email"
+                                    v-model.trim="$v.email.$model"
+                                    :error-messages="emailErrors"
+                                    :counter="25"
+                                    required
+                                    @input="$v.email.$touch()"
+                                    @blur="$v.email.$touch()"
+                                ></v-text-field>
+                                </v-col>
+                            </v-row>
+                            </v-container>
+                        </v-card-text>
+                        <v-card-actions>
+                            <v-spacer></v-spacer>
+                            <v-btn @click="settings_dialog = false"> Close </v-btn>
+                            <v-btn @click="updateEmailDialog"> Send </v-btn>
+                        </v-card-actions>
+                        </v-card>
+                    </v-tab-item>
+                    <v-tab-item>
+                        <v-card flat class="settingsDialog">
+                        <v-card-title>
+                            <span class="text-h5">Change Photo</span>
+                        </v-card-title>
+                        <v-card-text>
+                            <div class="uploader">
+                            <v-file-input
+                                label="File input"
+                                prepend-icon="mdi-camera"
+                                accept="image/*"
+                                @change="fileChange"
+                            ></v-file-input>
+                            </div>
+                        </v-card-text>
+                        <v-card-actions>
+                            <v-spacer></v-spacer>
+                            <v-btn @click="settings_dialog = false"> Close </v-btn>
+                            <v-btn @click="updateImageDialog"> Send </v-btn>
+                        </v-card-actions>
+                        </v-card>
+                    </v-tab-item>
+                    </v-tabs>
+                </v-dialog>
+                </v-list-item-action>
+            </v-list-item>
+            </v-list>
 
-        <v-divider></v-divider>
+            <v-divider></v-divider>
 
-        <v-card-actions>
-          <v-btn @click="redirectToProfile" text>
-            <span class="mr-2">Profile</span>
-          </v-btn>
-          <v-spacer></v-spacer>
-          <v-btn @click="onLogout" text>
-            <span class="mr-2">Sign Out</span>
-            <font-awesome-icon
-              class="icon"
-              icon="sign-out-alt"
-              size="1x"
-              color="#white"
-            />
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-menu>
+            <v-card-actions>
+            <v-btn @click="redirectToProfile" text>
+                <span class="mr-2">Profile</span>
+            </v-btn>
+            <v-spacer></v-spacer>
+            <v-btn @click="onLogout" text>
+                <span class="mr-2">Sign Out</span>
+                <font-awesome-icon
+                class="icon"
+                icon="sign-out-alt"
+                size="1x"
+                color="#white"
+                />
+            </v-btn>
+            </v-card-actions>
+        </v-card>
+        </v-menu>
+    </div>
+    <v-app-bar-nav-icon @click.stop="mobile_nav = !mobile_nav" class="mobile_nav"></v-app-bar-nav-icon>
   </div>
   </v-app-bar>
+    <v-sheet
+      height="100vh"
+      style="position: relative;"
+      :style="mobile_nav ? 'display: flex;' : 'display:none;'"
+    >
+    <v-container class="fill-height">
+    </v-container>
+      <v-navigation-drawer
+        v-model="mobile_nav"
+        absolute
+        temporary
+        right
+        style="width:500px;"
+        color="#2C2F33"
+      >
+        <template>
+            <v-card>
+                <v-list>
+                <v-list-item>
+                    <v-list-item-avatar>
+                    <img
+                        v-if="current_user.imagePath"
+                        :src="`${server_url}/${current_user.imagePath}`"
+                        :alt="`${current_user.firstname}`"
+                    />
+                    <img
+                        v-else
+                        src="@/assets/defaut_user.png"
+                        :alt="`${current_user.firstname}`"
+                    />
+                    </v-list-item-avatar>
+
+                    <v-list-item-content>
+                    <v-list-item-title
+                        >{{ account.firstname }}
+                        {{ account.lastname }}</v-list-item-title
+                    >
+                    </v-list-item-content>
+
+                    <v-list-item-action>
+                    <v-dialog v-model="settings_dialog" persistent max-width="600px">
+                        <template v-slot:activator="{ on, attrs }">
+                        <v-btn v-bind="attrs" v-on="on" icon>
+                            <font-awesome-icon
+                            size="1x"
+                            class="icon"
+                            icon="cog"
+                            color="#white"
+                            />
+                        </v-btn>
+                        </template>
+                        <v-tabs class="settingsDialog tabs" grow vertical>
+                        <v-tab>
+                            <font-awesome-icon
+                            size="2x"
+                            class="icon"
+                            icon="lock"
+                            color="#white"
+                            />
+                        </v-tab>
+                        <v-tab>
+                            <font-awesome-icon
+                            size="2x"
+                            class="icon"
+                            icon="envelope"
+                            color="#white"
+                            />
+                        </v-tab>
+                        <v-tab>
+                            <font-awesome-icon
+                            size="2x"
+                            class="icon"
+                            icon="image"
+                            color="#white"
+                            />
+                        </v-tab>
+
+                        <v-tab-item>
+                            <v-card flat class="settingsDialog">
+                            <v-card-title>
+                                <span class="text-h5">Change Password</span>
+                            </v-card-title>
+                            <v-card-text>
+                                <v-container>
+                                <v-row>
+                                    <v-col cols="12" md="12">
+                                    <v-text-field
+                                        class="p-4"
+                                        label="Old Password"
+                                        v-model.trim="$v.oldPassword.$model"
+                                        :error-messages="oldPasswordErrors"
+                                        required
+                                        @input="$v.oldPassword.$touch()"
+                                        @blur="$v.oldPassword.$touch()"
+                                        :type="show_old_password ? 'text' : 'password'"
+                                        :append-icon="show_old_password ? 'mdi-eye' : 'mdi-eye-off'"
+                                        @click:append="show_old_password = !show_old_password"
+                                    ></v-text-field>
+                                    <v-text-field
+                                        class="p-4"
+                                        label="New Password"
+                                        v-model.trim="$v.account.password.$model"
+                                        :error-messages="passwordErrors"
+                                        :counter="25"
+                                        required
+                                        @input="$v.account.password.$touch()"
+                                        @blur="$v.account.password.$touch()"
+                                        :type="show_new_password ? 'text' : 'password'"
+                                        :append-icon="show_new_password ? 'mdi-eye' : 'mdi-eye-off'"
+                                        @click:append="show_new_password = !show_new_password"
+                                    ></v-text-field>
+                                    <v-text-field
+                                        class="p-4"
+                                        label="Confirm Password"
+                                        v-model.trim="$v.confirmPassword.$model"
+                                        :error-messages="confirmPasswordErrors"
+                                        :counter="25"
+                                        required
+                                        @input="$v.confirmPassword.$touch()"
+                                        @blur="$v.confirmPassword.$touch()"
+                                        :type="show_confirm_password ? 'text' : 'password'"
+                                        :append-icon="show_confirm_password ? 'mdi-eye' : 'mdi-eye-off'"
+                                        @click:append="show_confirm_password = !show_confirm_password"
+                                    ></v-text-field>
+                                    </v-col>
+                                </v-row>
+                                </v-container>
+                            </v-card-text>
+                            <v-card-actions>
+                                <v-spacer></v-spacer>
+                                <v-btn @click="settings_dialog = false"> Close </v-btn>
+                                <v-btn @click="updatePasswordDialog"> Send </v-btn>
+                            </v-card-actions>
+                            </v-card>
+                        </v-tab-item>
+                        <v-tab-item>
+                            <v-card flat class="settingsDialog">
+                            <v-card-title>
+                                <span class="text-h5">Change Email</span>
+                            </v-card-title>
+                            <v-card-text>
+                                <v-container>
+                                <v-row>
+                                    <v-col cols="12" md="12">
+                                    <v-text-field
+                                        class="p-4"
+                                        label="Email"
+                                        v-model.trim="$v.email.$model"
+                                        :error-messages="emailErrors"
+                                        :counter="25"
+                                        required
+                                        @input="$v.email.$touch()"
+                                        @blur="$v.email.$touch()"
+                                    ></v-text-field>
+                                    </v-col>
+                                </v-row>
+                                </v-container>
+                            </v-card-text>
+                            <v-card-actions>
+                                <v-spacer></v-spacer>
+                                <v-btn @click="settings_dialog = false"> Close </v-btn>
+                                <v-btn @click="updateEmailDialog"> Send </v-btn>
+                            </v-card-actions>
+                            </v-card>
+                        </v-tab-item>
+                        <v-tab-item>
+                            <v-card flat class="settingsDialog">
+                            <v-card-title>
+                                <span class="text-h5">Change Photo</span>
+                            </v-card-title>
+                            <v-card-text>
+                                <div class="uploader">
+                                <v-file-input
+                                    label="File input"
+                                    prepend-icon="mdi-camera"
+                                    accept="image/*"
+                                    @change="fileChange"
+                                ></v-file-input>
+                                </div>
+                            </v-card-text>
+                            <v-card-actions>
+                                <v-spacer></v-spacer>
+                                <v-btn @click="settings_dialog = false"> Close </v-btn>
+                                <v-btn @click="updateImageDialog"> Send </v-btn>
+                            </v-card-actions>
+                            </v-card>
+                        </v-tab-item>
+                        </v-tabs>
+                    </v-dialog>
+                    </v-list-item-action>
+                </v-list-item>
+                </v-list>
+                <v-card-actions class="flex-column">
+                <v-btn @click="redirectToProfile" text>
+                    <span class="mr-2">Profile</span>
+                </v-btn>
+                <v-btn @click="onLogout" text>
+                    <span class="mr-2">Sign Out</span>
+                    <font-awesome-icon
+                    class="icon"
+                    icon="sign-out-alt"
+                    size="1x"
+                    color="#white"
+                    />
+                </v-btn>
+                </v-card-actions>
+            </v-card>
+
+            <v-divider></v-divider>
+
+            <v-tabs vertical v-model="active_tab">
+                <v-tab v-for="tab of tabs" :key="tab.id" @click="tab.method">
+                {{ tab.name }}
+                </v-tab>
+                <v-menu
+                    v-for="list_tab in tabs_with_list"
+                    :key="list_tab.id"
+                    left
+                    offset-x
+                    >
+                    <template v-slot:activator="{ on, attrs }">
+                        <v-tab 
+                            v-if="list_tab.id == 1"
+                            v-bind="attrs" 
+                            v-on="on">
+                            {{ list_tab.name }}
+                            <v-icon right>
+                                mdi-menu-down
+                            </v-icon>
+                        </v-tab>
+                        <v-tab 
+                            v-if="list_tab.id == 2"
+                            v-bind="attrs" 
+                            v-on="on">
+                            {{ list_tab.name }}
+                            <v-icon right>
+                                mdi-menu-down
+                            </v-icon>
+                        </v-tab>
+                    </template>
+        
+                    <v-list
+                        v-if="list_tab.id == 1"
+                        color="#2C2F33"
+                    >
+                        <v-list-item
+                        v-for="(page, index) in ranking_pages"
+                        :key="index"
+                        @click="page.method"
+                        >
+                        {{ page.name }}
+                        </v-list-item>
+                    </v-list>
+                    <v-list
+                        v-else-if="list_tab.id == 2"
+                        color="#2C2F33"
+                    >
+                        <v-list-item
+                        v-for="(page, index) in base_pages"
+                        :key="index"
+                        @click="page.method"
+                        >
+                        {{ page.name }}
+                        </v-list-item>
+                    </v-list>
+                    </v-menu>
+            </v-tabs>
+        <SearchBar />
+        <v-btn
+            class="mx-2 close-mobile-nav"
+            fab
+            color="primary"
+            @click="mobile_nav = false"
+        >
+            <v-icon dark>
+            mdi-close
+            </v-icon>
+        </v-btn>
+        </template>
+      </v-navigation-drawer>
+    </v-sheet>
+</div>
 </template>
 
 <script>
@@ -351,7 +637,8 @@ export default {
       show_old_password: false,
       show_new_password: false,
       show_confirm_password: false,
-      accepted_format: false
+      accepted_format: false,
+      mobile_nav: null
     };
   },
   computed: {
@@ -412,7 +699,7 @@ export default {
     ...mapMutations(["setCurrentUser", "clearBase64Image"]),
     ...mapActions(['setBase64']),
     redirectToProfile() {
-      this.drawer = !this.drawer;
+      this.drawer = false;
       this.$router.push({ name: "UserProfile" });
     },
     redirectToActivities() {
@@ -687,5 +974,25 @@ export default {
 }
 .tabs {
   min-height: 365px;
+}
+.mobile_nav{
+    display: none;
+}
+.desktop_nav{
+    display: flex;
+    width: 100%;
+}
+@media (max-width: 720px){
+    .mobile_nav{
+        display: flex;
+    }
+    .desktop_nav{
+        display: none;
+    }
+    .close-mobile-nav{
+        position: absolute;
+        right: 43%;
+        bottom: 4%;
+    }
 }
 </style>

@@ -16,6 +16,7 @@ export default class Album {
   ratingsCount = "";
   favoriteCount = null;
   reviewsCount = null;
+  artistName = "";
 
   constructor($data) {
     if ($data) {
@@ -36,6 +37,7 @@ export default class Album {
       this.ratingsCount = $data.ratingsCount ? $data.ratingsCount : 0;
       this.favoriteCount = $data.favoriteCount ? $data.favoriteCount : 0;
       this.reviewsCount = $data.reviewsCount ? $data.reviewsCount : 0;
+      this.artistName = $data.artistName;
     }
   }
 }

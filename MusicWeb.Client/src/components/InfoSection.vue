@@ -1,7 +1,7 @@
 <template>
   <v-container fluid>
     <v-row justify="center">
-      <v-col md="3" sm="6" class="py-lg-9 pr-lg-10">
+      <v-col class="py-lg-9 pr-lg-10 col-12 col-md-3">
         <span class="border-right border-dark"></span>
         <h1 class="title font-weight-bold pb-lg-5">Info</h1>
         <div v-if="module_name == 'Artist'">
@@ -67,7 +67,7 @@
           </p>
         </div>
       </v-col>
-      <v-col lg="5">
+      <v-col class="col-12 col-md-3">
         <h1 class="pb-lg-5">{{ description_title }}</h1>
         <p class="text-justify">
           {{ parent.description }}

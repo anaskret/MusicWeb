@@ -56,10 +56,10 @@ export default {
       scroll_settings: {
         page: 0,
         records_quantity: 5,
-        default_sort_type: "Descending Alfabetical",
+        default_sort_type: "Ascending Alfabetical",
         sort_types: [
-          "Descending Alfabetical",
           "Ascending Alfabetical",
+          "Descending Alfabetical",
           "Descending Popularity",
           "Ascending Popularity",
         ],
@@ -104,16 +104,6 @@ export default {
     ...mapMutations([
       "setSearching",
     ]), 
-    checkListType() {
-      if (this.type == "favorite")
-      {
-        console.log(this.type);
-      }
-      else if (this.type == "observed")
-      {
-        console.log(this.type);
-      }
-    }
   },
   computed: {
     ...mapGetters([
@@ -121,9 +111,6 @@ export default {
       'searchingType',
       'intersection',
     ]),    
-  },
-  created() {
-    this.checkListType();
   },
   setup() {
     const { getPagedArtists } = useArtists();
@@ -136,7 +123,7 @@ export default {
           this.scroll_settings.page,
           this.scroll_settings.records_quantity,
           this.scroll_settings.selected_sort_type,
-          '1900-01-01',
+          '0001-01-01',
           '2200-01-01',
           this.searchingValue
         )

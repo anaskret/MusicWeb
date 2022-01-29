@@ -67,7 +67,8 @@ namespace MusicWeb.Repositories.Repositories.Identity
                 LastOpenedChatId = user.LastChatOpenedId,
                 Token = new JwtSecurityTokenHandler().WriteToken(token),
                 Expiration = token.ValidTo,
-                UserName = user.UserName
+                UserName = user.UserName,
+                ArtistId = user.ArtistId
             };
 
             return response;

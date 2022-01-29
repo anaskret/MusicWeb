@@ -65,7 +65,7 @@ export const auth = {
       state.userId = null;
     },
     logout(state) {
-      this.commit("toggleChatVisability",false);
+      this.commit("toggleChatVisability", false);
       state.status.loggedIn = false;
       state.token = null;
     },

@@ -9,6 +9,7 @@ import { library } from "@fortawesome/fontawesome-svg-core";
 import {
   faHeart,
   faStar,
+  faEdit,
   faChevronDown,
   faChevronRight,
   faSignOutAlt,
@@ -30,6 +31,7 @@ import {
   faPlus,
   faSortDown,
   faSortUp,
+  faTrash,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import axios from "@/services/index.js";
@@ -43,6 +45,7 @@ import VueExpandableImage from "vue-expandable-image";
 const faIcons = [
   faHeart,
   faStar,
+  faEdit,
   faChevronDown,
   faChevronRight,
   faSignOutAlt,
@@ -63,7 +66,8 @@ const faIcons = [
   faUserFriends,
   faPlus,
   faSortDown,
-  faSortUp
+  faSortUp,
+  faTrash,
 ];
 faIcons.forEach((icon) => library.add(icon));
 

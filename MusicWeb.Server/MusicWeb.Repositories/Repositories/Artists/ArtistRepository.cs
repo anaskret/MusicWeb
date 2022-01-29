@@ -24,9 +24,7 @@ namespace MusicWeb.Repositories.Repositories.Artists
         {
             var entity = await _dbContext.Artist
                                              .Include(origin => origin.Country)
-                                             .Include(albums => albums.Albums)
-                                             .ThenInclude(song => song.Songs)
-                                             .Include(albums => albums.Albums)
+                                             .Include(albums => albums.Albums.Where(prp => prp.IsConfirmed))
                                              .ThenInclude(genres => genres.AlbumGenre)
                                              .Include(band => band.Band)
                                              .ThenInclude(member => member.Member)
