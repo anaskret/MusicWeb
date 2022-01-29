@@ -1,36 +1,39 @@
 <template>
   <div class="SearchBar">
     <div v-if="searchClosed">
-    <v-text-field
-      v-model="search"
-      class="search"
-      :class="{ closed: searchClosed && !search}"
-      outlined
-      placeholder="Search"
-      filled
-      prepend-inner-icon="mdi-magnify"
-      @focus="searchClosed = false"
-      clearable
-    ></v-text-field>
+        <v-text-field
+            v-model="search"
+            class="search"
+            :class="{ closed: searchClosed && !search}"
+            outlined
+            placeholder="Search"
+            filled
+            prepend-inner-icon="mdi-magnify"
+            @focus="searchClosed = false"
+            clearable
+        ></v-text-field>
     </div>
-    <div v-else class="d-flex flex-row">
-    <v-text-field
-      v-model="search"
-      class="search"
-      placeholder="Search"
-      filled
-      prepend-inner-icon="mdi-magnify"
-      @blur="searchClosed = true"
-      clearable
-      v-on:keyup.enter="searchData"
-    ></v-text-field>
-     <v-select
-     v-model="type"
-          :items="items"
-          filled
-          label="Type"
+    <div v-else class="search-container">
+        <v-text-field
+            v-model="search"
+            class="search"
+            placeholder="Search"
+            filled
+            prepend-inner-icon="mdi-magnify"
+            @blur="searchClosed = true"
+            clearable
+            v-on:keyup.enter="searchData"
+            style="width: 30%;height: 50%;"
+        ></v-text-field>
+        <v-select
+            v-model="type"
+            class="search-type"
+            :items="items"
+            filled
+            label="Type"
+            style="width: 30%;height: 50%;"
         ></v-select>
-  </div>
+    </div>
   </div>
 </template>
 
@@ -92,6 +95,11 @@ export default {
         max-width: 45px;
     }
 }
+.search-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+}
 @media (min-width: 1300px) and (max-width: 1600px){
     .SearchBar{
         right: 4%;
@@ -116,6 +124,15 @@ export default {
     .SearchBar{
         right: 47%;
         top: 38%;
+    }
+    .search-container{
+        right: 0!important;
+    }
+    .search-type{
+        width: 50%!important;
+    }
+    .search{
+        width: 49%!important;
     }
 }
 </style>

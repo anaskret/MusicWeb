@@ -97,16 +97,16 @@
       "
     >
       <v-card>
-        <v-row class="pl-2 d-flex justify-space-between">
-          <v-col lg="8" sm="8">
-            <v-row align="center">
-              <v-col lg="2" sm="2">
+        <v-row class="pl-2">
+            <v-col lg="2" sm="2">
                 <div class="post-thumb">
                     <v-img
                         v-if="item.image == null || item.image == ''"
                         :src="require(`@/assets/unknownUser.svg`)"
                         :alt="`${item.name}`"
                         class="post-thumb-img"
+                        style="cursor:pointer;"
+                        @click="redirectToItem(item.artistId, 'Artist')"
                         contain
                     />
                     <v-img
@@ -114,6 +114,8 @@
                         :src="`${item.image}`"
                         :alt="`${item.name}`"
                         class="post-thumb-img"
+                        style="cursor:pointer;"
+                        @click="redirectToItem(item.artistId, 'Artist')"
                         contain
                     />
                     <v-img
@@ -121,36 +123,36 @@
                         :src="`${server_url}/${item.image}`"
                         :alt="`${item.name}`"
                         class="post-thumb-img"
+                        style="cursor:pointer;"
+                        @click="redirectToItem(item.artistId, 'Artist')"
                         contain
                     />
                 </div>
-              </v-col>
-              <v-col lg="9" sm="9">
-                <v-card-subtitle>
-                  <p class="text-left">
-                    <span
-                      class="link-to-item"
-                      @click="redirectToItem(item.artistId, 'Artist')"
-                      >{{ item.artist }}</span
-                    >
-                    posted the new album
-                  </p>
-                </v-card-subtitle>
-              </v-col>
-            </v-row>
-          </v-col>
-          <v-col lg="3" sm="3">
-            <v-card-subtitle>
-              <p class="text-right">
-                {{ time_from_addition }}
-              </p>
+            </v-col>
+            <v-col sm="8" md="7" lg="8">
+            <v-card-subtitle class="aritist-post-title">
+                <p class="text-left">
+                <span
+                    class="link-to-item"
+                    @click="redirectToItem(item.artistId, 'Artist')"
+                    >{{ item.artist }}</span
+                >
+                posted the new album
+                </p>
             </v-card-subtitle>
-          </v-col>
+            </v-col>
+            <v-col sm="2" md="3" lg="2" class="d-none d-md-block">
+                <v-card-subtitle>
+                <p class="text-right">
+                    {{ time_from_addition }}
+                </p>
+                </v-card-subtitle>
+            </v-col>
         </v-row>
         <v-row class="pl-2 d-flex justify-space-between">
-          <v-col lg="8" sm="8">
+          <v-col lg="8">
             <v-row>
-              <v-col lg="4" sm="4">
+              <v-col lg="4">
                 <div>
                   <v-img
                     class="link-to-item"
@@ -162,6 +164,7 @@
                     <v-img
                         v-if="item.albumImage == null || item.albumImage == ''"
                         :src="require(`@/assets/unknownUser.svg`)"
+                        @click="redirectToItem(item.albumId, 'Album')"
                         :alt="`${item.name}`"
                         class="link-to-item"
                         contain
@@ -169,6 +172,7 @@
                     <v-img
                         v-else-if="item.albumImage.slice(0, 4) == 'http'"
                         :src="`${item.albumImage}`"
+                        @click="redirectToItem(item.albumId, 'Album')"
                         :alt="`${item.name}`"
                         class="link-to-item"
                         contain
@@ -176,13 +180,14 @@
                     <v-img
                         v-else
                         :src="`${server_url}/${item.albumImage}`"
+                        @click="redirectToItem(item.albumId, 'Album')"
                         :alt="`${item.name}`"
                         class="link-to-item"
                         contain
                     />
                 </div>
               </v-col>
-              <v-col lg="8" sm="8">
+              <v-col lg="8">
                 <v-card-title
                   justify="center"
                   class="text-h5 link-to-item"
@@ -193,22 +198,10 @@
                   <p class="text-left">
                     {{ moment(item.establishmentDate).format("YYYY") }}
                   </p>
-                  <p class="text-left">Genre</p>
+                  <p class="text-left">Rock</p>
                 </v-card-subtitle>
               </v-col>
             </v-row>
-          </v-col>
-          <v-col lg="4" sm="4">
-            <div class="ratings pt-4">
-              <font-awesome-icon
-                class="icon pr-2"
-                v-for="(star, index) in stars"
-                :key="index"
-                icon="star"
-                size="2x"
-                :color="star.color"
-              ></font-awesome-icon>
-            </div>
           </v-col>
         </v-row>
         <v-row class="pl-5">
@@ -237,7 +230,7 @@
                     ></font-awesome-icon>
                   </v-btn>
                 </v-col>
-                <v-col lg="3" sm="3">
+                <v-col lg="3">
                   <v-expansion-panel-header hide-actions class="justify-end">
                     {{item.comments.length > 0 ? item.comments.length : ''}} comments
                   </v-expansion-panel-header>
@@ -554,6 +547,9 @@ export default {
 </script>
 
 <style lang="less">
+.v-responsive__content{
+  width: auto!important;;
+}
 .ratings {
   display: flex;
   justify-content: flex-end;
@@ -629,6 +625,21 @@ p {
     font-size: 10px;
     color: #bdb8b8;
   }
+}
+@media (max-width: 600px){
+    .post-thumb{
+        max-width: 40%;
+    }
+    .aritist-post-title{
+        position: absolute;
+        top: 4%;
+        left: 24%;
+    }
+}
+@media (max-width: 410px){
+    .aritist-post-title{
+        top: 2%;
+    }
 }
 </style>
 

@@ -4,7 +4,7 @@
     v-if="!['Login', 'Register', 'PasswordReset'].includes(this.$route.name)"
     app
     color="#2C2F33"
-    shrink-on-scroll
+    prominent
     dense
     scroll-threshold="500"
   >
@@ -305,20 +305,15 @@
     <v-app-bar-nav-icon @click.stop="mobile_nav = !mobile_nav" class="mobile_nav"></v-app-bar-nav-icon>
   </div>
   </v-app-bar>
-    <v-sheet
-      height="100vh"
-      style="position: relative;"
-      :style="mobile_nav ? 'display: flex;' : 'display:none;'"
-    >
-    <v-container class="fill-height">
-    </v-container>
       <v-navigation-drawer
         v-model="mobile_nav"
-        absolute
         temporary
         right
+        height="100vh"
+        :style="mobile_nav ? 'display: flex;' : 'display:none;'"
         style="width:500px;"
         color="#2C2F33"
+        fixed
       >
         <template>
             <v-card>
@@ -585,7 +580,6 @@
         </v-btn>
         </template>
       </v-navigation-drawer>
-    </v-sheet>
 </div>
 </template>
 

@@ -2,7 +2,7 @@
     <v-navigation-drawer
         v-model="friend_list_visability"
         class="friend-list-container"
-        absolute
+        fixed
         temporary
         hide-overlay
       >
