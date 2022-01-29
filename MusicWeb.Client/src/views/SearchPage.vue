@@ -126,7 +126,6 @@ export default {
     const { getPagedSongs } = useSongs();
 
     const getPagedArtistList = function (entries, observer, is_intersecting) {
-            console.log(this.scroll_settings.artist_page)
       if (is_intersecting) {
         if(this.artists.length <= 0 && this.scroll_settings.artist_page > 0){
           this.scroll_settings.artist_page = 0;

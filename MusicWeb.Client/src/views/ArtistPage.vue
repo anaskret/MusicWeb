@@ -117,7 +117,6 @@ export default {
     };
     const getSongs = function () {
       getTopArtistSongs(this.id).then((response) => {
-        console.log(response);
         this.songs = [];
         response.forEach((song) => this.songs.push(song));
       });

@@ -223,7 +223,6 @@ export default {
   },
   computed: {
     isDisabled() {
-      console.log(this.$v.$invalid);
       return this.$v.$invalid;
     },
     nameErrors() {

@@ -91,9 +91,6 @@
                                                         <a href="#" title="Confirm" @onclick="() => ConfirmAlbum(album.Id)" @onclick:preventDefault>
                                                             <i class="fas fa-check"></i>
                                                         </a>
-                                                        <a href="#" title="Delete" @onclick="() => DeleteClick(album.Id)" @onclick:preventDefault>
-                                                            <i class="fas fa-trash-alt"></i>
-                                                        </a>
                                                     }
                                                     else
                                                     {
@@ -102,9 +99,6 @@
                                                         </a>
                                                         <a href="/albums/edit/@album.Id" title="Edit">
                                                             <i class="fas fa-edit"></i>
-                                                        </a>
-                                                        <a href="#" title="Delete" @onclick="() => DeleteClick(album.Id)" @onclick:preventDefault>
-                                                            <i class="fas fa-trash-alt"></i>
                                                         </a>
                                                     }
                                                 </div>
@@ -220,13 +214,6 @@
     {
         try
         {
-            if (deleteConfirmed && idToDelete > 0)
-            {
-                await _albumService.DeleteAsync(idToDelete);
-                List.Remove(List.FirstOrDefault(prp => prp.Id == idToDelete));
-                idToDelete = 0;
-                return;
-            }
             if (deleteConfirmed && songIdToDelete > 0)
             {
                 await _songService.DeleteAsync(songIdToDelete);

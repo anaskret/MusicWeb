@@ -18,6 +18,7 @@
 
 import useArtists from "@/modules/artists";
 import ItemsTable from "@/components/ItemsTable";
+import { mapGetters } from "vuex";
 // import Album from "@/models/Album";
 // import Song from "@/models/Song";
 
@@ -29,8 +30,8 @@ export default {
   data() {
     return {
       artist: {},
-      album_columns_list: [' ', 'Album name', 'Release date', 'Duration', 'Edit', 'Delete'],
-      song_columns_list: [' ', 'Song name', 'Release date', 'Duration', 'Edit', 'Delete'],
+      album_columns_list: [' ', 'Album name', 'Release date', 'Duration', 'Actions'],
+      song_columns_list: [' ', 'Song name', 'Release date', 'Duration', 'Actions'],
       albums: [], 
       songs: [],
       song_type: "song",
@@ -39,7 +40,11 @@ export default {
   },
   created() {
     this.getArtist();
-    console.log(this.artist);
+  },
+     computed: {
+    ...mapGetters({
+      account: "current_user",
+    }),
   },
   methods: {
  redirectToItem() {
@@ -55,9 +60,8 @@ export default {
     const { getArtistById } = useArtists();
     
     const getArtist = function () {
-      getArtistById(1).then((response) => {
+      getArtistById(this.account.artistId).then((response) => {
         this.albums = response.albums;
-        console.log(this.albums);
         this.songs = response.songs;
     });
     }

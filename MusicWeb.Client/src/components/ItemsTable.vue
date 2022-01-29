@@ -24,15 +24,33 @@
           <td>{{ item.releaseDate }}</td>
           <td v-if="type == 'album'">{{ item.duration }}</td>
           <td v-else-if="type == 'song'">{{ item.length }}</td>
-          <td v-if="type == 'album'"><a @click="redirectToItem(item.id)">Edit</a> / <a @click="deleteAlbumItem(item.id)" v-on="on">Delete</a></td>
-          <td v-if="type == 'song'"><a @click="redirectToItem(item.id)">Edit</a> / <a @click="deleteSongItem(item.id)" v-on="on">Delete</a></td>
-          <!-- <td v-if="type == 'song'" @click="redirectToItem(item.id)">Edit</td>
-          <td v-if="type == 'album'" @click="deleteAlbumItem(item.id)" v-on="on">Delete</td>
-          <td v-if="type == 'song'" @click="deleteSongItem(item.id)" v-on="on">Delete</td> -->
-          <!-- <td v-if="type == 'album'" @click="redirectToItem(item.id)">Edit</td>
-          <td v-if="type == 'song'" @click="redirectToItem(item.id)">Edit</td>
-          <td v-if="type == 'album'" @click="deleteAlbumItem(item.id)" v-on="on">Delete</td>
-          <td v-if="type == 'song'" @click="deleteSongItem(item.id)" v-on="on">Delete</td> -->
+          <td v-if="type == 'album'"><span @click="redirectToItem(item.id)">      
+            <font-awesome-icon
+            class="icon pa-1"
+            icon="edit"
+            size="2x"
+            outlined></font-awesome-icon></span>  
+            <span @click="deleteAlbumItem(item.id)" v-on="on">
+            <font-awesome-icon
+            class="icon pa-1"
+            icon="trash"
+            size="2x"
+            outlined></font-awesome-icon></span>
+            </td>
+          <td v-if="type == 'song'"><span @click="redirectToItem(item.id)">      
+            <font-awesome-icon
+            class="icon pa-1"
+            icon="edit"
+            size="2x"
+            outlined></font-awesome-icon></span>  
+            <span @click="deleteSongItem(item.id)" v-on="on">
+            <font-awesome-icon
+            class="icon pa-1"
+            icon="trash"
+            size="2x"
+            outlined></font-awesome-icon></span>
+            </td>
+          <!-- <td v-if="type == 'song'"><a @click="redirectToItem(item.id)">Edit</a> / <a @click="deleteSongItem(item.id)" v-on="on">Delete</a></td> -->
         </tr>
         </tbody>
           </v-simple-table>
@@ -123,3 +141,8 @@ export default ({
   }
 });
 </script>
+<style lang="scss" scoped>
+.icon {
+  cursor: pointer;
+}
+</style>
