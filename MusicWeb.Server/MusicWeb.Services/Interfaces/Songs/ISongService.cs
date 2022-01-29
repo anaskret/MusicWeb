@@ -14,6 +14,7 @@ namespace MusicWeb.Services.Interfaces
     public interface ISongService
     {
         Task<Song> GetByIdAsync(int id);
+        Task<List<Song>> GetAllForArtist(int artistId);
         Task<List<Song>> GetAllAsync();
         Task<SongFullDataDto> GetSongFullDataByIdAsync(int id);
         Task<List<TopSongsWithRating>> GetTopSongsWithRatingAsync(int artistId);

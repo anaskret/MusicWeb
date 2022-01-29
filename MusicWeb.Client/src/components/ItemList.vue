@@ -1,10 +1,10 @@
 <template>
   <v-container fluid class="mb-lg-16">
     <v-row justify="center" class="pb-lg-2">
-      <v-col lg="8">
-        <div class="d-flex flex-row" style="align-items: center">
+      <v-col sm="12" lg="8">
+        <div class="d-flex flex-column flex-sm-row">
           <h1 class="display-1 font-weight-bold text-left">{{ list_title }}</h1>
-          <a class="pl-lg-16"
+          <a class="pl-lg-16 ml-sm-10 pt-sm-3"
           @click="redirectToList(component_type, item_id)"
           >
             {{ list_link_title }}
@@ -38,13 +38,12 @@
                     <v-col
                       class="d-flex justify-center align-center"
                       lg="1"
-                      sm="1"
+                      xs="1"
                     >
                       {{ index + 1 }}
                     </v-col>
                     <v-col
-                      class="d-flex justify-center align-center"
-                      lg="2"
+                      class="d-none d-sm-flex justify-sm-center align-sm-center"
                       sm="2"
                     >
                       <img
@@ -55,17 +54,17 @@
                     </v-col>
                     <v-col
                       class="d-flex justify-start align-center"
-                      lg="3"
-                      sm="3"
+                      
+                      xs="8"
                     >
                       {{ item.name }}
                     </v-col>
                     <v-col
-                      class="d-flex justify-start align-center"
+                      class="d-none d-sm-flex justify-sm-start align-sm-center"
                       lg="3"
                       sm="3"
                     >
-                      <p>{{ item.albumName }}</p>
+                      <span style="font-weight: 100;">{{ item.albumName }}</span>
                     </v-col>
                     <v-col
                       class="d-flex justify-center align-center"

@@ -1,8 +1,8 @@
 <template>
   <v-container fluid class="py-16">
     <v-row justify="center">
-      <v-col v-col lg="3" md="4">
-        <div class="mediaImage">
+      <v-col lg="3" md="4">
+        <div class="mediaJustify">
             <v-img
                 v-if="parent.imagePath == null || parent.imagePath == ''"
                 :src="require(`@/assets/unknownUser.svg`)"
@@ -33,8 +33,8 @@
         <v-row align-content="end" class="pb-md-2">
           <v-col>
             <div class="d-flex flex-column flex-md-row">
-              <div class="d-flex mediaImage">
-                <h1 class="text-uppercase font-weight-bold artist-title">
+              <div class="d-flex mediaJustify">
+                <h1 class="text-uppercase font-weight-bold artist-title mediaHeader">
                   {{ parent.name }}
                 </h1>
               </div>
@@ -51,7 +51,7 @@
           </v-col>
         </v-row>
         <v-row>
-          <v-col md="12" class="d-flex flex-column flex-sm-row pr-lg-5 mediaImage">
+          <v-col md="12" class="d-flex flex-column flex-md-row pr-lg-5 mediaJustify">
             <div class="mb-5 mb-md-0" >
               <p>Add to favorites:</p>
               <div class="d-flex flex-row">
@@ -172,7 +172,7 @@ export default {
     
 
       const addNewAlbumRating = function (ratingId) {
-      this.albumRating.userId = this.$store.state.auth.userId;
+      this.albumRating.userId = this.account.id;
       this.albumRating.albumId = this.$route.params.id;
       this.albumRating.rating = ratingId;
       
@@ -226,7 +226,7 @@ export default {
         );
       }
 const addNewArtistRating = function (ratingId) {
-      this.artistRating.userId = this.$store.state.auth.userId;
+      this.artistRating.userId = this.account.id;
       this.artistRating.artistId = this.$route.params.id;
       this.artistRating.rating = ratingId;
       
@@ -307,7 +307,7 @@ const addNewArtistRating = function (ratingId) {
       }
 
       const addNewSongRating = function (ratingId) {
-      this.songRating.userId = this.$store.state.auth.userId;
+      this.songRating.userId = this.account.id;
       this.songRating.songId = this.$route.params.id;
       this.songRating.rating = ratingId;
       
@@ -376,7 +376,7 @@ const addNewArtistRating = function (ratingId) {
 
     
       const addFavoriteAlbum = function () {
-      this.userFavoriteAlbum.userId = this.$store.state.auth.userId;
+      this.userFavoriteAlbum.userId = this.account.id;
       this.userFavoriteAlbum.favoriteId = this.$route.params.id;
       delete this.userFavoriteAlbum.id;
       delete this.userFavoriteAlbum.user;
@@ -425,7 +425,7 @@ const addNewArtistRating = function (ratingId) {
 
     
       const addFavoriteSong = function () {
-      this.userFavoriteSong.userId = this.$store.state.auth.userId;
+      this.userFavoriteSong.userId = this.account.id;
       this.userFavoriteSong.favoriteId = this.$route.params.id;
       delete this.userFavoriteSong.id;
       delete this.userFavoriteSong.user;
@@ -474,7 +474,7 @@ const addNewArtistRating = function (ratingId) {
     };
 
       const addFavoriteArtist = function () {
-      this.userFavoriteArtist.userId = this.$store.state.auth.userId;
+      this.userFavoriteArtist.userId = this.account.id;
       this.userFavoriteArtist.favoriteId = this.$route.params.id;
       delete this.userFavoriteArtist.id;
       delete this.userFavoriteArtist.user;
@@ -506,7 +506,7 @@ const addNewArtistRating = function (ratingId) {
 
     
       const addObservedArtist = function () {
-      this.userObservedArtist.userId = this.$store.state.auth.userId;
+      this.userObservedArtist.userId = this.account.id;
       this.userObservedArtist.favoriteId = this.$route.params.id;
       this.userObservedArtist.favoriteDate = moment().format();
       delete this.userFavoriteArtist.id;
@@ -800,8 +800,12 @@ p {
     border-radius: 50%;
 }
 @media (max-width: 900px) {
-  .mediaImage {
+  .mediaJustify {
      display: flex;
      justify-content: center; }
+}
+@media (max-width: 600px) {
+  .mediaHeader {
+     font-size: 2rem!important; }
 }
 </style>

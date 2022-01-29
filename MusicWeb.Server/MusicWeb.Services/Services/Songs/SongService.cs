@@ -62,6 +62,12 @@ namespace MusicWeb.Services.Services.Songs
             await _songRepository.DeleteAsync(entity);
         }
 
+        public async Task<List<Song>> GetAllForArtist(int artistId)
+        {
+            var entities = await _songRepository.GetAllAsync(obj => obj.Where(prp => prp.Album.ArtistId == artistId));
+            return entities.ToList();
+        }
+
         public async Task<List<Song>> GetAllAsync()
         {
             var entites = await _songRepository.GetAllAsync();
