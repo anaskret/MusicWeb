@@ -69,9 +69,32 @@
       </v-col>
       <v-col class="col-12 col-md-3">
         <h1 class="pb-lg-5">{{ description_title }}</h1>
-        <p class="text-justify">
-          {{ parent.description }}
-        </p>
+        <div class="description-container" v-if="description_truncate" >
+            <p class="text-justify">
+            {{ parent.description | truncate(350, "...") }}
+            </p>
+            <v-btn @click="description_truncate = !description_truncate">
+                <font-awesome-icon
+                    class="icon pa-1"
+                    icon="chevron-down"
+                    size="2x"
+                    outlined
+                ></font-awesome-icon>
+            </v-btn>
+        </div>
+        <div class="description-container" v-else>
+            <p class="text-justify">
+            {{ parent.description }}
+            </p>
+            <v-btn @click="description_truncate = !description_truncate">
+                <font-awesome-icon
+                    class="icon pa-1"
+                    icon="chevron-up"
+                    size="2x"
+                    outlined
+                ></font-awesome-icon>
+            </v-btn>
+        </div>
       </v-col>
     </v-row>
   </v-container>
@@ -102,6 +125,7 @@ export default {
         { color: "#868263" },
         { color: "gray" },
       ],
+      description_truncate: true
     };
   },
 };
@@ -130,5 +154,9 @@ p > span {
 }
 .feature-text {
   font-size: 1rem;
+}
+.description-container{
+    display: flex;
+    flex-direction: column;
 }
 </style>

@@ -107,6 +107,16 @@ export default {
       getArtistById(this.id).then((response) => {
         this.artist = response;
         this.getArtistRating();
+      },
+      (error) => {
+          if(error.response.data == "Artist not found" && error.response.status == 500){
+              this.$emit(
+                "show-alert",
+                `${error.response.data}`,
+                "error"
+              );
+              this.$router.push({ name: "ArtistListPage" });
+          }
       });
     };
     const getComments = function () {

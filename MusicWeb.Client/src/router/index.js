@@ -118,9 +118,14 @@ router.beforeEach((to, from, next) => {
   const publicPages = ["/", "/register", "/passwordreset"];
   const authRequired = !publicPages.includes(to.path);
   const loggedIn = localStorage.getItem("user-token");
+  const routeNames = routes.map(route => route.name);
 
   if (authRequired && !loggedIn) {
     return next("/");
+  }
+
+  if(!routeNames.includes(to.name)){
+    return next("/activities");
   }
 
   next();

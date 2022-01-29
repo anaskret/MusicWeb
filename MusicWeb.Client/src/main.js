@@ -32,6 +32,7 @@ import {
   faSortDown,
   faSortUp,
   faTrash,
+  faChevronUp,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import axios from "@/services/index.js";
@@ -68,6 +69,7 @@ const faIcons = [
   faSortDown,
   faSortUp,
   faTrash,
+  faChevronUp
 ];
 faIcons.forEach((icon) => library.add(icon));
 

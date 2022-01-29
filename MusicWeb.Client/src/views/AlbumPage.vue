@@ -88,9 +88,27 @@ export default {
     const { getAlbumFullData, getAlbumRatingAverage } = useAlbums();
     const getAlbumData = function () {
       getAlbumFullData(this.id).then((response) => {
+        if(!response.name && !response.artistId && !response.releaseDate){
+            this.$emit(
+            "show-alert",
+            `Album not found`,
+            "error"
+            );
+            this.$router.push({ name: "AlbumListPage" });
+        }
         this.album = response;
         this.prepareReviews();
         this.getAlbumRating();
+      },
+      (error) => {
+          if(error.response.data == "Album not found" && error.response.status == 500){
+              this.$emit(
+                "show-alert",
+                `${error.response.data}`,
+                "error"
+              );
+              this.$router.push({ name: "AlbumListPage" });
+          }
       });
     };
     const getAlbumRating = function () {

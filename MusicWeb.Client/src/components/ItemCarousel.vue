@@ -7,7 +7,7 @@
             {{ component_title }}
           </h1>
           <a class="component_link_title ml-lg-10" 
-          v-if="component_type == 'discography'"
+          v-if="component_type == 'discography' && items.length != 0"
           @click="redirectToList(component_type, item_id)">
             {{ component_link_title }}
             <font-awesome-icon
@@ -19,7 +19,7 @@
             />
           </a>          
           <a 
-          v-else 
+          v-else-if="component_type != 'discography' && items.length != 0"
           class="component_link_title ml-lg-10" 
           @click="redirectToList(component_type)">
             {{ component_link_title }}
@@ -30,7 +30,13 @@
               color="gray"
 
             />
-          </a>
+          </a>          
+          <div 
+          v-else-if="items.length == 0"
+          class="component_link_title ml-lg-10"
+          style="pointer-events: none;color: gray;">
+            {{ component_link_title }}
+          </div>
         </div>
       </v-col>
     </v-row>
@@ -127,9 +133,6 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
-}
-.underline {
-  border-bottom: solid gray 1px;
 }
 .component_link_title {
   margin: 0px;

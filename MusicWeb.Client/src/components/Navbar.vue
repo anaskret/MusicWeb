@@ -920,7 +920,6 @@ export default {
           }
         },
         (error) => {
-            debugger;
           let errors = error.response.data.errors;
           if(errors){
             this.$emit(

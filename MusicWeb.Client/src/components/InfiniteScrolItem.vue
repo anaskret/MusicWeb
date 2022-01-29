@@ -1,419 +1,428 @@
 <template>
-  <div>
-    <v-row v-if="page_name == 'ArtistList' || page_name == 'SongList' || page_name == 'AlbumList' || page_name == 'ArtistFavoriteList' || page_name == 'ArtistObservedList' || page_name == 'AlbumFavoriteList' || page_name == 'SongFavoriteList'">
-      <v-col lg="12">
-      <v-card @click="redirectToItem(item.id)">
-        <div class="d-flex">
-          <div>
-             <v-avatar class="ma-3" size="125" tile>
-            <v-img
-                v-if="item.imagePath == null || item.imagePath == ''"
-                :src="require(`@/assets/unknownUser.svg`)"
-                :alt="`${item.name}`"
-                style = "width: 50px;"
-                contain
-            />
-            <v-img
-                    v-else-if="item.imagePath.slice(0, 4) == 'http'"
-                    :src="`${item.imagePath}`"
-                    :alt="`${item.name}`"
-                    style = "width: 50px;"
-                    contain
-            />
-            <v-img
-                    v-else
-                    :src="`${server_url}/${item.imagePath}`"
-                    :alt="`${item.name}`"
-                    style = "width: 50px;"
-                    contain
-            />
-          </v-avatar>
-          <v-card-subtitle>
-            <div class="d-flex flex-row">
-            <div class="d-flex flex-row"><font-awesome-icon
-                  class="star icon pr-2"
-                  icon="star"
-                  size="2x"
-                  color="#868263"
-                ></font-awesome-icon>
-                <h4 class="mt-1">{{item.rating}}</h4></div> 
-              
-            <div class="d-flex flex-row ml-3"><font-awesome-icon
-                  class="star icon pr-2"
-                  icon="heart"
-                  size="2x"
-                  color="#865e61"
-                ></font-awesome-icon>
-                <h4 class="mt-1">{{item.favoriteCount}}</h4></div> 
-              
-              </div>
-          </v-card-subtitle
-            >
+    <div>
+        <div v-if="!item" class="loader">
+            <v-progress-circular
+                :size="50"
+                color="primary"
+                indeterminate
+            ></v-progress-circular>
         </div>
-        <div>
-          <v-card-title class="text-h5">{{item.name}}</v-card-title>
-          <v-card-subtitle v-if="page_name == 'SongList' || page_name == 'AlbumList'" class="font-thin font-italic" >by {{item.artistName}}</v-card-subtitle>
-          <p v-if="page_name == 'AlbumList' || page_name == 'AlbumFavoriteList'" class="ml-3">{{ item.description | truncate(reviewTextLength, "...") }}</p>
-          <p v-else-if="page_name == 'SongList' || page_name == 'SongFavoriteList'" class="ml-3">{{ item.text | truncate(reviewTextLength, "...") }}</p>
-          <p v-else-if="page_name == 'ArtistList' || page_name == 'ArtistFavoriteList'" class="ml-3">{{ item.description | truncate(reviewTextLength, "...") }}</p>
-        </div>
-      </div>
-
-      </v-card>
-    </v-col>
-  </v-row>
-    <v-row v-else-if="page_name == 'AlbumReviewList' || page_name == 'SongReviewList'">
-      <v-col lg="12">
-      <v-card @click="redirectToItem(item.id)">
-        <div class="d-flex">
-          <div>
-            <v-avatar class="ma-3" size="125" tile> 
-            <!-- <v-img
-                class="pl-8"
-                :src="`${server_url}/${item.image}`"
-            >
-            </v-img> -->
-              <v-img :src="require('@/assets/band_logo.jpg')" style = "width: 50px;"/>
-            </v-avatar>
-          <v-card-subtitle>
-            <h4>{{item.name}} - {{item.artist}}</h4>
-            <p>
-              {{ moment(item.establishmentDate).format("L") }}
-            </p>
-              
-          </v-card-subtitle
-            >
-        </div>
-        <div>
-          <v-card-title class="text-h5" v-text="item.title"></v-card-title>
-          <v-card-subtitle class="font-thin font-italic" >by {{item.userName}}</v-card-subtitle>
-          <p>{{ item.content | truncate(reviewTextLength, "...") }}</p>
-        </div>
-      </div>
-
-      </v-card>
-    </v-col>
-  </v-row>
-    <div
-      v-else-if="
-        page_name == 'Activities' &&
-        (item.artist != null || item.album != null) &&
-        item.userName == null &&
-        item.posterId == null
-      "
-    >
-      <v-card>
-        <v-row class="pl-2">
-            <v-col lg="2" sm="2">
-                <div class="post-thumb">
-                    <v-img
-                        v-if="item.image == null || item.image == ''"
-                        :src="require(`@/assets/unknownUser.svg`)"
-                        :alt="`${item.name}`"
-                        class="post-thumb-img"
-                        style="cursor:pointer;"
-                        @click="redirectToItem(item.artistId, 'Artist')"
-                        contain
-                    />
-                    <v-img
-                        v-else-if="item.image.slice(0, 4) == 'http'"
-                        :src="`${item.image}`"
-                        :alt="`${item.name}`"
-                        class="post-thumb-img"
-                        style="cursor:pointer;"
-                        @click="redirectToItem(item.artistId, 'Artist')"
-                        contain
-                    />
-                    <v-img
-                        v-else
-                        :src="`${server_url}/${item.image}`"
-                        :alt="`${item.name}`"
-                        class="post-thumb-img"
-                        style="cursor:pointer;"
-                        @click="redirectToItem(item.artistId, 'Artist')"
-                        contain
-                    />
-                </div>
-            </v-col>
-            <v-col sm="8" md="7" lg="8">
-            <v-card-subtitle class="aritist-post-title">
-                <p class="text-left">
-                <span
-                    class="link-to-item"
-                    @click="redirectToItem(item.artistId, 'Artist')"
-                    >{{ item.artist }}</span
-                >
-                posted the new album
-                </p>
-            </v-card-subtitle>
-            </v-col>
-            <v-col sm="2" md="3" lg="2" class="d-none d-md-block">
-                <v-card-subtitle>
-                <p class="text-right">
-                    {{ time_from_addition }}
-                </p>
-                </v-card-subtitle>
-            </v-col>
-        </v-row>
-        <v-row class="pl-2 d-flex justify-space-between">
-          <v-col lg="8">
-            <v-row>
-              <v-col lg="4">
+        <div v-else-if="item">
+            <v-row v-if="page_name == 'ArtistList' || page_name == 'SongList' || page_name == 'AlbumList' || page_name == 'ArtistFavoriteList' || page_name == 'ArtistObservedList' || page_name == 'AlbumFavoriteList' || page_name == 'SongFavoriteList'">
+            <v-col lg="12">
+            <v-card @click="redirectToItem(item.id)">
+                <div class="d-flex">
                 <div>
-                  <v-img
-                    class="link-to-item"
-                    :src="`${server_url}/${item.albumImage}`"
-                    @click="redirectToItem(item.albumId, 'Album')"
-                    contain
-                  />
-                  
+                    <v-avatar class="ma-3" size="125" tile>
                     <v-img
-                        v-if="item.albumImage == null || item.albumImage == ''"
+                        v-if="item.imagePath == null || item.imagePath == ''"
                         :src="require(`@/assets/unknownUser.svg`)"
-                        @click="redirectToItem(item.albumId, 'Album')"
                         :alt="`${item.name}`"
-                        class="link-to-item"
+                        style = "width: 50px;"
                         contain
                     />
                     <v-img
-                        v-else-if="item.albumImage.slice(0, 4) == 'http'"
-                        :src="`${item.albumImage}`"
-                        @click="redirectToItem(item.albumId, 'Album')"
-                        :alt="`${item.name}`"
-                        class="link-to-item"
-                        contain
+                            v-else-if="item.imagePath.slice(0, 4) == 'http'"
+                            :src="`${item.imagePath}`"
+                            :alt="`${item.name}`"
+                            style = "width: 50px;"
+                            contain
                     />
                     <v-img
-                        v-else
-                        :src="`${server_url}/${item.albumImage}`"
-                        @click="redirectToItem(item.albumId, 'Album')"
-                        :alt="`${item.name}`"
-                        class="link-to-item"
-                        contain
+                            v-else
+                            :src="`${server_url}/${item.imagePath}`"
+                            :alt="`${item.name}`"
+                            style = "width: 50px;"
+                            contain
                     />
-                </div>
-              </v-col>
-              <v-col lg="8">
-                <v-card-title
-                  justify="center"
-                  class="text-h5 link-to-item"
-                  v-text="item.album"
-                  @click="redirectToItem(item.albumId, 'Album')"
-                ></v-card-title>
+                </v-avatar>
                 <v-card-subtitle>
-                  <p class="text-left">
-                    {{ moment(item.establishmentDate).format("YYYY") }}
-                  </p>
-                  <p class="text-left">Rock</p>
-                </v-card-subtitle>
-              </v-col>
-            </v-row>
-          </v-col>
-        </v-row>
-        <v-row class="pl-5">
-          <v-expansion-panels v-model="open_comments" enabled>
-            <v-expansion-panel>
-              <v-row class="d-flex justify-space-between">
-                <v-col lg="3" sm="3" class="pt-4">
-                  <v-btn  @click="likePost(item.id)">
-                    <font-awesome-icon
-                      :color="computed_item.isLiked ? '#485e7c' : '#fff'"
-                      class="icon pa-1"
-                      icon="thumbs-up"
-                      size="2x"
-                      outlined
-                      fab
-                    ></font-awesome-icon>
-                    {{computed_item.totalLikes ? computed_item.totalLikes : ''}}
-                  </v-btn>
-                  <v-btn @click="toggleComments">
-                    <font-awesome-icon
-                      class="icon pa-1"
-                      icon="comment"
-                      size="2x"
-                      outlined
-                      fab
-                    ></font-awesome-icon>
-                  </v-btn>
-                </v-col>
-                <v-col lg="3">
-                  <v-expansion-panel-header hide-actions class="justify-end">
-                    {{item.comments.length > 0 ? item.comments.length : ''}} comments
-                  </v-expansion-panel-header>
-                </v-col>
-              </v-row>
-              <v-row>
-                <v-col lg="12">
-                  <v-expansion-panel-content>
-                    <v-text-field
-                        placeholder="Add Comment..."
-                        v-model="comment_input"
-                        color="white"
-                        @keyup.enter.exact="addComment(item.id)"
-                    />
-                    <div v-for="(comment, index) in item.comments" :key="index" class="comment-container">
-                        <div class="thumb-img-container">
-                        <v-img
-                            class="comment-thumb"
-                            :src="require(`@/assets/unknownUser.svg`)"
-                        >
-                        </v-img>
-                        </div>
-                        <div class="comment-content">
-                            <div
-                            class="comment-text"
-                            >
-                                <p
-                                    class="comment-username"
-                                >
-                                    {{comment.userName}}
-                                </p>
-                                <p>
-                                    {{ comment.text }}
-                                </p>
-                            </div>
-                            <div class="comment-post-date">
-                                <template>
-                                {{ moment(comment.postDate).format("LLL") }}
-                                </template>
-                            </div>
-                        </div>
+                    <div class="d-flex flex-row">
+                    <div class="d-flex flex-row"><font-awesome-icon
+                        class="star icon pr-2"
+                        icon="star"
+                        size="2x"
+                        color="#868263"
+                        ></font-awesome-icon>
+                        <h4 class="mt-1">{{item.rating}}</h4></div> 
+                    
+                    <div class="d-flex flex-row ml-3"><font-awesome-icon
+                        class="star icon pr-2"
+                        icon="heart"
+                        size="2x"
+                        color="#865e61"
+                        ></font-awesome-icon>
+                        <h4 class="mt-1">{{item.favoriteCount}}</h4></div> 
+                    
                     </div>
-                  </v-expansion-panel-content>
-                </v-col>
-              </v-row>
-            </v-expansion-panel>
-          </v-expansion-panels>
+                </v-card-subtitle
+                    >
+                </div>
+                <div>
+                <v-card-title class="text-h5">{{item.name}}</v-card-title>
+                <v-card-subtitle v-if="page_name == 'SongList' || page_name == 'AlbumList'" class="font-thin font-italic" >by {{item.artistName}}</v-card-subtitle>
+                <p v-if="page_name == 'AlbumList' || page_name == 'AlbumFavoriteList'" class="ml-3">{{ item.description | truncate(reviewTextLength, "...") }}</p>
+                <p v-else-if="page_name == 'SongList' || page_name == 'SongFavoriteList'" class="ml-3">{{ item.text | truncate(reviewTextLength, "...") }}</p>
+                <p v-else-if="page_name == 'ArtistList' || page_name == 'ArtistFavoriteList'" class="ml-3">{{ item.description | truncate(reviewTextLength, "...") }}</p>
+                </div>
+            </div>
+
+            </v-card>
+            </v-col>
         </v-row>
-      </v-card>
-    </div>
-    <div
-      v-else-if="
-        page_name == 'Activities' && item.artist == null && item.album == null
-      "
-    >
-      <v-card>
-        <v-row class="pl-2 d-flex justify-space-between">
-          <v-col lg="8" sm="8">
-            <v-row align="center">
-              <v-col lg="2" sm="2">
-                <div class="post-thumb">
-                    <v-img
-                        v-if="item.image"
-                        class="post-thumb-img"
+            <v-row v-else-if="page_name == 'AlbumReviewList' || page_name == 'SongReviewList'">
+            <v-col lg="12">
+            <v-card @click="redirectToItem(item.id)">
+                <div class="d-flex">
+                <div>
+                    <v-avatar class="ma-3" size="125" tile> 
+                    <!-- <v-img
+                        class="pl-8"
                         :src="`${server_url}/${item.image}`"
                     >
-                    </v-img>
-                    <v-img
-                        v-else
-                        class="post-thumb-img"
-                        :src="require(`@/assets/unknownUser.svg`)"
-                    >
-                    </v-img>
-                </div>
-              </v-col>
-              <v-col lg="9" sm="9">
+                    </v-img> -->
+                    <v-img :src="require('@/assets/band_logo.jpg')" style = "width: 50px;"/>
+                    </v-avatar>
                 <v-card-subtitle>
-                  <p class="text-left">{{ item.userName }}</p>
-                </v-card-subtitle>
-              </v-col>
-            </v-row>
-          </v-col>
-          <v-col lg="3" sm="3">
-            <v-card-subtitle>
-              <p class="text-right">
-                {{ time_from_addition }}
-              </p>
-            </v-card-subtitle>
-          </v-col>
+                    <h4>{{item.name}} - {{item.artist}}</h4>
+                    <p>
+                    {{ moment(item.establishmentDate).format("L") }}
+                    </p>
+                    
+                </v-card-subtitle
+                    >
+                </div>
+                <div>
+                <v-card-title class="text-h5" v-text="item.title"></v-card-title>
+                <v-card-subtitle class="font-thin font-italic" >by {{item.userName}}</v-card-subtitle>
+                <p>{{ item.content | truncate(reviewTextLength, "...") }}</p>
+                </div>
+            </div>
+
+            </v-card>
+            </v-col>
         </v-row>
-        <v-row class="pl-2 d-flex justify-start">
-          <v-col lg="10" sm="10">
-            <v-card-title
-              justify="center"
-              class="text-h5"
-              v-text="item.text"
-            ></v-card-title>
-          </v-col>
-        </v-row>
-        <v-row class="pl-5">
-          <v-expansion-panels v-model="open_comments" enabled>
-            <v-expansion-panel>
-              <v-row class="d-flex justify-space-between">
-                <v-col lg="3" sm="3" class="pt-4">
-                  <v-btn @click="likePost(item.id)">
-                    <font-awesome-icon
-                      :color="computed_item.isLiked ? '#485e7c' : '#fff'"
-                      class="icon pa-1"
-                      icon="thumbs-up"
-                      size="2x"
-                      outlined
-                      fab
-                    ></font-awesome-icon>
-                    {{computed_item.totalLikes ? computed_item.totalLikes : ''}}
-                  </v-btn>
-                  <v-btn @click="toggleComments">
-                    <font-awesome-icon
-                      class="icon pa-1"
-                      icon="comment"
-                      size="2x"
-                      outlined
-                      fab
-                    ></font-awesome-icon>
-                  </v-btn>
+            <div
+            v-else-if="
+                page_name == 'Activities' &&
+                (item.artist != null || item.album != null) &&
+                item.userName == null &&
+                item.posterId == null
+            "
+            >
+            <v-card>
+                <v-row class="pl-2">
+                    <v-col lg="2" sm="2">
+                        <div class="post-thumb">
+                            <v-img
+                                v-if="item.image == null || item.image == ''"
+                                :src="require(`@/assets/unknownUser.svg`)"
+                                :alt="`${item.name}`"
+                                class="post-thumb-img"
+                                style="cursor:pointer;"
+                                @click="redirectToItem(item.artistId, 'Artist')"
+                                contain
+                            />
+                            <v-img
+                                v-else-if="item.image.slice(0, 4) == 'http'"
+                                :src="`${item.image}`"
+                                :alt="`${item.name}`"
+                                class="post-thumb-img"
+                                style="cursor:pointer;"
+                                @click="redirectToItem(item.artistId, 'Artist')"
+                                contain
+                            />
+                            <v-img
+                                v-else
+                                :src="`${server_url}/${item.image}`"
+                                :alt="`${item.name}`"
+                                class="post-thumb-img"
+                                style="cursor:pointer;"
+                                @click="redirectToItem(item.artistId, 'Artist')"
+                                contain
+                            />
+                        </div>
+                    </v-col>
+                    <v-col sm="8" md="7" lg="8">
+                    <v-card-subtitle class="aritist-post-title">
+                        <p class="text-left">
+                        <span
+                            class="link-to-item"
+                            @click="redirectToItem(item.artistId, 'Artist')"
+                            >{{ item.artist }}</span
+                        >
+                        posted the new album
+                        </p>
+                    </v-card-subtitle>
+                    </v-col>
+                    <v-col sm="2" md="3" lg="2" class="d-none d-md-block">
+                        <v-card-subtitle>
+                        <p class="text-right">
+                            {{ time_from_addition }}
+                        </p>
+                        </v-card-subtitle>
+                    </v-col>
+                </v-row>
+                <v-row class="pl-2 d-flex justify-space-between">
+                <v-col lg="8">
+                    <v-row>
+                    <v-col lg="4">
+                        <div>
+                        <v-img
+                            class="link-to-item"
+                            :src="`${server_url}/${item.albumImage}`"
+                            @click="redirectToItem(item.albumId, 'Album')"
+                            contain
+                        />
+                        
+                            <v-img
+                                v-if="item.albumImage == null || item.albumImage == ''"
+                                :src="require(`@/assets/unknownUser.svg`)"
+                                @click="redirectToItem(item.albumId, 'Album')"
+                                :alt="`${item.name}`"
+                                class="link-to-item"
+                                contain
+                            />
+                            <v-img
+                                v-else-if="item.albumImage.slice(0, 4) == 'http'"
+                                :src="`${item.albumImage}`"
+                                @click="redirectToItem(item.albumId, 'Album')"
+                                :alt="`${item.name}`"
+                                class="link-to-item"
+                                contain
+                            />
+                            <v-img
+                                v-else
+                                :src="`${server_url}/${item.albumImage}`"
+                                @click="redirectToItem(item.albumId, 'Album')"
+                                :alt="`${item.name}`"
+                                class="link-to-item"
+                                contain
+                            />
+                        </div>
+                    </v-col>
+                    <v-col lg="8">
+                        <v-card-title
+                        justify="center"
+                        class="text-h5 link-to-item"
+                        v-text="item.album"
+                        @click="redirectToItem(item.albumId, 'Album')"
+                        ></v-card-title>
+                        <v-card-subtitle>
+                        <p class="text-left">
+                            {{ moment(item.establishmentDate).format("YYYY") }}
+                        </p>
+                        <p class="text-left">Rock</p>
+                        </v-card-subtitle>
+                    </v-col>
+                    </v-row>
+                </v-col>
+                </v-row>
+                <v-row class="pl-5">
+                <v-expansion-panels v-model="open_comments" enabled>
+                    <v-expansion-panel>
+                    <v-row class="d-flex justify-space-between">
+                        <v-col lg="3" sm="3" class="pt-4">
+                        <v-btn  @click="likePost(item.id)">
+                            <font-awesome-icon
+                            :color="computed_item.isLiked ? '#485e7c' : '#fff'"
+                            class="icon pa-1"
+                            icon="thumbs-up"
+                            size="2x"
+                            outlined
+                            fab
+                            ></font-awesome-icon>
+                            {{computed_item.totalLikes ? computed_item.totalLikes : ''}}
+                        </v-btn>
+                        <v-btn @click="toggleComments">
+                            <font-awesome-icon
+                            class="icon pa-1"
+                            icon="comment"
+                            size="2x"
+                            outlined
+                            fab
+                            ></font-awesome-icon>
+                        </v-btn>
+                        </v-col>
+                        <v-col lg="3">
+                        <v-expansion-panel-header hide-actions class="justify-end">
+                            {{item.comments.length > 0 ? item.comments.length : ''}} comments
+                        </v-expansion-panel-header>
+                        </v-col>
+                    </v-row>
+                    <v-row>
+                        <v-col lg="12">
+                        <v-expansion-panel-content>
+                            <v-text-field
+                                placeholder="Add Comment..."
+                                v-model="comment_input"
+                                color="white"
+                                @keyup.enter.exact="addComment(item.id)"
+                            />
+                            <div v-for="(comment, index) in item.comments" :key="index" class="comment-container">
+                                <div class="thumb-img-container">
+                                <v-img
+                                    class="comment-thumb"
+                                    :src="require(`@/assets/unknownUser.svg`)"
+                                >
+                                </v-img>
+                                </div>
+                                <div class="comment-content">
+                                    <div
+                                    class="comment-text"
+                                    >
+                                        <p
+                                            class="comment-username"
+                                        >
+                                            {{comment.userName}}
+                                        </p>
+                                        <p>
+                                            {{ comment.text }}
+                                        </p>
+                                    </div>
+                                    <div class="comment-post-date">
+                                        <template>
+                                        {{ moment(comment.postDate).format("LLL") }}
+                                        </template>
+                                    </div>
+                                </div>
+                            </div>
+                        </v-expansion-panel-content>
+                        </v-col>
+                    </v-row>
+                    </v-expansion-panel>
+                </v-expansion-panels>
+                </v-row>
+            </v-card>
+            </div>
+            <div
+            v-else-if="
+                page_name == 'Activities' && item.artist == null && item.album == null
+            "
+            >
+            <v-card>
+                <v-row class="pl-2 d-flex justify-space-between">
+                <v-col lg="8" sm="8">
+                    <v-row align="center">
+                    <v-col lg="2" sm="2">
+                        <div class="post-thumb">
+                            <v-img
+                                v-if="item.image"
+                                class="post-thumb-img"
+                                :src="`${server_url}/${item.image}`"
+                            >
+                            </v-img>
+                            <v-img
+                                v-else
+                                class="post-thumb-img"
+                                :src="require(`@/assets/unknownUser.svg`)"
+                            >
+                            </v-img>
+                        </div>
+                    </v-col>
+                    <v-col lg="9" sm="9">
+                        <v-card-subtitle>
+                        <p class="text-left">{{ item.userName }}</p>
+                        </v-card-subtitle>
+                    </v-col>
+                    </v-row>
                 </v-col>
                 <v-col lg="3" sm="3">
-                  <v-expansion-panel-header hide-actions class="justify-end">
-                    {{item.comments.length > 0 ? item.comments.length : ''}} comments
-                  </v-expansion-panel-header>
+                    <v-card-subtitle>
+                    <p class="text-right">
+                        {{ time_from_addition }}
+                    </p>
+                    </v-card-subtitle>
                 </v-col>
-              </v-row>
-              <v-row>
-                <v-col lg="12">
-                  <v-expansion-panel-content>
-                    <v-text-field
-                        placeholder="Add Comment..."
-                        v-model="comment_input"
-                        color="white"
-                        @keyup.enter.exact="addComment(item.id)"
-                    />
-                    <div v-for="(comment, index) in item.comments" :key="index" class="comment-container">
-                        <div class="thumb-img-container">
-                        <v-img
-                            class="comment-thumb"
-                            :src="require(`@/assets/unknownUser.svg`)"
-                        >
-                        </v-img>
-                        </div>
-                        <div class="comment-content">
-                            <div
-                            class="comment-text"
-                            >
-                                <p
-                                    class="comment-username"
+                </v-row>
+                <v-row class="pl-2 d-flex justify-start">
+                <v-col lg="10" sm="10">
+                    <v-card-title
+                    justify="center"
+                    class="text-h5"
+                    v-text="item.text"
+                    ></v-card-title>
+                </v-col>
+                </v-row>
+                <v-row class="pl-5">
+                <v-expansion-panels v-model="open_comments" enabled>
+                    <v-expansion-panel>
+                    <v-row class="d-flex justify-space-between">
+                        <v-col lg="3" sm="3" class="pt-4">
+                        <v-btn @click="likePost(item.id)">
+                            <font-awesome-icon
+                            :color="computed_item.isLiked ? '#485e7c' : '#fff'"
+                            class="icon pa-1"
+                            icon="thumbs-up"
+                            size="2x"
+                            outlined
+                            fab
+                            ></font-awesome-icon>
+                            {{computed_item.totalLikes ? computed_item.totalLikes : ''}}
+                        </v-btn>
+                        <v-btn @click="toggleComments">
+                            <font-awesome-icon
+                            class="icon pa-1"
+                            icon="comment"
+                            size="2x"
+                            outlined
+                            fab
+                            ></font-awesome-icon>
+                        </v-btn>
+                        </v-col>
+                        <v-col lg="3" sm="3">
+                        <v-expansion-panel-header hide-actions class="justify-end">
+                            {{item.comments.length > 0 ? item.comments.length : ''}} comments
+                        </v-expansion-panel-header>
+                        </v-col>
+                    </v-row>
+                    <v-row>
+                        <v-col lg="12">
+                        <v-expansion-panel-content>
+                            <v-text-field
+                                placeholder="Add Comment..."
+                                v-model="comment_input"
+                                color="white"
+                                @keyup.enter.exact="addComment(item.id)"
+                            />
+                            <div v-for="(comment, index) in item.comments" :key="index" class="comment-container">
+                                <div class="thumb-img-container">
+                                <v-img
+                                    class="comment-thumb"
+                                    :src="require(`@/assets/unknownUser.svg`)"
                                 >
-                                    {{comment.userName}}
-                                </p>
-                                <p>
-                                    {{ comment.text }}
-                                </p>
+                                </v-img>
+                                </div>
+                                <div class="comment-content">
+                                    <div
+                                    class="comment-text"
+                                    >
+                                        <p
+                                            class="comment-username"
+                                        >
+                                            {{comment.userName}}
+                                        </p>
+                                        <p>
+                                            {{ comment.text }}
+                                        </p>
+                                    </div>
+                                    <div class="comment-post-date">
+                                        <template>
+                                        {{ moment(comment.postDate).format("LLL") }}
+                                        </template>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="comment-post-date">
-                                <template>
-                                {{ moment(comment.postDate).format("LLL") }}
-                                </template>
-                            </div>
-                        </div>
-                    </div>
-                  </v-expansion-panel-content>
-                </v-col>
-              </v-row>
-            </v-expansion-panel>
-          </v-expansion-panels>
-        </v-row>
-      </v-card>
+                        </v-expansion-panel-content>
+                        </v-col>
+                    </v-row>
+                    </v-expansion-panel>
+                </v-expansion-panels>
+                </v-row>
+            </v-card>
+            </div>
+        </div>
     </div>
-  </div>
 </template>
 
 <script>
@@ -619,6 +628,10 @@ p {
     font-size: 10px;
     color: #bdb8b8;
   }
+}
+.loader{
+    display: flex;
+    justify-content: center;
 }
 @media (max-width: 600px){
     .post-thumb{

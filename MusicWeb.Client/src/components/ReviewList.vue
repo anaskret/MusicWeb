@@ -4,7 +4,7 @@
       <v-col lg="8" class="d-flex flex-row justify-space-between">
         <div class="d-flex flex-row" style="align-items: center">
           <h1 class="display-1 font-weight-bold text-left">Reviews</h1>
-          <a class="pl-lg-16"
+          <a v-if="reviews.length != 0" class="pl-lg-16"
           @click="redirectToList(item_id)">
             Show all album reviews
             <font-awesome-icon
@@ -14,6 +14,9 @@
               color="gray"
             />
           </a>
+          <div v-else class="pl-lg-16">
+              <p>Show all album reviews</p>
+          </div>
         </div>
 
         <div class="text-center">

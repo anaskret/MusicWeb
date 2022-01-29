@@ -72,9 +72,27 @@ export default {
     const { getSongFullData, getSongRatingAverage } = useSongs();
     const getSongData = function () {
       getSongFullData(this.id).then((response) => {
+        if(!response.name && !response.albumId && !response.composerId && !response.releaseDate){
+            this.$emit(
+            "show-alert",
+            `Song not found`,
+            "error"
+            );
+            this.$router.push({ name: "SongListPage" });
+        }
         this.song = response;
         this.prepareReviews();
         this.getSongRating();
+      },
+      (error) => {
+          if(error.response.data == "Song not found" && error.response.status == 500){
+              this.$emit(
+                "show-alert",
+                `${error.response.data}`,
+                "error"
+              );
+              this.$router.push({ name: "SongListPage" });
+          }
       });
     };
     const getSongRating = function () {

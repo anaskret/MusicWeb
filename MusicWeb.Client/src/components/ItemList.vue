@@ -4,7 +4,7 @@
       <v-col lg="8">
         <div class="d-flex flex-row" style="align-items: center">
           <h1 class="display-1 font-weight-bold text-left">{{ list_title }}</h1>
-          <a class="pl-lg-16"
+          <a v-if="items.length != 0" class="pl-lg-16"
           @click="redirectToList(component_type, item_id)"
           >
             {{ list_link_title }}
@@ -15,6 +15,9 @@
               color="gray"
             />
           </a>
+          <div v-else class="pl-lg-16">
+              <p>{{ list_link_title }}</p>
+          </div>
         </div>
       </v-col>
     </v-row>
