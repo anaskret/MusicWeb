@@ -62,7 +62,7 @@
                 <v-card-title class="text-h5">{{item.name}}</v-card-title>
                 <v-card-subtitle v-if="page_name == 'SongList' || page_name == 'AlbumList'" class="font-thin font-italic" >by {{item.artistName}}</v-card-subtitle>
                 <p v-if="page_name == 'AlbumList' || page_name == 'AlbumFavoriteList'" class="ml-3">{{ item.description | truncate(reviewTextLength, "...") }}</p>
-                <p v-else-if="page_name == 'SongList' || page_name == 'SongFavoriteList'" class="ml-3">{{ item.text | truncate(reviewTextLength, "...") }}</p>
+                <p v-else-if="page_name == 'SongList' || page_name == 'SongFavoriteList'" class="ml-3">{{ item.text ? (item.text | truncate(reviewTextLength, "...")) : '' }}</p>
                 <p v-else-if="page_name == 'ArtistList' || page_name == 'ArtistFavoriteList'" class="ml-3">{{ item.description | truncate(reviewTextLength, "...") }}</p>
                 </div>
             </div>
