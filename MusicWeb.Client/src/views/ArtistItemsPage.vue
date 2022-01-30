@@ -4,23 +4,22 @@
     :columns_list="album_columns_list"
     :items="albums" 
     :type="album_type"
-    :getArtist="getArtist"
+    :getArtist="getAllAlbums"
     v-on="$listeners"/>
     <ItemsTable
     :columns_list="song_columns_list"
     :items="songs"
     :type="song_type"
-    :getArtist="getArtist" 
+    :getArtist="getAllSongs" 
     v-on="$listeners"/>
   </v-container>
 </template>
 <script>
 
-import useArtists from "@/modules/artists";
+import useAlbums from "@/modules/albums";
+import useSongs from "@/modules/songs";
 import ItemsTable from "@/components/ItemsTable";
 import { mapGetters } from "vuex";
-// import Album from "@/models/Album";
-// import Song from "@/models/Song";
 
 export default {
   name: "ArtistItemsPage",
@@ -29,9 +28,8 @@ export default {
   },
   data() {
     return {
-      artist: {},
-      album_columns_list: [' ', 'Album name', 'Release date', 'Duration', 'Actions'],
-      song_columns_list: [' ', 'Song name', 'Release date', 'Duration', 'Actions'],
+      album_columns_list: [' ', 'Album name', 'Release date', 'Duration', 'Action'],
+      song_columns_list: [' ', 'Song name', 'Release date', 'Duration', 'Action'],
       albums: [], 
       songs: [],
       song_type: "song",
@@ -39,7 +37,8 @@ export default {
     };
   },
   created() {
-    this.getArtist();
+    this.getAllAlbums();
+    this.getAllSongs();
   },
      computed: {
     ...mapGetters({
@@ -57,17 +56,24 @@ export default {
 
   },
   setup() {
-    const { getArtistById } = useArtists();
+    const { getAllForArtist} = useAlbums();
+    const { getAllSongsForArtist } = useSongs();
     
-    const getArtist = function () {
-      getArtistById(this.account.artistId).then((response) => {
-        this.albums = response.albums;
-        this.songs = response.songs;
+    const getAllAlbums = function () {
+      getAllForArtist(this.account.artistId).then((response) => {
+        this.albums = response;
+    });
+    }
+    
+    const getAllSongs = function () {
+      getAllSongsForArtist(this.account.artistId).then((response) => {
+        this.songs = response;
     });
     }
     
     return {
-      getArtist,
+      getAllAlbums,
+      getAllSongs,
     };
 
   },

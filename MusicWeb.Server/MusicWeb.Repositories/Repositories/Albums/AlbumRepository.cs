@@ -47,7 +47,6 @@ namespace MusicWeb.Repositories.Repositories.Albums
                 .ThenInclude(user => user.User)
                 .Include(artist => artist.Artist)
                 .Include(genre => genre.AlbumGenre)
-                .Where(prp => prp.IsConfirmed == true)
                 .FirstOrDefaultAsync(prp => prp.Id == id);
             return entity;
         }

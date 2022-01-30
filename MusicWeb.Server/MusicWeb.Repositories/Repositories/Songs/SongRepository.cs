@@ -43,7 +43,6 @@ namespace MusicWeb.Repositories.Repositories.Songs
         {
             var entity = await _dbContext.Song
                 .Include(album => album.Album)
-                .Where(prp => prp.Album.IsConfirmed == true)
                 .Include(composer => composer.Composer)
                 .Include(songReviews => songReviews.SongReviews)
                 .ThenInclude(user => user.User)

@@ -65,7 +65,7 @@
               {{ account.firstname }} {{ account.lastname }}
             </span>
             </h1>
-            <v-btn v-if="account.artistId <=1" outlined class="mt-5" color="grey" @click="redirectTo()">Manage your albums and songs</v-btn>
+            <v-btn v-if="account.artistId > 0" outlined class="mt-5" color="grey" @click="redirectTo()">Manage your albums and songs</v-btn>
         </div>
         <div>
 
@@ -122,7 +122,7 @@
     </v-row>
     <v-row>
       <v-col>
-        <ReviewList :reviews="this.account.albumReviews.concat(...this.account.songReviews)" module_name="profile" />
+        <ReviewList :reviews="this.account.albumReviews.concat(...this.account.songReviews)" type_name="profile" />
       </v-col>
     </v-row>
   </v-container>
@@ -230,6 +230,12 @@ export default {
     const getAccount = function () {
       getAccountById(localStorage.getItem("user-id")).then((response) => {
         this.account = response;
+        this.account.albumReviews.forEach(review => {
+          review.type = "album";          
+        });
+        this.account.songReviews.forEach(review => {
+          review.type = "song";          
+        });
       });
     };
 

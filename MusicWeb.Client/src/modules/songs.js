@@ -14,6 +14,11 @@ export default function useSongs() {
       });
     }
   };
+  const getAllSongsForArtist = (artistId) => {
+    return songServices.getAllSongsForArtist(artistId).then((response) => {
+      return response.data;
+    });
+  };
   const getTopArtistSongs = function (id) {
     if (id) {
       return songServices.getTopArtistSongs(id).then((response) => {
@@ -103,5 +108,6 @@ export default function useSongs() {
     updateSong,
     getPagedSongsRanking,
     deleteSong,
+    getAllSongsForArtist,
   };
 }

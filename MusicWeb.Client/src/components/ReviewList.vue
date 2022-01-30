@@ -20,7 +20,7 @@
           <v-dialog v-model="dialog" width="70vw" height="90vh">
             <template v-slot:activator="{ on, attrs }">
               <v-btn
-                v-if="module_name != 'profile'"
+                v-if="type_name != 'profile'"
                 outlined
                 color="grey"
                 height="30px"
@@ -111,11 +111,20 @@
               </v-card-subtitle>
 
               <v-spacer></v-spacer>
-
               <p class="review-text">
                 {{ review.content | truncate(reviewTextLength, "...") }}
               </p>
               <v-btn
+                v-if="type_name == 'profile'"
+                outlined
+                color="grey"
+                height="25px"
+                class="text-uppercase align-self-center mt-5"
+                @click="redirectToItemFromProfile(review.id, review.type)"
+                >Read More
+              </v-btn>
+              <v-btn
+                v-else
                 outlined
                 color="grey"
                 height="25px"
@@ -149,6 +158,7 @@ export default {
     redirect_module_name: String,
     redirect_to_list: String,
     item_id: String,
+    type_name: String,
   },
   data() {
     return {
@@ -184,6 +194,15 @@ export default {
     redirectToList(item_id) {
       this.$router.push({ name: this.redirect_to_list, params: { id: item_id } });
     },
+    redirectToItemFromProfile(id, type) {
+      if (type === "album")
+      {
+        this.$router.push({name: "AlbumReviewPage", params: {id: id}});
+      }
+      else if (type === "song") {
+         this.$router.push({name: "SongReviewPage", params: {id: id}});
+      }
+    }
   },
   setup() {
     const { addSongReview } = useSongReviews();
