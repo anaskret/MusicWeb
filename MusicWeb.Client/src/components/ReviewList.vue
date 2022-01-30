@@ -4,9 +4,9 @@
       <v-col sm="12" lg="8" class="d-flex flex-row justify-space-between">
         <div class="d-flex flex-column flex-sm-row">
           <h1 class="display-1 font-weight-bold text-left">Reviews</h1>
-          <a v-if="reviews.length != 0" class="pl-sm-16 ml-sm-10 pt-sm-3"
+          <a v-if="reviews.length != 0 && type_name != 'profile'" class="pl-sm-16 ml-sm-10 pt-sm-3"
           @click="redirectToList(item_id)">
-            Show all album reviews
+            Show all reviews
             <font-awesome-icon
               class="icon"
               icon="chevron-right"
@@ -109,7 +109,7 @@
               <v-card-title class="headline review-title px-0 pt-2 pb-5">
                 {{ review.title }} 
               </v-card-title>
-              <v-card-subtitle class="px-0">
+              <v-card-subtitle v-if="type_name != 'profile'" class="px-0">
                 {{ album }} - {{ artist }}
               </v-card-subtitle>
 

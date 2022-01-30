@@ -90,7 +90,7 @@
           :items="this.account.userFavoriteSongs"
           :component_title="songs_title"
           :component_link_title="songs_link_title"
-          :redirect_to="album_redirect"
+          :redirect_to="song_redirect"
           :component_type="favorite_component"
           :redirect_to_list="song_list_redirect"
         />

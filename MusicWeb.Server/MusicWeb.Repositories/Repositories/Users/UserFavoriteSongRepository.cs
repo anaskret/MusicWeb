@@ -36,7 +36,7 @@ namespace MusicWeb.Repositories.Repositories.Users
             LEFT JOIN(SELECT SongId, COUNT(SongId) as Reviews FROM SongReview GROUP BY SongId) T3 ON T0.Id = T3.SongId
             LEFT JOIN Album T6 ON T0.AlbumId = T6.Id
             LEFT JOIN Artist T5 ON T6.ArtistId = T5.Id
-            RIGHT JOIN UserFavoriteSong T4 ON T0.Id = T4.SongId 
+            JOIN UserFavoriteSong T4 ON T0.Id = T4.SongId 
             AND T4.UserId = '{userId}'
             WHERE T6.IsConfirmed = 1";
 

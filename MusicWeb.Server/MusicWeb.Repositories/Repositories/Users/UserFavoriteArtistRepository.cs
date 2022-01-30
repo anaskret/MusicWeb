@@ -32,7 +32,7 @@ namespace MusicWeb.Repositories.Repositories.Users
             LEFT JOIN(SELECT ArtistId, AVG(Cast(Rating as float)) as Rating, COUNT(Rating) as RatingsCount FROM ArtistRating GROUP BY ArtistId) T1 ON T1.ArtistId = T0.Id
             LEFT JOIN (SELECT ArtistId, COUNT(ArtistId) as Favorite FROM UserFavoriteArtist GROUP BY ArtistId) T2 ON T0.Id = T2.ArtistId
             LEFT JOIN (SELECT ArtistId, COUNT(ArtistId) as Observed FROM UserObservedArtist GROUP BY ArtistId) T3 ON T0.Id = T3.ArtistId
-            RIGHT JOIN UserFavoriteArtist T4 ON T0.Id = T4.ArtistId AND T4.userId = '{userId}'";
+            JOIN UserFavoriteArtist T4 ON T0.Id = T4.ArtistId AND T4.userId = '{userId}'";
 
             var query = _dbContext.ArtistRatingAverage.FromSqlRaw(sql);
             query = query.Skip(pageNum * pageSize);
