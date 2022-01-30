@@ -35,7 +35,7 @@ namespace MusicWeb.Repositories.Repositories.Users
             LEFT JOIN(SELECT AlbumId, COUNT(AlbumId) as Reviews FROM AlbumReview GROUP BY AlbumId) T3 ON T0.Id = T3.AlbumId
             LEFT JOIN Artist T5
             ON T0.ArtistId = T5.Id
-            RIGHT JOIN UserFavoriteAlbum T4 ON T0.Id = T4.AlbumId AND T4.UserId = '{userId}'
+            JOIN UserFavoriteAlbum T4 ON T0.Id = T4.AlbumId AND T4.UserId = '{userId}'
             WHERE T0.IsConfirmed = 1";
 
             var query = _dbContext.AlbumRatingAverage.FromSqlRaw(sql);
