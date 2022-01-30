@@ -1,13 +1,13 @@
 <template>
   <v-container fluid class="mb-lg-16">
     <v-row justify="center" class="pb-lg-3">
-      <v-col lg="8">
-        <div class="d-flex flex-row" style="align-items: center">
+      <v-col sm="12" lg="8">
+        <div class="d-flex flex-column flex-sm-row">
           <h1 class="display-1 font-weight-bold text-left">
             {{ component_title }}
           </h1>
-          <a class="component_link_title ml-lg-10" 
-          v-if="component_type == 'discography' && items.length != 0"
+          <a class="component_link_title ml-sm-10 pt-sm-3" 
+          v-if="component_type == 'discography'&& items.length != 0"
           @click="redirectToList(component_type, item_id)">
             {{ component_link_title }}
             <font-awesome-icon
@@ -19,8 +19,8 @@
             />
           </a>          
           <a 
-          v-else-if="component_type != 'discography' && items.length != 0"
-          class="component_link_title ml-lg-10" 
+           v-else-if="component_type != 'discography' && items.length != 0"
+          class="component_link_title ml-md-10 pt-md-3" 
           @click="redirectToList(component_type)">
             {{ component_link_title }}
             <font-awesome-icon

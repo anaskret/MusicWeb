@@ -89,6 +89,7 @@ namespace MusicWeb.Models.Constants
             public const string GetAllPaged = Root + "/songs/{pageNum}/{pageSize}/{sortType}/{createDateStart}/{createDateEnd}";
             public const string GetTopSongs = Root + "/topsongs/{artistId}";
             public const string GetRankingPaged = Root + "/songranking/{sortType}/{pageNum}/{pageSize}";
+            public const string GetAllSongsForArtist = Root + "/songs/artist/{artistId}";
 
         }
 

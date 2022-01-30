@@ -44,7 +44,22 @@ namespace MusicWeb.Api.Controllers.Songs
                 return StatusCode(500, ex.Message);
             }
         }
-        
+
+        [HttpGet(ApiRoutes.Songs.GetAllSongsForArtist)]
+        public async Task<IActionResult> GetAllForArtist(int artistId)
+        {
+            try
+            {
+                var response = _mapper.Map<List<SongDto>>(await _songService.GetAllForArtist(artistId));
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return StatusCode(500, ex.Message);
+            }
+        }
+
         [HttpGet(ApiRoutes.Songs.GetTopSongs)]
         public async Task<IActionResult> GetArtistTopSongs([FromRoute] int artistId)
         {

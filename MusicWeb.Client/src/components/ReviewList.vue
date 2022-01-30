@@ -1,10 +1,10 @@
 <template>
   <v-container fluid>
     <v-row justify="center" class="pb-lg-2">
-      <v-col lg="8" class="d-flex flex-row justify-space-between">
-        <div class="d-flex flex-row" style="align-items: center">
+      <v-col sm="12" lg="8" class="d-flex flex-row justify-space-between">
+        <div class="d-flex flex-column flex-sm-row">
           <h1 class="display-1 font-weight-bold text-left">Reviews</h1>
-          <a v-if="reviews.length != 0" class="pl-lg-16"
+          <a v-if="reviews.length != 0" class="pl-sm-16 ml-sm-10 pt-sm-3"
           @click="redirectToList(item_id)">
             Show all album reviews
             <font-awesome-icon
@@ -19,10 +19,11 @@
           </div>
         </div>
 
-        <div class="text-center">
+        <div class="text-center mt-1">
           <v-dialog v-model="dialog" width="70vw" height="90vh">
             <template v-slot:activator="{ on, attrs }">
               <v-btn
+                v-if="type_name != 'profile'"
                 outlined
                 color="grey"
                 height="30px"
@@ -88,7 +89,7 @@
       </v-col>
     </v-row>
     <v-row justify="center">
-      <v-col lg="8" sm="10">
+      <v-col lg="8" sm="12">
         <v-row
           v-for="(review, index) in reviews"
           :key="index"
@@ -103,34 +104,30 @@
               <p>{{ moment(review.postDate).format("L") }}</p>
             </div>
           </v-col>
-          <v-col md="10">
+          <v-col lg="10">
             <div>
               <v-card-title class="headline review-title px-0 pt-2 pb-5">
                 {{ review.title }} 
-                <!-- <div class="d-flex flex-row starConteiner" @mouseleave="getDefaultStars">
-                <font-awesome-icon
-                  class="star icon pr-2"
-                  v-for="(star, index) in stars"
-                  :key="index"
-                  icon="star"
-                  size="2x"
-                  :color="star.color"
-                  
-                  :id="'star_' + index" :value="star.value"
-              
-                ></font-awesome-icon>
-              </div> -->
               </v-card-title>
               <v-card-subtitle class="px-0">
                 {{ album }} - {{ artist }}
               </v-card-subtitle>
 
               <v-spacer></v-spacer>
-
               <p class="review-text">
                 {{ review.content | truncate(reviewTextLength, "...") }}
               </p>
               <v-btn
+                v-if="type_name == 'profile'"
+                outlined
+                color="grey"
+                height="25px"
+                class="text-uppercase align-self-center mt-5"
+                @click="redirectToItemFromProfile(review.id, review.type)"
+                >Read More
+              </v-btn>
+              <v-btn
+                v-else
                 outlined
                 color="grey"
                 height="25px"
@@ -164,6 +161,7 @@ export default {
     redirect_module_name: String,
     redirect_to_list: String,
     item_id: String,
+    type_name: String,
   },
   data() {
     return {
@@ -199,13 +197,22 @@ export default {
     redirectToList(item_id) {
       this.$router.push({ name: this.redirect_to_list, params: { id: item_id } });
     },
+    redirectToItemFromProfile(id, type) {
+      if (type === "album")
+      {
+        this.$router.push({name: "AlbumReviewPage", params: {id: id}});
+      }
+      else if (type === "song") {
+         this.$router.push({name: "SongReviewPage", params: {id: id}});
+      }
+    }
   },
   setup() {
     const { addSongReview } = useSongReviews();
     const { addAlbumReview } = useAlbumReviews();
 
     const addNewSongReview = function () {
-      this.songReview.userId = this.account.id
+      this.songReview.userId = this.account.id;
       this.songReview.songId = this.$route.params.id;
       this.songReview.postDate = moment.utc().format();
       delete this.songReview.id;
@@ -244,7 +251,7 @@ export default {
       }
     };
     const addNewAlbumReview = function () {
-      this.albumReview.userId = "d5beb617-32ee-42c1-bfb8-607c8f38afcc";
+      this.albumReview.userId = this.account.id;
       this.albumReview.albumId = this.$route.params.id;
       this.albumReview.postDate = moment().format();
       delete this.albumReview.album;

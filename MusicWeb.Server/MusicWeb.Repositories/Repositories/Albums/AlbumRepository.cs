@@ -47,7 +47,6 @@ namespace MusicWeb.Repositories.Repositories.Albums
                 .ThenInclude(user => user.User)
                 .Include(artist => artist.Artist)
                 .Include(genre => genre.AlbumGenre)
-                .Where(prp => prp.IsConfirmed == true)
                 .FirstOrDefaultAsync(prp => prp.Id == id);
             return entity;
         }
@@ -159,12 +158,18 @@ namespace MusicWeb.Repositories.Repositories.Albums
             var sql = @$"SELECT T0.*, ROUND(Coalesce(T1.Rating, 0), 2) as Rating, 
             COALESCE(T1.RatingsCount, 0) as RatingsCount,
             COALESCE(T2.Favorite, 0) as FavoriteCount,
-            COALESCE(T3.Reviews, 0) as ReviewsCount
+            COALESCE(T3.Reviews, 0) as ReviewsCount,
+            T5.Name as ArtistName
             FROM Song T0
             LEFT JOIN(SELECT SongId, AVG(Cast(Rating as float)) as Rating, COUNT(Rating) as RatingsCount FROM SongRating GROUP BY SongId) T1 ON T1.SongId = T0.Id
             LEFT JOIN (SELECT SongId, COUNT(SongId) as Favorite FROM UserFavoriteSong GROUP BY SongId) T2 ON T0.Id = T2.SongId
             LEFT JOIN (SELECT SongId, COUNT(SongId) as Reviews FROM SongReview GROUP BY SongId) T3 ON T0.Id = T3.SongId
-             WHERE T0.AlbumId = '{albumId}'
+            LEFT JOIN Album T4
+            ON T0.AlbumId = T4.Id
+            LEFT JOIN Artist T5
+            ON T4.ArtistId = T5.Id
+             WHERE T4.IsConfirmed = 1 
+            AND T0.AlbumId = '{albumId}'
             ";
 
             var query = _dbContext.SongRatingAverage.FromSqlRaw(sql);

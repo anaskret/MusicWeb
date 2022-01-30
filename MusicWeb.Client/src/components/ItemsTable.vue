@@ -30,12 +30,6 @@
             icon="edit"
             size="2x"
             outlined></font-awesome-icon></span>  
-            <span @click="deleteAlbumItem(item.id)" v-on="on">
-            <font-awesome-icon
-            class="icon pa-1"
-            icon="trash"
-            size="2x"
-            outlined></font-awesome-icon></span>
             </td>
           <td v-if="type == 'song'"><span @click="redirectToItem(item.id)">      
             <font-awesome-icon
@@ -43,15 +37,8 @@
             icon="edit"
             size="2x"
             outlined></font-awesome-icon></span>  
-            <span @click="deleteSongItem(item.id)" v-on="on">
-            <font-awesome-icon
-            class="icon pa-1"
-            icon="trash"
-            size="2x"
-            outlined></font-awesome-icon></span>
             </td>
-          <!-- <td v-if="type == 'song'"><a @click="redirectToItem(item.id)">Edit</a> / <a @click="deleteSongItem(item.id)" v-on="on">Delete</a></td> -->
-        </tr>
+          </tr>
         </tbody>
           </v-simple-table>
           </v-col>
@@ -59,9 +46,6 @@
 </template>
 
 <script>
-import useAlbums from "@/modules/albums";
-import useSongs from "@/modules/songs";
-
 export default ({
   name: "ItemsTable",
     props: {
@@ -78,67 +62,8 @@ export default ({
     redirectToList(item_id) {
       this.$router.push({ name: "ManageArtistPage", params: { id: item_id } });
     },
-    deleteAlbumItem(id) {
-      this.deleteArtistAlbum(id);
-    },
-    deleteSongItem(id) {
-      this.deleteArtistSong(id);
-    }
   }, 
-  setup() {
-    const { deleteAlbum } = useAlbums();
-    const { deleteSong } = useSongs();
-
-    const deleteArtistAlbum = function (id) {
-      deleteAlbum(id).then((response) => {
-            if (response.status == 200) {
-              this.getArtist();
-              this.$emit("show-alert", "Album deleted.", "success");
-            } else {
-              this.$emit(
-                "show-alert",
-                `Error while removing album. Error ${response.status}`,
-                "error"
-              );
-            }
-          },
-          (error) => {
-            this.$emit(
-              "show-alert",
-              `Error while removing album.  ${error.response.status} ${error.response.data}`,
-              "error"
-            );
-          }
-        );
-      };
-    const deleteArtistSong = function (id) {
-      deleteSong(id).then((response) => {
-            if (response.status == 200) {
-              this.getArtist();
-              this.$emit("show-alert", "Song deleted.", "success");
-            } else {
-              this.$emit(
-                "show-alert",
-                `Error while removing song. Error ${response.status}`,
-                "error"
-              );
-            }
-          },
-          (error) => {
-            this.$emit(
-              "show-alert",
-              `Error while removing song.  ${error.response.status} ${error.response.data}`,
-              "error"
-            );
-          }
-        );
-      };
-    
-    return {
-      deleteArtistAlbum,
-      deleteArtistSong,
-    }
-  }
+ 
 });
 </script>
 <style lang="scss" scoped>

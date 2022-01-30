@@ -176,13 +176,6 @@
           ></v-textarea>
         </v-col>
         <v-col md="10">
-          <v-text-field
-            
-            :counter="10"
-            label="Image"
-          ></v-text-field>
-        </v-col>
-        <v-col md="10">
           <v-btn type="submit" @click.prevent="submitForm">Submit</v-btn>
         </v-col>
       </v-row>
@@ -299,9 +292,7 @@ export default {
     },
   },
   methods: {
-    // redirect() {
-    //   this.$router.push({ name: "Login" });
-    // },
+
     prepareErrorArray(field) {
       const errors = [];
       if (!this.$v.item[field].$dirty) return errors;

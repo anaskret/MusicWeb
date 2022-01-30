@@ -50,4 +50,12 @@ export default {
   deleteSong(id) {
     return ApiService.authRequest(`/songs/${id}`, ApiService.delete, id);
   },
+
+  getAllSongsForArtist(artistId) {
+    return ApiService.authRequest(
+      `/songs/artist/${artistId}`,
+      ApiService.get,
+      artistId
+    );
+  },
 };

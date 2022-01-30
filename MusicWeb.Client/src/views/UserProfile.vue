@@ -1,25 +1,18 @@
 <template>
   <v-container fluid class="py-16">
     <v-row justify="center"> 
-      <v-col md="10">
-        <div style="display: flex; justify-content: center; align-items:center;">
+      <v-col md="3" style="display: flex; justify-content: center;">
           <v-avatar size="250">
             <v-img v-if="account.imagePath" :src="`${this.$store.state.serverUrl}/${account.imagePath}`" :alt="`${account.firstname}`" class="rounded-circle" />
             <v-img v-else src="@/assets/defaut_user.png" :alt="`${account.firstname}`" class="rounded-circle" />
           </v-avatar>
+        </v-col>
+        <v-col md="5">
         <div class="profile-header pl-lg-5">
-          <p>Profil</p>
-          <h1 class="profile-title">
-            <span class="text-uppercase display-2">
-              {{ account.firstname }} {{ account.lastname }}
-            </span>
-            </h1>
-            <v-btn v-if="account.artistId <=1" outlined class="mt-5" color="grey" @click="redirectTo()">Manage your albums and songs</v-btn>
-        </div>
-        <div>
-            <v-dialog v-model="edit_dialog" persistent max-width="600px">
+          <div class="d-flex flex-row"><p class="mt-1">Profil</p>
+                      <v-dialog v-model="edit_dialog" persistent max-width="600px">
               <template v-slot:activator="{ on, attrs }">
-                <v-btn text v-bind="attrs" v-on="on" class="mt-12">
+                <v-btn text v-bind="attrs" v-on="on" max-width="20px" max-height="30px">
                   <font-awesome-icon class="icon" icon="pen" color="#white" />
                 </v-btn>
               </template>
@@ -66,28 +59,20 @@
                 </v-card-actions>
               </v-card>
             </v-dialog>
+            </div>
+          <h1 class="profile-title">
+            <span class="text-uppercase display-2 mediaHeader">
+              {{ account.firstname }} {{ account.lastname }}
+            </span>
+            </h1>
+            <v-btn v-if="account.artistId > 0" outlined class="mt-5" color="grey" @click="redirectTo()">Manage your albums and songs</v-btn>
         </div>
+        <div>
+
         </div>
       </v-col>
     </v-row> 
-    <v-row>
-      <v-col>
-        <ReviewList :reviews="this.account.albumReviews.concat(...this.account.songReviews)" />
-      </v-col>
-    </v-row>
-    <v-row>
-      <v-col>
-        <ItemCarousel
-          :items="this.account.userFavoriteArtists"
-          :component_title="artists_title"
-          :component_link_title="artists_link_title"
-          :redirect_to="artist_redirect"
-          :component_type="favorite_component"
-          :redirect_to_list="artist_list_redirect"
-        />
-      </v-col>
-    </v-row>
-    <v-row>
+     <v-row>
       <v-col>
         <ItemCarousel
           :items="this.account.userFavoriteAlbums"
@@ -121,6 +106,11 @@
           :component_type="observed_component"
           :redirect_to_list="artist_list_redirect"
         />
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col>
+        <ReviewList :reviews="this.account.albumReviews.concat(...this.account.songReviews)" type_name="profile" />
       </v-col>
     </v-row>
   </v-container>
@@ -228,6 +218,12 @@ export default {
     const getAccount = function () {
       getAccountById(localStorage.getItem("user-id")).then((response) => {
         this.account = response;
+        this.account.albumReviews.forEach(review => {
+          review.type = "album";          
+        });
+        this.account.songReviews.forEach(review => {
+          review.type = "song";          
+        });
       });
     };
 
@@ -288,5 +284,14 @@ p > span {
 }
 .editDialog {
   background: #1e1e1e;
+}
+@media (max-width: 900px) {
+  .mediaJustify {
+     display: flex;
+     justify-content: center; }
+}
+@media (max-width: 960px) {
+  .mediaHeader {
+     font-size: 2rem!important; }
 }
 </style>
