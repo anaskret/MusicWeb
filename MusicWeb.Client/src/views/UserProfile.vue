@@ -18,7 +18,7 @@
               </template>
               <v-card class="editDialog">
                 <v-card-title>
-                  <span class="text-h5">Wprowadź nowe dane</span>
+                  <span class="text-h5">Enter First and Last Name</span>
                 </v-card-title>
                 <v-card-text>
                   <v-container>
@@ -26,7 +26,7 @@
                       <v-col cols="12" sm="6" md="6">
                         <v-text-field
                           class="p-4"
-                          label="Imię"
+                          label="First Name"
                           prepend-icon="mdi-account"
                           v-model.trim="$v.account.firstname.$model"
                           :error-messages="firstnameErrors"
@@ -39,7 +39,7 @@
                       <v-col cols="12" sm="6" md="6">
                         <v-text-field
                           class="p-4"
-                          label="Nazwisko"
+                          label="Last Name"
                           prepend-icon="mdi-account"
                           v-model.trim="$v.account.lastname.$model"
                           :error-messages="lastnameErrors"

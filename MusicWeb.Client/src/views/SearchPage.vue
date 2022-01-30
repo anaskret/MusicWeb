@@ -62,10 +62,10 @@ export default {
         album_page: 0,
         song_page: 0,
         records_quantity: 5,
-        default_sort_type: "Descending Alfabetical",
+        default_sort_type: "Descending Alphabetical",
         sort_types: [
-          "Descending Alfabetical",
-          "Ascending Alfabetical",
+          "Descending Alphabetical",
+          "Ascending Alphabetical",
           "Descending Popularity",
           "Ascending Popularity",
         ],

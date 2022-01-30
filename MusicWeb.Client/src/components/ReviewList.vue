@@ -14,7 +14,7 @@
               color="gray"
             />
           </a>
-          <div v-else class="pl-lg-16">
+          <div v-else-if="reviews.length == 0 && type_name != 'profile'" class="pl-lg-16">
               <p>Show all album reviews</p>
           </div>
         </div>

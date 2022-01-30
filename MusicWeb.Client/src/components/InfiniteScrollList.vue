@@ -360,7 +360,7 @@ export default {
         establishment_date_to: this.moment().add(10, "y").format("YYYY-MM-DD"),
       }),
         this.$emit("set-filters", this.filters);
-      this.updateDefaultSortType = "Descending Alfabetical";
+      this.updateDefaultSortType = "Descending Alphabetical";
     },
     focusTextarea() {
       this.$refs.textarea.$el.focus();

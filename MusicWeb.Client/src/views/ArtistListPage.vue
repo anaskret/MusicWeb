@@ -56,10 +56,10 @@ export default {
       scroll_settings: {
         page: 0,
         records_quantity: 5,
-        default_sort_type: "Ascending Alfabetical",
+        default_sort_type: "Ascending Alphabetical",
         sort_types: [
-          "Ascending Alfabetical",
-          "Descending Alfabetical",
+          "Ascending Alphabetical",
+          "Descending Alphabetical",
           "Descending Popularity",
           "Ascending Popularity",
         ],
